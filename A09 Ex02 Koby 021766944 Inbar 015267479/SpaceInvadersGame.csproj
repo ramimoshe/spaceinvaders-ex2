@@ -63,6 +63,8 @@
     <Compile Include="ObjectModel\Enemy.cs" />
     <Compile Include="Interfaces\IShootable.cs" />
     <Compile Include="MotherShip.cs" />
+    <Compile Include="ObjectModel\EnemyBullet.cs" />
+    <Compile Include="ObjectModel\SpaceShipBullet.cs" />
     <Compile Include="PinkEnemy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
