@@ -8,7 +8,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Documents and Settings\KK\My Documents\לימודים\XNA\פתרונות\תרגיל2\A09 Ex02 Koby 021766944 Inbar 015267479\A09 Ex02 Koby 021766944 Inbar 015267479\bin\x86\Debug\Content\Sprites\BG_Space01_1024x768.xnb</Output>
-      <Time>2008-11-22T14:00:42.573127+02:00</Time>
+      <Time>2008-11-22T14:00:00+02:00</Time>
     </Item>
     <Item>
       <Source>Sprites\Bullet.png</Source>
@@ -17,7 +17,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Documents and Settings\KK\My Documents\לימודים\XNA\פתרונות\תרגיל2\A09 Ex02 Koby 021766944 Inbar 015267479\A09 Ex02 Koby 021766944 Inbar 015267479\bin\x86\Debug\Content\Sprites\Bullet.xnb</Output>
-      <Time>2008-11-22T14:00:42.604377+02:00</Time>
+      <Time>2008-11-22T14:00:00+02:00</Time>
     </Item>
     <Item>
       <Source>Sprites\Enemy0101_32x32.png</Source>
@@ -26,7 +26,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Documents and Settings\KK\My Documents\לימודים\XNA\פתרונות\תרגיל2\A09 Ex02 Koby 021766944 Inbar 015267479\A09 Ex02 Koby 021766944 Inbar 015267479\bin\x86\Debug\Content\Sprites\Enemy0101_32x32.xnb</Output>
-      <Time>2008-11-22T14:00:42.651252+02:00</Time>
+      <Time>2008-11-22T14:00:00+02:00</Time>
     </Item>
     <Item>
       <Source>Sprites\Enemy0201_32x32.png</Source>
@@ -35,7 +35,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Documents and Settings\KK\My Documents\לימודים\XNA\פתרונות\תרגיל2\A09 Ex02 Koby 021766944 Inbar 015267479\A09 Ex02 Koby 021766944 Inbar 015267479\bin\x86\Debug\Content\Sprites\Enemy0201_32x32.xnb</Output>
-      <Time>2008-11-22T14:00:42.682502+02:00</Time>
+      <Time>2008-11-22T14:00:00+02:00</Time>
     </Item>
     <Item>
       <Source>Sprites\Enemy0301_32x32.png</Source>
@@ -44,7 +44,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Documents and Settings\KK\My Documents\לימודים\XNA\פתרונות\תרגיל2\A09 Ex02 Koby 021766944 Inbar 015267479\A09 Ex02 Koby 021766944 Inbar 015267479\bin\x86\Debug\Content\Sprites\Enemy0301_32x32.xnb</Output>
-      <Time>2008-11-22T14:00:42.729377+02:00</Time>
+      <Time>2008-11-22T14:00:00+02:00</Time>
     </Item>
     <Item>
       <Source>Sprites\MotherShip_32x120.png</Source>
@@ -53,7 +53,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Documents and Settings\KK\My Documents\לימודים\XNA\פתרונות\תרגיל2\A09 Ex02 Koby 021766944 Inbar 015267479\A09 Ex02 Koby 021766944 Inbar 015267479\bin\x86\Debug\Content\Sprites\MotherShip_32x120.xnb</Output>
-      <Time>2008-11-22T14:00:42.760627+02:00</Time>
+      <Time>2008-11-22T14:00:00+02:00</Time>
     </Item>
     <Item>
       <Source>Sprites\Ship01_32x32.png</Source>
@@ -62,7 +62,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Documents and Settings\KK\My Documents\לימודים\XNA\פתרונות\תרגיל2\A09 Ex02 Koby 021766944 Inbar 015267479\A09 Ex02 Koby 021766944 Inbar 015267479\bin\x86\Debug\Content\Sprites\Ship01_32x32.xnb</Output>
-      <Time>2008-11-22T14:00:42.791877+02:00</Time>
+      <Time>2008-11-22T14:00:00+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
