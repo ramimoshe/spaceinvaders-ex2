@@ -6,13 +6,13 @@ using Microsoft.Xna.Framework;
 
 namespace A09_Ex02_Koby_021766944_Inbar_015267479
 {    
-    public class Bullet : Sprite
+    public abstract class Bullet : Sprite
     {
         public event SpriteReachedScreenBoundsDelegate ReachedScreenBounds;
 
         private const string k_AssetName = @"Sprites\Bullet";
 
-        public Bullet(Game i_Game) : base(k_AssetName, i_Game,
+        public Bullet(Game i_Game) : this(k_AssetName, i_Game,
                                           Int32.MaxValue, Int32.MaxValue)
         {
         }

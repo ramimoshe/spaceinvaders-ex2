@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XnaGamesInfrastructure.ObjectInterfaces;
+using A09_Ex02_Koby_021766944_Inbar_015267479.ObjectModel;
 
 namespace A09_Ex02_Koby_021766944_Inbar_015267479
 {
@@ -74,7 +75,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             // a new one and add it to the game components
             if (m_Bullets.Count < k_AllowedBulletsNum)
             {
-                Bullet bullet = new Bullet(this.Game);                
+                Bullet bullet = new SpaceShipBullet(this.Game);                
                 bullet.Initialize();
                 bullet.TintColor = Color.Red;
                 bullet.Position = new Vector2(m_Position.X + Bounds.Width / 2,
@@ -176,5 +177,14 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
                      i_OtherComponent is Enemy) && 
                    base.CheckForCollision(i_OtherComponent);
         }
+
+        public override void    Collided(ICollidable i_OtherComponent)
+        {
+            if (!(i_OtherComponent is SpaceShipBullet))
+            {
+                base.Collided(i_OtherComponent);
+            }
+        }
+
     }
 }

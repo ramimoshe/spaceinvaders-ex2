@@ -4,6 +4,8 @@ using System.Text;
 using XnaGamesInfrastructure.ObjectModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using A09_Ex02_Koby_021766944_Inbar_015267479.ObjectModel;
+
 
 namespace A09_Ex02_Koby_021766944_Inbar_015267479
 {
@@ -80,16 +82,19 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         }
 
         
-        public override void Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
+        public override void    Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
-            base.Collided(i_OtherComponent);
+            if (!(i_OtherComponent is EnemyBullet))
+            {
+                base.Collided(i_OtherComponent);
+            }            
         }
 
         #region IShootable Members        
 
         public void     Shoot()
         {
-            Bullet bullet = new Bullet(Game);
+            Bullet bullet = new EnemyBullet(Game);
             bullet.Initialize();
             bullet.TintColor = Color.Blue;
             bullet.Position = new Vector2(Position.X + Bounds.Width / 2,
