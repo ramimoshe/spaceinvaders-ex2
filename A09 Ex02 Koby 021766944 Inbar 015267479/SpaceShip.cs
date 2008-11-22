@@ -7,6 +7,7 @@ using XnaGamesInfrastructure.ObjectModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using XnaGamesInfrastructure.ObjectInterfaces;
 
 namespace A09_Ex02_Koby_021766944_Inbar_015267479
 {
@@ -14,7 +15,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
     /// The class represents the player's component in the game (the game's
     /// SpaceShip)
     /// </summary>
-    public class SpaceShip : CollidableSprite ,IShootable
+    public class SpaceShip : Sprite ,IShootable
     {
         private const string k_AssetName = @"Sprites\Ship01_32x32";
 
@@ -87,12 +88,6 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
 
         #endregion
 
-        public override void    Colided(Sprite i_OtherComponent)
-        {
-            // TODO Add collision logic between spaceship and enemy bullet
-            throw new Exception("The method or operation is not implemented.");
-        }
-
         /// <summary>
         /// Initialize the SpaceShip position
         /// </summary>
@@ -114,7 +109,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             int x = (int)GraphicsDevice.Viewport.Width / 2;
             int y = ((int)GraphicsDevice.Viewport.Height) - 40;
 
-            Bounds = new Rectangle(x, y, Texture.Width, Texture.Height);
+            Position = new Vector2(x, y);
         }
 
         /// <summary>
@@ -172,6 +167,14 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
                     m_Bullets.Remove((Bullet)i_Sprite);
                 }
             }
+        }
+
+        public override bool CheckForCollision(ICollidable i_OtherComponent)
+        {
+            return !m_Bullets.Contains(i_OtherComponent as Bullet) &&
+                    (i_OtherComponent is Bullet ||
+                     i_OtherComponent is Enemy) && 
+                   base.CheckForCollision(i_OtherComponent);
         }
     }
 }

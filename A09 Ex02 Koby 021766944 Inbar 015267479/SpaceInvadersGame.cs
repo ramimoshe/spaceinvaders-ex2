@@ -29,7 +29,9 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            InputManager inputManager = new InputManager(this);
+            InputManager inputManager = new InputManager(this, 1);
+            CollisionManager collisionManager = new CollisionManager(this,10000);
+
 
             m_Player = new SpaceShip(this);
             m_BackGround = new BackGround(this);
@@ -47,7 +49,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here            
-            
+
             base.Initialize();
         }
 
@@ -78,7 +80,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
-        {            
+        {
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();

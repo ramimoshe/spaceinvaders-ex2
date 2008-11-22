@@ -13,7 +13,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             {
                 game.Run();
             }
-        }
+        }   
     }
 }
 
