@@ -15,6 +15,7 @@ namespace XnaGamesInfrastructure.ObjectModel
         public DrawableLoadableComponent(string i_AssetName, Game i_Game) 
             : base (i_Game)
         {
+            this.m_AssetName = i_AssetName;
         }
 
         public DrawableLoadableComponent(string i_AssetName, Game i_Game,

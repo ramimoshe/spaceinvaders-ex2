@@ -54,15 +54,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ObjectModel\CollidableSprite.cs" />
     <Compile Include="ObjectModel\DrawableLoadableComponent.cs" />
     <Compile Include="ObjectModel\GameService.cs" />
-    <Compile Include="ObjectModel\ICollidable.cs" />
-    <Compile Include="ObjectModel\IShootable.cs" />
+    <Compile Include="ObjectInterfaces\ICollidable.cs" />
     <Compile Include="ObjectModel\RegisteredComponent.cs" />
     <Compile Include="ObjectModel\Sprite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceInterfaces\ICollisionManager.cs" />
     <Compile Include="ServiceInterfaces\IInputManager.cs" />
+    <Compile Include="Services\CollisionManager.cs" />
     <Compile Include="Services\InputManager.cs" />
   </ItemGroup>
   <ItemGroup>
