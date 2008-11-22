@@ -193,7 +193,7 @@ namespace XnaGamesInfrastructure.ObjectModel
             return this.Bounds.Intersects(i_OtherComponent.Bounds);
         }
 
-        public virtual void Collided(ICollidable i_OtherComponent)
+        public virtual void     Collided(ICollidable i_OtherComponent)
         {
             this.Visible = false ;
             //MotionVector *= -1;
