@@ -14,3 +14,19 @@ C:\Documents and Settings\KK\My Documents\לימודים\XNA\פתרונות\תר
 C:\Documents and Settings\KK\My Documents\לימודים\XNA\פתרונות\תרגיל2\A09 Ex02 Koby 021766944 Inbar 015267479\A09 Ex02 Koby 021766944 Inbar 015267479\obj\x86\Debug\A09_Ex02_Koby_021766944_Inbar_015267479.obj.x86.Debug.Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\Documents and Settings\KK\My Documents\לימודים\XNA\פתרונות\תרגיל2\A09 Ex02 Koby 021766944 Inbar 015267479\A09 Ex02 Koby 021766944 Inbar 015267479\obj\x86\Debug\A09 Ex02 Koby 021766944 Inbar 015267479.exe
 C:\Documents and Settings\KK\My Documents\לימודים\XNA\פתרונות\תרגיל2\A09 Ex02 Koby 021766944 Inbar 015267479\A09 Ex02 Koby 021766944 Inbar 015267479\obj\x86\Debug\A09 Ex02 Koby 021766944 Inbar 015267479.pdb
+C:\XNATest2\A09 Ex02 Koby 021766944 Inbar 015267479\bin\x86\Debug\Content\Sprites\BG_Space01_1024x768.xnb
+C:\XNATest2\A09 Ex02 Koby 021766944 Inbar 015267479\bin\x86\Debug\Content\Sprites\Bullet.xnb
+C:\XNATest2\A09 Ex02 Koby 021766944 Inbar 015267479\bin\x86\Debug\Content\Sprites\Enemy0101_32x32.xnb
+C:\XNATest2\A09 Ex02 Koby 021766944 Inbar 015267479\bin\x86\Debug\Content\Sprites\Enemy0201_32x32.xnb
+C:\XNATest2\A09 Ex02 Koby 021766944 Inbar 015267479\bin\x86\Debug\Content\Sprites\Enemy0301_32x32.xnb
+C:\XNATest2\A09 Ex02 Koby 021766944 Inbar 015267479\bin\x86\Debug\Content\Sprites\MotherShip_32x120.xnb
+C:\XNATest2\A09 Ex02 Koby 021766944 Inbar 015267479\bin\x86\Debug\Content\Sprites\Ship01_32x32.xnb
+C:\XNATest2\A09 Ex02 Koby 021766944 Inbar 015267479\bin\x86\Debug\A09 Ex02 Koby 021766944 Inbar 015267479.exe
+C:\XNATest2\A09 Ex02 Koby 021766944 Inbar 015267479\bin\x86\Debug\A09 Ex02 Koby 021766944 Inbar 015267479.pdb
+C:\XNATest2\A09 Ex02 Koby 021766944 Inbar 015267479\bin\x86\Debug\XnaGamesInfrastructure.dll
+C:\XNATest2\A09 Ex02 Koby 021766944 Inbar 015267479\bin\x86\Debug\XnaGamesInfrastructure.pdb
+C:\XNATest2\A09 Ex02 Koby 021766944 Inbar 015267479\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\XNATest2\A09 Ex02 Koby 021766944 Inbar 015267479\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\XNATest2\A09 Ex02 Koby 021766944 Inbar 015267479\obj\x86\Debug\A09_Ex02_Koby_021766944_Inbar_015267479.obj.x86.Debug.Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\XNATest2\A09 Ex02 Koby 021766944 Inbar 015267479\obj\x86\Debug\A09 Ex02 Koby 021766944 Inbar 015267479.exe
+C:\XNATest2\A09 Ex02 Koby 021766944 Inbar 015267479\obj\x86\Debug\A09 Ex02 Koby 021766944 Inbar 015267479.pdb
