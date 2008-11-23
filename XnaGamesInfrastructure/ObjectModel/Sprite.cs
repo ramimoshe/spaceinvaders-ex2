@@ -188,7 +188,7 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// </summary>
         /// <param name="i_OtherComponent">The component that we want to check collision against</param>
         /// <returns>true if the given component colides the current one or false otherwise</returns>
-        public virtual bool CheckForCollision(ICollidable i_OtherComponent)
+        public virtual bool     CheckForCollision(ICollidable i_OtherComponent)
         {
             return this.Bounds.Intersects(i_OtherComponent.Bounds);
         }
