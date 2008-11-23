@@ -58,7 +58,9 @@
   <ItemGroup>
     <Compile Include="BackGround.cs" />
     <Compile Include="BlueEnemy.cs" />
-    <Compile Include="IScorable.cs" />
+    <Compile Include="IScorable.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ObjectModel\Bullet.cs" />
     <Compile Include="EnemiesMatrix.cs" />
     <Compile Include="ObjectModel\Enemy.cs" />
