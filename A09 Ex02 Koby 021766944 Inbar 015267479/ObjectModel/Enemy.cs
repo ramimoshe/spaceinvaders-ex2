@@ -90,14 +90,17 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         {
             return ((!(i_OtherComponent is EnemyBullet)) &&
                       (base.CheckForCollision(i_OtherComponent)));
-        }
-        
+        }                
+
         public override void    Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
-            // Remove the enemy from the game
-            Game.Components.Remove(this);
+            base.Collided(i_OtherComponent);
 
             onEnemyWasHit();
+
+            // TODO Check if i can dispose the enemy
+
+            //Dispose();
         }
 
         #region IShootable Members        

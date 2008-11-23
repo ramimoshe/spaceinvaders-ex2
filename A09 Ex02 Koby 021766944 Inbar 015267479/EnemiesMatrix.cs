@@ -7,10 +7,22 @@ using XnaGamesInfrastructure.ObjectModel;
 
 namespace A09_Ex02_Koby_021766944_Inbar_015267479
 {
+
+    public delegate void NoRemainingEnemiesDelegate();
+
     public class EnemiesMatrix : GameComponent
     {
         private const int k_EnemiesInLineNum = 9;
         private const int k_NumOfEnemiesLines = 5;
+
+        private enum eEnemyTypes
+        {
+            YellowEnemy,
+            BlueEnemy,
+            PinkEnemy
+        }
+
+        public event NoRemainingEnemiesDelegate EnemiesEliminated;
 
         private readonly TimeSpan r_DefaultTimeBetweenShots = TimeSpan.FromSeconds(1.5f);
 
@@ -29,10 +41,12 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         private bool m_ChangeEnemiesPosition = false;
         private bool m_LastChangeEnemiesPosition = false;
 
+        private int m_RemainigEnemiesNum;
+
         // A two dimentional array that represents the enemies matrix.
         // each cell in the matrix contains the type of the enemy that will
         // be dinamically created later on
-        Type[,] m_EnemiesMatrix = new Type[k_NumOfEnemiesLines, k_EnemiesInLineNum] 
+        /*Type[,] m_EnemiesMatrix = new Type[k_NumOfEnemiesLines, k_EnemiesInLineNum] 
                                             { { typeof(PinkEnemy), typeof(PinkEnemy), typeof(PinkEnemy), 
                                                 typeof(PinkEnemy), typeof(PinkEnemy), typeof(PinkEnemy), 
                                                 typeof(PinkEnemy), typeof(PinkEnemy), typeof(PinkEnemy) },                         
@@ -47,7 +61,23 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
                                                 typeof(YellowEnemy), typeof(YellowEnemy), typeof(YellowEnemy) },                         
                                               { typeof(YellowEnemy), typeof(YellowEnemy), typeof(YellowEnemy), 
                                                 typeof(YellowEnemy), typeof(YellowEnemy), typeof(YellowEnemy), 
-                                                typeof(YellowEnemy), typeof(YellowEnemy), typeof(YellowEnemy) }};
+                                                typeof(YellowEnemy), typeof(YellowEnemy), typeof(YellowEnemy) }};*/
+        eEnemyTypes[,] m_EnemiesMatrix = new eEnemyTypes[k_NumOfEnemiesLines, k_EnemiesInLineNum] 
+                                            { { eEnemyTypes.PinkEnemy, eEnemyTypes.PinkEnemy, eEnemyTypes.PinkEnemy, 
+                                                eEnemyTypes.PinkEnemy, eEnemyTypes.PinkEnemy, eEnemyTypes.PinkEnemy, 
+                                                eEnemyTypes.PinkEnemy, eEnemyTypes.PinkEnemy, eEnemyTypes.PinkEnemy },                         
+                                              { eEnemyTypes.BlueEnemy, eEnemyTypes.BlueEnemy, eEnemyTypes.BlueEnemy, 
+                                                eEnemyTypes.BlueEnemy, eEnemyTypes.BlueEnemy, eEnemyTypes.BlueEnemy, 
+                                                eEnemyTypes.BlueEnemy, eEnemyTypes.BlueEnemy, eEnemyTypes.BlueEnemy },                         
+                                              { eEnemyTypes.BlueEnemy, eEnemyTypes.BlueEnemy, eEnemyTypes.BlueEnemy, 
+                                                eEnemyTypes.BlueEnemy, eEnemyTypes.BlueEnemy, eEnemyTypes.BlueEnemy, 
+                                                eEnemyTypes.BlueEnemy, eEnemyTypes.BlueEnemy, eEnemyTypes.BlueEnemy },                         
+                                              { eEnemyTypes.YellowEnemy, eEnemyTypes.YellowEnemy, eEnemyTypes.YellowEnemy, 
+                                                eEnemyTypes.YellowEnemy, eEnemyTypes.YellowEnemy, eEnemyTypes.YellowEnemy, 
+                                                eEnemyTypes.YellowEnemy, eEnemyTypes.YellowEnemy, eEnemyTypes.YellowEnemy },                         
+                                              { eEnemyTypes.YellowEnemy, eEnemyTypes.YellowEnemy, eEnemyTypes.YellowEnemy, 
+                                                eEnemyTypes.YellowEnemy, eEnemyTypes.YellowEnemy, eEnemyTypes.YellowEnemy, 
+                                                eEnemyTypes.YellowEnemy, eEnemyTypes.YellowEnemy, eEnemyTypes.YellowEnemy }};
 
 
         private List<List<Enemy>> m_Enemies;
@@ -56,6 +86,8 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         {
             m_Enemies = new List<List<Enemy>>();
             m_PrevShotTime = r_DefaultTimeBetweenShots;
+
+            m_RemainigEnemiesNum = k_EnemiesInLineNum * k_NumOfEnemiesLines;            
         }
 
         public override void Initialize()
@@ -75,9 +107,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
 
             float startingPositionY = ((float)Game.GraphicsDevice.Viewport.Height / 2);
 
-            Vector2 currPosition = new Vector2(startingPositionX, startingPositionY);            
-            
-            Enemy currEnemy;
+            Vector2 currPosition = new Vector2(startingPositionX, startingPositionY);                                    
 
             // Creates all the enemies according to the enemies matrix
             for (int i = k_NumOfEnemiesLines - 1; i >= 0; i--)
@@ -85,16 +115,39 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
                 List<Enemy> currList = new List<Enemy>();
 
                 for (int j = k_EnemiesInLineNum - 1; j >= 0; j--)
-                {                
+                {     
+                    // TODO delete the remark
+
                     // Dynamically creates the enemy according to the type in the
                     // enemies member
-                    currEnemy = (Enemy)Activator.CreateInstance(m_EnemiesMatrix[i, j], 
+                    /*currEnemy = (Enemy)Activator.CreateInstance(m_EnemiesMatrix[i, j], 
                                                          Game, 
                                                          currPosition,
-                                                         UpdateOrder - 1);
+                                                         UpdateOrder - 1);*/
+                    Enemy currEnemy = null;
+
+                    if (m_EnemiesMatrix[i, j] == eEnemyTypes.PinkEnemy)
+                    {
+                        currEnemy = new PinkEnemy(Game,
+                                                  currPosition,
+                                                  UpdateOrder - 1);
+                    }
+                    else if (m_EnemiesMatrix[i, j] == eEnemyTypes.BlueEnemy)
+                    {
+                        currEnemy = new BlueEnemy(Game,
+                                                  currPosition,
+                                                  UpdateOrder - 1);
+                    }
+                    else if (m_EnemiesMatrix[i, j] == eEnemyTypes.YellowEnemy)
+                    {
+                        currEnemy = new YellowEnemy(Game,
+                                                    currPosition,
+                                                    UpdateOrder - 1);
+                    }
 
                     currEnemy.ReachedScreenBounds += new SpriteReachedScreenBoundsDelegate(enemy_ReachedScreenBounds);
                     currEnemy.EnemyWasHit += new EnemyHitDelegate(enemy_EnemyWasHit);
+                    currEnemy.Disposed += enemy_Disposed;
 
                     currList.Add(currEnemy);
                     currPosition.X += k_EnemyWidth * 2;
@@ -170,6 +223,24 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             }
         }
 
+        public void     enemy_EnemyWasHit(Enemy i_Enemy)
+        {
+            m_RemainigEnemiesNum--;
+
+            if (m_RemainigEnemiesNum <= 0)
+            {
+                onEnemiesEliminated();
+            }
+        }
+
+        private void    onEnemiesEliminated()
+        {
+            if (EnemiesEliminated != null)
+            {
+                EnemiesEliminated();
+            }
+        }
+
         public void     enemy_ReachedScreenBounds(Sprite i_Sprite)
         {
             // TODO Check if i can implement with "as"
@@ -186,26 +257,21 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         {
             Random rand = new Random();
 
-            // Randomly choose an enemy from the enemies matrix
+            // Randomly choose a visible enemy from the enemies matrix
             int enemyMatrixLine = rand.Next(0, m_Enemies.Count - 1);
             int enemyMatrixColumn = rand.Next(0, m_Enemies[enemyMatrixLine].Count - 1);
             (m_Enemies[enemyMatrixLine])[enemyMatrixColumn].Shoot();
         }
-
-        /// <summary>
-        /// Catch an EnemyWasHit event, and remove the enemy from the enemies
-        /// matrix
-        /// </summary>
-        /// <param name="i_Enemy">The enemy that was hit</param>
-        private void    enemy_EnemyWasHit(Enemy i_Enemy)
+       
+        private void    enemy_Disposed(object i_Sender, EventArgs i_EventArgs)
         {
-            int lineForRemoval = -1;
+            Enemy enemy = i_Sender as Enemy;
 
             foreach (List<Enemy> enemiesLine in m_Enemies)
             {
-                if (enemiesLine.Contains(i_Enemy))
+                if (enemiesLine.Contains(enemy))
                 {
-                    enemiesLine.Remove(i_Enemy);
+                    enemiesLine.Remove(enemy);
 
                     // In case it was the last enemy in the line we'll remove the entire
                     // enemies line from the matrix
