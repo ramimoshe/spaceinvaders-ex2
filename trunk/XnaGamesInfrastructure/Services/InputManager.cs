@@ -46,15 +46,15 @@ namespace XnaGamesInfrastructure.Services
             switch(i_Button)
             {
                 case eInputButtons.Left:
-                    return m_CurrMouseState.LeftButton;
+                    return requestedMouseState.LeftButton;
                 case eInputButtons.Middle:
-                    return m_CurrMouseState.MiddleButton;
+                    return requestedMouseState.MiddleButton;
                 case eInputButtons.Right:
-                    return m_CurrMouseState.RightButton;
+                    return requestedMouseState.RightButton;
                 case eInputButtons.XButton1:
-                    return m_CurrMouseState.XButton1;
+                    return requestedMouseState.XButton1;
                 case eInputButtons.XButton2:
-                    return m_CurrMouseState.XButton2;
+                    return requestedMouseState.XButton2;
                 default:
                     return ButtonState.Released;
             }
@@ -89,14 +89,14 @@ namespace XnaGamesInfrastructure.Services
         {
             return
                 getMouseButtonState(i_Button, true) == ButtonState.Pressed &&
-                getMouseButtonState(i_Button, true) == ButtonState.Released;
+                getMouseButtonState(i_Button, false) == ButtonState.Released;
         }
 
         public bool ButtonReleased(eInputButtons i_Button)
         {
             return
                 getMouseButtonState(i_Button, true) == ButtonState.Released &&
-                getMouseButtonState(i_Button, true) == ButtonState.Pressed;
+                getMouseButtonState(i_Button, false) == ButtonState.Pressed;
         }
 
         #endregion
