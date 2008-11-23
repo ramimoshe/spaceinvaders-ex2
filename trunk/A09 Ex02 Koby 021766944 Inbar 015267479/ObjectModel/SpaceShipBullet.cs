@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using XnaGamesInfrastructure.ObjectInterfaces;
 
 namespace A09_Ex02_Koby_021766944_Inbar_015267479.ObjectModel
 {
     // Delegate for collision between a bullet and an enemy event
-    public delegate void BulletCollidedWithEnemy(Enemy i_Enemy);
+    public delegate void BulletCollitionDelegate(ICollidable i_OtherComponent, SpaceShipBullet i_Bullet);
 
     class SpaceShipBullet : Bullet
     {
@@ -16,7 +17,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479.ObjectModel
             TintColor = Color.Red;
         }
 
-        public event BulletCollidedWithEnemy CollidedWithEnemy; 
+        public event BulletCollitionDelegate BulletCollition; 
 
         public override bool    CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
@@ -30,7 +31,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479.ObjectModel
 
             if (i_OtherComponent is Enemy)
             {
-                onCollidedWithEnemy((Enemy)i_OtherComponent);
+                onBulletCollition(i_OtherComponent);
 
                 // TODO check what todo with dispose
 //                Dispose();
@@ -38,14 +39,14 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479.ObjectModel
         }
 
         /// <summary>
-        /// Raise a colision with enemy event
+        /// Raise a colision with component event
         /// </summary>
-        /// <param name="i_Enemy">The enemy the bullet colided with</param>
-        private void    onCollidedWithEnemy(Enemy i_Enemy)
+        /// <param name="i_Enemy">The component the bullet colided with</param>
+        private void    onBulletCollition(ICollidable i_OtherComponent)
         {
-            if (CollidedWithEnemy != null)
+            if (BulletCollition != null)
             {
-                CollidedWithEnemy(i_Enemy);
+                BulletCollition(i_OtherComponent, this);
             }
         }
 
