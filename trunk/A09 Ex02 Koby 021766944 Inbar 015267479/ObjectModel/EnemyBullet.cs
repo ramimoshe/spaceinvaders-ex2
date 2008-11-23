@@ -17,8 +17,8 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479.ObjectModel
 
         public override bool CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
-            return ((!(i_OtherComponent is Enemy)) &&
-                    (base.CheckForCollision(i_OtherComponent)));
+            return !(i_OtherComponent is Enemy) &&
+                    (base.CheckForCollision(i_OtherComponent));
         }
 
 /*        public override void Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
