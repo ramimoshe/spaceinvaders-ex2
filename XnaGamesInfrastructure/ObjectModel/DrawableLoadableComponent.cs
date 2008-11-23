@@ -12,16 +12,15 @@ namespace XnaGamesInfrastructure.ObjectModel
         protected ContentManager m_ContentManager;
         protected GraphicsDevice m_GraphicsDevice;
 
-        public DrawableLoadableComponent(string i_AssetName, Game i_Game) 
-            : base (i_Game)
+        public DrawableLoadableComponent(string i_AssetName, Game i_Game)
+            : this(i_AssetName, i_Game, 0, 0)
         {
-            this.m_AssetName = i_AssetName;
         }
 
         public DrawableLoadableComponent(string i_AssetName, Game i_Game,
                                          int i_UpdateOrder, 
                                          int i_DrawOrder) 
-            : this(i_AssetName, i_Game)
+            : base(i_Game)
         {
             this.m_AssetName = i_AssetName;
             this.UpdateOrder = i_UpdateOrder;
