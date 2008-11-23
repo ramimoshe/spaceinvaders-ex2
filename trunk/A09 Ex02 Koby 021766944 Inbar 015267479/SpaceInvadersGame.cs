@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -12,28 +13,39 @@ using XnaGamesInfrastructure.Services;
 
 namespace A09_Ex02_Koby_021766944_Inbar_015267479
 {
-    
+
+    // A delegate for an event that states the game is over
+    public delegate void GameOverDelegate();
+
     /// <summary>
     /// This is the main type for your game
     /// </summary>
     public class SpaceInvadersGame : Microsoft.Xna.Framework.Game
     {
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern uint MessageBox(IntPtr hWnd, String text, String caption, uint type);
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpaceShip m_Player;
         BackGround m_BackGround;
-        EnemiesMatrix m_EnemiesMatrix;        
+        EnemiesMatrix m_EnemiesMatrix;
+
+        private bool m_GameOver = false;
 
         public SpaceInvadersGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            this.IsMouseVisible = true;
 
             InputManager inputManager = new InputManager(this, 1);
             CollisionManager collisionManager = new CollisionManager(this,10000);
 
 
             m_Player = new SpaceShip(this);
+            m_Player.PlayerIsDead += new GameOverDelegate(spaceShip_PlayerIsDead);
+            
             m_BackGround = new BackGround(this);
             m_EnemiesMatrix = new EnemiesMatrix(this);
 
@@ -81,9 +93,18 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            // TODO Remove the remark
+
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)            
+
+            if (m_GameOver)
+            {
+                MessageBox(new IntPtr(0), "Game Over. Player Score Is: " + m_Player.Score, 
+                                "Game Over", 0);
+
                 this.Exit();
+            }
 
             // TODO: Add your update logic here
 
@@ -101,6 +122,15 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+        }
+
+        /// <summary>
+        /// Catch a PlayerIsDead event thrown by the player, and mark the game 
+        /// for exit in the next update
+        /// </summary>
+        public void     spaceShip_PlayerIsDead()
+        {
+            m_GameOver = true;
         }
     }
 }
