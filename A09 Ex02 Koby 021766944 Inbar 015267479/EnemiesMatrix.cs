@@ -94,6 +94,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
                                                          UpdateOrder - 1);
 
                     currEnemy.ReachedScreenBounds += new SpriteReachedScreenBoundsDelegate(enemy_ReachedScreenBounds);
+                    currEnemy.EnemyWasHit += new EnemyHitDelegate(enemy_EnemyWasHit);
 
                     currList.Add(currEnemy);
                     currPosition.X += k_EnemyWidth * 2;
@@ -189,6 +190,34 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             int enemyMatrixLine = rand.Next(0, m_Enemies.Count - 1);
             int enemyMatrixColumn = rand.Next(0, m_Enemies[enemyMatrixLine].Count - 1);
             (m_Enemies[enemyMatrixLine])[enemyMatrixColumn].Shoot();
+        }
+
+        /// <summary>
+        /// Catch an EnemyWasHit event, and remove the enemy from the enemies
+        /// matrix
+        /// </summary>
+        /// <param name="i_Enemy">The enemy that was hit</param>
+        private void    enemy_EnemyWasHit(Enemy i_Enemy)
+        {
+            int lineForRemoval = -1;
+
+            foreach (List<Enemy> enemiesLine in m_Enemies)
+            {
+                if (enemiesLine.Contains(i_Enemy))
+                {
+                    enemiesLine.Remove(i_Enemy);
+
+                    // In case it was the last enemy in the line we'll remove the entire
+                    // enemies line from the matrix
+                    if (enemiesLine.Count == 0)
+                    {
+                        m_Enemies.Remove(enemiesLine);
+                    }
+
+                    // TODO Check if it's ok
+                    break;
+                }
+            }
         }
     }
 }

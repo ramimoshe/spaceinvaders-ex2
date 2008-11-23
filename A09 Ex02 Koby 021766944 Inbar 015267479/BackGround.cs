@@ -17,7 +17,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         {
         }
 
-        public override bool CheckForCollision(ICollidable i_OtherComponent)
+        public override bool    CheckForCollision(ICollidable i_OtherComponent)
         {
             return false;
         }
