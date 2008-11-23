@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="BackGround.cs" />
     <Compile Include="BlueEnemy.cs" />
+    <Compile Include="IScorable.cs" />
     <Compile Include="ObjectModel\Bullet.cs" />
     <Compile Include="EnemiesMatrix.cs" />
     <Compile Include="ObjectModel\Enemy.cs" />
@@ -76,7 +77,6 @@
     <Compile Include="Settings.cs" />
     <Compile Include="SpaceInvadersGame.cs" />
     <Compile Include="SpaceShip.cs" />
-    <Compile Include="WhiteEnemy.cs" />
     <Compile Include="YellowEnemy.cs" />
   </ItemGroup>
   <ItemGroup>
