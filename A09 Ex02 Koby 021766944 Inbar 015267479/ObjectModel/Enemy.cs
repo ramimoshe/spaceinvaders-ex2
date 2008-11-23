@@ -15,7 +15,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
     // A delegate for an event that states a enemy had been hit 
     public delegate void EnemyHitDelegate(Enemy i_Enemy);
 
-    public abstract class Enemy : Sprite, IShootable
+    public abstract class Enemy : Sprite, IShootable, IScorable
     {
         public event SpriteReachedScreenBoundsDelegate ReachedScreenBounds;
 
@@ -50,16 +50,11 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             m_TimeLeftToNextMove = r_MoveLength;            
         }
 
-
-        /// <summary>
-        /// A property that holds the score that is added to the player,
-        /// when he eliminates the current enemy
-        /// </summary>
-        public abstract int     Score
+        public abstract int Score
         {
             get;
         }
-
+     
         public override bool CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
             return ((!(i_OtherComponent is EnemyBullet)) &&
@@ -71,6 +66,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             base.Collided(i_OtherComponent);
 
             this.Enabled = false;
+
             onEnemyWasHit();
 
             // TODO Check if i can dispose the enemy
