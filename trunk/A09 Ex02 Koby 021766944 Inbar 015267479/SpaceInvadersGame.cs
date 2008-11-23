@@ -25,11 +25,12 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern uint MessageBox(IntPtr hWnd, String text, String caption, uint type);
 
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        SpaceShip m_Player;
-        BackGround m_BackGround;
-        EnemiesMatrix m_EnemiesMatrix;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        private SpaceShip m_Player;
+        private BackGround m_BackGround;
+        private EnemiesMatrix m_EnemiesMatrix;
+        private MotherShip m_MotherShip;
 
         private bool m_GameOver = false;
 
@@ -49,6 +50,8 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             m_BackGround = new BackGround(this);
             m_EnemiesMatrix = new EnemiesMatrix(this);
             m_EnemiesMatrix.EnemiesEliminated += new NoRemainingEnemiesDelegate(enemiesMatrix_EnemiesEliminated);
+
+            m_MotherShip = new MotherShip(this);
 
             this.Components.Add(m_EnemiesMatrix);
         }
