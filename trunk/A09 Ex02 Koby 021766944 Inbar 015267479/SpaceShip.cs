@@ -115,7 +115,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
                 m_Position.Y - bullet.Bounds.Height / 2);
                 bullet.MotionVector = new Vector2(0, -k_BulletVelocity);
                 bullet.ReachedScreenBounds += new SpriteReachedScreenBoundsDelegate(spaceShipBullet_ReachedScreenBounds);
-                bullet.CollidedWithEnemy += new BulletCollidedWithEnemy(spaceShipBullet_CollidedWithEnemy);
+                bullet.BulletCollition += new BulletCollitionDelegate(spaceShipBullet_BulletCollition);
 
                 m_Bullets.Add(bullet);
             }
@@ -240,13 +240,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             }
         }
 
-        /// <summary>
-        /// Catch a collition with enemy event and add the enemy score
-        /// to the players score
-        /// </summary>
-        /// <param name="i_Enemy">The enemy that the space ship bullet colided
-        /// with</param>
-        private void spaceShipBullet_CollidedWithEnemy(Enemy i_Enemy)
+        private void spaceShipBullet_BulletCollition(ICollidable i_OtherComponent, SpaceShipBullet i_Bullet)
         {
             if (i_OtherComponent is IScorable)
             {
