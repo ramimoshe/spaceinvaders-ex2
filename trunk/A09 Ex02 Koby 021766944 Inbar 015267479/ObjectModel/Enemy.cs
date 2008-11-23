@@ -11,6 +11,9 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
 {
     // A delegate for an event that states that an enemy reached the screen bounds
     public delegate void SpriteReachedScreenBoundsDelegate(Sprite i_Sprite);
+    
+    // A delegate for an event that states a enemy had been hit 
+    public delegate void EnemyHitDelegate(Enemy i_Enemy);
 
     public enum eMovingDirection
     {
@@ -21,6 +24,8 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
     public abstract class Enemy : Sprite, IShootable
     {
         public event SpriteReachedScreenBoundsDelegate ReachedScreenBounds;
+
+        public event EnemyHitDelegate EnemyWasHit;
 
         private readonly TimeSpan r_MoveLength = TimeSpan.FromSeconds(0.5f);
         protected TimeSpan m_TimeLeftToNextMove;        
@@ -81,13 +86,18 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             get;
         }
 
+        public override bool CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
+        {
+            return ((!(i_OtherComponent is EnemyBullet)) &&
+                      (base.CheckForCollision(i_OtherComponent)));
+        }
         
         public override void    Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
-            if (!(i_OtherComponent is EnemyBullet))
-            {
-                base.Collided(i_OtherComponent);
-            }            
+            // Remove the enemy from the game
+            Game.Components.Remove(this);
+
+            onEnemyWasHit();
         }
 
         #region IShootable Members        
@@ -158,6 +168,17 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             if (ReachedScreenBounds != null)
             {
                 ReachedScreenBounds(this);
+            }
+        }        
+
+        /// <summary>
+        /// Raise an EnemyWasHit event
+        /// </summary>
+        private void    onEnemyWasHit()
+        {
+            if (EnemyWasHit != null)
+            {
+                EnemyWasHit(this);
             }
         }
     }
