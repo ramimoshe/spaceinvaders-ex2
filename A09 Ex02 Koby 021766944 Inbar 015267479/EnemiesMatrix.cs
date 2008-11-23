@@ -185,6 +185,8 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         {
             m_RemainigEnemiesNum--;
 
+            removeEnemyFromMatrix(i_Enemy);
+
             if (m_RemainigEnemiesNum <= 0)
             {
                 onEnemiesEliminated();
@@ -225,11 +227,16 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         {
             Enemy enemy = i_Sender as Enemy;
 
+            removeEnemyFromMatrix(enemy);
+        }
+
+        private void    removeEnemyFromMatrix(Enemy i_Enemy)
+        {
             foreach (List<Enemy> enemiesLine in m_Enemies)
             {
-                if (enemiesLine.Contains(enemy))
+                if (enemiesLine.Contains(i_Enemy))
                 {
-                    enemiesLine.Remove(enemy);
+                    enemiesLine.Remove(i_Enemy);
 
                     // In case it was the last enemy in the line we'll remove the entire
                     // enemies line from the matrix
