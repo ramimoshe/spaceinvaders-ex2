@@ -155,20 +155,21 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         /// <param name="i_GameTime">The time passed from the previous update call</param>
         public override void Update(GameTime i_GameTime)
         {
-            Vector2 newPosition = Vector2.Zero;
+            Vector2 newMotion = Vector2.Zero;
 
             m_PreviousShootingTime -= i_GameTime.ElapsedGameTime;
 
             if (m_InputManager.KeyboardState.IsKeyDown(Keys.Left))
             {
-                newPosition.X = k_Velocity * -1;
+                newMotion.X = k_Velocity * -1;
             }
             else if (m_InputManager.KeyboardState.IsKeyDown(Keys.Right))
             {
-                newPosition.X = k_Velocity;
+                newMotion.X = k_Velocity;
             }
 
-            MotionVector = newPosition;
+            MotionVector = newMotion;
+
 
             // Shoot only if the player press the space key and it passed enough time from the previous shoot
             if ((m_InputManager.KeyPressed(Keys.Space) ||
@@ -183,6 +184,10 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             base.Update(i_GameTime);
 
             this.m_Position.X += m_InputManager.MousePositionDelta.X;
+
+            m_Position.X = MathHelper.Clamp(m_Position.X, 0,
+                                m_GraphicsDevice.Viewport.Width -
+                                this.Texture.Width);
         }
 
         /// <summary>
