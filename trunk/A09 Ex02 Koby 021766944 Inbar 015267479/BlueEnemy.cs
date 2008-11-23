@@ -22,7 +22,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             TintColor = Color.Blue;
         }
 
-        public override int     Score
+        public override int Score
         {
             get { return k_Score; }
         }        
