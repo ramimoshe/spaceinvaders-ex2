@@ -248,7 +248,13 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         /// with</param>
         private void spaceShipBullet_CollidedWithEnemy(Enemy i_Enemy)
         {
-            Score += i_Enemy.Score;
+            if (i_OtherComponent is IScorable)
+            {
+                IScorable enemy = i_OtherComponent as IScorable;
+                Score += enemy.Score;
+            }
+
+            m_Bullets.Remove(i_Bullet);
         }
 
     }
