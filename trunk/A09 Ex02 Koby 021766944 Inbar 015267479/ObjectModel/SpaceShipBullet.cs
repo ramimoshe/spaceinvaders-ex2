@@ -29,13 +29,15 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479.ObjectModel
         {
             base.Collided(i_OtherComponent);
 
-            if (i_OtherComponent is Enemy)
-            {
+            // TODO Remove remark
+
+            //if (i_OtherComponent is IScorable)
+            //{
                 onBulletCollition(i_OtherComponent);
 
                 // TODO check what todo with dispose
 //                Dispose();
-            }
+            //}
         }
 
         /// <summary>
