@@ -31,6 +31,9 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479.ObjectModel
             if (i_OtherComponent is Enemy)
             {
                 onCollidedWithEnemy((Enemy)i_OtherComponent);
+
+                // TODO check what todo with dispose
+//                Dispose();
             }
         }
 
