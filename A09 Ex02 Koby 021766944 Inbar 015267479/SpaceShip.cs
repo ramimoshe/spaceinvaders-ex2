@@ -157,7 +157,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
 
             m_PreviousShootingTime -= i_GameTime.ElapsedGameTime;
 
-            if (m_InputManager.KeyboardState.IsKeyDown(Keys.Left))
+            if (m_InputManager.KeyboardState.IsKeyDown(Keys.Left)
             {
                 newPosition.X = k_Velocity * -1;
             }

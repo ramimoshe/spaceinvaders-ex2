@@ -36,6 +36,14 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             }
         }
 
+        public override bool  CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
+        {
+            return !(i_OtherComponent is Bullet) && 
+                    base.CheckForCollision(i_OtherComponent);
+        } 
+
+        
+
         /// <summary>
         /// Raise the ReachedScreenBounds event
         /// </summary>

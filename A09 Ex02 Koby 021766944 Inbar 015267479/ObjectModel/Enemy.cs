@@ -15,12 +15,6 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
     // A delegate for an event that states a enemy had been hit 
     public delegate void EnemyHitDelegate(Enemy i_Enemy);
 
-    public enum eMovingDirection
-    {
-        Left,
-        Right
-    }
-
     public abstract class Enemy : Sprite, IShootable
     {
         public event SpriteReachedScreenBoundsDelegate ReachedScreenBounds;
@@ -46,7 +40,6 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
                      int i_UpdateOrder)
             : this(i_AssetName, i_Game, i_UpdateOrder, 0, i_Position)
         {
-
         }        
 
         public Enemy(string i_AssetName, Game i_Game, int i_UpdateOrder,
@@ -57,25 +50,6 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             m_TimeLeftToNextMove = r_MoveLength;            
         }
 
-        // TODO remove the property and enums
-
-        /// <summary>
-        /// Property that sets the current enemy moving direction
-        /// </summary>
-        public eMovingDirection MovingDirection
-        {
-            set 
-            { 
-                if (value == eMovingDirection.Left)
-                {
-                    m_MovingDirection = -1;
-                }
-                else if (value == eMovingDirection.Right)
-                {
-                    m_MovingDirection = 1;
-                }
-            }
-        }
 
         /// <summary>
         /// A property that holds the score that is added to the player,
@@ -96,6 +70,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         {
             base.Collided(i_OtherComponent);
 
+            this.Enabled = false;
             onEnemyWasHit();
 
             // TODO Check if i can dispose the enemy
