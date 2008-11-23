@@ -23,7 +23,10 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         private const int k_AllowedBulletsNum = 3;
         private const int k_Velocity = 200;
         private const int k_BulletVelocity = 200;
+        private const int k_LostLifeScoreDecrease = 2000;
         private const int k_LivesNum = 3;
+
+        private Vector2 m_DefaultPosition;
 
         private int m_RemainingLivesLeft;
 
@@ -34,6 +37,8 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         private IInputManager m_InputManager;
 
         private int m_PlayerScore = 0;
+
+        public event GameOverDelegate PlayerIsDead;
 
         #region CTOR's
 
@@ -53,6 +58,20 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
 
         #endregion
 
+        protected Vector2 DefaultPosition
+        {
+            get
+            {
+                return m_DefaultPosition;
+            }
+
+            set
+            {
+                m_DefaultPosition = value;
+            }
+
+        }
+
         /// <summary>
         /// A property to the player's score
         /// </summary>
@@ -61,6 +80,18 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             get
             {
                 return m_PlayerScore;
+            }
+
+            set
+            {
+                if (value < 0)
+                {
+                    m_PlayerScore = 0;
+                }
+                else
+                {
+                    m_PlayerScore = value;
+                }
             }
         }
 
@@ -75,13 +106,14 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             // a new one and add it to the game components
             if (m_Bullets.Count < k_AllowedBulletsNum)
             {
-                Bullet bullet = new SpaceShipBullet(this.Game);                
+                SpaceShipBullet bullet = new SpaceShipBullet(this.Game);                
                 bullet.Initialize();
                 bullet.TintColor = Color.Red;
                 bullet.Position = new Vector2(m_Position.X + Bounds.Width / 2,
                 m_Position.Y - bullet.Bounds.Height / 2);                                
                 bullet.MotionVector = new Vector2(0, -k_BulletVelocity);
-                bullet.ReachedScreenBounds += new SpriteReachedScreenBoundsDelegate(bullet_ReachedScreenBounds);
+                bullet.ReachedScreenBounds += new SpriteReachedScreenBoundsDelegate(spaceShipBullet_ReachedScreenBounds);
+                bullet.CollidedWithEnemy += new BulletCollidedWithEnemy(spaceShipBullet_CollidedWithEnemy);
 
                 m_Bullets.Add(bullet);                
             }
@@ -100,6 +132,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             float y = ((float)GraphicsDevice.Viewport.Height) - 40;            
 
             Position = new Vector2(x - (this.Texture.Width / 2), y);
+            DefaultPosition = Position;
         }
 
         /// <summary>
@@ -159,7 +192,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             base.Initialize();
         }
 
-        public void     bullet_ReachedScreenBounds(Sprite i_Sprite)
+        public void     spaceShipBullet_ReachedScreenBounds(Sprite i_Sprite)
         {
             if (i_Sprite is Bullet)
             {
@@ -170,20 +203,50 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             }
         }
 
-        public override bool CheckForCollision(ICollidable i_OtherComponent)
+        public override bool    CheckForCollision(ICollidable i_OtherComponent)
         {
-            return !m_Bullets.Contains(i_OtherComponent as Bullet) &&
-                    (i_OtherComponent is Bullet ||
-                     i_OtherComponent is Enemy) && 
-                   base.CheckForCollision(i_OtherComponent);
+            return ((i_OtherComponent is EnemyBullet) && 
+                    (base.CheckForCollision(i_OtherComponent)));
         }
 
         public override void    Collided(ICollidable i_OtherComponent)
         {
-            if (!(i_OtherComponent is SpaceShipBullet))
+            // Decrease one life from the ship remaining lives, 
+            // decrease the players score and return the ship to the default 
+            // starting position
+            Score -= k_LostLifeScoreDecrease;
+            m_RemainingLivesLeft--;
+
+            if (m_RemainingLivesLeft <= 0)
             {
-                base.Collided(i_OtherComponent);
+                onPlayerIsDead();
             }
+            else
+            {
+                Position = DefaultPosition;
+            }
+        }
+
+        /// <summary>
+        /// Raise the PlayerIsDead event
+        /// </summary>
+        private void    onPlayerIsDead()
+        {
+            if (PlayerIsDead != null)
+            {
+                PlayerIsDead();
+            }
+        }
+
+        /// <summary>
+        /// Catch a collition with enemy event and add the enemy score
+        /// to the players score
+        /// </summary>
+        /// <param name="i_Enemy">The enemy that the space ship bullet colided
+        /// with</param>
+        private void    spaceShipBullet_CollidedWithEnemy(Enemy i_Enemy)
+        {
+            Score += i_Enemy.Score;
         }
 
     }
