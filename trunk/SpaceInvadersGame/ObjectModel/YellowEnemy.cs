@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceInvadersGame.ObjectModel
 {
+    /// <summary>
+    /// A yellow enemy in the enemies matrix
+    /// </summary>
     public class YellowEnemy : Enemy
     {
         private const string k_AssetName = @"Sprites\Enemy0301_32x32";

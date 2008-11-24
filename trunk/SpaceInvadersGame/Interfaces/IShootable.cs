@@ -6,6 +6,6 @@ namespace SpaceInvadersGame.Interfaces
 {
     public interface IShootable
     {        
-        void     Shoot();
+        void    Shoot();
     }
 }

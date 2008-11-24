@@ -11,6 +11,9 @@ namespace SpaceInvadersGame
     // A delegate for notifying when all enemies are dead
     public delegate void NoRemainingEnemiesDelegate();
 
+    /// <summary>
+    /// Holds all the enemies in the game and control their moves
+    /// </summary>
     public class EnemiesMatrix : GameComponent
     {
         private const int k_EnemiesInLineNum = 9;
@@ -37,23 +40,33 @@ namespace SpaceInvadersGame
         // A two dimentional array that represents the enemies matrix.
         // each cell in the matrix contains the type of the enemy that will
         // be dinamically created later on
-        Type[,] m_EnemiesMatrix = new Type[k_NumOfEnemiesLines, k_EnemiesInLineNum] 
-                                            { { typeof(PinkEnemy), typeof(PinkEnemy), typeof(PinkEnemy), 
-                                                typeof(PinkEnemy), typeof(PinkEnemy), typeof(PinkEnemy), 
-                                                typeof(PinkEnemy), typeof(PinkEnemy), typeof(PinkEnemy) },                         
-                                              { typeof(BlueEnemy), typeof(BlueEnemy), typeof(BlueEnemy), 
-                                                typeof(BlueEnemy), typeof(BlueEnemy), typeof(BlueEnemy), 
-                                                typeof(BlueEnemy), typeof(BlueEnemy), typeof(BlueEnemy) },                         
-                                              { typeof(BlueEnemy), typeof(BlueEnemy), typeof(BlueEnemy), 
-                                                typeof(BlueEnemy), typeof(BlueEnemy), typeof(BlueEnemy), 
-                                                typeof(BlueEnemy), typeof(BlueEnemy), typeof(BlueEnemy) },                         
-                                              { typeof(YellowEnemy), typeof(YellowEnemy), typeof(YellowEnemy), 
-                                                typeof(YellowEnemy), typeof(YellowEnemy), typeof(YellowEnemy), 
-                                                typeof(YellowEnemy), typeof(YellowEnemy), typeof(YellowEnemy) },                         
-                                              { typeof(YellowEnemy), typeof(YellowEnemy), typeof(YellowEnemy), 
-                                                typeof(YellowEnemy), typeof(YellowEnemy), typeof(YellowEnemy), 
-                                                typeof(YellowEnemy), typeof(YellowEnemy), typeof(YellowEnemy) }};
-
+        private Type[,] m_EnemiesMatrix = new Type[k_NumOfEnemiesLines, k_EnemiesInLineNum] 
+                                            { 
+                                              { typeof(PinkEnemy), typeof(PinkEnemy), 
+                                                typeof(PinkEnemy), typeof(PinkEnemy), 
+                                                typeof(PinkEnemy), typeof(PinkEnemy), 
+                                                typeof(PinkEnemy), typeof(PinkEnemy), 
+                                                typeof(PinkEnemy) },                         
+                                              { typeof(BlueEnemy), typeof(BlueEnemy), 
+                                                typeof(BlueEnemy), typeof(BlueEnemy), 
+                                                typeof(BlueEnemy), typeof(BlueEnemy), 
+                                                typeof(BlueEnemy), typeof(BlueEnemy), 
+                                                typeof(BlueEnemy) },                         
+                                              { typeof(BlueEnemy), typeof(BlueEnemy), 
+                                                typeof(BlueEnemy), typeof(BlueEnemy), 
+                                                typeof(BlueEnemy), typeof(BlueEnemy), 
+                                                typeof(BlueEnemy), typeof(BlueEnemy), 
+                                                typeof(BlueEnemy) },               
+                                              { typeof(YellowEnemy), typeof(YellowEnemy), 
+                                                typeof(YellowEnemy), typeof(YellowEnemy), 
+                                                typeof(YellowEnemy), typeof(YellowEnemy), 
+                                                typeof(YellowEnemy), typeof(YellowEnemy), 
+                                                typeof(YellowEnemy) },                         
+                                              { typeof(YellowEnemy), typeof(YellowEnemy), 
+                                                typeof(YellowEnemy), typeof(YellowEnemy), 
+                                                typeof(YellowEnemy), typeof(YellowEnemy), 
+                                                typeof(YellowEnemy), typeof(YellowEnemy), 
+                                                typeof(YellowEnemy)}};
 
         private List<List<Enemy>> m_Enemies;
 
@@ -65,15 +78,21 @@ namespace SpaceInvadersGame
             m_RemainigEnemiesNum = k_EnemiesInLineNum * k_NumOfEnemiesLines;            
         }
 
-        public override void Initialize()
+        /// <summary>
+        /// Initialize the component
+        /// </summary>
+        public override void    Initialize()
         {
-            initEnemiesList();
-
             base.Initialize();
+
+            initEnemiesList();            
         }
 
+        /// <summary>
+        /// Initialize the enemies matrix
+        /// </summary>
         private void    initEnemiesList()
-        {            
+        {
             // Calculate the positions according to the number of enemies before the 
             // middle enemy position
             float startingPositionX = ((float)Game.GraphicsDevice.Viewport.Width / 2);
@@ -94,7 +113,8 @@ namespace SpaceInvadersGame
                 {     
                     // Dynamically creates the enemy according to the type in the
                     // enemies member
-                    currEnemy = (Enemy)Activator.CreateInstance(m_EnemiesMatrix[i, j], 
+                    currEnemy = (Enemy)Activator.CreateInstance(
+                                                         m_EnemiesMatrix[i, j], 
                                                          Game, 
                                                          currPosition,
                                                          UpdateOrder - 1);                    
@@ -134,12 +154,19 @@ namespace SpaceInvadersGame
                     {
                         enemy.SwitchPosition();
                     }
+
                     motion.Y += i_YMotionFactor;
                     enemy.MotionVector = motion;
                 }
             }
         }
 
+        /// <summary>
+        /// Updates the enemies state in the game by randomly releasing a shoot
+        /// from on of the enemies every a couple of seconds
+        /// </summary>
+        /// <param name="i_GameTime">The time passed from the previous call
+        /// to the method</param>
         public override void    Update(GameTime i_GameTime)
         {
             base.Update(i_GameTime);
@@ -161,10 +188,6 @@ namespace SpaceInvadersGame
 
                 changeEnemiesDirection(true, k_EnemyMotionYVal);
             }
-
-            // In case we changed the enemies motion in the previous update
-            // we need to change their motion again so that the enemies won't 
-            // keep going down
             else if (m_LastChangeEnemiesPosition)
             {
                 m_LastChangeEnemiesPosition = false;
@@ -187,6 +210,12 @@ namespace SpaceInvadersGame
             }
         }
 
+        /// <summary>
+        /// Catch the ReachedScreenBounds event raised by an enemy and change 
+        /// the enemies movement direction in the X axis, and change the enemies
+        /// position in the Y axis by moving them down in the screen
+        /// </summary>
+        /// <param name="i_Sprite">The enemy that raised the event</param>
         public void     enemy_ReachedScreenBounds(Sprite i_Sprite)
         {
             if (i_Sprite is Enemy)
@@ -233,6 +262,10 @@ namespace SpaceInvadersGame
             }
         }
 
+        /// <summary>
+        /// Removes an enemy from the enemies matrix
+        /// </summary>
+        /// <param name="i_Enemy">The enemy that we want to remove from the matrix</param>
         private void    removeEnemyFromMatrix(Enemy i_Enemy)
         {
             foreach (List<Enemy> enemiesLine in m_Enemies)
@@ -248,7 +281,6 @@ namespace SpaceInvadersGame
                         m_Enemies.Remove(enemiesLine);
                     }
 
-                    // TODO Check if it's ok
                     break;
                 }
             }
