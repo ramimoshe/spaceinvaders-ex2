@@ -49,7 +49,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             
             m_BackGround = new BackGround(this);
             m_EnemiesMatrix = new EnemiesMatrix(this);
-            m_EnemiesMatrix.EnemiesEliminated += new NoRemainingEnemiesDelegate(enemiesMatrix_EnemiesEliminated);
+            m_EnemiesMatrix.AllEnemiesEliminated += new NoRemainingEnemiesDelegate(enemiesMatrix_EnemiesEliminated);
 
             m_MotherShip = new MotherShip(this);
 
