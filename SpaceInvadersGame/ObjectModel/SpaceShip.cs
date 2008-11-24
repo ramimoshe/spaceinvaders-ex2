@@ -60,6 +60,10 @@ namespace SpaceInvadersGame.ObjectModel
 
         #endregion
 
+        /// <summary>
+        /// The property holds the starting position.
+        /// used in case the space ship is hit be an enemy
+        /// </summary>
         protected Vector2 DefaultPosition
         {
             get
@@ -71,7 +75,6 @@ namespace SpaceInvadersGame.ObjectModel
             {
                 m_DefaultPosition = value;
             }
-
         }
 
         /// <summary>
@@ -123,12 +126,10 @@ namespace SpaceInvadersGame.ObjectModel
 
         #endregion
 
-        // TODO Check that the position is as requiered in the exercise
-
         /// <summary>
         /// Initialize the SpaceShip position
         /// </summary>
-        protected override void InitPosition()
+        protected override void     InitPosition()
         {
             base.InitPosition();
 
@@ -140,22 +141,11 @@ namespace SpaceInvadersGame.ObjectModel
         }
 
         /// <summary>
-        /// Initialize the SpaceShip bounds
-        /// </summary>
-        protected override void InitBounds()
-        {
-            int x = (int)GraphicsDevice.Viewport.Width / 2;
-            int y = ((int)GraphicsDevice.Viewport.Height) - 40;
-
-            Position = new Vector2(x, y);
-        }
-
-        /// <summary>
         /// Updates the SpaceShip according to the player choise (move the ship
         /// or release a shoot)
         /// </summary>
         /// <param name="i_GameTime">The time passed from the previous update call</param>
-        public override void Update(GameTime i_GameTime)
+        public override void    Update(GameTime i_GameTime)
         {
             Vector2 newMotion = Vector2.Zero;
 
@@ -195,7 +185,7 @@ namespace SpaceInvadersGame.ObjectModel
         /// <summary>
         /// Initialize the space ship by getting the game's input manager
         /// </summary>
-        public override void Initialize()
+        public override void    Initialize()
         {
             m_InputManager = Game.Services.GetService(typeof(InputManager)) as IInputManager;
             base.Initialize();

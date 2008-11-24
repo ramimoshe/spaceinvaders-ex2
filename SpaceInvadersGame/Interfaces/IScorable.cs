@@ -13,6 +13,5 @@ namespace SpaceInvadersGame.Interfaces
         {
             get;
         }
-
     }
 }

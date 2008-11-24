@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceInvadersGame.ObjectModel
 {
+    /// <summary>
+    /// A pink enemy in the enemies matrix
+    /// </summary>
     public class PinkEnemy : Enemy
     {
         private const string k_AssetName = @"Sprites\Enemy0101_32x32";
@@ -20,11 +23,17 @@ namespace SpaceInvadersGame.ObjectModel
             : base(k_AssetName, i_Game, i_Position, i_UpdateOrder)
         {
             TintColor = Color.Pink;
-        }     
+        }
 
+        /// <summary>
+        /// A property for the enemy score
+        /// </summary>
         public override int     Score
         {
-            get { return k_Score; }
+            get 
+            { 
+                return k_Score; 
+            }
         }  
     }
 }

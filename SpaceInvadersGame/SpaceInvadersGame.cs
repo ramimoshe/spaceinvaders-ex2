@@ -14,7 +14,6 @@ using SpaceInvadersGame.ObjectModel;
 
 namespace SpaceInvadersGame
 {
-
     // A delegate for an event that states the game is over
     public delegate void GameOverDelegate();
 
@@ -23,6 +22,8 @@ namespace SpaceInvadersGame
     /// </summary>
     public class SpaceInvadersGame : Microsoft.Xna.Framework.Game
     {
+        // Add an asembly reference to the MessageBox so that we can use it in
+        // our game
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern uint MessageBox(IntPtr hWnd, String text, String caption, uint type);
 
@@ -35,7 +36,7 @@ namespace SpaceInvadersGame
 
         private bool m_GameOver = false;
 
-        public SpaceInvadersGame()
+        public  SpaceInvadersGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -50,7 +51,7 @@ namespace SpaceInvadersGame
             
             m_BackGround = new BackGround(this);
             m_EnemiesMatrix = new EnemiesMatrix(this);
-            m_EnemiesMatrix.AllEnemiesEliminated += new NoRemainingEnemiesDelegate(enemiesMatrix_EnemiesEliminated);
+            m_EnemiesMatrix.AllEnemiesEliminated += new NoRemainingEnemiesDelegate(enemiesMatrix_AllEnemiesEliminated);
 
             m_MotherShip = new MotherShip(this);
 
@@ -63,10 +64,8 @@ namespace SpaceInvadersGame
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         /// </summary>
-        protected override void Initialize()
+        protected override void     Initialize()
         {
-            // TODO: Add your initialization logic here            
-
             base.Initialize();
         }
 
@@ -74,21 +73,18 @@ namespace SpaceInvadersGame
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
         /// </summary>
-        protected override void LoadContent()
+        protected override void     LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            spriteBatch = new SpriteBatch(GraphicsDevice);            
         }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
         /// </summary>
-        protected override void UnloadContent()
+        protected override void     UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
         }
 
         /// <summary>
@@ -96,13 +92,8 @@ namespace SpaceInvadersGame
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Update(GameTime gameTime)
+        protected override void     Update(GameTime gameTime)
         {
-            // TODO Remove the remark
-
-            // Allows the game to exit
-            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)            
-
             if (m_GameOver)
             {
                 MessageBox(new IntPtr(0), "Game Over. Player Score Is: " + m_Player.Score, 
@@ -111,8 +102,6 @@ namespace SpaceInvadersGame
                 this.Exit();
             }
 
-            // TODO: Add your update logic here
-
             base.Update(gameTime);
         }
 
@@ -120,25 +109,27 @@ namespace SpaceInvadersGame
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
+        protected override void     Draw(GameTime gameTime)
         {
             graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
 
             base.Draw(gameTime);
         }
 
         /// <summary>
-        /// Catch a PlayerIsDead event thrown by the player, and mark the game 
-        /// for exit in the next update
+        /// Catch a PlayerIsDead event raised by the player and mark the game 
+        /// for exit in the next call to update
         /// </summary>
         public void     spaceShip_PlayerIsDead()
         {
             m_GameOver = true;
         }
 
-        public void enemiesMatrix_EnemiesEliminated()
+        /// <summary>
+        /// Catch an AllEnemiesEliminated event raised by the EnemiesMatrix
+        /// and mark the game for exit in the next call to update
+        /// </summary>
+        public void enemiesMatrix_AllEnemiesEliminated()
         {
             m_GameOver = true;
         }

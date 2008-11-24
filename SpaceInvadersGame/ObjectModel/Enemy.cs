@@ -59,17 +59,6 @@ namespace SpaceInvadersGame.ObjectModel
                       (base.CheckForCollision(i_OtherComponent)));
         }                
 
-        // TODO Remove the proc
-
-        /*public override void    Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
-        {
-            base.Collided(i_OtherComponent);
-
-            // TODO Check if i can dispose the enemy
-
-            //Dispose();
-        }*/
-
         #region IShootable Members        
 
         public void     Shoot()
@@ -84,6 +73,7 @@ namespace SpaceInvadersGame.ObjectModel
 
         #endregion
 
+        // TODO remove the proc
 
         protected override void     InitPosition()
         {

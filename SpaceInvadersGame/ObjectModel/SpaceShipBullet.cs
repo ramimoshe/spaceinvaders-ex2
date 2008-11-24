@@ -25,19 +25,11 @@ namespace SpaceInvadersGame.ObjectModel
                    (base.CheckForCollision(i_OtherComponent)));            
         }
 
-        public override void Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
+        public override void    Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
             base.Collided(i_OtherComponent);
 
-            // TODO Remove remark
-
-            //if (i_OtherComponent is IScorable)
-            //{
-                onBulletCollision(i_OtherComponent);
-
-                // TODO check what todo with dispose
-//                Dispose();
-            //}
+            onBulletCollision(i_OtherComponent);            
         }      
 
         /// <summary>
@@ -50,26 +42,6 @@ namespace SpaceInvadersGame.ObjectModel
             {
                 BulletCollision(i_OtherComponent, this);
             }
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            Rectangle viewPortBounds = new Rectangle(0, 0,
-                                                     Game.GraphicsDevice.Viewport.Width,
-                                                     Game.GraphicsDevice.Viewport.Height);
-
-            // TODO return the check
-
-            // If the bullet is out of the screen, or was hit before 
-            // (not visible), we need to dispose it
-            if ((!(Bounds.Intersects(viewPortBounds))) || (Visible == false))
-            {
-                 Dispose();
-            }
-            else
-            {
-                base.Update(gameTime);
-            }
-        }   
+        }        
     }
 }
