@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace A09_Ex02_Koby_021766944_Inbar_015267479.ObjectModel
 {
+    /// <summary>
+    /// Represents an enemy bullet game component
+    /// </summary>
     public class EnemyBullet : Bullet
     {
         public EnemyBullet(Game i_Game)
@@ -14,19 +17,16 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479.ObjectModel
             TintColor = Color.Blue;
         }
 
-
-        public override bool CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
+        /// <summary>
+        /// Check if the bullet colides with another component
+        /// </summary>
+        /// <param name="i_OtherComponent">The component we want to check the collision
+        /// against</param>
+        /// <returns>True if the components collides or false otherwise</returns>
+        public override bool    CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
             return !(i_OtherComponent is Enemy) &&
                     (base.CheckForCollision(i_OtherComponent));
-        }
-
-/*        public override void Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
-        {
-            if (!(i_OtherComponent is Enemy))
-            {
-                base.Collided(i_OtherComponent);
-            }
-        }*/
+        }       
     }
 }

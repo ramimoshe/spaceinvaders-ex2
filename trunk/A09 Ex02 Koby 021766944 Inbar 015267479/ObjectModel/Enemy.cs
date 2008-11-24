@@ -21,7 +21,10 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         private readonly TimeSpan r_MoveLength = TimeSpan.FromSeconds(0.5f);
         protected TimeSpan m_TimeLeftToNextMove;        
         protected int m_MovingDirection = 1;
-        protected const int k_MotionXVal = 500;
+
+        // TODO Return the value to 500
+
+        protected const int k_MotionXVal = 2500;
 
         private const int k_BulletVelocity = 200;
 

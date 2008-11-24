@@ -52,12 +52,24 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479.ObjectModel
             }
         }
 
-        /*public override void    Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
+        public override void Update(GameTime gameTime)
         {
-            if (!(i_OtherComponent is SpaceShip))
+            Rectangle viewPortBounds = new Rectangle(0, 0,
+                                                     Game.GraphicsDevice.Viewport.Width,
+                                                     Game.GraphicsDevice.Viewport.Height);
+
+            // TODO return the check
+
+            // If the bullet is out of the screen, or was hit before 
+            // (not visible), we need to dispose it
+            if ((!(Bounds.Intersects(viewPortBounds))) || (Visible == false))
             {
-                base.Collided(i_OtherComponent);
+                 Dispose();
             }
-        }*/        
+            else
+            {
+                base.Update(gameTime);
+            }
+        }   
     }
 }
