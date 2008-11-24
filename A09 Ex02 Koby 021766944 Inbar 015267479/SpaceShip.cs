@@ -114,8 +114,9 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
                 bullet.Position = new Vector2(m_Position.X + Bounds.Width / 2,
                 m_Position.Y - bullet.Bounds.Height / 2);
                 bullet.MotionVector = new Vector2(0, -k_BulletVelocity);
-                bullet.ReachedScreenBounds += new SpriteReachedScreenBoundsDelegate(spaceShipBullet_ReachedScreenBounds);
-                bullet.BulletCollition += new BulletCollitionDelegate(spaceShipBullet_BulletCollition);
+                //bullet.ReachedScreenBounds += new SpriteReachedScreenBoundsDelegate(spaceShipBullet_ReachedScreenBounds);
+                bullet.BulletCollision += new BulletCollisionDelegate(spaceShipBullet_BulletCollision);
+                bullet.Disposed += new EventHandler(spaceShipBullet_Disposed);
 
                 m_Bullets.Add(bullet);
             }
@@ -199,6 +200,8 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             base.Initialize();
         }
 
+        // TODO REmove the method
+
         public void spaceShipBullet_ReachedScreenBounds(Sprite i_Sprite)
         {
             if (i_Sprite is Bullet)
@@ -208,6 +211,19 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
                     m_Bullets.Remove((Bullet)i_Sprite);
                 }
             }
+        }
+
+        /// <summary>
+        /// Catch the space ship bullet disposed event and remove the bullet
+        /// from the bullets list
+        /// </summary>
+        /// <param name="i_Sender">The bullet that had been disposed</param>
+        /// <param name="i_Args">The event arguments</param>
+        public void     spaceShipBullet_Disposed(object i_Sender, EventArgs i_Args)
+        {
+            SpaceShipBullet bullet = i_Sender as SpaceShipBullet;
+            
+            m_Bullets.Remove(bullet);            
         }
 
         public override bool CheckForCollision(ICollidable i_OtherComponent)
@@ -245,7 +261,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             }
         }
 
-        private void spaceShipBullet_BulletCollition(ICollidable i_OtherComponent, SpaceShipBullet i_Bullet)
+        private void spaceShipBullet_BulletCollision(ICollidable i_OtherComponent, SpaceShipBullet i_Bullet)
         {
             if (i_OtherComponent is IScorable)
             {
@@ -253,7 +269,9 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
                 Score += enemy.Score;
             }
 
-            m_Bullets.Remove(i_Bullet);
+            // TODO Remove the remark
+
+            //m_Bullets.Remove(i_Bullet);
         }
 
     }
