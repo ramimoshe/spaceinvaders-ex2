@@ -123,6 +123,8 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
 
         #endregion
 
+        // TODO Check that the position is as requiered in the exercise
+
         /// <summary>
         /// Initialize the SpaceShip position
         /// </summary>
@@ -212,21 +214,32 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             m_Bullets.Remove(bullet);            
         }
 
+        /// <summary>
+        /// Check if the space ship colides with another component
+        /// </summary>
+        /// <param name="i_OtherComponent">The component we want to check the collision
+        /// against</param>
+        /// <returns>True if the components collides or false otherwise</returns>
         public override bool    CheckForCollision(ICollidable i_OtherComponent)
         {
-            return ((i_OtherComponent is EnemyBullet) &&
+            return ((!(i_OtherComponent is SpaceShipBullet)) &&
                     (base.CheckForCollision(i_OtherComponent)));
         }
 
+        /// <summary>
+        /// Implement the collision between the space ship and a game component.
+        /// Decrease a life from the space ship remaining lives, decrease 2000 points
+        /// from the players score and return the ship to the stating position. 
+        /// In addition, in case there are no remaining lives or the space ship 
+        /// colides with an enemy, raise the PlayerIsDead event
+        /// </summary>
+        /// <param name="i_OtherComponent">The component the ship colided with</param>
         public override void    Collided(ICollidable i_OtherComponent)
         {
-            // Decrease one life from the ship remaining lives, 
-            // decrease the players score and return the ship to the default 
-            // starting position
             Score -= k_LostLifeScoreDecrease;
             m_RemainingLivesLeft--;
 
-            if (m_RemainingLivesLeft <= 0)
+            if ((m_RemainingLivesLeft <= 0) || (i_OtherComponent is Enemy))
             {
                 onPlayerIsDead();
             }
@@ -247,7 +260,15 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             }
         }
 
-        private void    spaceShipBullet_BulletCollision(ICollidable i_OtherComponent, SpaceShipBullet i_Bullet)
+        /// <summary>
+        /// Catch the collision event between the space bullet and a game component.
+        /// incase it's a scorable component, we'll add the component score to the
+        /// space ship score
+        /// </summary>
+        /// <param name="i_OtherComponent">The component the bullet colided with</param>
+        /// <param name="i_Bullet">The space ship bullet that colided with the coponent</param>
+        private void    spaceShipBullet_BulletCollision(ICollidable i_OtherComponent, 
+                                                        SpaceShipBullet i_Bullet)
         {
             if (i_OtherComponent is IScorable)
             {
