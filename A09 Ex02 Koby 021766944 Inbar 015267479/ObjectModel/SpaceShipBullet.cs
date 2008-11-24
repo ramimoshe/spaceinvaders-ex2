@@ -8,7 +8,7 @@ using XnaGamesInfrastructure.ObjectInterfaces;
 namespace A09_Ex02_Koby_021766944_Inbar_015267479.ObjectModel
 {
     // Delegate for collision between a bullet and an enemy event
-    public delegate void BulletCollitionDelegate(ICollidable i_OtherComponent, SpaceShipBullet i_Bullet);
+    public delegate void BulletCollisionDelegate(ICollidable i_OtherComponent, SpaceShipBullet i_Bullet);
 
     class SpaceShipBullet : Bullet
     {
@@ -17,7 +17,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479.ObjectModel
             TintColor = Color.Red;
         }
 
-        public event BulletCollitionDelegate BulletCollition; 
+        public event BulletCollisionDelegate BulletCollision; 
 
         public override bool    CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
@@ -33,22 +33,22 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479.ObjectModel
 
             //if (i_OtherComponent is IScorable)
             //{
-                onBulletCollition(i_OtherComponent);
+                onBulletCollision(i_OtherComponent);
 
                 // TODO check what todo with dispose
 //                Dispose();
             //}
-        }
+        }      
 
         /// <summary>
         /// Raise a colision with component event
         /// </summary>
         /// <param name="i_Enemy">The component the bullet colided with</param>
-        private void    onBulletCollition(ICollidable i_OtherComponent)
+        private void    onBulletCollision(ICollidable i_OtherComponent)
         {
-            if (BulletCollition != null)
+            if (BulletCollision != null)
             {
-                BulletCollition(i_OtherComponent, this);
+                BulletCollision(i_OtherComponent, this);
             }
         }
 

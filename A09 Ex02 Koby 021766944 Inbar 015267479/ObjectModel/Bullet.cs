@@ -25,14 +25,21 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
 
         public override void    Update(GameTime gameTime)
         {
-            base.Update(gameTime);
+            base.Update(gameTime);            
 
-            if (Bounds.Top < 0)
+            // TODO Check if i can implement with the viewport
+
+            if ((Bounds.Top < 0) || (Visible == false))
             {
-                // Notify the listeners that the bullet reached the screen top
-                OnReachedScreenBounds();
+                Dispose();
+                // TODO Remove the remark
 
-                Game.Components.Remove(this);
+                // Notify the listeners that the bullet reached the screen top
+                //OnReachedScreenBounds();
+
+                // TODO remove the method
+
+                //Game.Components.Remove(this);
             }
         }
 

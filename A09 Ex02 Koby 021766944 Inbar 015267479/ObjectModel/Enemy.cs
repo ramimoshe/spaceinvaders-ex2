@@ -54,6 +54,11 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         {
             get;
         }
+
+        protected override void Dispose(bool disposing)
+        {            
+            base.Dispose(disposing);
+        }
      
         public override bool CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
