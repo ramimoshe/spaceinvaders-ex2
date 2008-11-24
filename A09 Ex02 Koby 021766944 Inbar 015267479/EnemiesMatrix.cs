@@ -15,7 +15,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         private const int k_EnemiesInLineNum = 9;
         private const int k_NumOfEnemiesLines = 5;
 
-        public event NoRemainingEnemiesDelegate EnemiesEliminated;
+        public event NoRemainingEnemiesDelegate AllEnemiesEliminated;
 
         private readonly TimeSpan r_DefaultTimeBetweenShots = TimeSpan.FromSeconds(1.5f);
 
@@ -104,7 +104,11 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
                                                          UpdateOrder - 1);                    
 
                     currEnemy.ReachedScreenBounds += new SpriteReachedScreenBoundsDelegate(enemy_ReachedScreenBounds);
-                    currEnemy.EnemyWasHit += new EnemyHitDelegate(enemy_EnemyWasHit);
+
+                    // Remove the event
+
+                    //currEnemy.EnemyWasHit += new EnemyHitDelegate(enemy_EnemyWasHit);
+
                     currEnemy.Disposed += enemy_Disposed;
 
                     currList.Add(currEnemy);
@@ -179,25 +183,13 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
                 // won't keep going down
                 changeEnemiesMotion(false, -k_EnemyMotionYVal);
             }
-        }
+        }             
 
-        public void     enemy_EnemyWasHit(Enemy i_Enemy)
+        private void    onAllEnemiesEliminated()
         {
-            m_RemainigEnemiesNum--;
-
-            removeEnemyFromMatrix(i_Enemy);
-
-            if (m_RemainigEnemiesNum <= 0)
+            if (AllEnemiesEliminated != null)
             {
-                onEnemiesEliminated();
-            }
-        }
-
-        private void    onEnemiesEliminated()
-        {
-            if (EnemiesEliminated != null)
-            {
-                EnemiesEliminated();
+                AllEnemiesEliminated();
             }
         }
 
@@ -217,17 +209,35 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         {
             Random rand = new Random();
 
-            // Randomly choose a visible enemy from the enemies matrix
-            int enemyMatrixLine = rand.Next(0, m_Enemies.Count - 1);
-            int enemyMatrixColumn = rand.Next(0, m_Enemies[enemyMatrixLine].Count - 1);
-            (m_Enemies[enemyMatrixLine])[enemyMatrixColumn].Shoot();
+            // In case there are enemies we'll shoot the player from
+            // a random enemy
+            if (m_Enemies.Count > 0)
+            {
+                // Randomly choose an enemy from the enemies matrix                
+                int enemyMatrixLine = rand.Next(0, m_Enemies.Count - 1);
+                int enemyMatrixColumn = rand.Next(0, m_Enemies[enemyMatrixLine].Count - 1);                                
+                (m_Enemies[enemyMatrixLine])[enemyMatrixColumn].Shoot();
+            }
         }
        
+        /// <summary>
+        /// Catch an enemy disposed event, remove it from the matrix and in
+        /// case there are no enemies left raise an event
+        /// </summary>
+        /// <param name="i_Sender">The disposed enemy</param>
+        /// <param name="i_EventArgs">The event arguments</param>
         private void    enemy_Disposed(object i_Sender, EventArgs i_EventArgs)
         {
             Enemy enemy = i_Sender as Enemy;
 
             removeEnemyFromMatrix(enemy);
+
+            m_RemainigEnemiesNum--;
+
+            if (m_RemainigEnemiesNum <= 0)
+            {
+                onAllEnemiesEliminated();
+            }
         }
 
         private void    removeEnemyFromMatrix(Enemy i_Enemy)

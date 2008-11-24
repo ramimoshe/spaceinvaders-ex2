@@ -114,7 +114,6 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
                 bullet.Position = new Vector2(m_Position.X + Bounds.Width / 2,
                 m_Position.Y - bullet.Bounds.Height / 2);
                 bullet.MotionVector = new Vector2(0, -k_BulletVelocity);
-                //bullet.ReachedScreenBounds += new SpriteReachedScreenBoundsDelegate(spaceShipBullet_ReachedScreenBounds);
                 bullet.BulletCollision += new BulletCollisionDelegate(spaceShipBullet_BulletCollision);
                 bullet.Disposed += new EventHandler(spaceShipBullet_Disposed);
 
@@ -198,20 +197,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         {
             m_InputManager = Game.Services.GetService(typeof(InputManager)) as IInputManager;
             base.Initialize();
-        }
-
-        // TODO REmove the method
-
-        public void spaceShipBullet_ReachedScreenBounds(Sprite i_Sprite)
-        {
-            if (i_Sprite is Bullet)
-            {
-                if (m_Bullets != null && m_Bullets.Contains((Bullet)i_Sprite))
-                {
-                    m_Bullets.Remove((Bullet)i_Sprite);
-                }
-            }
-        }
+        }    
 
         /// <summary>
         /// Catch the space ship bullet disposed event and remove the bullet
@@ -226,13 +212,13 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             m_Bullets.Remove(bullet);            
         }
 
-        public override bool CheckForCollision(ICollidable i_OtherComponent)
+        public override bool    CheckForCollision(ICollidable i_OtherComponent)
         {
             return ((i_OtherComponent is EnemyBullet) &&
                     (base.CheckForCollision(i_OtherComponent)));
         }
 
-        public override void Collided(ICollidable i_OtherComponent)
+        public override void    Collided(ICollidable i_OtherComponent)
         {
             // Decrease one life from the ship remaining lives, 
             // decrease the players score and return the ship to the default 
@@ -253,7 +239,7 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         /// <summary>
         /// Raise the PlayerIsDead event
         /// </summary>
-        private void onPlayerIsDead()
+        private void    onPlayerIsDead()
         {
             if (PlayerIsDead != null)
             {
@@ -261,17 +247,13 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             }
         }
 
-        private void spaceShipBullet_BulletCollision(ICollidable i_OtherComponent, SpaceShipBullet i_Bullet)
+        private void    spaceShipBullet_BulletCollision(ICollidable i_OtherComponent, SpaceShipBullet i_Bullet)
         {
             if (i_OtherComponent is IScorable)
             {
                 IScorable enemy = i_OtherComponent as IScorable;
                 Score += enemy.Score;
-            }
-
-            // TODO Remove the remark
-
-            //m_Bullets.Remove(i_Bullet);
+            } 
         }
 
     }
