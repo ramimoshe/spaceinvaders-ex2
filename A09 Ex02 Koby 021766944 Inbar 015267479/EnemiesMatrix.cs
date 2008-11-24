@@ -7,7 +7,7 @@ using XnaGamesInfrastructure.ObjectModel;
 
 namespace A09_Ex02_Koby_021766944_Inbar_015267479
 {
-
+    // A delegate for notifying when all enemies are dead
     public delegate void NoRemainingEnemiesDelegate();
 
     public class EnemiesMatrix : GameComponent
@@ -21,17 +21,16 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
 
         // A time counter that contains a random seconds for the time space between
         // the enemies shoots
-        private TimeSpan m_PrevShotTime;
-
-        // TODO Delete the member
-
-        //private const int k_StartPositionY = 100;
+        private TimeSpan m_PrevShotTime;       
 
         private const int k_EnemyWidth = 32;
         private const int k_EnemyHeight = 32;
-        private const int k_EnemyMotionYVal = 350;
 
-        private bool m_ChangeEnemiesPosition = false;
+        // TODO return the value to 350
+
+        private const int k_EnemyMotionYVal = 2050;
+
+        private bool m_ChangeEnemiesDirection = false;
         private bool m_LastChangeEnemiesPosition = false;
 
         private int m_RemainigEnemiesNum;
@@ -94,8 +93,6 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
 
                 for (int j = k_EnemiesInLineNum - 1; j >= 0; j--)
                 {     
-                    // TODO delete the remark
-
                     // Dynamically creates the enemy according to the type in the
                     // enemies member
                     currEnemy = (Enemy)Activator.CreateInstance(m_EnemiesMatrix[i, j], 
@@ -104,11 +101,6 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
                                                          UpdateOrder - 1);                    
 
                     currEnemy.ReachedScreenBounds += new SpriteReachedScreenBoundsDelegate(enemy_ReachedScreenBounds);
-
-                    // Remove the event
-
-                    //currEnemy.EnemyWasHit += new EnemyHitDelegate(enemy_EnemyWasHit);
-
                     currEnemy.Disposed += enemy_Disposed;
 
                     currList.Add(currEnemy);
@@ -123,10 +115,13 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         }
 
         /// <summary>
-        /// Change the enemies position by a given factor
+        /// Change the enemies direction
         /// </summary>
-        /// <param name="i_ChangeFactor">The factor that we want to change the enemies position by</param>
-        private void    changeEnemiesMotion(bool i_ChangeXDirection, float i_YMotionFactor)
+        /// <param name="i_ChangeXDirection">Mark if we want to change the enemies direction 
+        /// on the X axis</param>
+        /// <param name="i_YMotionFactor">The factor we want to move the enemies in
+        /// the Y axis</param>
+        private void    changeEnemiesDirection(bool i_ChangeXDirection, float i_YMotionFactor)
         {
             // Move on the entire enemies matrix and change the enemy position
             // by the given factor
@@ -139,10 +134,6 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
                     if (i_ChangeXDirection)
                     {
                         enemy.SwitchPosition();
-
-                        // TODO Return the velocity
-
-                        //enemy.Velocity += new Vector2(1, 0);
                     }
                     motion.Y += i_YMotionFactor;
                     enemy.MotionVector = motion;
@@ -164,12 +155,12 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
 
             // In case we changed the enemies position earlier we need
             // to change their Y position so that they won't keep going down
-            if (m_ChangeEnemiesPosition)
+            if (m_ChangeEnemiesDirection)
             {
-                m_ChangeEnemiesPosition = false;
+                m_ChangeEnemiesDirection = false;
                 m_LastChangeEnemiesPosition = true;
 
-                changeEnemiesMotion(true, k_EnemyMotionYVal);
+                changeEnemiesDirection(true, k_EnemyMotionYVal);
             }
 
             // In case we changed the enemies motion in the previous update
@@ -181,10 +172,14 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
 
                 // Return the enemies motion vector to be as before so that they
                 // won't keep going down
-                changeEnemiesMotion(false, -k_EnemyMotionYVal);
+                changeEnemiesDirection(false, -k_EnemyMotionYVal);
             }
         }             
 
+        /// <summary>
+        /// Raise an AllEnemiesEliminated event, stating that there are no more
+        /// enemies in the screen
+        /// </summary>
         private void    onAllEnemiesEliminated()
         {
             if (AllEnemiesEliminated != null)
@@ -195,10 +190,9 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
 
         public void     enemy_ReachedScreenBounds(Sprite i_Sprite)
         {
-            // TODO Check if i can implement with "as"
             if (i_Sprite is Enemy)
             {
-                m_ChangeEnemiesPosition = true;   
+                m_ChangeEnemiesDirection = true;   
             }
         }
 
