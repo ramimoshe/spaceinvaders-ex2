@@ -8,18 +8,15 @@ using A09_Ex02_Koby_021766944_Inbar_015267479.ObjectModel;
 
 
 namespace A09_Ex02_Koby_021766944_Inbar_015267479
-{
+{    
     // A delegate for an event that states that an enemy reached the screen bounds
-    public delegate void SpriteReachedScreenBoundsDelegate(Sprite i_Sprite);
-    
-    // A delegate for an event that states a enemy had been hit 
-    public delegate void EnemyHitDelegate(Enemy i_Enemy);
+    public delegate void SpriteReachedScreenBoundsDelegate(Sprite i_Sprite);    
 
     public abstract class Enemy : Sprite, IShootable, IScorable
     {
         public event SpriteReachedScreenBoundsDelegate ReachedScreenBounds;
 
-        public event EnemyHitDelegate EnemyWasHit;
+        //public event EnemyHitDelegate EnemyWasHit;
 
         private readonly TimeSpan r_MoveLength = TimeSpan.FromSeconds(0.5f);
         protected TimeSpan m_TimeLeftToNextMove;        
@@ -54,30 +51,23 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         {
             get;
         }
-
-        protected override void Dispose(bool disposing)
-        {            
-            base.Dispose(disposing);
-        }
      
-        public override bool CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
+        public override bool    CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
             return ((!(i_OtherComponent is EnemyBullet)) &&
                       (base.CheckForCollision(i_OtherComponent)));
         }                
 
-        public override void    Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
+        // TODO Remove the proc
+
+        /*public override void    Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
             base.Collided(i_OtherComponent);
-
-            this.Enabled = false;
-
-            onEnemyWasHit();
 
             // TODO Check if i can dispose the enemy
 
             //Dispose();
-        }
+        }*/
 
         #region IShootable Members        
 
@@ -103,38 +93,48 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         {
             bool moveEnemy = false;
 
-            m_TimeLeftToNextMove -= i_GameTime.ElapsedGameTime;
-
-            // Check if it passed enough time to move the enemy
-            if (m_TimeLeftToNextMove.TotalSeconds < 0)
+            // If the enemy was hit (changed to unvisible), we need to 
+            // dispose the enemy
+            if (Visible == false)
             {
-                MotionVector = new Vector2(m_MovingDirection * k_MotionXVal, 
-                                           MotionVector.Y);
-                m_TimeLeftToNextMove = r_MoveLength;
-
-                moveEnemy = true;
+                Dispose();
             }
             else
             {
-                MotionVector = new Vector2(0, MotionVector.Y);
-            }
 
-            base.Update(i_GameTime);
+                m_TimeLeftToNextMove -= i_GameTime.ElapsedGameTime;
 
-            // Because we move the enemy twice un a minute we'll check
-            // if we reached the screen bounds only if we moved the enemy
-            if (moveEnemy)
-            {
-                moveEnemy = false;
-
-                if (Bounds.Left <= 0 || Bounds.Right >= Game.GraphicsDevice.Viewport.Width)
+                // Check if it passed enough time to move the enemy
+                if (m_TimeLeftToNextMove.TotalSeconds < 0)
                 {
-                    OnReachedScreenBounds();
-                }        
+                    MotionVector = new Vector2(m_MovingDirection * k_MotionXVal,
+                                               MotionVector.Y);
+                    m_TimeLeftToNextMove = r_MoveLength;
+
+                    moveEnemy = true;
+                }
+                else
+                {
+                    MotionVector = new Vector2(0, MotionVector.Y);
+                }
+
+                base.Update(i_GameTime);
+
+                // Because we move the enemy twice un a minute we'll check
+                // if we reached the screen bounds only if we moved the enemy
+                if (moveEnemy)
+                {
+                    moveEnemy = false;
+
+                    if (Bounds.Left <= 0 || Bounds.Right >= Game.GraphicsDevice.Viewport.Width)
+                    {
+                        OnReachedScreenBounds();
+                    }
+                }
             }
         }
 
-        public void SwitchPosition()
+        public void     SwitchPosition()
         {
             this.m_MovingDirection *= -1;
         }
@@ -148,17 +148,6 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
             {
                 ReachedScreenBounds(this);
             }
-        }        
-
-        /// <summary>
-        /// Raise an EnemyWasHit event
-        /// </summary>
-        private void    onEnemyWasHit()
-        {
-            if (EnemyWasHit != null)
-            {
-                EnemyWasHit(this);
-            }
-        }
+        }                
     }
 }

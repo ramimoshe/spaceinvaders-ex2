@@ -8,8 +8,6 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
 {    
     public abstract class Bullet : Sprite
     {
-        public event SpriteReachedScreenBoundsDelegate ReachedScreenBounds;
-
         private const string k_AssetName = @"Sprites\Bullet";
 
         public Bullet(Game i_Game) : this(k_AssetName, i_Game,
@@ -47,19 +45,6 @@ namespace A09_Ex02_Koby_021766944_Inbar_015267479
         {
             return !(i_OtherComponent is Bullet) && 
                     base.CheckForCollision(i_OtherComponent);
-        } 
-
-        
-
-        /// <summary>
-        /// Raise the ReachedScreenBounds event
-        /// </summary>
-        protected void  OnReachedScreenBounds()
-        {
-            if (ReachedScreenBounds != null)
-            {
-                ReachedScreenBounds(this);
-            }
-        }
+        }                
     }
 }
