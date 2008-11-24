@@ -1,2 +1,0 @@
-C:\Documents and Settings\KK\My Documents\לימודים\XNA\פתרונות\תרגיל2-SVN\A09 Ex02 Koby 021766944 Inbar 015267479\A09 Ex02 Koby 021766944 Inbar 015267479\Content\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Documents and Settings\KK\My Documents\לימודים\XNA\פתרונות\תרגיל2\A09 Ex02 Koby 021766944 Inbar 015267479\A09 Ex02 Koby 021766944 Inbar 015267479\Content\obj\x86\Debug\ResolveAssemblyReference.cache
