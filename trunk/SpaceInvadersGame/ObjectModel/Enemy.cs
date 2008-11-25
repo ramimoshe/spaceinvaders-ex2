@@ -16,15 +16,14 @@ namespace SpaceInvadersGame.ObjectModel
     {
         public event SpriteReachedScreenBoundsDelegate ReachedScreenBounds;
 
-        //public event EnemyHitDelegate EnemyWasHit;
-
-        private TimeSpan m_MoveLength = TimeSpan.FromSeconds(0.5f);
+        private TimeSpan m_TimeBetweenMove = TimeSpan.FromSeconds(0.5f);
         protected TimeSpan m_TimeLeftToNextMove;        
-        protected int m_MovingDirection = 1;
 
         protected Vector2 m_CurrMotion = new Vector2(500, 0);
 
         private const int k_BulletVelocity = 200;
+
+        private float m_EnemyMaxPositionYVal;
 
         // TODO Remove the position from the CTOR
 
@@ -45,12 +44,38 @@ namespace SpaceInvadersGame.ObjectModel
             : base(i_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
         {            
             Position = i_Position;
-            m_TimeLeftToNextMove = m_MoveLength;            
+            m_TimeLeftToNextMove = m_TimeBetweenMove;            
         }
 
-        public abstract int Score
+        public abstract int     Score
         {
             get;
+        }
+
+        public float    EnemyMaxPositionY
+        {
+            get
+            {
+                return m_EnemyMaxPositionYVal;
+            }
+
+            set
+            {
+                m_EnemyMaxPositionYVal = value;
+            }
+        }
+
+        public TimeSpan     TimeBetweenMoves
+        {
+            get
+            {
+                return m_TimeBetweenMove;
+            }
+
+            set
+            {
+                m_TimeBetweenMove = value;
+            }
         }
      
         public override bool    CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
@@ -99,7 +124,7 @@ namespace SpaceInvadersGame.ObjectModel
                 if (m_TimeLeftToNextMove.TotalSeconds < 0)
                 {
                     MotionVector = m_CurrMotion;
-                    m_TimeLeftToNextMove = m_MoveLength;
+                    m_TimeLeftToNextMove = m_TimeBetweenMove;
 
                     moveEnemy = true;
                 }
@@ -114,13 +139,15 @@ namespace SpaceInvadersGame.ObjectModel
                 // if we reached the screen bounds only if we moved the enemy
                 if (moveEnemy)
                 {
-                    Rectangle nextMoveBounds = Bounds;
-                    nextMoveBounds.X += (int)(MotionVector.X * i_GameTime.ElapsedGameTime.TotalSeconds);
+                    // TODO Remove the remarks
+
+                    //Rectangle nextMoveBounds = Bounds;
+                    //nextMoveBounds.X += (int)(MotionVector.X * i_GameTime.ElapsedGameTime.TotalSeconds);
 
                     moveEnemy = false;
 
-                    if ((Bounds.Left <= 0 || Bounds.Right >= Game.GraphicsDevice.Viewport.Width) ||
-                        (nextMoveBounds.Left <= 0 || nextMoveBounds.Right >= Game.GraphicsDevice.Viewport.Width))
+                    if (Bounds.Left <= 0 || Bounds.Right >= Game.GraphicsDevice.Viewport.Width || 
+                        Bounds.Bottom >= m_EnemyMaxPositionYVal)
                     {
                         OnReachedScreenBounds();
                     }
@@ -130,8 +157,7 @@ namespace SpaceInvadersGame.ObjectModel
 
         public void     SwitchPosition()
         {
-            m_CurrMotion *= -1;
-            m_MoveLength = TimeSpan.FromSeconds(m_MoveLength.TotalSeconds * 0.9f);
+            m_CurrMotion *= -1;         
         }
 
         /// <summary>
