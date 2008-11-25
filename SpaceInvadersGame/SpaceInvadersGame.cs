@@ -31,7 +31,7 @@ namespace SpaceInvadersGame
         private SpriteBatch spriteBatch;
         private SpaceShip m_Player;
         private BackGround m_BackGround;
-        private EnemiesMatrix m_EnemiesMatrix;
+        private InvadersMatrix m_EnemiesMatrix;
         private MotherShip m_MotherShip;
 
         private bool m_GameOver = false;
@@ -50,9 +50,9 @@ namespace SpaceInvadersGame
             m_Player.PlayerIsDead += new GameOverDelegate(spaceShip_PlayerIsDead);
             
             m_BackGround = new BackGround(this);
-            m_EnemiesMatrix = new EnemiesMatrix(this);
-            m_EnemiesMatrix.EnemyReachedScreenEnd += new EnemyReachedScreenEndDelegate(enemiesMatrix_EnemyReachedScreenEnd);
-            m_EnemiesMatrix.AllEnemiesEliminated += new NoRemainingEnemiesDelegate(enemiesMatrix_AllEnemiesEliminated);
+            m_EnemiesMatrix = new InvadersMatrix(this);
+            m_EnemiesMatrix.InvaderReachedScreenEnd += new InvaderReachedScreenEndDelegate(enemiesMatrix_EnemyReachedScreenEnd);
+            m_EnemiesMatrix.AllInvaderssEliminated += new NoRemainingInvadersDelegate(enemiesMatrix_AllEnemiesEliminated);
 
             m_MotherShip = new MotherShip(this);
 
@@ -66,11 +66,10 @@ namespace SpaceInvadersGame
         /// and initialize them as well.
         /// </summary>
         protected override void     Initialize()
-        {
-            m_EnemiesMatrix.EnemyMaxPositionY = this.GraphicsDevice.Viewport.Height -
-                                                m_Player.Bounds.Top;
+        {            
+            base.Initialize();
 
-            base.Initialize();            
+            m_EnemiesMatrix.InvaderMaxPositionY = m_Player.Bounds.Top;
         }
 
         /// <summary>
