@@ -11,7 +11,7 @@ namespace SpaceInvadersGame.ObjectModel
     /// <summary>
     /// Represents the invaders mother ship
     /// </summary>
-    public class MotherShip : Sprite, IScorable
+    public class MotherShip : CollidableSprite, IScorable
     {
         private const string k_AssetName = @"Sprites\MotherShip_32x120";
         private const int k_Score = 500;

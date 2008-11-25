@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ObjectModel\CollidableSprite.cs" />
     <Compile Include="ObjectModel\DrawableLoadableComponent.cs" />
     <Compile Include="ObjectModel\GameService.cs" />
     <Compile Include="ObjectInterfaces\ICollidable.cs" />

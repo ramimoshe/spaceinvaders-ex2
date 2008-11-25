@@ -30,7 +30,7 @@ namespace SpaceInvadersGame
         private const int k_EnemyWidth = 32;
         private const int k_EnemyHeight = 32;
 
-        private const int k_EnemyMotionYVal = 350;
+        private const int k_EnemyMotionYVal = 16;
 
         private bool m_ChangeEnemiesDirection = false;
         private bool m_LastChangeEnemiesPosition = false;
@@ -148,15 +148,16 @@ namespace SpaceInvadersGame
             {
                 foreach (Enemy enemy in enemies)
                 {
-                    Vector2 motion = enemy.MotionVector;
+
 
                     if (i_ChangeXDirection)
                     {
                         enemy.SwitchPosition();
                     }
-
-                    motion.Y += i_YMotionFactor;
-                    enemy.MotionVector = motion;
+                                        
+                    Vector2 position = enemy.Position; 
+                    position.Y += i_YMotionFactor;
+                    enemy.Position = position;
                 }
             }
         }
@@ -188,6 +189,7 @@ namespace SpaceInvadersGame
 
                 changeEnemiesDirection(true, k_EnemyMotionYVal);
             }
+            /*
             else if (m_LastChangeEnemiesPosition)
             {
                 m_LastChangeEnemiesPosition = false;
@@ -196,6 +198,7 @@ namespace SpaceInvadersGame
                 // won't keep going down
                 changeEnemiesDirection(false, -k_EnemyMotionYVal);
             }
+            */
         }             
 
         /// <summary>

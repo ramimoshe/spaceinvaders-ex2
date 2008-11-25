@@ -15,10 +15,5 @@ namespace SpaceInvadersGame
             : base(k_AssetName, i_Game, Int32.MaxValue, Int32.MinValue)
         {
         }
-
-        public override bool    CheckForCollision(ICollidable i_OtherComponent)
-        {
-            return false;
-        }
     }
 }

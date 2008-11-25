@@ -16,7 +16,7 @@ namespace SpaceInvadersGame.ObjectModel
     /// The class represents the player's component in the game (the game's
     /// SpaceShip)
     /// </summary>
-    public class SpaceShip : Sprite, IShootable
+    public class SpaceShip : CollidableSprite, IShootable
     {
         private const string k_AssetName = @"Sprites\Ship01_32x32";
 
@@ -178,14 +178,14 @@ namespace SpaceInvadersGame.ObjectModel
             this.m_Position.X += m_InputManager.MousePositionDelta.X;
 
             m_Position.X = MathHelper.Clamp(m_Position.X, 0,
-                                m_GraphicsDevice.Viewport.Width -
+                                this.GraphicsDevice.Viewport.Width -
                                 this.Texture.Width);
         }
 
         /// <summary>
         /// Initialize the space ship by getting the game's input manager
         /// </summary>
-        public override void    Initialize()
+        public override void Initialize()
         {
             m_InputManager = Game.Services.GetService(typeof(InputManager)) as IInputManager;
             base.Initialize();

@@ -8,7 +8,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace XnaGamesInfrastructure.ObjectModel
 {
-    public abstract class Sprite : DrawableLoadableComponent, ICollidable
+    /// <summary>
+    /// This class implements a 2Dimensional sprite, which generalize the use of
+    /// 2D texture and implements the required methods for collision detection.
+    /// </summary>
+    public abstract class Sprite : DrawableLoadableComponent
     {
 
         public Sprite(string i_AssetName, Game i_Game)
@@ -113,19 +117,7 @@ namespace XnaGamesInfrastructure.ObjectModel
 
         #endregion
 
-        protected ICollisionManager m_CollisionManager;
 
-        public override void Initialize()
-        {
-            base.Initialize();
-
-            m_CollisionManager = (ICollisionManager)this.Game.Services.GetService(typeof(ICollisionManager));
-            
-            if (m_CollisionManager != null)
-            {
-                m_CollisionManager.AddObjectToMonitor(this);
-            }
-        }
 
         protected override void LoadContent()
         {
@@ -136,7 +128,7 @@ namespace XnaGamesInfrastructure.ObjectModel
                 m_SpriteBatch = Game.Services.GetService(typeof(SpriteBatch)) as SpriteBatch;
 
                 if (m_SpriteBatch == null)
-                    m_SpriteBatch = new SpriteBatch(m_GraphicsDevice);
+                    m_SpriteBatch = new SpriteBatch(this.GraphicsDevice);
             }
 
             base.LoadContent();
@@ -144,19 +136,9 @@ namespace XnaGamesInfrastructure.ObjectModel
 
         public override void Update(GameTime gameTime)
         {
-            m_Position += m_MotionVector * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (m_MotionVector != Vector2.Zero)
-            {
-                OnPositionChanged();
-            }
+            m_Position += MotionVector * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             base.Update(gameTime);
-        }
-
-        protected override void InitBounds()
-        {
-            
         }
 
         protected override void InitPosition()
@@ -181,33 +163,6 @@ namespace XnaGamesInfrastructure.ObjectModel
             base.Draw(gameTime);
         }
 
-        #region ICollidable Members
 
-        /// <summary>
-        /// Check if a given component colides with the current one
-        /// </summary>
-        /// <param name="i_OtherComponent">The component that we want to check collision against</param>
-        /// <returns>true if the given component colides the current one or false otherwise</returns>
-        public virtual bool     CheckForCollision(ICollidable i_OtherComponent)
-        {
-            return this.Bounds.Intersects(i_OtherComponent.Bounds);
-        }
-
-        public virtual void     Collided(ICollidable i_OtherComponent)
-        {
-            this.Visible = false ;
-            //MotionVector *= -1;
-        }
-
-        public event PositionChangedEventHandler PositionChanged;
-        protected virtual void OnPositionChanged()
-        {
-            if (PositionChanged != null)
-            {
-                PositionChanged(this);
-            }
-        }
-        
-        #endregion
     }
 }

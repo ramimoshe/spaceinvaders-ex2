@@ -9,7 +9,7 @@ namespace SpaceInvadersGame.ObjectModel
     /// <summary>
     /// A parent class for the bullet components in the game
     /// </summary>
-    public abstract class Bullet : Sprite
+    public abstract class Bullet : CollidableSprite
     {
         private const string k_AssetName = @"Sprites\Bullet";
         private Rectangle m_ViewPortBounds;
