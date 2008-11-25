@@ -35,9 +35,11 @@ namespace SpaceInvadersGame.ObjectModel
         {
             base.Initialize();
 
-            m_ViewPortBounds = new Rectangle(0, 0,
-                                             Game.GraphicsDevice.Viewport.Width,
-                                             Game.GraphicsDevice.Viewport.Height);
+            m_ViewPortBounds = new Rectangle(
+                0, 
+                0,
+                Game.GraphicsDevice.Viewport.Width,
+                Game.GraphicsDevice.Viewport.Height);
         }
 
         /// <summary>
@@ -51,7 +53,7 @@ namespace SpaceInvadersGame.ObjectModel
 
             // If the bullet is out of the screen, or was hit before 
             // (not visible), we need to dispose it
-            if (!(Bounds.Intersects(m_ViewPortBounds)) || Visible == false)            
+            if (!Bounds.Intersects(m_ViewPortBounds) || Visible == false)            
             {                
                 Dispose();             
             }

@@ -13,12 +13,13 @@ namespace SpaceInvadersGame.ObjectModel
     /// </summary>
     public class MotherShip : Enemy
     {
+        private readonly TimeSpan r_TimeBetweenMove = TimeSpan.FromSeconds(5.0f);
+        private readonly Vector2 r_MotionVector = new Vector2(-150, 0);
         private const string k_AssetName = @"Sprites\MotherShip_32x120";
         private const int k_Score = 500;
-        private readonly Vector2 r_MotionVector = new Vector2(-150, 0);
+        
         private Vector2 m_DefaultPosition;
 
-        private readonly TimeSpan r_TimeBetweenMove = TimeSpan.FromSeconds(5.0f);
         private TimeSpan m_RemainingTimeToMove;
 
         public MotherShip(Game i_Game) 
@@ -37,8 +38,9 @@ namespace SpaceInvadersGame.ObjectModel
 
         protected override void     InitPosition()
         {
-            Position = new Vector2(Game.GraphicsDevice.Viewport.Width, 
-                                   Texture.Height);
+            Position = new Vector2(
+                Game.GraphicsDevice.Viewport.Width, 
+                Texture.Height);
 
             m_DefaultPosition = Position;
         }        

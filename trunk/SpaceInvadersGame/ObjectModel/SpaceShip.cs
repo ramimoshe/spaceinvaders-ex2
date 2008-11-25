@@ -19,7 +19,7 @@ namespace SpaceInvadersGame.ObjectModel
     public class SpaceShip : CollidableSprite, IShootable
     {
         private const string k_AssetName = @"Sprites\Ship01_32x32";
-
+        private readonly TimeSpan r_ShootingCoolingOff = TimeSpan.FromSeconds(0.5f);
         private const int k_AllowedBulletsNum = 3;
         private const int k_Velocity = 200;
         private const int k_BulletVelocity = 200;
@@ -30,7 +30,6 @@ namespace SpaceInvadersGame.ObjectModel
 
         private int m_RemainingLivesLeft;
 
-        private readonly TimeSpan r_ShootingCoolingOff = TimeSpan.FromSeconds(0.5f);
         private TimeSpan m_PreviousShootingTime;
 
         private List<Bullet> m_Bullets;
@@ -43,15 +42,16 @@ namespace SpaceInvadersGame.ObjectModel
         #region CTOR's
 
         public SpaceShip(Game i_Game)
-            : this(k_AssetName, i_Game,
-                                             Int32.MaxValue, Int32.MaxValue)
+            : this(k_AssetName, i_Game, Int32.MaxValue, Int32.MaxValue)
         {
         }
 
-        public SpaceShip(string k_AssetName, Game i_Game, int i_UpdateOrder,
-                         int i_DrawOrder)
-            : base(k_AssetName, i_Game,
-                                                 i_UpdateOrder, i_DrawOrder)
+        public SpaceShip(
+            string k_AssetName, 
+            Game i_Game, 
+            int i_UpdateOrder,
+            int i_DrawOrder)
+            : base(k_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
         {
             m_Bullets = new List<Bullet>();
             m_PreviousShootingTime = r_ShootingCoolingOff;
@@ -114,8 +114,9 @@ namespace SpaceInvadersGame.ObjectModel
                 SpaceShipBullet bullet = new SpaceShipBullet(this.Game);
                 bullet.Initialize();
                 bullet.TintColor = Color.Red;
-                bullet.Position = new Vector2(m_Position.X + Bounds.Width / 2,
-                m_Position.Y - bullet.Bounds.Height / 2);
+                bullet.Position = new Vector2(
+                                    m_Position.X + (Bounds.Width / 2),
+                                    m_Position.Y - (bullet.Bounds.Height / 2));
                 bullet.MotionVector = new Vector2(0, -k_BulletVelocity);
                 bullet.BulletCollision += new BulletCollisionDelegate(spaceShipBullet_BulletCollision);
                 bullet.Disposed += new EventHandler(spaceShipBullet_Disposed);
@@ -162,7 +163,6 @@ namespace SpaceInvadersGame.ObjectModel
 
             MotionVector = newMotion;
 
-
             // Shoot only if the player press the space key and it passed enough time from the previous shoot
             if ((m_InputManager.KeyPressed(Keys.Space) ||
                  m_InputManager.ButtonPressed(eInputButtons.Left)) &&
@@ -177,9 +177,10 @@ namespace SpaceInvadersGame.ObjectModel
 
             this.m_Position.X += m_InputManager.MousePositionDelta.X;
 
-            m_Position.X = MathHelper.Clamp(m_Position.X, 0,
-                                this.GraphicsDevice.Viewport.Width -
-                                this.Texture.Width);
+            m_Position.X = MathHelper.Clamp(
+                                m_Position.X, 
+                                0,
+                                this.GraphicsDevice.Viewport.Width - this.Texture.Width);
         }
 
         /// <summary>
@@ -212,8 +213,8 @@ namespace SpaceInvadersGame.ObjectModel
         /// <returns>True if the components collides or false otherwise</returns>
         public override bool    CheckForCollision(ICollidable i_OtherComponent)
         {
-            return ((!(i_OtherComponent is SpaceShipBullet)) &&
-                    (base.CheckForCollision(i_OtherComponent)));
+            return !(i_OtherComponent is SpaceShipBullet) &&
+                    base.CheckForCollision(i_OtherComponent);
         }
 
         /// <summary>
@@ -257,14 +258,14 @@ namespace SpaceInvadersGame.ObjectModel
         /// </summary>
         /// <param name="i_OtherComponent">The component the bullet colided with</param>
         /// <param name="i_Bullet">The space ship bullet that colided with the coponent</param>
-        private void    spaceShipBullet_BulletCollision(ICollidable i_OtherComponent, 
-                                                        SpaceShipBullet i_Bullet)
+        private void    spaceShipBullet_BulletCollision(
+                            ICollidable i_OtherComponent, 
+                            SpaceShipBullet i_Bullet)
         {
             if (i_OtherComponent is Enemy)
             {
                 Score += (i_OtherComponent as Enemy).Score;                
             } 
         }
-
     }
 }

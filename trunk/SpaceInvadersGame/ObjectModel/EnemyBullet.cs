@@ -25,8 +25,8 @@ namespace SpaceInvadersGame.ObjectModel
         /// <returns>True if the components collides or false otherwise</returns>
         public override bool    CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
-            return !(i_OtherComponent is Invader) &&
-                    (base.CheckForCollision(i_OtherComponent));
+            return !(i_OtherComponent is Invader) && 
+                base.CheckForCollision(i_OtherComponent);
         }       
     }
 }

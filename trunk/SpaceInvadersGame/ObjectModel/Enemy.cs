@@ -20,8 +20,11 @@ namespace SpaceInvadersGame.ObjectModel
         {
         }
 
-        public Enemy(string i_AssetName, Game i_Game, int i_UpdateOrder,
-                     int i_DrawOrder)
+        public Enemy(
+            string i_AssetName, 
+            Game i_Game, 
+            int i_UpdateOrder,
+            int i_DrawOrder)
             : base(i_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
         {                        
         }
