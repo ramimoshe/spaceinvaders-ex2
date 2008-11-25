@@ -51,6 +51,7 @@ namespace SpaceInvadersGame
             
             m_BackGround = new BackGround(this);
             m_EnemiesMatrix = new EnemiesMatrix(this);
+            m_EnemiesMatrix.EnemyReachedScreenEnd += new EnemyReachedScreenEndDelegate(enemiesMatrix_EnemyReachedScreenEnd);
             m_EnemiesMatrix.AllEnemiesEliminated += new NoRemainingEnemiesDelegate(enemiesMatrix_AllEnemiesEliminated);
 
             m_MotherShip = new MotherShip(this);
@@ -66,7 +67,10 @@ namespace SpaceInvadersGame
         /// </summary>
         protected override void     Initialize()
         {
-            base.Initialize();
+            m_EnemiesMatrix.EnemyMaxPositionY = this.GraphicsDevice.Viewport.Height -
+                                                m_Player.Bounds.Top;
+
+            base.Initialize();            
         }
 
         /// <summary>
@@ -129,7 +133,16 @@ namespace SpaceInvadersGame
         /// Catch an AllEnemiesEliminated event raised by the EnemiesMatrix
         /// and mark the game for exit in the next call to update
         /// </summary>
-        public void enemiesMatrix_AllEnemiesEliminated()
+        public void     enemiesMatrix_AllEnemiesEliminated()
+        {
+            m_GameOver = true;
+        }
+
+        /// <summary>
+        /// Catch an EnemyReachedScreenEnd event and mark the game for exit 
+        /// in the next call to update
+        /// </summary>
+        public void     enemiesMatrix_EnemyReachedScreenEnd()
         {
             m_GameOver = true;
         }

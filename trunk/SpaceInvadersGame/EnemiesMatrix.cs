@@ -11,6 +11,8 @@ namespace SpaceInvadersGame
     // A delegate for notifying when all enemies are dead
     public delegate void NoRemainingEnemiesDelegate();
 
+    public delegate void EnemyReachedScreenEndDelegate();
+
     /// <summary>
     /// Holds all the enemies in the game and control their moves
     /// </summary>
@@ -21,7 +23,13 @@ namespace SpaceInvadersGame
 
         public event NoRemainingEnemiesDelegate AllEnemiesEliminated;
 
+        public event EnemyReachedScreenEndDelegate EnemyReachedScreenEnd;
+
+        private const float k_IncreaseEnemiesSpeedFactor = 0.7f;
+
         private readonly TimeSpan r_DefaultTimeBetweenShots = TimeSpan.FromSeconds(1.5f);
+
+        private bool m_ChangeEnemiesDirection = false;
 
         // A time counter that contains a random seconds for the time space between
         // the enemies shoots
@@ -31,9 +39,6 @@ namespace SpaceInvadersGame
         private const int k_EnemyHeight = 32;
 
         private const int k_EnemyMotionYVal = 16;
-
-        private bool m_ChangeEnemiesDirection = false;
-        private bool m_LastChangeEnemiesPosition = false;
 
         private int m_RemainigEnemiesNum;
 
@@ -70,12 +75,22 @@ namespace SpaceInvadersGame
 
         private List<List<Enemy>> m_Enemies;
 
+        private float m_MaxEnemiesYPositionYVal;
+
         public EnemiesMatrix(Game i_Game) : base(i_Game)
         {
             m_Enemies = new List<List<Enemy>>();
             m_PrevShotTime = r_DefaultTimeBetweenShots;
 
             m_RemainigEnemiesNum = k_EnemiesInLineNum * k_NumOfEnemiesLines;            
+        }
+
+        public float EnemyMaxPositionY
+        {
+            set
+            {
+                m_MaxEnemiesYPositionYVal = value;
+            }
         }
 
         /// <summary>
@@ -117,8 +132,9 @@ namespace SpaceInvadersGame
                                                          m_EnemiesMatrix[i, j], 
                                                          Game, 
                                                          currPosition,
-                                                         UpdateOrder - 1);                    
+                                                         UpdateOrder - 1);
 
+                    currEnemy.EnemyMaxPositionY = m_MaxEnemiesYPositionYVal;
                     currEnemy.ReachedScreenBounds += new SpriteReachedScreenBoundsDelegate(enemy_ReachedScreenBounds);
                     currEnemy.Disposed += enemy_Disposed;
 
@@ -136,11 +152,10 @@ namespace SpaceInvadersGame
         /// <summary>
         /// Change the enemies direction
         /// </summary>
-        /// <param name="i_ChangeXDirection">Mark if we want to change the enemies direction 
-        /// on the X axis</param>
+        /// 
         /// <param name="i_YMotionFactor">The factor we want to move the enemies in
         /// the Y axis</param>
-        private void    changeEnemiesDirection(bool i_ChangeXDirection, float i_YMotionFactor)
+        private void    changeEnemiesDirection(float i_YMotionFactor)
         {
             // Move on the entire enemies matrix and change the enemy position
             // by the given factor
@@ -148,16 +163,19 @@ namespace SpaceInvadersGame
             {
                 foreach (Enemy enemy in enemies)
                 {
+                    // Increase the number of times the enemy moves in a second
+                    TimeSpan moveTime = TimeSpan.FromSeconds(enemy.TimeBetweenMoves.TotalSeconds * 
+                                                             k_IncreaseEnemiesSpeedFactor);
+                    enemy.TimeBetweenMoves = moveTime;
 
-
-                    if (i_ChangeXDirection)
-                    {
-                        enemy.SwitchPosition();
-                    }
-                                        
+                    // Change the Y position so that the enemy will go down                                                            
                     Vector2 position = enemy.Position; 
                     position.Y += i_YMotionFactor;
                     enemy.Position = position;
+
+                    // Change the enemy direction
+                    //enemy.MotionVector = new Vector2(enemy.MotionVector.X * -1, 0);
+                    enemy.SwitchPosition();
                 }
             }
         }
@@ -183,22 +201,10 @@ namespace SpaceInvadersGame
             // In case we changed the enemies position earlier we need
             // to change their Y position so that they won't keep going down
             if (m_ChangeEnemiesDirection)
-            {
+            {                
+                changeEnemiesDirection(k_EnemyMotionYVal);
                 m_ChangeEnemiesDirection = false;
-                m_LastChangeEnemiesPosition = true;
-
-                changeEnemiesDirection(true, k_EnemyMotionYVal);
-            }
-            /*
-            else if (m_LastChangeEnemiesPosition)
-            {
-                m_LastChangeEnemiesPosition = false;
-
-                // Return the enemies motion vector to be as before so that they
-                // won't keep going down
-                changeEnemiesDirection(false, -k_EnemyMotionYVal);
-            }
-            */
+            }            
         }             
 
         /// <summary>
@@ -223,7 +229,26 @@ namespace SpaceInvadersGame
         {
             if (i_Sprite is Enemy)
             {
-                m_ChangeEnemiesDirection = true;   
+                if (!(i_Sprite.Bounds.Bottom >= m_MaxEnemiesYPositionYVal))
+                {
+                    m_ChangeEnemiesDirection = true;
+                }
+                else
+                { 
+                    onEnemyReachedScreenEnd();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Raise an EnemyReachedScreenEnd event when a certain enemy in the 
+        /// enemies matrix reaches the maximum allowed Y value
+        /// </summary>
+        private void onEnemyReachedScreenEnd()
+        {
+            if (EnemyReachedScreenEnd != null)
+            {
+                EnemyReachedScreenEnd();
             }
         }
 
