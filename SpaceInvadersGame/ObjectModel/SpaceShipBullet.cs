@@ -10,7 +10,7 @@ namespace SpaceInvadersGame.ObjectModel
     // Delegate for collision between a bullet and an enemy event
     public delegate void BulletCollisionDelegate(ICollidable i_OtherComponent, SpaceShipBullet i_Bullet);
 
-    class SpaceShipBullet : Bullet
+    public class SpaceShipBullet : Bullet
     {
         public SpaceShipBullet(Game i_Game) : base(i_Game)
         {
@@ -21,8 +21,8 @@ namespace SpaceInvadersGame.ObjectModel
 
         public override bool    CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
-            return ((!(i_OtherComponent is SpaceShip)) &&
-                   (base.CheckForCollision(i_OtherComponent)));            
+            return !(i_OtherComponent is SpaceShip) &&
+                   base.CheckForCollision(i_OtherComponent);            
         }
 
         public override void    Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)

@@ -25,7 +25,7 @@ namespace SpaceInvadersGame
         // Add an asembly reference to the MessageBox so that we can use it in
         // our game
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern uint MessageBox(IntPtr hWnd, String text, String caption, uint type);
+        public static extern uint MessageBox(IntPtr hWnd, string text, string caption, uint type);
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -43,8 +43,7 @@ namespace SpaceInvadersGame
             this.IsMouseVisible = true;
 
             InputManager inputManager = new InputManager(this, 1);
-            CollisionManager collisionManager = new CollisionManager(this,10000);
-
+            CollisionManager collisionManager = new CollisionManager(this, 10000);
 
             m_Player = new SpaceShip(this);
             m_Player.PlayerIsDead += new GameOverDelegate(spaceShip_PlayerIsDead);
@@ -99,8 +98,11 @@ namespace SpaceInvadersGame
         {
             if (m_GameOver)
             {
-                MessageBox(new IntPtr(0), "Game Over. Player Score Is: " + m_Player.Score, 
-                                "Game Over", 0);
+                MessageBox(
+                    new IntPtr(0), 
+                    "Game Over. Player Score Is: " + m_Player.Score, 
+                    "Game Over", 
+                    0);
 
                 this.Exit();
             }
