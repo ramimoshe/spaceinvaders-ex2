@@ -86,6 +86,7 @@
     <ProjectReference Include="..\XnaGamesInfrastructure\XnaGamesInfrastructure.csproj">
       <Project>{B82A3755-59F2-4AAC-954C-FDDE78C611EB}</Project>
       <Name>XnaGamesInfrastructure</Name>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

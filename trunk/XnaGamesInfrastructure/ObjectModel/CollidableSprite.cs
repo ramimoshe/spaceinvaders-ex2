@@ -1,19 +1,51 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using XnaGamesInfrastructure.ObjectInterfaces;
+using XnaGamesInfrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
 
 namespace XnaGamesInfrastructure.ObjectModel
 {
-    public abstract class CollidableSprite : Sprite, ICollidable
+    public class CollidableSprite : Sprite, ICollidable
     {
-
-        public  CollidableSprite(string i_AssetName, Game i_Game,
-                                 int i_UpdateOrder,
-                                 int i_DrawOrder)
-            : base (i_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
+        public  CollidableSprite(string i_AssetName, Game i_Game)
+            : base(i_AssetName, i_Game)
         {
         }
+
+        public  CollidableSprite(
+                string i_AssetName,
+                Game i_Game,
+                int i_UpdateOrder,
+                int i_DrawOrder)
+                : base(i_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
+        {
+        }
+
+        protected ICollisionManager m_CollisionManager;
+
+        public override void Initialize()
+        {
+            base.Initialize();
+
+            m_CollisionManager = (ICollisionManager)this.Game.Services.GetService(typeof(ICollisionManager));
+
+            if (m_CollisionManager != null)
+            {
+                m_CollisionManager.AddObjectToMonitor(this);
+            }
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            if (m_MotionVector != Vector2.Zero)
+            {
+                OnPositionChanged();
+            }
+        }
+
 
         #region ICollidable Members
 
@@ -22,24 +54,26 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// </summary>
         /// <param name="i_OtherComponent">The component that we want to check collision against</param>
         /// <returns>true if the given component colides the current one or false otherwise</returns>
-        public bool     CheckForCollision(Sprite i_OtherComponent)
-        {
-            return IsColiding(i_OtherComponent);
-        }
-
-        public abstract void    Colided(Sprite i_OtherComponent);
-        
-        #endregion
-
-        /// <summary>
-        /// Performs a rectangle collision detection between the component 
-        /// bounds and the given component bounds
-        /// </summary>
-        /// <param name="i_OtherComponent">The component that we want to check collision against</param>
-        /// <returns>true if the given component colides the current one or false otherwise</returns>
-        protected bool  IsColiding(Sprite i_OtherComponent)
+        public virtual bool CheckForCollision(ICollidable i_OtherComponent)
         {
             return this.Bounds.Intersects(i_OtherComponent.Bounds);
         }
+
+        public virtual void Collided(ICollidable i_OtherComponent)
+        {
+            this.Visible = false;
+            //MotionVector *= -1;
+        }
+
+        public event PositionChangedEventHandler PositionChanged;
+        protected virtual void OnPositionChanged()
+        {
+            if (PositionChanged != null)
+            {
+                PositionChanged(this);
+            }
+        }
+
+        #endregion
     }
 }

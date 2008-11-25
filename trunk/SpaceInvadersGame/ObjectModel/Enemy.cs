@@ -12,17 +12,17 @@ namespace SpaceInvadersGame.ObjectModel
     // A delegate for an event that states that an enemy reached the screen bounds
     public delegate void SpriteReachedScreenBoundsDelegate(Sprite i_Sprite);    
 
-    public abstract class Enemy : Sprite, IShootable, IScorable
+    public abstract class Enemy : CollidableSprite, IShootable, IScorable
     {
         public event SpriteReachedScreenBoundsDelegate ReachedScreenBounds;
 
         //public event EnemyHitDelegate EnemyWasHit;
 
-        private readonly TimeSpan r_MoveLength = TimeSpan.FromSeconds(0.5f);
+        private TimeSpan m_MoveLength = TimeSpan.FromSeconds(0.5f);
         protected TimeSpan m_TimeLeftToNextMove;        
         protected int m_MovingDirection = 1;
 
-        protected const int k_MotionXVal = 500;
+        protected Vector2 m_CurrMotion = new Vector2(500, 0);
 
         private const int k_BulletVelocity = 200;
 
@@ -45,7 +45,7 @@ namespace SpaceInvadersGame.ObjectModel
             : base(i_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
         {            
             Position = i_Position;
-            m_TimeLeftToNextMove = r_MoveLength;            
+            m_TimeLeftToNextMove = m_MoveLength;            
         }
 
         public abstract int Score
@@ -98,9 +98,8 @@ namespace SpaceInvadersGame.ObjectModel
                 // Check if it passed enough time to move the enemy
                 if (m_TimeLeftToNextMove.TotalSeconds < 0)
                 {
-                    MotionVector = new Vector2(m_MovingDirection * k_MotionXVal,
-                                               MotionVector.Y);
-                    m_TimeLeftToNextMove = r_MoveLength;
+                    MotionVector = m_CurrMotion;
+                    m_TimeLeftToNextMove = m_MoveLength;
 
                     moveEnemy = true;
                 }
@@ -111,13 +110,17 @@ namespace SpaceInvadersGame.ObjectModel
 
                 base.Update(i_GameTime);
 
-                // Because we move the enemy twice un a minute we'll check
+                // Because we move the enemy twice in a second we'll check
                 // if we reached the screen bounds only if we moved the enemy
                 if (moveEnemy)
                 {
+                    Rectangle nextMoveBounds = Bounds;
+                    nextMoveBounds.X += (int)(MotionVector.X * i_GameTime.ElapsedGameTime.TotalSeconds);
+
                     moveEnemy = false;
 
-                    if (Bounds.Left <= 0 || Bounds.Right >= Game.GraphicsDevice.Viewport.Width)
+                    if ((Bounds.Left <= 0 || Bounds.Right >= Game.GraphicsDevice.Viewport.Width) ||
+                        (nextMoveBounds.Left <= 0 || nextMoveBounds.Right >= Game.GraphicsDevice.Viewport.Width))
                     {
                         OnReachedScreenBounds();
                     }
@@ -127,7 +130,8 @@ namespace SpaceInvadersGame.ObjectModel
 
         public void     SwitchPosition()
         {
-            this.m_MovingDirection *= -1;
+            m_CurrMotion *= -1;
+            m_MoveLength = TimeSpan.FromSeconds(m_MoveLength.TotalSeconds * 0.9f);
         }
 
         /// <summary>
