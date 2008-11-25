@@ -229,7 +229,7 @@ namespace SpaceInvadersGame.ObjectModel
             Score -= k_LostLifeScoreDecrease;
             m_RemainingLivesLeft--;
 
-            if ((m_RemainingLivesLeft <= 0) || (i_OtherComponent is Enemy))
+            if ((m_RemainingLivesLeft <= 0) || (i_OtherComponent is Invader))
             {
                 onPlayerIsDead();
             }
@@ -260,10 +260,9 @@ namespace SpaceInvadersGame.ObjectModel
         private void    spaceShipBullet_BulletCollision(ICollidable i_OtherComponent, 
                                                         SpaceShipBullet i_Bullet)
         {
-            if (i_OtherComponent is IScorable)
+            if (i_OtherComponent is Enemy)
             {
-                IScorable enemy = i_OtherComponent as IScorable;
-                Score += enemy.Score;
+                Score += (i_OtherComponent as Enemy).Score;                
             } 
         }
 

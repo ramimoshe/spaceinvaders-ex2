@@ -14,14 +14,17 @@ namespace SpaceInvadersGame.ObjectModel
         private const string k_AssetName = @"Sprites\Bullet";
         private Rectangle m_ViewPortBounds;
 
-        public Bullet(Game i_Game) : this(k_AssetName, i_Game,
-                                          Int32.MaxValue, Int32.MaxValue)
+        public Bullet(Game i_Game) 
+            : this(k_AssetName, i_Game, Int32.MaxValue, Int32.MaxValue)
         {
         }
 
-        public Bullet(string i_AssetName, Game i_Game, int i_UpdateOrder,
-                      int i_DrawOrder) : base(i_AssetName, i_Game, 
-                                              i_UpdateOrder, i_DrawOrder)
+        public Bullet(
+            string i_AssetName, 
+            Game i_Game, 
+            int i_UpdateOrder, 
+            int i_DrawOrder) 
+            : base(i_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
         {
         }
 
@@ -48,7 +51,7 @@ namespace SpaceInvadersGame.ObjectModel
 
             // If the bullet is out of the screen, or was hit before 
             // (not visible), we need to dispose it
-            if ((!(Bounds.Intersects(m_ViewPortBounds))) || (Visible == false))            
+            if (!(Bounds.Intersects(m_ViewPortBounds)) || Visible == false)            
             {                
                 Dispose();             
             }

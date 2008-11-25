@@ -11,7 +11,7 @@ namespace SpaceInvadersGame.ObjectModel
     /// <summary>
     /// Represents the invaders mother ship
     /// </summary>
-    public class MotherShip : CollidableSprite, IScorable
+    public class MotherShip : Enemy
     {
         private const string k_AssetName = @"Sprites\MotherShip_32x120";
         private const int k_Score = 500;
@@ -21,15 +21,13 @@ namespace SpaceInvadersGame.ObjectModel
         private readonly TimeSpan r_TimeBetweenMove = TimeSpan.FromSeconds(5.0f);
         private TimeSpan m_RemainingTimeToMove;
 
-        // TODO Remove position from the enemy ctor        
-
         public MotherShip(Game i_Game) 
             : base(k_AssetName, i_Game)
         {
             TintColor = Color.Red;
         }
 
-        public int Score
+        public override int     Score
         {
             get 
             { 

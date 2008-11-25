@@ -9,20 +9,20 @@ namespace SpaceInvadersGame.ObjectModel
     /// <summary>
     /// A blue enemy in the enemies matrix
     /// </summary>
-    public class BlueEnemy : Enemy
+    public class BlueInvader : Invader
     {
         private const string k_AssetName = @"Sprites\Enemy0201_32x32";
         private const int k_Score = 200;
 
         #region CTOR's
 
-        public BlueEnemy(Game i_Game, Vector2 i_Position) 
-            : this(i_Game, i_Position, 0)
+        public BlueInvader(Game i_Game) 
+            : this(i_Game, 0)
         {
         }
 
-        public BlueEnemy(Game i_Game, Vector2 i_Position, int i_UpdateOrder)
-            : base(k_AssetName, i_Game, i_Position, i_UpdateOrder)
+        public BlueInvader(Game i_Game, int i_UpdateOrder)
+            : base(k_AssetName, i_Game, i_UpdateOrder)
         {
             TintColor = Color.Blue;
         }
