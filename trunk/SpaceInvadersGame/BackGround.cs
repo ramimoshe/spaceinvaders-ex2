@@ -7,6 +7,9 @@ using XnaGamesInfrastructure.ObjectInterfaces;
 
 namespace SpaceInvadersGame
 {
+    /// <summary>
+    /// The game background sprite
+    /// </summary>
     public class BackGround : Sprite
     {
         private const string k_AssetName = @"Sprites\BG_Space01_1024x768";

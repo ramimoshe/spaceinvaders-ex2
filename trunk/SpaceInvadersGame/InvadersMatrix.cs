@@ -11,40 +11,45 @@ namespace SpaceInvadersGame
     // A delegate for notifying when all enemies are dead
     public delegate void NoRemainingInvadersDelegate();
 
+    // A delegate for notifying when an invader reached the maximum allowed
+    // Y position
     public delegate void InvaderReachedScreenEndDelegate();
 
     /// <summary>
-    /// Holds all the enemies in the game and control their moves
+    /// Holds all the invaders in the game and control their moves
     /// </summary>
     public class InvadersMatrix : GameComponent
     {
         private const int k_EnemiesInLineNum = 9;
         private const int k_NumOfEnemiesLines = 5;
 
-        public event NoRemainingInvadersDelegate AllInvaderssEliminated;
-
-        public event InvaderReachedScreenEndDelegate InvaderReachedScreenEnd;
-
-        private const float k_IncreaseEnemiesSpeedFactor = 0.7f;
-
-        private readonly TimeSpan r_DefaultTimeBetweenShots = TimeSpan.FromSeconds(1.5f);
-
-        private bool m_ChangeInvadersDirection = false;
-
-        // A time counter that contains a random seconds for the time space between
-        // the enemies shoots
-        private TimeSpan m_PrevShotTime;       
-
         private const int k_EnemyWidth = 32;
         private const int k_EnemyHeight = 32;
 
         private const int k_EnemyMotionYVal = 16;
 
+        // The percent will decrease in the time it takes the enemies 
+        // to move. used to increase the enemies speed
+        private const float k_IncreaseEnemiesSpeedFactor = 0.7f;
+
+        // The time we want to wait between two enemies shoots
+        private readonly TimeSpan r_DefaultTimeBetweenShots = TimeSpan.FromSeconds(1.5f);
+
+        public event NoRemainingInvadersDelegate AllInvaderssEliminated;
+
+        public event InvaderReachedScreenEndDelegate InvaderReachedScreenEnd;        
+
+        private bool m_ChangeInvadersDirection = false;
+
+        // A time counter that contains a random seconds for the time space between
+        // the enemies shoots
+        private TimeSpan m_PrevShotTime;               
+
         private int m_RemainigEnemiesNum;
 
         // A two dimentional array that represents the enemies matrix.
         // each cell in the matrix contains the type of the enemy that will
-        // be dinamically created later on
+        // be dinamically created (using reflection) later on
         private Type[,] m_EnemiesMatrix = new Type[k_NumOfEnemiesLines, k_EnemiesInLineNum] 
                                             { 
                                               { typeof(PinkInvader), typeof(PinkInvader), 
@@ -71,8 +76,11 @@ namespace SpaceInvadersGame
                                                 typeof(YellowInvader), typeof(YellowInvader), 
                                                 typeof(YellowInvader), typeof(YellowInvader), 
                                                 typeof(YellowInvader), typeof(YellowInvader), 
-                                                typeof(YellowInvader)}};
+                                                typeof(YellowInvader)
+                                              }
+                                            };
 
+        // The invaders matrix
         private List<List<Invader>> m_Enemies;
 
         private float m_MaxInvadersYPositionYVal;
@@ -85,7 +93,11 @@ namespace SpaceInvadersGame
             m_RemainigEnemiesNum = k_EnemiesInLineNum * k_NumOfEnemiesLines;            
         }
 
-        public float InvaderMaxPositionY
+        /// <summary>
+        /// A property for setting the maximum value an invader is allowed
+        /// to reach in the Y axis    
+        /// </summary>
+        public float    InvaderMaxPositionY
         {
             set
             {
@@ -96,7 +108,8 @@ namespace SpaceInvadersGame
         }
 
         /// <summary>
-        /// Initialize the component
+        /// Initialize the component by creating the enemies matrix and initialize
+        /// the invaders maximum Y value to be the screen height
         /// </summary>
         public override void    Initialize()
         {
@@ -123,15 +136,17 @@ namespace SpaceInvadersGame
             Vector2 currPosition = new Vector2(startingPositionX, startingPositionY);
             Invader currEnemy;
 
-            // Creates all the enemies according to the enemies matrix
+            // Creates all the enemies according to the enemies two dimentional 
+            // array
             for (int i = k_NumOfEnemiesLines - 1; i >= 0; i--)
             {                
                 List<Invader> currList = new List<Invader>();
 
                 for (int j = k_EnemiesInLineNum - 1; j >= 0; j--)
                 {     
-                    // Dynamically creates the enemy according to the type in the
-                    // enemies member
+                    // Dynamically creates the enemy according to the type in 
+                    // the two dimentional array that represents the enemies
+                    // matrix
                     currEnemy = (Invader)Activator.CreateInstance(
                                                          m_EnemiesMatrix[i, j], 
                                                          Game,                                                          
@@ -140,7 +155,7 @@ namespace SpaceInvadersGame
                     currEnemy.Position = currPosition;
                     currEnemy.InvaderMaxPositionY = m_MaxInvadersYPositionYVal;
                     currEnemy.ReachedScreenBounds += new SpriteReachedScreenBoundsDelegate(enemy_ReachedScreenBounds);
-                    currEnemy.Disposed += enemy_Disposed;
+                    currEnemy.Disposed += invader_Disposed;
 
                     currList.Add(currEnemy);
                     currPosition.X += k_EnemyWidth * 2;
@@ -154,12 +169,12 @@ namespace SpaceInvadersGame
         }
 
         /// <summary>
-        /// Change the enemies direction
+        /// Change the invaders matrix by changing their Y position, increase
+        /// their moving speed, and change their moving direction on the X axis
         /// </summary>
-        /// 
-        /// <param name="i_YMotionFactor">The factor we want to move the enemies in
-        /// the Y axis</param>
-        private void    changeInvadersDirection(float i_YMotionFactor)
+        /// <param name="i_YMotionFactor">The factor that we want to move the 
+        /// enemies in the Y axis by</param>
+        private void    changeInvadersMatrixPositions(float i_YMotionFactor)
         {
             // Move on the entire enemies matrix and change the enemy position
             // by the given factor
@@ -168,6 +183,7 @@ namespace SpaceInvadersGame
                 foreach (Invader enemy in enemies)
                 {
                     // Increase the number of times the enemy moves in a second
+                    // (by that we increase the invaders speed)
                     TimeSpan moveTime = TimeSpan.FromSeconds(enemy.TimeBetweenMoves.TotalSeconds * 
                                                              k_IncreaseEnemiesSpeedFactor);
                     enemy.TimeBetweenMoves = moveTime;
@@ -184,11 +200,10 @@ namespace SpaceInvadersGame
         }
 
         /// <summary>
-        /// Updates the enemies state in the game by randomly releasing a shoot
-        /// from on of the enemies every a couple of seconds
+        /// Updates the invaders state in the game by randomly releasing a shoot
+        /// from one of the invaders every a couple of seconds
         /// </summary>
-        /// <param name="i_GameTime">The time passed from the previous call
-        /// to the method</param>
+        /// <param name="i_GameTime">Provides a snapshot of timing values.</param>
         public override void    Update(GameTime i_GameTime)
         {
             base.Update(i_GameTime);
@@ -201,11 +216,12 @@ namespace SpaceInvadersGame
                 m_PrevShotTime = r_DefaultTimeBetweenShots;
             }
 
-            // In case we changed the enemies position earlier we need
-            // to change their Y position so that they won't keep going down
+            // In case an enemy reached the end of the screen width, we
+            // need to change the invaders Y position, change their
+            // X motion, and increase their moving speed
             if (m_ChangeInvadersDirection)
             {                
-                changeInvadersDirection(k_EnemyMotionYVal);
+                changeInvadersMatrixPositions(k_EnemyMotionYVal);
                 m_ChangeInvadersDirection = false;
             }            
         }             
@@ -274,16 +290,16 @@ namespace SpaceInvadersGame
         }
        
         /// <summary>
-        /// Catch an enemy disposed event, remove it from the matrix and in
+        /// Catch an invader disposed event, remove it from the matrix and in
         /// case there are no enemies left raise an event
         /// </summary>
         /// <param name="i_Sender">The disposed enemy</param>
         /// <param name="i_EventArgs">The event arguments</param>
-        private void    enemy_Disposed(object i_Sender, EventArgs i_EventArgs)
+        private void    invader_Disposed(object i_Sender, EventArgs i_EventArgs)
         {
             Invader enemy = i_Sender as Invader;
 
-            removeEnemyFromMatrix(enemy);
+            removeInvaderFromMatrix(enemy);
 
             m_RemainigEnemiesNum--;
 
@@ -294,10 +310,10 @@ namespace SpaceInvadersGame
         }
 
         /// <summary>
-        /// Removes an enemy from the enemies matrix
+        /// Removes an invader from the invaders matrix
         /// </summary>
         /// <param name="i_Enemy">The enemy that we want to remove from the matrix</param>
-        private void    removeEnemyFromMatrix(Invader i_Enemy)
+        private void    removeInvaderFromMatrix(Invader i_Enemy)
         {
             foreach (List<Invader> enemiesLine in m_Enemies)
             {
@@ -305,8 +321,8 @@ namespace SpaceInvadersGame
                 {
                     enemiesLine.Remove(i_Enemy);
 
-                    // In case it was the last enemy in the line we'll remove the entire
-                    // enemies line from the matrix
+                    // In case it was the last invader in the line we'll remove 
+                    // the entire invaders line from the matrix
                     if (enemiesLine.Count == 0)
                     {
                         m_Enemies.Remove(enemiesLine);
@@ -318,7 +334,8 @@ namespace SpaceInvadersGame
         }
 
         /// <summary>
-        /// Update the invaders max Y position
+        /// Update the invaders max Y position for all the invaders in the 
+        /// matrix
         /// </summary>
         private void    updateInvadersMaxYValue()
         {
