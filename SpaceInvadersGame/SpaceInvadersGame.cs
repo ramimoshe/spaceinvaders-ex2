@@ -14,7 +14,10 @@ using SpaceInvadersGame.ObjectModel;
 
 namespace SpaceInvadersGame
 {
-    // A delegate for an event that states the game is over
+    /// <summary>
+    /// A delegate that is used by the game components to notify the 
+    /// SpaceInvadersGame class that the game ended
+    /// </summary>
     public delegate void GameOverDelegate();
 
     /// <summary>
@@ -50,8 +53,8 @@ namespace SpaceInvadersGame
             
             m_BackGround = new BackGround(this);
             m_EnemiesMatrix = new InvadersMatrix(this);
-            m_EnemiesMatrix.InvaderReachedScreenEnd += new InvaderReachedScreenEndDelegate(invadersMatrix_EnemyReachedScreenEnd);
-            m_EnemiesMatrix.AllInvaderssEliminated += new NoRemainingInvadersDelegate(invadersMatrix_AllEnemiesEliminated);
+            m_EnemiesMatrix.InvaderReachedScreenEnd += new InvaderReachedScreenEndDelegate(invadersMatrix_InvaderReachedScreenEnd);
+            m_EnemiesMatrix.AllInvaderssEliminated += new NoRemainingInvadersDelegate(invadersMatrix_AllInvadersEliminated);
 
             m_MotherShip = new MotherShip(this);
 
@@ -134,7 +137,7 @@ namespace SpaceInvadersGame
         /// Catch an AllEnemiesEliminated event raised by the EnemiesMatrix
         /// and mark the game for exit in the next call to update
         /// </summary>
-        public void     invadersMatrix_AllEnemiesEliminated()
+        public void     invadersMatrix_AllInvadersEliminated()
         {
             m_GameOver = true;
         }
@@ -143,7 +146,7 @@ namespace SpaceInvadersGame
         /// Catch an EnemyReachedScreenEnd event and mark the game for exit 
         /// in the next call to update
         /// </summary>
-        public void     invadersMatrix_EnemyReachedScreenEnd()
+        public void     invadersMatrix_InvaderReachedScreenEnd()
         {
             m_GameOver = true;
         }

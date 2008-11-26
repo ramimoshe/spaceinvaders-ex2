@@ -7,11 +7,16 @@ using XnaGamesInfrastructure.ObjectInterfaces;
 
 namespace SpaceInvadersGame.ObjectModel
 {
-    // Delegate for collision between a SpaceShipBullet and another component
+    /// <summary>
+    /// The delegate is used by the Bullet to notify that he colided
+    /// with another component
+    /// </summary>
+    /// <param name="i_OtherComponent">The component the bullet colided with</param>
+    /// <param name="i_Bullet">The current bullet that coliided with the component</param>
     public delegate void BulletCollisionDelegate(ICollidable i_OtherComponent, SpaceShipBullet i_Bullet);
 
     /// <summary>
-    /// A space ship bullet component
+    /// A space ship bullet game component
     /// </summary>
     public class SpaceShipBullet : Bullet
     {
