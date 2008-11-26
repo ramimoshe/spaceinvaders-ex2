@@ -52,7 +52,7 @@ namespace XnaGamesInfrastructure.Services
         private void collidable_PositionChanged(object i_Collidable)
         {
             if (i_Collidable is ICollidable)
-            {// to be on the safe side :)
+            {
                 CheckCollision(i_Collidable as ICollidable);
             }
         }
