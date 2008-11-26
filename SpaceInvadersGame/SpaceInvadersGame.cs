@@ -50,8 +50,8 @@ namespace SpaceInvadersGame
             
             m_BackGround = new BackGround(this);
             m_EnemiesMatrix = new InvadersMatrix(this);
-            m_EnemiesMatrix.InvaderReachedScreenEnd += new InvaderReachedScreenEndDelegate(enemiesMatrix_EnemyReachedScreenEnd);
-            m_EnemiesMatrix.AllInvaderssEliminated += new NoRemainingInvadersDelegate(enemiesMatrix_AllEnemiesEliminated);
+            m_EnemiesMatrix.InvaderReachedScreenEnd += new InvaderReachedScreenEndDelegate(invadersMatrix_EnemyReachedScreenEnd);
+            m_EnemiesMatrix.AllInvaderssEliminated += new NoRemainingInvadersDelegate(invadersMatrix_AllEnemiesEliminated);
 
             m_MotherShip = new MotherShip(this);
 
@@ -93,8 +93,8 @@ namespace SpaceInvadersGame
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void     Update(GameTime gameTime)
+        /// <param name="i_GameTime">Provides a snapshot of timing values.</param>
+        protected override void     Update(GameTime i_GameTime)
         {
             if (m_GameOver)
             {
@@ -107,18 +107,18 @@ namespace SpaceInvadersGame
                 this.Exit();
             }
 
-            base.Update(gameTime);
+            base.Update(i_GameTime);
         }
 
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void     Draw(GameTime gameTime)
+        /// <param name="i_GameTime">Provides a snapshot of timing values.</param>
+        protected override void     Draw(GameTime i_GameTime)
         {
             graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            base.Draw(gameTime);
+            base.Draw(i_GameTime);
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace SpaceInvadersGame
         /// Catch an AllEnemiesEliminated event raised by the EnemiesMatrix
         /// and mark the game for exit in the next call to update
         /// </summary>
-        public void     enemiesMatrix_AllEnemiesEliminated()
+        public void     invadersMatrix_AllEnemiesEliminated()
         {
             m_GameOver = true;
         }
@@ -143,7 +143,7 @@ namespace SpaceInvadersGame
         /// Catch an EnemyReachedScreenEnd event and mark the game for exit 
         /// in the next call to update
         /// </summary>
-        public void     enemiesMatrix_EnemyReachedScreenEnd()
+        public void     invadersMatrix_EnemyReachedScreenEnd()
         {
             m_GameOver = true;
         }
