@@ -31,7 +31,7 @@ namespace XnaGamesInfrastructure.ServiceInterfaces
 
         #endregion
 
-        //The following methods get the current state-changes 
+        // The following methods get the current state-changes 
         // of buttons (in gamepad and mouse)
         #region buttonsChanges
 
