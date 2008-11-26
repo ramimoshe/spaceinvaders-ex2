@@ -5,9 +5,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceInvadersGame.ObjectModel
-{    
+{
     /// <summary>
-    /// A blue enemy in the enemies matrix
+    /// A blue invader in the invaders matrix
     /// </summary>
     public class BlueInvader : Invader
     {
@@ -30,7 +30,7 @@ namespace SpaceInvadersGame.ObjectModel
         #endregion
 
         /// <summary>
-        /// A property for the enemy score
+        /// A property for the invader score
         /// </summary>
         public override int     Score
         {

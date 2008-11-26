@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace SpaceInvadersGame.ObjectModel
 {
     /// <summary>
-    /// A pink enemy in the enemies matrix
+    /// A pink invader in the invaders matrix
     /// </summary>
     public class PinkInvader : Invader
     {
@@ -26,7 +26,7 @@ namespace SpaceInvadersGame.ObjectModel
         }
 
         /// <summary>
-        /// A property for the enemy score
+        /// A property for the invader score
         /// </summary>
         public override int     Score
         {

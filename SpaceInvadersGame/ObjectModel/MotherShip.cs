@@ -18,6 +18,7 @@ namespace SpaceInvadersGame.ObjectModel
         private const string k_AssetName = @"Sprites\MotherShip_32x120";
         private const int k_Score = 500;
         
+        // The initialized position
         private Vector2 m_DefaultPosition;
 
         private TimeSpan m_RemainingTimeToMove;
@@ -28,6 +29,9 @@ namespace SpaceInvadersGame.ObjectModel
             TintColor = Color.Red;
         }
 
+        /// <summary>
+        /// A property for the space ship score
+        /// </summary>
         public override int     Score
         {
             get 
@@ -36,6 +40,11 @@ namespace SpaceInvadersGame.ObjectModel
             }
         }
 
+        /// <summary>
+        /// Initialize the ship position to be (Viewport.Width, ShipHeight), 
+        /// meaning that the ship will be out of the screen, when the Y 
+        /// axis value will be equal to the ships height
+        /// </summary>
         protected override void     InitPosition()
         {
             Position = new Vector2(
@@ -45,6 +54,12 @@ namespace SpaceInvadersGame.ObjectModel
             m_DefaultPosition = Position;
         }        
 
+        /// <summary>
+        /// Update the ships state according to the current game time, when
+        /// every couple of seconds will move the ship accros the screen to 
+        /// the other side
+        /// </summary>
+        /// <param name="i_GameTime">The current game time</param>
         public override void    Update(GameTime i_GameTime)
         {
             base.Update(i_GameTime);
@@ -57,7 +72,7 @@ namespace SpaceInvadersGame.ObjectModel
 
                 if (m_RemainingTimeToMove.TotalSeconds <= 0)
                 {
-                    // Start moving the ship
+                    // Start moving the ship in the next update
                     MotionVector = r_MotionVector;
                     Position = m_DefaultPosition;
                     m_RemainingTimeToMove = r_TimeBetweenMove;
@@ -67,7 +82,7 @@ namespace SpaceInvadersGame.ObjectModel
             else
             {
                 // If the ship reached the end of the screen, we'll make it 
-                // invisible and start counting until next move
+                // invisible and start counting until next move again
                 if (Bounds.Right == 0)
                 {
                     MotionVector = Vector2.Zero;

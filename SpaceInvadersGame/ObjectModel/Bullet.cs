@@ -14,6 +14,7 @@ namespace SpaceInvadersGame.ObjectModel
         private const string k_AssetName = @"Sprites\Bullet";
         private Rectangle m_ViewPortBounds;
 
+        #region CTOR's
         public Bullet(Game i_Game) 
             : this(k_AssetName, i_Game, Int32.MaxValue, Int32.MaxValue)
         {
@@ -27,6 +28,7 @@ namespace SpaceInvadersGame.ObjectModel
             : base(i_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
         {
         }
+        #endregion
 
         /// <summary>
         /// Initialize the bullet data by saving the game screen bounds
@@ -51,9 +53,9 @@ namespace SpaceInvadersGame.ObjectModel
         {
             base.Update(i_GameTime);            
 
-            // If the bullet is out of the screen, or was hit before 
-            // (not visible), we need to dispose it
-            if (!Bounds.Intersects(m_ViewPortBounds) || Visible == false)            
+            // If the bullet is out of the screen, or collided with another 
+            // component (not visible), we need to dispose it
+            if (!Bounds.Intersects(m_ViewPortBounds) || !Visible)            
             {                
                 Dispose();             
             }
@@ -64,7 +66,8 @@ namespace SpaceInvadersGame.ObjectModel
         /// </summary>
         /// <param name="i_OtherComponent">The component we want to check the collision
         /// against</param>
-        /// <returns>True if the components collides or false otherwise</returns>
+        /// <returns>True if the components collides or false if the component is another bullet
+        /// or that there is no collision between the components</returns>
         public override bool  CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
             return !(i_OtherComponent is Bullet) && 
