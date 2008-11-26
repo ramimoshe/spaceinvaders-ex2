@@ -10,7 +10,7 @@ namespace XnaGamesInfrastructure.ObjectInterfaces
     /// a collision occured.
     /// </summary>
     /// <param name="i_Collidable">The IColidable object passes itself to observer</param>
-    public delegate void PositionChangedEventHandler(ICollidable i_Collidable);
+    public delegate void PositionChangedDelegate(ICollidable i_Collidable);
 
     /// <summary>
     /// Used to inform CollisionManager a collision has occured
@@ -59,6 +59,6 @@ namespace XnaGamesInfrastructure.ObjectInterfaces
         /// Ivoked in order to notify observer (CollisionManager) when object's 
         /// position was changed
         /// </summary>
-        event PositionChangedEventHandler PositionChanged;
+        event PositionChangedDelegate PositionChanged;
     }
 }
