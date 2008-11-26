@@ -3,69 +3,6 @@
   <project key="-899536020">
     <configuration>DEBUG;TRACE</configuration>
   </project>
-  <project key="-385654040">
-    <configuration>DEBUG;TRACE</configuration>
-  </project>
-  <sourcecode name="CollidableSprite.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>11/22/2008 13:37:34</timestamp>
-      <milliseconds>229</milliseconds>
-    </settings>
-    <timestamp>11/22/2008 13:15:07</timestamp>
-    <milliseconds>963</milliseconds>
-    <violations>
-      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" ruleCheckId="SA1505">
-        <context>An opening curly bracket must not be followed by a blank line.</context>
-        <line>9</line>
-        <warning>False</warning>
-      </violation>
-      <violation namespace="Microsoft.StyleCop.CSharp.SpacingRules" rule="CodeMustNotContainMultipleWhitespaceInARow" ruleCheckId="SA1025">
-        <context>The code contains multiple spaces in a row. Only one space is needed.</context>
-        <line>11</line>
-        <warning>False</warning>
-      </violation>
-      <violation namespace="Microsoft.StyleCop.CSharp.SpacingRules" rule="OpeningParenthesisMustBeSpacedCorrectly" ruleCheckId="SA1008">
-        <context>Invalid spacing around the opening parenthesis.</context>
-        <line>14</line>
-        <warning>False</warning>
-      </violation>
-      <violation namespace="Microsoft.StyleCop.CSharp.SpacingRules" rule="CodeMustNotContainMultipleWhitespaceInARow" ruleCheckId="SA1025">
-        <context>The code contains multiple spaces in a row. Only one space is needed.</context>
-        <line>25</line>
-        <warning>False</warning>
-      </violation>
-      <violation namespace="Microsoft.StyleCop.CSharp.SpacingRules" rule="CodeMustNotContainMultipleWhitespaceInARow" ruleCheckId="SA1025">
-        <context>The code contains multiple spaces in a row. Only one space is needed.</context>
-        <line>30</line>
-        <warning>False</warning>
-      </violation>
-      <violation namespace="Microsoft.StyleCop.CSharp.SpacingRules" rule="CodeMustNotContainMultipleWhitespaceInARow" ruleCheckId="SA1025">
-        <context>The code contains multiple spaces in a row. Only one space is needed.</context>
-        <line>40</line>
-        <warning>False</warning>
-      </violation>
-      <violation namespace="Microsoft.StyleCop.CSharp.MaintainabilityRules" rule="AccessModifierMustBeDeclared" ruleCheckId="SA1400">
-        <context>The class must have an access modifier.</context>
-        <line>8</line>
-        <warning>False</warning>
-      </violation>
-      <violation namespace="Microsoft.StyleCop.CSharp.ReadabilityRules" rule="ParametersMustBeOnSameLineOrSeparateLines" ruleCheckId="SA1117">
-        <context>All constructor parameters must be placed on the same line, or each parameter must be placed on a separate line.</context>
-        <line>11</line>
-        <warning>False</warning>
-      </violation>
-      <violation namespace="Microsoft.StyleCop.CSharp.ReadabilityRules" rule="SplitParametersMustStartOnLineAfterDeclaration" ruleCheckId="SA1116">
-        <context>If the constructor parameters are on separate lines, the first parameter must begin on the line beneath the name of the constructor.</context>
-        <line>11</line>
-        <warning>False</warning>
-      </violation>
-      <violation namespace="Microsoft.StyleCop.CSharp.ReadabilityRules" rule="ParameterMustFollowComma" ruleCheckId="SA1115">
-        <context>The parameter must begin on the line after the previous parameter.</context>
-        <line>11</line>
-        <warning>False</warning>
-      </violation>
-    </violations>
-  </sourcecode>
   <sourcecode name="IShootable.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
       <timestamp>11/22/2008 13:37:34</timestamp>
@@ -86,110 +23,109 @@
       </violation>
     </violations>
   </sourcecode>
-  <sourcecode name="AssemblyInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>11/22/2008 13:37:34</timestamp>
-      <milliseconds>229</milliseconds>
-    </settings>
-    <timestamp>11/19/2008 22:43:16</timestamp>
-    <milliseconds>906</milliseconds>
-    <violations>
-      <violation namespace="Microsoft.StyleCop.CSharp.ReadabilityRules" rule="CommentsMustContainText" ruleCheckId="SA1120">
-        <context>The comment is empty. Add text to the comment or remove it.</context>
-        <line>30</line>
-        <warning>False</warning>
-      </violation>
-    </violations>
-  </sourcecode>
-  <sourcecode name="Sprite.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>11/22/2008 13:37:34</timestamp>
-      <milliseconds>229</milliseconds>
-    </settings>
-    <timestamp>11/22/2008 12:43:23</timestamp>
-    <milliseconds>604</milliseconds>
-    <violations>
-      <violation namespace="Microsoft.StyleCop.CSharp.SpacingRules" rule="OpeningParenthesisMustBeSpacedCorrectly" ruleCheckId="SA1008">
-        <context>Invalid spacing around the opening parenthesis.</context>
-        <line>18</line>
-        <warning>False</warning>
-      </violation>
-      <violation namespace="Microsoft.StyleCop.CSharp.MaintainabilityRules" rule="AccessModifierMustBeDeclared" ruleCheckId="SA1400">
-        <context>The field must have an access modifier.</context>
-        <line>48</line>
-        <warning>False</warning>
-      </violation>
-      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="CurlyBracketsMustNotBeOmitted" ruleCheckId="SA1503">
-        <context>The body of the if statement must be wrapped in opening and closing curly brackets.</context>
-        <line>102</line>
-        <warning>False</warning>
-      </violation>
-    </violations>
-  </sourcecode>
-  <sourcecode name="InputManager.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>11/22/2008 13:37:34</timestamp>
-      <milliseconds>229</milliseconds>
-    </settings>
-    <timestamp>11/22/2008 00:34:35</timestamp>
-    <milliseconds>234</milliseconds>
-    <violations />
-  </sourcecode>
+  <project key="658888023">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
   <sourcecode name="ICollidable.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>11/23/2008 20:46:48</timestamp>
-      <milliseconds>390</milliseconds>
+      <timestamp>11/26/2008 13:53:20</timestamp>
+      <milliseconds>78</milliseconds>
     </settings>
-    <timestamp>11/24/2008 20:23:40</timestamp>
-    <milliseconds>546</milliseconds>
+    <timestamp>11/25/2008 21:43:16</timestamp>
+    <milliseconds>125</milliseconds>
     <violations />
   </sourcecode>
-  <sourcecode name="ICollisionManager.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+  <sourcecode name="CollidableSprite.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>11/23/2008 20:46:48</timestamp>
-      <milliseconds>390</milliseconds>
+      <timestamp>11/26/2008 13:53:20</timestamp>
+      <milliseconds>78</milliseconds>
     </settings>
-    <timestamp>11/24/2008 21:31:56</timestamp>
-    <milliseconds>265</milliseconds>
+    <timestamp>11/26/2008 13:52:46</timestamp>
+    <milliseconds>656</milliseconds>
     <violations />
   </sourcecode>
-  <sourcecode name="IInputManager.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+  <sourcecode name="GameService.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>11/23/2008 20:46:48</timestamp>
-      <milliseconds>390</milliseconds>
+      <timestamp>11/26/2008 13:53:20</timestamp>
+      <milliseconds>78</milliseconds>
     </settings>
-    <timestamp>11/24/2008 21:32:18</timestamp>
-    <milliseconds>968</milliseconds>
+    <timestamp>11/25/2008 21:43:15</timestamp>
+    <milliseconds>859</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="DrawableLoadableComponent.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>11/23/2008 20:46:48</timestamp>
-      <milliseconds>390</milliseconds>
+      <timestamp>11/26/2008 13:53:20</timestamp>
+      <milliseconds>78</milliseconds>
     </settings>
-    <timestamp>11/25/2008 18:00:45</timestamp>
-    <milliseconds>375</milliseconds>
+    <timestamp>11/25/2008 21:43:15</timestamp>
+    <milliseconds>796</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="RegisteredComponent.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>11/23/2008 20:46:48</timestamp>
-      <milliseconds>390</milliseconds>
+      <timestamp>11/26/2008 13:53:20</timestamp>
+      <milliseconds>78</milliseconds>
     </settings>
-    <timestamp>11/25/2008 18:11:23</timestamp>
-    <milliseconds>453</milliseconds>
+    <timestamp>11/25/2008 21:43:15</timestamp>
+    <milliseconds>625</milliseconds>
     <violations />
   </sourcecode>
-  <project key="658888023">
+  <sourcecode name="ICollisionManager.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>11/26/2008 13:53:20</timestamp>
+      <milliseconds>78</milliseconds>
+    </settings>
+    <timestamp>11/25/2008 21:43:14</timestamp>
+    <milliseconds>921</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="InputManager.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>11/26/2008 13:53:20</timestamp>
+      <milliseconds>78</milliseconds>
+    </settings>
+    <timestamp>11/23/2008 22:59:08</timestamp>
+    <milliseconds>843</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="AssemblyInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>11/26/2008 13:53:20</timestamp>
+      <milliseconds>78</milliseconds>
+    </settings>
+    <timestamp>11/26/2008 13:53:45</timestamp>
+    <milliseconds>531</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="Sprite.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>11/26/2008 13:53:20</timestamp>
+      <milliseconds>78</milliseconds>
+    </settings>
+    <timestamp>11/26/2008 13:54:24</timestamp>
+    <milliseconds>312</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="IInputManager.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>11/26/2008 13:53:20</timestamp>
+      <milliseconds>78</milliseconds>
+    </settings>
+    <timestamp>11/26/2008 13:54:45</timestamp>
+    <milliseconds>125</milliseconds>
+    <violations />
+  </sourcecode>
+  <project key="-385654040">
     <configuration>DEBUG;TRACE</configuration>
   </project>
-  <sourcecode name="GameService.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+  <sourcecode name="CollisionManager.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>11/23/2008 20:46:48</timestamp>
-      <milliseconds>390</milliseconds>
+      <timestamp>11/26/2008 13:53:20</timestamp>
+      <milliseconds>78</milliseconds>
     </settings>
-    <timestamp>11/25/2008 18:17:04</timestamp>
-    <milliseconds>281</milliseconds>
+    <timestamp>11/26/2008 13:54:59</timestamp>
+    <milliseconds>265</milliseconds>
     <violations />
   </sourcecode>
 </stylecopresultscache>
