@@ -30,7 +30,7 @@ namespace XnaGamesInfrastructure.Services
 
         #region  internalMethods
 
-        private ButtonState getMouseButtonState(eInputButtons i_Button, bool i_CurrentState)
+        private ButtonState     getMouseButtonState(eInputButtons i_Button, bool i_CurrentState)
         {
             MouseState requestedMouseState;
             
@@ -64,7 +64,7 @@ namespace XnaGamesInfrastructure.Services
         // Getters for current input device states
         #region inputDeviceStates
 
-        public MouseState MouseState
+        public MouseState   MouseState
         {
             get
             {
@@ -72,7 +72,7 @@ namespace XnaGamesInfrastructure.Services
             }
         }
 
-        public KeyboardState KeyboardState
+        public KeyboardState    KeyboardState
         {
             get
             {
@@ -85,14 +85,14 @@ namespace XnaGamesInfrastructure.Services
         // Gets the current stante-changes of buttons (in gamepad and mouse)
         #region buttonStateChanges
 
-        public bool ButtonPressed(eInputButtons i_Button)
+        public bool     ButtonPressed(eInputButtons i_Button)
         {
             return
                 getMouseButtonState(i_Button, true) == ButtonState.Pressed &&
                 getMouseButtonState(i_Button, false) == ButtonState.Released;
         }
 
-        public bool ButtonReleased(eInputButtons i_Button)
+        public bool     ButtonReleased(eInputButtons i_Button)
         {
             return
                 getMouseButtonState(i_Button, true) == ButtonState.Released &&
@@ -104,21 +104,21 @@ namespace XnaGamesInfrastructure.Services
         // Gets the current stante-changes of buttons (in gamepad and mouse)
         #region keyboardKeyChanges
 
-        public bool KeyPressed(Keys i_Key)
+        public bool     KeyPressed(Keys i_Key)
         {
             return 
                 m_CurrKeyboardState.IsKeyDown(i_Key) && 
                 m_PrevKeyboardState.IsKeyUp(i_Key);
         }
 
-        public bool KeyReleased(Keys i_Key)
+        public bool     KeyReleased(Keys i_Key)
         {
             return
                 m_CurrKeyboardState.IsKeyUp(i_Key) &&
                 m_PrevKeyboardState.IsKeyDown(i_Key);
         }
 
-        public bool KeyHeld(Keys i_Key)
+        public bool     KeyHeld(Keys i_Key)
         {
             return
                 m_CurrKeyboardState.IsKeyDown(i_Key) &&
@@ -130,7 +130,7 @@ namespace XnaGamesInfrastructure.Services
         // Gets changes in various input device states
         #region Deltas
 
-        public Vector2 MousePositionDelta
+        public Vector2  MousePositionDelta
         {
             get 
             {
@@ -140,7 +140,7 @@ namespace XnaGamesInfrastructure.Services
             }
         }
 
-        public int ScroolWeelDelta
+        public int  ScroolWeelDelta
         {
             get
             {
@@ -150,7 +150,7 @@ namespace XnaGamesInfrastructure.Services
 
         #endregion
 
-        public override void Initialize()
+        public override void    Initialize()
         {
             base.Initialize();
 
@@ -160,7 +160,7 @@ namespace XnaGamesInfrastructure.Services
             m_PrevKeyboardState = m_CurrKeyboardState;
         }
 
-        public override void Update(GameTime gameTime)
+        public override void    Update(GameTime gameTime)
         {
             m_PrevMouseState = m_CurrMouseState;
             m_CurrMouseState = Mouse.GetState();

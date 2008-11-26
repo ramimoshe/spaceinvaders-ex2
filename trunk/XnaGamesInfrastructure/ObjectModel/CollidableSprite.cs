@@ -63,7 +63,7 @@ namespace XnaGamesInfrastructure.ObjectModel
             this.Visible = false;            
         }
 
-        public event PositionChangedEventHandler PositionChanged;
+        public event PositionChangedDelegate PositionChanged;
 
         protected virtual void OnPositionChanged()
         {
