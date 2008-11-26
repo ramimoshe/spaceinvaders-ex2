@@ -8,11 +8,16 @@ using SpaceInvadersGame.ObjectModel;
 
 namespace SpaceInvadersGame
 {
-    // A delegate for notifying when all enemies are dead
+    /// <summary>
+    /// The delegate is used by the InvadersMatrix to inform that all
+    /// invaders in the matrix are dead
+    /// </summary>
     public delegate void NoRemainingInvadersDelegate();
 
-    // A delegate for notifying when an invader reached the maximum allowed
-    // Y position
+    /// <summary>
+    /// The delegate is used by the InvadersMatrix to inform that a certain
+    /// invader in the matrix reached the allowed Y position
+    /// </summary>
     public delegate void InvaderReachedScreenEndDelegate();
 
     /// <summary>
@@ -30,7 +35,7 @@ namespace SpaceInvadersGame
 
         // The percent will decrease in the time it takes the enemies 
         // to move. used to increase the enemies speed
-        private const float k_IncreaseEnemiesSpeedFactor = 0.7f;
+        private const float k_IncreaseEnemiesSpeedFactor = 0.75f;
 
         // The time we want to wait between two enemies shoots
         private readonly TimeSpan r_DefaultTimeBetweenShots = TimeSpan.FromSeconds(1.5f);
@@ -154,7 +159,7 @@ namespace SpaceInvadersGame
 
                     currEnemy.Position = currPosition;
                     currEnemy.InvaderMaxPositionY = m_MaxInvadersYPositionYVal;
-                    currEnemy.ReachedScreenBounds += new SpriteReachedScreenBoundsDelegate(enemy_ReachedScreenBounds);
+                    currEnemy.ReachedScreenBounds += new InvaderReachedScreenBoundsDelegate(invader_ReachedScreenBounds);
                     currEnemy.Disposed += invader_Disposed;
 
                     currList.Add(currEnemy);
@@ -239,23 +244,23 @@ namespace SpaceInvadersGame
         }
 
         /// <summary>
-        /// Catch the ReachedScreenBounds event raised by an enemy and change 
-        /// the enemies movement direction in the X axis, and change the enemies
-        /// position in the Y axis by moving them down in the screen
+        /// Catch the ReachedScreenBounds event raised by an invader.
+        /// The method changes the enemies movement direction in the X axis, 
+        /// change the enemies position in the Y axis by moving them down in 
+        /// the screen and increases the invaders moving speed
         /// </summary>
-        /// <param name="i_Sprite">The enemy that raised the event</param>
-        public void     enemy_ReachedScreenBounds(Sprite i_Sprite)
-        {
-            if (i_Sprite is Invader)
+        /// <param name="i_Invader">The invader that raised the event</param>
+        public void     invader_ReachedScreenBounds(Invader i_Invader)
+        {            
+            // If the invader reached the maximum allowed Y position, than
+            // we need to raise an InvaderReachedScreenEnd event
+            if (!(i_Invader.Bounds.Bottom >= m_MaxInvadersYPositionYVal))
             {
-                if (!(i_Sprite.Bounds.Bottom >= m_MaxInvadersYPositionYVal))
-                {
-                    m_ChangeInvadersDirection = true;
-                }
-                else
-                { 
-                    onEnemyReachedScreenEnd();
-                }
+                m_ChangeInvadersDirection = true;
+            }
+            else
+            { 
+                onInvaderReachedScreenEnd();
             }
         }
 
@@ -263,7 +268,7 @@ namespace SpaceInvadersGame
         /// Raise an EnemyReachedScreenEnd event when a certain enemy in the 
         /// enemies matrix reaches the maximum allowed Y value
         /// </summary>
-        private void onEnemyReachedScreenEnd()
+        private void onInvaderReachedScreenEnd()
         {
             if (InvaderReachedScreenEnd != null)
             {

@@ -7,9 +7,13 @@ using Microsoft.Xna.Framework.Graphics;
 using SpaceInvadersGame.Interfaces;
 
 namespace SpaceInvadersGame.ObjectModel
-{    
-    // A delegate for an event that states that an enemy reached the screen bounds
-    public delegate void SpriteReachedScreenBoundsDelegate(Sprite i_Sprite);    
+{        
+    /// <summary>
+    /// Used by Invader in order to inform that the he reached the 
+    /// invaders allowed screen bounds
+    /// </summary>
+    /// <param name="i_Invader">The invader that reached the allowed screen bounds</param>
+    public delegate void InvaderReachedScreenBoundsDelegate(Invader i_Invader);    
 
     /// <summary>
     /// An abstract class that all the small invaders in the invaders matrix 
@@ -18,7 +22,7 @@ namespace SpaceInvadersGame.ObjectModel
     public abstract class Invader : Enemy, IShootable
     {
         // Raised when an invader reaches one of the allowed screen bounderies
-        public event SpriteReachedScreenBoundsDelegate ReachedScreenBounds;
+        public event InvaderReachedScreenBoundsDelegate ReachedScreenBounds;
 
         private const int k_BulletVelocity = 200;
 
