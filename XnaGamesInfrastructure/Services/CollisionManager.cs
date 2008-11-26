@@ -22,12 +22,12 @@ namespace XnaGamesInfrastructure.Services
         {
         }
 
-        protected override void RegisterAsService()
+        protected override void     RegisterAsService()
         {
             this.Game.Services.AddService(typeof(ICollisionManager), this);
         }
 
-        public void AddObjectToMonitor(ICollidable i_Collidable)
+        public void     AddObjectToMonitor(ICollidable i_Collidable)
         {
             if (!m_Collidables.Contains(i_Collidable))
             {
