@@ -23,9 +23,6 @@
       </violation>
     </violations>
   </sourcecode>
-  <project key="658888023">
-    <configuration>DEBUG;TRACE</configuration>
-  </project>
   <sourcecode name="ICollidable.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
       <timestamp>11/26/2008 13:53:20</timestamp>
@@ -98,15 +95,6 @@
     <milliseconds>531</milliseconds>
     <violations />
   </sourcecode>
-  <sourcecode name="Sprite.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>11/26/2008 13:53:20</timestamp>
-      <milliseconds>78</milliseconds>
-    </settings>
-    <timestamp>11/26/2008 13:54:24</timestamp>
-    <milliseconds>312</milliseconds>
-    <violations />
-  </sourcecode>
   <sourcecode name="IInputManager.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
       <timestamp>11/26/2008 13:53:20</timestamp>
@@ -126,6 +114,18 @@
     </settings>
     <timestamp>11/26/2008 13:54:59</timestamp>
     <milliseconds>265</milliseconds>
+    <violations />
+  </sourcecode>
+  <project key="658888023">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+  <sourcecode name="Sprite.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>11/26/2008 16:45:58</timestamp>
+      <milliseconds>31</milliseconds>
+    </settings>
+    <timestamp>11/26/2008 16:56:42</timestamp>
+    <milliseconds>593</milliseconds>
     <violations />
   </sourcecode>
 </stylecopresultscache>
