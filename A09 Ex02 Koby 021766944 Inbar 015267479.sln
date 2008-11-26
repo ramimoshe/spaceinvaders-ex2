@@ -5,6 +5,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XnaGamesInfrastructure", "X
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceInvadersGame", "SpaceInvadersGame\SpaceInvadersGame.csproj", "{7E6A22A4-5213-4C3C-9ABE-DF1898674446}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9615BFFC-919E-4C4F-B3DE-68988840ADF4}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.txt = Readme.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -15,17 +20,12 @@ Global
 		{B82A3755-59F2-4AAC-954C-FDDE78C611EB}.Debug|x86.Build.0 = Debug|x86
 		{B82A3755-59F2-4AAC-954C-FDDE78C611EB}.Release|x86.ActiveCfg = Release|x86
 		{B82A3755-59F2-4AAC-954C-FDDE78C611EB}.Release|x86.Build.0 = Release|x86
-<<<<<<< .mine
-		{24205D5C-4168-421F-A34E-6A3F80B1B369}.Debug|x86.ActiveCfg = Debug|x86
-		{24205D5C-4168-421F-A34E-6A3F80B1B369}.Release|x86.ActiveCfg = Release|x86
-		{0BA6F04E-E25A-4F11-A0E6-2A98CB81D51D}.Debug|x86.ActiveCfg = Debug|x86
-		{0BA6F04E-E25A-4F11-A0E6-2A98CB81D51D}.Release|x86.ActiveCfg = Release|x86
-=======
->>>>>>> .r46
 		{7E6A22A4-5213-4C3C-9ABE-DF1898674446}.Debug|x86.ActiveCfg = Debug|x86
 		{7E6A22A4-5213-4C3C-9ABE-DF1898674446}.Debug|x86.Build.0 = Debug|x86
 		{7E6A22A4-5213-4C3C-9ABE-DF1898674446}.Release|x86.ActiveCfg = Release|x86
 		{7E6A22A4-5213-4C3C-9ABE-DF1898674446}.Release|x86.Build.0 = Release|x86
+		{24205D5C-4168-421F-A34E-6A3F80B1B369}.Debug|x86.ActiveCfg = Debug|x86
+		{24205D5C-4168-421F-A34E-6A3F80B1B369}.Release|x86.ActiveCfg = Release|x86
 		{417A3624-FC75-45AD-BAA4-CCB6A9DA6858}.Debug|x86.ActiveCfg = Debug|x86
 		{417A3624-FC75-45AD-BAA4-CCB6A9DA6858}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
