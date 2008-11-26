@@ -6,6 +6,10 @@ using Microsoft.Xna.Framework;
 
 namespace SpaceInvadersGame.ObjectModel
 {
+    /// <summary>
+    /// An abstract class that all the enemies type in the game 
+    /// inherits from
+    /// </summary>
     public abstract class Enemy : CollidableSprite
     {
         #region CTORs
@@ -36,12 +40,6 @@ namespace SpaceInvadersGame.ObjectModel
         public abstract int     Score
         {
             get;
-        }
-
-        protected override void     InitPosition()
-        {
-            // We override the method but do nothing cause the matrix already
-            // set the position from outside when it creates the invaders
-        }
+        }       
     }
 }

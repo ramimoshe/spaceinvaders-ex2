@@ -13,7 +13,7 @@ using SpaceInvadersGame.Interfaces;
 namespace SpaceInvadersGame.ObjectModel
 {
     /// <summary>
-    /// The class represents the player's component in the game (the game's
+    /// The class represents the player's component in the game (the 
     /// SpaceShip)
     /// </summary>
     public class SpaceShip : CollidableSprite, IShootable
@@ -21,11 +21,13 @@ namespace SpaceInvadersGame.ObjectModel
         private const string k_AssetName = @"Sprites\Ship01_32x32";
         private readonly TimeSpan r_ShootingCoolingOff = TimeSpan.FromSeconds(0.5f);
         private const int k_AllowedBulletsNum = 3;
-        private const int k_Velocity = 200;
+        private const int k_Motion = 200;
         private const int k_BulletVelocity = 200;
         private const int k_LostLifeScoreDecrease = 2000;
         private const int k_LivesNum = 3;
 
+        // The initialized position. needed so that we'll know where to position
+        // the ship in case of an hit
         private Vector2 m_DefaultPosition;
 
         private int m_RemainingLivesLeft;
@@ -37,6 +39,8 @@ namespace SpaceInvadersGame.ObjectModel
 
         private int m_PlayerScore = 0;
 
+        // Raised when the player collides with a bullet and there is no more
+        // lives left, or in case the ship collides with an invader
         public event GameOverDelegate PlayerIsDead;
 
         #region CTOR's
@@ -62,9 +66,8 @@ namespace SpaceInvadersGame.ObjectModel
 
         /// <summary>
         /// The property holds the starting position.
-        /// used in case the space ship is hit be an enemy
         /// </summary>
-        protected Vector2 DefaultPosition
+        protected Vector2   DefaultPosition
         {
             get
             {
@@ -78,9 +81,9 @@ namespace SpaceInvadersGame.ObjectModel
         }
 
         /// <summary>
-        /// A property to the player's score
+        /// A property to the player's current score
         /// </summary>
-        public int Score
+        public int  Score
         {
             get
             {
@@ -103,9 +106,10 @@ namespace SpaceInvadersGame.ObjectModel
         #region IShootable Members
 
         /// <summary>
-        /// Release a SpaceShip shoot
+        /// Release a SpaceShip shoot only if there are less than the number
+        /// of allowed bullets and enough time had passed since last shoot
         /// </summary>
-        public void Shoot()
+        public void     Shoot()
         {
             // If we didn't reach the maximum bullets allowed, we'll create 
             // a new one and add it to the game components
@@ -145,7 +149,7 @@ namespace SpaceInvadersGame.ObjectModel
         /// Updates the SpaceShip according to the player choise (move the ship
         /// or release a shoot)
         /// </summary>
-        /// <param name="i_GameTime">The time passed from the previous update call</param>
+        /// <param name="i_GameTime">Provides a snapshot of timing values.</param>
         public override void    Update(GameTime i_GameTime)
         {
             Vector2 newMotion = Vector2.Zero;
@@ -154,11 +158,11 @@ namespace SpaceInvadersGame.ObjectModel
 
             if (m_InputManager.KeyboardState.IsKeyDown(Keys.Left))
             {
-                newMotion.X = k_Velocity * -1;
+                newMotion.X = k_Motion * -1;
             }
             else if (m_InputManager.KeyboardState.IsKeyDown(Keys.Right))
             {
-                newMotion.X = k_Velocity;
+                newMotion.X = k_Motion;
             }
 
             MotionVector = newMotion;
@@ -186,7 +190,7 @@ namespace SpaceInvadersGame.ObjectModel
         /// <summary>
         /// Initialize the space ship by getting the game's input manager
         /// </summary>
-        public override void Initialize()
+        public override void    Initialize()
         {
             m_InputManager = Game.Services.GetService(typeof(InputManager)) as IInputManager;
             base.Initialize();
@@ -210,7 +214,9 @@ namespace SpaceInvadersGame.ObjectModel
         /// </summary>
         /// <param name="i_OtherComponent">The component we want to check the collision
         /// against</param>
-        /// <returns>True if the components collides or false otherwise</returns>
+        /// <returns>true in case the components collides or false in case the 
+        /// given component is a SpaceShipBullet or there is no collision
+        /// between the components </returns>
         public override bool    CheckForCollision(ICollidable i_OtherComponent)
         {
             return !(i_OtherComponent is SpaceShipBullet) &&
@@ -241,7 +247,7 @@ namespace SpaceInvadersGame.ObjectModel
         }
 
         /// <summary>
-        /// Raise the PlayerIsDead event
+        /// Raise a PlayerIsDead event
         /// </summary>
         private void    onPlayerIsDead()
         {
@@ -253,8 +259,8 @@ namespace SpaceInvadersGame.ObjectModel
 
         /// <summary>
         /// Catch the collision event between the space bullet and a game component.
-        /// incase it's a scorable component, we'll add the component score to the
-        /// space ship score
+        /// incase it's an enemy component, we'll add the component score to 
+        /// the space ship score
         /// </summary>
         /// <param name="i_OtherComponent">The component the bullet colided with</param>
         /// <param name="i_Bullet">The space ship bullet that colided with the coponent</param>

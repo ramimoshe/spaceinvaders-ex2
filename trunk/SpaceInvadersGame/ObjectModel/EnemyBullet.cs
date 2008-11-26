@@ -18,11 +18,13 @@ namespace SpaceInvadersGame.ObjectModel
         }
 
         /// <summary>
-        /// Check if the bullet colides with another component
+        /// Check for collision with a given component.        
         /// </summary>
-        /// <param name="i_OtherComponent">The component we want to check the collision
+        /// <param name="i_OtherComponent">the component we want to check for collision 
         /// against</param>
-        /// <returns>True if the components collides or false otherwise</returns>
+        /// <returns>true in case the bullet collides with the given component or false
+        /// in case the given component is an invader or there is no collision
+        /// between the components </returns>
         public override bool    CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
             return !(i_OtherComponent is Invader) && 

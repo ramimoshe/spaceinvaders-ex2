@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace SpaceInvadersGame.ObjectModel
 {
     /// <summary>
-    /// A yellow enemy in the enemies matrix
+    /// A yellow invader in the invaders matrix
     /// </summary>
     public class YellowInvader : Invader
     {
@@ -26,7 +26,7 @@ namespace SpaceInvadersGame.ObjectModel
         }
 
         /// <summary>
-        /// A property to the score that the current enemy adds to the player
+        /// A property for the invader score
         /// </summary>
         public override int Score
         {

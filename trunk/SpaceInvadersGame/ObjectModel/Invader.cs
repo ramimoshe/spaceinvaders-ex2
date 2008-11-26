@@ -11,8 +11,13 @@ namespace SpaceInvadersGame.ObjectModel
     // A delegate for an event that states that an enemy reached the screen bounds
     public delegate void SpriteReachedScreenBoundsDelegate(Sprite i_Sprite);    
 
+    /// <summary>
+    /// An abstract class that all the small invaders in the invaders matrix 
+    /// inherits from
+    /// </summary>
     public abstract class Invader : Enemy, IShootable
     {
+        // Raised when an invader reaches one of the allowed screen bounderies
         public event SpriteReachedScreenBoundsDelegate ReachedScreenBounds;
 
         private const int k_BulletVelocity = 200;
@@ -45,13 +50,12 @@ namespace SpaceInvadersGame.ObjectModel
             : base(i_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
         {            
             m_TimeLeftToNextMove = m_TimeBetweenMove;            
-        }
+        }       
 
-        /*public abstract int     Score
-        {
-            get;
-        }*/
-
+        /// <summary>
+        /// A property for the maximum value the enemy is allowed to reach
+        /// on the Y axis
+        /// </summary>
         public float    InvaderMaxPositionY
         {
             get
@@ -65,6 +69,9 @@ namespace SpaceInvadersGame.ObjectModel
             }
         }
 
+        /// <summary>
+        /// A property for the time the enemy waits between two moves
+        /// </summary>
         public TimeSpan     TimeBetweenMoves
         {
             get
@@ -77,15 +84,30 @@ namespace SpaceInvadersGame.ObjectModel
                 m_TimeBetweenMove = value;
             }
         }
-     
+
+        #region ICollidable Members
+
+        /// <summary>
+        /// Check for collision with a given component.        
+        /// </summary>
+        /// <param name="i_OtherComponent">the component we want to check for collision 
+        /// against</param>        
+        /// <returns>true in case the invader collides with the given component 
+        /// or false in case the given component is an EnemyBullet or there is no collision
+        /// between the components </returns>
         public override bool    CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
             return !(i_OtherComponent is EnemyBullet) &&
                       base.CheckForCollision(i_OtherComponent);
-        }                
+        }
 
-        #region IShootable Members        
+        #endregion
 
+        #region IShootable Members
+
+        /// <summary>
+        /// Realse a shoot in the game
+        /// </summary>
         public void     Shoot()
         {
             Bullet bullet = new EnemyBullet(Game);
@@ -99,12 +121,17 @@ namespace SpaceInvadersGame.ObjectModel
 
         #endregion
 
+        /// <summary>
+        /// Move the invader in the screen in case enough time had passed 
+        /// since last move
+        /// </summary>
+        /// <param name="i_GameTime">Provides a snapshot of timing values.</param>
         public override void    Update(GameTime i_GameTime)
         {
             bool moveEnemy = false;
 
             // If the enemy was hit (changed to unvisible), we need to 
-            // dispose the enemy
+            // dispose it
             if (Visible == false)
             {
                 Dispose();
@@ -113,7 +140,7 @@ namespace SpaceInvadersGame.ObjectModel
             {
                 m_TimeLeftToNextMove -= i_GameTime.ElapsedGameTime;
 
-                // Check if it passed enough time to move the enemy
+                // Check if enough time had passed since previous move
                 if (m_TimeLeftToNextMove.TotalSeconds < 0)
                 {
                     MotionVector = m_CurrMotion;
@@ -128,8 +155,8 @@ namespace SpaceInvadersGame.ObjectModel
 
                 base.Update(i_GameTime);
 
-                // Because we move the enemy twice in a second we'll check
-                // if we reached the screen bounds only if we moved the enemy
+                // If we moved the enemy this time we'll also check if the 
+                // enemy is close to the screen bounds and raise an event
                 if (moveEnemy)
                 {
                     moveEnemy = false;
@@ -143,13 +170,29 @@ namespace SpaceInvadersGame.ObjectModel
             }
         }
 
+        /// <summary>
+        /// An empty proc that simply prevents the parent method that initializes
+        /// the coponent position from happening.
+        /// this is done due to the fact that the invader position is set from
+        /// the outside by the invaders matrix class, and there is no need to
+        /// initialize it ourselves
+        /// </summary>
+        protected override void InitPosition()
+        {
+        }
+
+        /// <summary>
+        /// Change the enemy moving direction, so that in the next move the 
+        /// enemy will move to the other screen side on the X axis
+        /// </summary>
         public void     SwitchPosition()
         {
             m_CurrMotion *= -1;         
         }
 
         /// <summary>
-        /// Raising the ReachedScreenBounds event
+        /// Raising the ReachedScreenBounds event that marks that the enemy
+        /// reached the allowed bounds in the screen
         /// </summary>
         protected void     OnReachedScreenBounds()
         {
