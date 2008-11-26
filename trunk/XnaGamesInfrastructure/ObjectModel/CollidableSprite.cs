@@ -46,7 +46,6 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
         }
 
-
         #region ICollidable Members
 
         /// <summary>
@@ -61,11 +60,11 @@ namespace XnaGamesInfrastructure.ObjectModel
 
         public virtual void Collided(ICollidable i_OtherComponent)
         {
-            this.Visible = false;
-            //MotionVector *= -1;
+            this.Visible = false;            
         }
 
         public event PositionChangedEventHandler PositionChanged;
+
         protected virtual void OnPositionChanged()
         {
             if (PositionChanged != null)

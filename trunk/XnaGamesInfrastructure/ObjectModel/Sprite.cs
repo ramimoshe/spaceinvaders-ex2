@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-
 namespace XnaGamesInfrastructure.ObjectModel
 {
     /// <summary>
@@ -14,7 +13,6 @@ namespace XnaGamesInfrastructure.ObjectModel
     /// </summary>
     public abstract class Sprite : DrawableLoadableComponent
     {
-
         public Sprite(string i_AssetName, Game i_Game)
             : base(i_AssetName, i_Game)
         {
@@ -117,9 +115,7 @@ namespace XnaGamesInfrastructure.ObjectModel
 
         #endregion
 
-
-
-        protected override void LoadContent()
+        protected override void     LoadContent()
         {
             m_Texture = m_ContentManager.Load<Texture2D>(m_AssetName);
 
@@ -128,7 +124,9 @@ namespace XnaGamesInfrastructure.ObjectModel
                 m_SpriteBatch = Game.Services.GetService(typeof(SpriteBatch)) as SpriteBatch;
 
                 if (m_SpriteBatch == null)
+                {
                     m_SpriteBatch = new SpriteBatch(this.GraphicsDevice);
+                }
             }
 
             base.LoadContent();
@@ -162,7 +160,5 @@ namespace XnaGamesInfrastructure.ObjectModel
 
             base.Draw(gameTime);
         }
-
-
     }
 }
