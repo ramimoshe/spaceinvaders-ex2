@@ -12,7 +12,7 @@ namespace XnaGamesInfrastructure.ObjectModel
     /// 2D texture and implements the required methods for collision detection.
     /// </summary>
     public abstract class Sprite : DrawableLoadableComponent
-    {
+    {          
         /// <summary>
         /// The constructor intiates the base constructor 
         /// (DrawableLoadableComponent)
@@ -55,6 +55,104 @@ namespace XnaGamesInfrastructure.ObjectModel
         private SpriteBatch m_SpriteBatch;
 
         /// <summary>
+        /// Defines the draw layer depth
+        /// </summary>
+        protected float m_LayerDepth;
+
+        /// <summary>
+        /// Gets/sets the draw layer depth
+        /// </summary>
+        public float LayerDepth
+        {
+            get { return m_LayerDepth; }
+            set { m_LayerDepth = value; }
+        }
+
+        /// <summary>
+        /// Defines the draw rotation origin
+        /// </summary>
+        public Vector2 m_Origin = Vector2.Zero;
+
+        /// <summary>
+        /// Gets/sets the draw rotation origin
+        /// </summary>
+        public Vector2 Origin
+        {
+            get { return m_Origin; }
+            set { m_Origin = value; }
+        }
+
+        /// <summary>
+        /// Defines the draw rotation
+        /// </summary>
+        protected float m_Rotation = 0;
+
+        /// <summary>
+        /// Gets/sets the draw rotation value
+        /// </summary>
+        public float    Rotation
+        {
+            get { return m_Rotation; }
+            set { m_Rotation = value; }
+        }
+
+        /// <summary>
+        /// Defines the draw scale factor
+        /// </summary>
+        protected float m_Scale = 1;
+
+        /// <summary>
+        /// Gets/sets the draw scale factor
+        /// </summary>
+        public float Scale
+        {
+            get { return m_Scale; }
+            set { m_Scale = value; }
+        }
+
+        /// <summary>
+        /// Defines the source rectangle position
+        /// </summary>
+        protected Vector2 m_sourceRectanglePosition = Vector2.Zero;
+
+        /// <summary>
+        /// Gets/sets the position of the draw source rectangle
+        /// </summary>
+        public Vector2 SourcePosition
+        {
+            get 
+            { 
+                return m_sourceRectanglePosition; 
+            }
+            
+            set 
+            { 
+                m_sourceRectanglePosition = value;
+
+                SourceRectangle = new Rectangle(
+                    (int)SourcePosition.X,
+                    (int)SourcePosition.Y,
+                    m_WidthBeforeScale,
+                    m_HeightBeforeScale);
+            }
+        }
+
+        /// <summary>
+        /// The source rectangle for the draw method. defines the bounds
+        /// of the image we want to draw in the loaded texture.
+        /// </summary>
+        protected Rectangle? m_SourceRectangle = null;             
+
+        /// <summary>
+        /// Gets/sets the source textures rectangle
+        /// </summary>
+        public Rectangle? SourceRectangle
+        {
+            get { return m_SourceRectangle; }
+            set { m_SourceRectangle = value; }
+        }
+
+        /// <summary>
         /// Gets/sets the SpriteBatch
         /// </summary>
         public SpriteBatch  SpriteBatch
@@ -73,7 +171,7 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// <summary>
         /// Defines the 2D texture
         /// </summary>
-        private Texture2D   m_Texture;
+        protected Texture2D   m_Texture;
 
         /// <summary>
         /// Gets/sets the 2D texture
@@ -92,6 +190,16 @@ namespace XnaGamesInfrastructure.ObjectModel
         }
 
         /// <summary>
+        /// Defines the original texture width
+        /// </summary>
+        protected int m_WidthBeforeScale;
+
+        /// <summary>
+        /// Defines the original texture height
+        /// </summary>
+        protected int m_HeightBeforeScale;
+
+        /// <summary>
         /// Gets object bounds according to sprite size and position
         /// </summary>
         public Rectangle    Bounds
@@ -99,10 +207,10 @@ namespace XnaGamesInfrastructure.ObjectModel
             get
             {
                 return new Rectangle(
-                    (int)m_Position.X,
-                    (int)m_Position.Y,
-                    m_Texture.Width,
-                    m_Texture.Height);
+                    (int)m_PositionForDraw.X,
+                    (int)m_PositionForDraw.Y,
+                    m_WidthBeforeScale,
+                    m_HeightBeforeScale);
             }
         }
 
@@ -110,21 +218,21 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// <summary>
         /// Defines object 2Dimensional position
         /// </summary>
-        protected Vector2   m_Position;
+        protected Vector2   m_PositionForDraw;
 
         /// <summary>
         /// Get/Sets object position
         /// </summary>
-        public Vector2  Position
+        public Vector2  PositionForDraw
         {
             get
             {
-                return m_Position;
+                return m_PositionForDraw;
             }
 
             set
             {
-                m_Position = value;
+                m_PositionForDraw = value;
             }
         }
 
@@ -205,9 +313,9 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// Updates game position according to motion vector
         /// </summary>
         /// <param name="gameTime">Elapsed time since last call</param>
-        public override void Update(GameTime gameTime)
+        public override void    Update(GameTime gameTime)
         {
-            m_Position += MotionVector * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            m_PositionForDraw += MotionVector * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             base.Update(gameTime);
         }
@@ -215,9 +323,30 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// <summary>
         /// Initializes sprite's position to default location (zero)
         /// </summary>
-        protected override void InitPosition()
+        protected override void     InitBounds()
         {
-            m_Position = Vector2.Zero;
+            m_PositionForDraw = Vector2.Zero;
+
+            m_WidthBeforeScale = m_Texture.Width;
+            m_HeightBeforeScale = m_Texture.Height;
+
+            InitSourceRectangle();
+        }
+
+        /// <summary>
+        /// Initialize the source rectangle for the draw only if the source 
+        /// position had been set (isn't (0,0))
+        /// </summary>
+        protected virtual void  InitSourceRectangle()
+        {
+            if (SourcePosition != Vector2.Zero)
+            {
+                SourceRectangle = new Rectangle(
+                    (int)SourcePosition.X,
+                    (int)SourcePosition.Y,
+                    m_WidthBeforeScale,
+                    m_HeightBeforeScale);
+            }
         }
 
         /// <summary>
@@ -232,7 +361,18 @@ namespace XnaGamesInfrastructure.ObjectModel
                 m_SpriteBatch.Begin();
             }
 
-            m_SpriteBatch.Draw(Texture, Position, TintColor);
+            // TODO: Add rotation origin
+
+            m_SpriteBatch.Draw(
+                m_Texture, 
+                this.PositionForDraw,
+                this.SourceRectangle, 
+                this.TintColor,
+                this.Rotation, 
+                this.Origin, 
+                this.Scale,
+                SpriteEffects.None, 
+                this.LayerDepth);
 
             if (!m_UseSharedBatch)
             {

@@ -45,13 +45,16 @@ namespace SpaceInvadersGame.ObjectModel
         /// meaning that the ship will be out of the screen, when the Y 
         /// axis value will be equal to the ships height
         /// </summary>
-        protected override void     InitPosition()
+        protected override void     InitBounds()
         {
-            Position = new Vector2(
+            PositionForDraw = new Vector2(
                 Game.GraphicsDevice.Viewport.Width, 
                 Texture.Height);
 
-            m_DefaultPosition = Position;
+            m_WidthBeforeScale = m_Texture.Width;
+            m_HeightBeforeScale = m_Texture.Height;
+
+            m_DefaultPosition = PositionForDraw;
         }        
 
         /// <summary>
@@ -74,7 +77,7 @@ namespace SpaceInvadersGame.ObjectModel
                 {
                     // Start moving the ship in the next update
                     MotionVector = r_MotionVector;
-                    Position = m_DefaultPosition;
+                    PositionForDraw = m_DefaultPosition;
                     m_RemainingTimeToMove = r_TimeBetweenMove;
                     Visible = true;
                 }

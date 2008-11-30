@@ -118,9 +118,9 @@ namespace SpaceInvadersGame.ObjectModel
                 SpaceShipBullet bullet = new SpaceShipBullet(this.Game);
                 bullet.Initialize();
                 bullet.TintColor = Color.Red;
-                bullet.Position = new Vector2(
-                                    m_Position.X + (Bounds.Width / 2),
-                                    m_Position.Y - (bullet.Bounds.Height / 2));
+                bullet.PositionForDraw = new Vector2(
+                                    m_PositionForDraw.X + (Bounds.Width / 2),
+                                    m_PositionForDraw.Y - (bullet.Bounds.Height / 2));
                 bullet.MotionVector = new Vector2(0, -k_BulletVelocity);
                 bullet.BulletCollision += new BulletCollisionDelegate(spaceShipBullet_BulletCollision);
                 bullet.Disposed += new EventHandler(spaceShipBullet_Disposed);
@@ -134,15 +134,15 @@ namespace SpaceInvadersGame.ObjectModel
         /// <summary>
         /// Initialize the SpaceShip position
         /// </summary>
-        protected override void     InitPosition()
+        protected override void     InitBounds()
         {
-            base.InitPosition();
+            base.InitBounds();
 
             float x = (float)GraphicsDevice.Viewport.Width / 2;
             float y = ((float)GraphicsDevice.Viewport.Height) - 40;
 
-            Position = new Vector2(x - (this.Texture.Width / 2), y);
-            DefaultPosition = Position;
+            PositionForDraw = new Vector2(x - (this.Texture.Width / 2), y);
+            DefaultPosition = PositionForDraw;
         }
 
         /// <summary>
@@ -179,10 +179,10 @@ namespace SpaceInvadersGame.ObjectModel
 
             base.Update(i_GameTime);
 
-            this.m_Position.X += m_InputManager.MousePositionDelta.X;
+            this.m_PositionForDraw.X += m_InputManager.MousePositionDelta.X;
 
-            m_Position.X = MathHelper.Clamp(
-                                m_Position.X, 
+            m_PositionForDraw.X = MathHelper.Clamp(
+                                m_PositionForDraw.X, 
                                 0,
                                 this.GraphicsDevice.Viewport.Width - this.Texture.Width);
         }
@@ -242,7 +242,7 @@ namespace SpaceInvadersGame.ObjectModel
             }
             else
             {
-                Position = DefaultPosition;
+                PositionForDraw = DefaultPosition;
             }
         }
 

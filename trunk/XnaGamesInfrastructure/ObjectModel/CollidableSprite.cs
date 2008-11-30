@@ -52,7 +52,7 @@ namespace XnaGamesInfrastructure.ObjectModel
         {
             base.Initialize();
 
-            m_CollisionManager = (ICollisionManager)Game.Services.GetService(typeof(ICollisionManager));
+            m_CollisionManager = Game.Services.GetService(typeof(ICollisionManager)) as ICollisionManager;
 
             if (m_CollisionManager != null)
             {

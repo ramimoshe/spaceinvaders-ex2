@@ -11,18 +11,18 @@ namespace SpaceInvadersGame.ObjectModel
     /// </summary>
     public class YellowInvader : Invader
     {
-        private const string k_AssetName = @"Sprites\Enemy0301_32x32";
-        private const int k_Score = 100;        
+        private const int k_Score = 100;
 
-        public YellowInvader(Game i_Game) 
-            : this(i_Game, 0)
-        {
-        }
+        private const int k_TextureYPositionVal = 64;
 
-        public YellowInvader(Game i_Game, int i_UpdateOrder)
-            : base(k_AssetName, i_Game, i_UpdateOrder)
+        public YellowInvader(
+            Game i_Game,
+            int i_UpdateOrder,
+            int i_InvaderListNum)
+            : base(i_Game, i_UpdateOrder, i_InvaderListNum)
         {
             TintColor = Color.LightYellow;
+            this.SourcePosition = new Vector2(0, k_TextureYPositionVal);
         }
 
         /// <summary>
