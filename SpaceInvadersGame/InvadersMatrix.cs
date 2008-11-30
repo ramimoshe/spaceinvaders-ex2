@@ -35,7 +35,7 @@ namespace SpaceInvadersGame
 
         // The percent will decrease in the time it takes the enemies 
         // to move. used to increase the enemies speed
-        private const float k_IncreaseEnemiesSpeedFactor = 0.75f;
+        private const float k_IncreaseEnemiesSpeedFactor = 0.85f;
 
         // The time we want to wait between two enemies shoots
         private readonly TimeSpan r_DefaultTimeBetweenShots = TimeSpan.FromSeconds(1.5f);
@@ -140,30 +140,47 @@ namespace SpaceInvadersGame
 
             Vector2 currPosition = new Vector2(startingPositionX, startingPositionY);
             Invader currEnemy;
+            Type prevRowType = null;
+            int currInvaderRow = 1;
 
             // Creates all the enemies according to the enemies two dimentional 
             // array
             for (int i = k_NumOfEnemiesLines - 1; i >= 0; i--)
             {                
                 List<Invader> currList = new List<Invader>();
+                currInvaderRow = 1;
 
                 for (int j = k_EnemiesInLineNum - 1; j >= 0; j--)
-                {     
+                {
+                    if (prevRowType != null)
+                    {
+                        // If it's the first invader in the list, we'll check
+                        // if the invader equals the previous one so that will
+                        // change the starting texture
+                        if ((j == k_EnemiesInLineNum - 1) &&
+                            (prevRowType.Equals(m_EnemiesMatrix[i, j])))
+                        {
+                            currInvaderRow = 2;
+                        }
+                    }
+
                     // Dynamically creates the enemy according to the type in 
                     // the two dimentional array that represents the enemies
                     // matrix
                     currEnemy = (Invader)Activator.CreateInstance(
                                                          m_EnemiesMatrix[i, j], 
                                                          Game,                                                          
-                                                         UpdateOrder - 1);
+                                                         UpdateOrder - 1,
+                                                         currInvaderRow);
 
-                    currEnemy.Position = currPosition;
+                    currEnemy.PositionForDraw = currPosition;
                     currEnemy.InvaderMaxPositionY = m_MaxInvadersYPositionYVal;
                     currEnemy.ReachedScreenBounds += new InvaderReachedScreenBoundsDelegate(invader_ReachedScreenBounds);
                     currEnemy.Disposed += invader_Disposed;
 
                     currList.Add(currEnemy);
                     currPosition.X += k_EnemyWidth * 2;
+                    prevRowType = m_EnemiesMatrix[i, j];
                 }
 
                 currPosition.Y -= k_EnemyHeight;
@@ -194,9 +211,9 @@ namespace SpaceInvadersGame
                     enemy.TimeBetweenMoves = moveTime;
 
                     // Change the Y position so that the enemy will go down                                                            
-                    Vector2 position = enemy.Position; 
+                    Vector2 position = enemy.PositionForDraw; 
                     position.Y += i_YMotionFactor;
-                    enemy.Position = position;
+                    enemy.PositionForDraw = position;
 
                     // Change the enemy direction
                     enemy.SwitchPosition();

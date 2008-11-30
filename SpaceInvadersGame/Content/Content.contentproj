@@ -41,21 +41,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Sprites\Enemy0101_32x32.png">
-      <Name>Enemy0101_32x32</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\Enemy0201_32x32.png">
-      <Name>Enemy0201_32x32</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\Enemy0301_32x32.png">
-      <Name>Enemy0301_32x32</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Sprites\MotherShip_32x120.png">
       <Name>MotherShip_32x120</Name>
       <Importer>TextureImporter</Importer>
@@ -63,6 +48,13 @@
     </Compile>
     <Compile Include="Sprites\Ship01_32x32.png">
       <Name>Ship01_32x32</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\allInvaders.png">
+      <Name>allInvaders</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

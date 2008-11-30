@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpaceInvadersGame.Interfaces;
 
 namespace SpaceInvadersGame.ObjectModel
-{        
+{            
     /// <summary>
     /// Used by Invader in order to inform that the he reached the 
     /// invaders allowed screen bounds
@@ -21,10 +21,15 @@ namespace SpaceInvadersGame.ObjectModel
     /// </summary>
     public abstract class Invader : Enemy, IShootable
     {
+        private const string k_AssetName = @"Sprites\allInvaders";
+
         // Raised when an invader reaches one of the allowed screen bounderies
         public event InvaderReachedScreenBoundsDelegate ReachedScreenBounds;
 
         private const int k_BulletVelocity = 200;
+        private const int k_InvaderSizeWidth = 32;
+        private const int k_InvaderSizeHeight = 32;
+        private const int k_DefaultInvadersListNum = 1;
 
         private TimeSpan m_TimeBetweenMove = TimeSpan.FromSeconds(0.5f);
         protected TimeSpan m_TimeLeftToNextMove;        
@@ -33,27 +38,40 @@ namespace SpaceInvadersGame.ObjectModel
 
         private float m_EnemyMaxPositionYVal;
 
-        public Invader(string i_AssetName, Game i_Game)
-            : this(i_AssetName, i_Game, 0, 0)
+        protected int m_InvaderListNum;
+
+        public Invader(Game i_Game)
+            : this(i_Game, 0, 0)
         {
         }
 
         public Invader(
-            string i_AssetName, 
-            Game i_Game, 
+            Game i_Game,
             int i_UpdateOrder)
-            : this(i_AssetName, i_Game, i_UpdateOrder, 0)
+            : this(i_Game, i_UpdateOrder, k_DefaultInvadersListNum)
+        {
+        }
+
+        public Invader(
+            Game i_Game, 
+            int i_UpdateOrder,
+            int i_InvaderListNum)
+            : this(i_Game, i_UpdateOrder, 0, i_InvaderListNum)
         {
         }        
 
         public Invader(
-            string i_AssetName, 
             Game i_Game, 
             int i_UpdateOrder, 
-            int i_DrawOrder)
-            : base(i_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
+            int i_DrawOrder,
+            int i_InvaderListNum)
+            : base(k_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
         {            
-            m_TimeLeftToNextMove = m_TimeBetweenMove;            
+            m_TimeLeftToNextMove = m_TimeBetweenMove;
+            m_InvaderListNum = (int)MathHelper.Clamp(
+                (int)i_InvaderListNum - 1, 
+                0, 
+                1);
         }       
 
         /// <summary>
@@ -117,9 +135,9 @@ namespace SpaceInvadersGame.ObjectModel
             Bullet bullet = new EnemyBullet(Game);
             bullet.Initialize();
             bullet.TintColor = Color.Blue;
-            bullet.Position = new Vector2(
-                                    Position.X + (Bounds.Width / 2),
-                                    Position.Y - (bullet.Bounds.Height / 2));
+            bullet.PositionForDraw = new Vector2(
+                                    PositionForDraw.X + (Bounds.Width / 2),
+                                    PositionForDraw.Y - (bullet.Bounds.Height / 2));
             bullet.MotionVector = new Vector2(0, k_BulletVelocity);
         }
 
@@ -149,6 +167,7 @@ namespace SpaceInvadersGame.ObjectModel
                 {
                     MotionVector = m_CurrMotion;
                     m_TimeLeftToNextMove = m_TimeBetweenMove;
+                    ChangeInvaderTexture();
 
                     moveEnemy = true;
                 }
@@ -175,14 +194,52 @@ namespace SpaceInvadersGame.ObjectModel
         }
 
         /// <summary>
+        /// Replace the origin so that will draw to the other invader image
+        /// </summary>
+        protected void  ChangeInvaderTexture()
+        {
+            if (this.SourcePosition.X == 0)
+            {
+                this.SourcePosition = new Vector2(
+                    k_InvaderSizeWidth,
+                    this.SourcePosition.Y); 
+            }
+            else
+            {
+                this.SourcePosition = new Vector2(
+                    0,
+                    this.SourcePosition.Y); 
+            }            
+        }
+
+        // TODO Change methos summary
+
+        /// <summary>
         /// An empty proc that simply prevents the parent method that initializes
         /// the coponent position from happening.
         /// this is done due to the fact that the invader position is set from
         /// the outside by the invaders matrix class, and there is no need to
         /// initialize it ourselves
         /// </summary>
-        protected override void InitPosition()
+        protected override void     InitBounds()
         {
+            m_WidthBeforeScale = k_InvaderSizeWidth;
+            m_HeightBeforeScale = k_InvaderSizeHeight;
+
+            SourcePosition = new Vector2(
+                m_InvaderListNum * k_InvaderSizeWidth,
+                SourcePosition.Y);
+
+            InitSourceRectangle();
+        }
+
+        protected override void     InitSourceRectangle()
+        {
+            this.SourceRectangle = new Rectangle(
+                (int)this.SourcePosition.X,
+                (int)this.SourcePosition.Y,
+                k_InvaderSizeWidth,
+                k_InvaderSizeHeight);
         }
 
         /// <summary>
