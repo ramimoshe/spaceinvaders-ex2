@@ -25,19 +25,26 @@ namespace SpaceInvadersGame
     /// </summary>
     public class SpaceInvadersGame : Microsoft.Xna.Framework.Game
     {
+        // TODO: Move the dll to the project reference
+
         // Add an asembly reference to the MessageBox so that we can use it in
         // our game
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern uint MessageBox(IntPtr hWnd, string text, string caption, uint type);
+        public static extern uint MessageBox(IntPtr hWnd, string text, string caption, uint type);        
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-        private SpaceShip m_Player;
+        private SpaceShip m_Player1;
+        private SpaceShip m_Player2;
         private BackGround m_BackGround;
         private InvadersMatrix m_EnemiesMatrix;
         private MotherShip m_MotherShip;
 
+        // TODO: Check if i need to change the false to a constant
+
         private bool m_GameOver = false;
+        private bool m_Player1IsDead = false;
+        private bool m_Player2IsDead = false;
 
         public  SpaceInvadersGame()
         {
@@ -48,17 +55,49 @@ namespace SpaceInvadersGame
             InputManager inputManager = new InputManager(this, 1);
             CollisionManager collisionManager = new CollisionManager(this, 10000);
 
-            m_Player = new SpaceShip(this);
-            m_Player.PlayerIsDead += new GameOverDelegate(spaceShip_PlayerIsDead);
+            // TODO: Move the keys to the constants class
+
+            PlayerControls player2Controls = new PlayerControls(
+                Keys.Space,
+                Keys.A,
+                Keys.D,
+                false);
+
+            m_Player2 = new SpaceShip(
+                this, 
+                Constants.k_Player2AssetName, 
+                player2Controls);
+            m_Player2.PlayerIsDead += new GameOverDelegate(spaceShip_Player2IsDead);
+            m_Player1 = new SpaceShip(
+                this, 
+                Constants.k_Player1AssetName, 
+                new PlayerControls());
+            m_Player1.PlayerIsDead += new GameOverDelegate(spaceShip_Player1IsDead);
             
             m_BackGround = new BackGround(this);
             m_EnemiesMatrix = new InvadersMatrix(this);
             m_EnemiesMatrix.InvaderReachedScreenEnd += new InvaderReachedScreenEndDelegate(invadersMatrix_InvaderReachedScreenEnd);
             m_EnemiesMatrix.AllInvaderssEliminated += new NoRemainingInvadersDelegate(invadersMatrix_AllInvadersEliminated);
 
-            m_MotherShip = new MotherShip(this);
+            m_MotherShip = new MotherShip(this);            
 
             this.Components.Add(m_EnemiesMatrix);
+        }
+
+        /// <summary>
+        /// Property that gets/sets indication whether the game ended
+        /// </summary>
+        private bool    GameOver
+        {
+            get
+            {
+                return m_GameOver || (m_Player1IsDead && m_Player2IsDead);
+            }
+
+            set
+            {
+                m_GameOver = value;
+            }
         }
 
         /// <summary>
@@ -69,9 +108,24 @@ namespace SpaceInvadersGame
         /// </summary>
         protected override void     Initialize()
         {            
-            base.Initialize();
+            base.Initialize();            
 
-            m_EnemiesMatrix.InvaderMaxPositionY = m_Player.Bounds.Top;
+            // TODO: Check if i need to put the init in here
+            
+            // Change the players position
+            Vector2 player1Position = new Vector2(
+                m_Player1.Texture.Width * 2,
+                this.GraphicsDevice.Viewport.Height - m_Player1.Texture.Height);
+            Vector2 player2Position = new Vector2(
+                m_Player1.Texture.Width,
+                this.GraphicsDevice.Viewport.Height - m_Player1.Texture.Height);
+
+            m_Player1.PositionForDraw = player1Position;
+            m_Player1.DefaultPosition = player1Position;
+            m_Player2.PositionForDraw = player2Position;
+            m_Player2.DefaultPosition = player2Position;
+
+            m_EnemiesMatrix.InvaderMaxPositionY = m_Player1.Bounds.Top;
         }
 
         /// <summary>
@@ -99,11 +153,12 @@ namespace SpaceInvadersGame
         /// <param name="i_GameTime">Provides a snapshot of timing values.</param>
         protected override void     Update(GameTime i_GameTime)
         {
-            if (m_GameOver)
+            if (GameOver)
             {
                 MessageBox(
                     new IntPtr(0), 
-                    "Game Over. Player Score Is: " + m_Player.Score, 
+                        "Game Over. \nPlayer1 Score Is: " + m_Player1.Score + 
+                    "\nPlayer2 Score Is: " + m_Player2.Score, 
                     "Game Over", 
                     0);
 
@@ -125,12 +180,21 @@ namespace SpaceInvadersGame
         }
 
         /// <summary>
-        /// Catch a PlayerIsDead event raised by the player and mark the game 
-        /// for exit in the next call to update
+        /// Catch a PlayerIsDead event raised by player1 and mark that the
+        /// player is dead
         /// </summary>
-        public void     spaceShip_PlayerIsDead()
+        public void     spaceShip_Player1IsDead()
         {
-            m_GameOver = true;
+            m_Player1IsDead = true;
+        }
+
+        /// <summary>
+        /// Catch a PlayerIsDead event raised by player2 and mark that the
+        /// player is dead
+        /// </summary>
+        public void spaceShip_Player2IsDead()
+        {
+            m_Player2IsDead = true;
         }
 
         /// <summary>
@@ -139,7 +203,7 @@ namespace SpaceInvadersGame
         /// </summary>
         public void     invadersMatrix_AllInvadersEliminated()
         {
-            m_GameOver = true;
+            GameOver = true;
         }
 
         /// <summary>
@@ -148,7 +212,7 @@ namespace SpaceInvadersGame
         /// </summary>
         public void     invadersMatrix_InvaderReachedScreenEnd()
         {
-            m_GameOver = true;
+            GameOver = true;
         }
     }
 }
