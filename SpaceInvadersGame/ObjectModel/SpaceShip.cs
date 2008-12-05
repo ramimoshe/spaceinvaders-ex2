@@ -16,9 +16,8 @@ namespace SpaceInvadersGame.ObjectModel
     /// The class represents the player's component in the game (the 
     /// SpaceShip)
     /// </summary>
-    public class SpaceShip : CollidableSprite, IShootable
-    {
-        private const string k_AssetName = @"Sprites\Ship01_32x32";
+    public class SpaceShip : CollidableSprite, IShootable, IPlayer
+    {        
         private readonly TimeSpan r_ShootingCoolingOff = TimeSpan.FromSeconds(0.5f);
         private const int k_AllowedBulletsNum = 3;
         private const int k_Motion = 200;
@@ -38,6 +37,8 @@ namespace SpaceInvadersGame.ObjectModel
         private IInputManager m_InputManager;
 
         private int m_PlayerScore = 0;
+        private IPlayerControls m_PlayerKeys;
+        private bool m_WasDefaultPositionSet = false;
 
         // Raised when the player collides with a bullet and there is no more
         // lives left, or in case the ship collides with an invader
@@ -45,8 +46,26 @@ namespace SpaceInvadersGame.ObjectModel
 
         #region CTOR's
 
-        public SpaceShip(Game i_Game)
-            : this(k_AssetName, i_Game, Int32.MaxValue, Int32.MaxValue)
+        /*public SpaceShip(Game i_Game, IPlayerControls i_PlayerControls)
+            : this(
+            k_AssetName, 
+            i_Game, 
+            Int32.MaxValue, 
+            Int32.MaxValue, 
+            i_PlayerControls)
+        {
+        }*/
+
+        public SpaceShip(
+            Game i_Game, 
+            string i_AssetName,
+            IPlayerControls i_PlayerControls)
+            : this(
+            i_AssetName,
+            i_Game,
+            Int32.MaxValue,
+            Int32.MaxValue,
+            i_PlayerControls)
         {
         }
 
@@ -54,12 +73,14 @@ namespace SpaceInvadersGame.ObjectModel
             string k_AssetName, 
             Game i_Game, 
             int i_UpdateOrder,
-            int i_DrawOrder)
+            int i_DrawOrder,
+            IPlayerControls i_PlayerControls)
             : base(k_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
         {
             m_Bullets = new List<Bullet>();
             m_PreviousShootingTime = r_ShootingCoolingOff;
             m_RemainingLivesLeft = k_LivesNum;
+            m_PlayerKeys = i_PlayerControls;
         }
 
         #endregion
@@ -67,7 +88,7 @@ namespace SpaceInvadersGame.ObjectModel
         /// <summary>
         /// The property holds the starting position.
         /// </summary>
-        protected Vector2   DefaultPosition
+        public Vector2   DefaultPosition
         {
             get
             {
@@ -101,6 +122,23 @@ namespace SpaceInvadersGame.ObjectModel
                     m_PlayerScore = value;
                 }
             }
+        }
+
+        /// <summary>
+        /// Property that gets\sets the remaining lives that the player has
+        /// </summary>
+        public int  RemainingLives
+        {
+            get
+            {
+                return m_RemainingLivesLeft;
+            }
+
+            set
+            {
+                m_RemainingLivesLeft = value;
+            }
+
         }
 
         #region IShootable Members
@@ -138,11 +176,18 @@ namespace SpaceInvadersGame.ObjectModel
         {
             base.InitBounds();
 
-            float x = (float)GraphicsDevice.Viewport.Width / 2;
-            float y = ((float)GraphicsDevice.Viewport.Height) - 40;
+            if (!m_WasDefaultPositionSet)
+            {
+                float x = (float)Texture.Width * 2;
+                float y = ((float)GraphicsDevice.Viewport.Height) - 40;
 
-            PositionForDraw = new Vector2(x - (this.Texture.Width / 2), y);
-            DefaultPosition = PositionForDraw;
+                PositionForDraw = new Vector2(x - (this.Texture.Width / 2), y);
+                DefaultPosition = PositionForDraw;
+            }
+            else
+            {
+                PositionForDraw = DefaultPosition;
+            }
         }
 
         /// <summary>
@@ -156,20 +201,24 @@ namespace SpaceInvadersGame.ObjectModel
 
             m_PreviousShootingTime -= i_GameTime.ElapsedGameTime;
 
-            if (m_InputManager.KeyboardState.IsKeyDown(Keys.Left))
+            if (m_InputManager.KeyboardState.IsKeyDown(m_PlayerKeys.LeftMovmentKey))
             {
                 newMotion.X = k_Motion * -1;
             }
-            else if (m_InputManager.KeyboardState.IsKeyDown(Keys.Right))
+            else if (m_InputManager.KeyboardState.IsKeyDown(m_PlayerKeys.RightMovmentKey))
             {
                 newMotion.X = k_Motion;
             }
 
-            MotionVector = newMotion;
+            MotionVector = newMotion;            
 
-            // Shoot only if the player press the space key and it passed enough time from the previous shoot
-            if ((m_InputManager.KeyPressed(Keys.Space) ||
-                 m_InputManager.ButtonPressed(eInputButtons.Left)) &&
+            // Shoot only if the player press the action key or the player 
+            // can make an actiuon using the mouse and pressed the mouse 
+            // button. In addition we also verify that enough time had 
+            // passed from the previous shoot.
+            if ((m_InputManager.KeyPressed(m_PlayerKeys.ActionKey) ||
+                (m_PlayerKeys.ActionUsingMouse && 
+                 m_InputManager.ButtonPressed(eInputButtons.Left))) &&
                 m_PreviousShootingTime.TotalSeconds < 0)
             {
                 m_PreviousShootingTime = r_ShootingCoolingOff;
@@ -219,7 +268,8 @@ namespace SpaceInvadersGame.ObjectModel
         /// between the components </returns>
         public override bool    CheckForCollision(ICollidable i_OtherComponent)
         {
-            return !(i_OtherComponent is SpaceShipBullet) &&
+            return !(i_OtherComponent is SpaceShipBullet) && 
+                   !(i_OtherComponent is SpaceShip) &&
                     base.CheckForCollision(i_OtherComponent);
         }
 
@@ -234,7 +284,7 @@ namespace SpaceInvadersGame.ObjectModel
         public override void    Collided(ICollidable i_OtherComponent)
         {
             Score -= k_LostLifeScoreDecrease;
-            m_RemainingLivesLeft--;
+            RemainingLives -= 1; 
 
             if ((m_RemainingLivesLeft <= 0) || (i_OtherComponent is Invader))
             {
@@ -251,6 +301,9 @@ namespace SpaceInvadersGame.ObjectModel
         /// </summary>
         private void    onPlayerIsDead()
         {
+            Visible = false;
+            Enabled = false;
+
             if (PlayerIsDead != null)
             {
                 PlayerIsDead();
