@@ -5,8 +5,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceInvadersGame.Interfaces
 {
+
+    public delegate void PlayerWasHitDelegate();
+
     public interface IPlayer
     {
+        event PlayerWasHitDelegate PlayerWasHitEvent;
+
         /// <summary>
         /// Property that gets the player remaining lives num
         /// </summary>

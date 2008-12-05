@@ -194,7 +194,7 @@ namespace SpaceInvadersGame
         /// Catch a PlayerIsDead event raised by player1 and mark that the
         /// player is dead
         /// </summary>
-        public void     spaceShip_Player1IsDead()
+        private void    spaceShip_Player1IsDead()
         {
             m_Player1IsDead = true;
         }
@@ -203,7 +203,7 @@ namespace SpaceInvadersGame
         /// Catch a PlayerIsDead event raised by player2 and mark that the
         /// player is dead
         /// </summary>
-        public void spaceShip_Player2IsDead()
+        private void    spaceShip_Player2IsDead()
         {
             m_Player2IsDead = true;
         }
@@ -212,7 +212,7 @@ namespace SpaceInvadersGame
         /// Catch an AllEnemiesEliminated event raised by the EnemiesMatrix
         /// and mark the game for exit in the next call to update
         /// </summary>
-        public void     invadersMatrix_AllInvadersEliminated()
+        private void     invadersMatrix_AllInvadersEliminated()
         {
             GameOver = true;
         }
@@ -221,7 +221,7 @@ namespace SpaceInvadersGame
         /// Catch an EnemyReachedScreenEnd event and mark the game for exit 
         /// in the next call to update
         /// </summary>
-        public void     invadersMatrix_InvaderReachedScreenEnd()
+        private void     invadersMatrix_InvaderReachedScreenEnd()
         {
             GameOver = true;
         }
