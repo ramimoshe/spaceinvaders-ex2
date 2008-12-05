@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceInvadersGame.Interfaces
 {
@@ -18,6 +19,14 @@ namespace SpaceInvadersGame.Interfaces
         /// Property that gets the player score
         /// </summary>
         int Score
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Property that gets the players texture
+        /// </summary>
+        Texture2D PlayerTexture
         {
             get;
         }

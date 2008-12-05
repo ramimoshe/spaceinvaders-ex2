@@ -141,6 +141,17 @@ namespace SpaceInvadersGame.ObjectModel
 
         }
 
+        /// <summary>
+        /// Read only property that gets the players texture
+        /// </summary>
+        public Texture2D PlayerTexture
+        {
+            get 
+            {
+                return Texture;
+            }
+        }
+
         #region IShootable Members
 
         /// <summary>

@@ -30,7 +30,9 @@ namespace SpaceInvadersGame
         // Add an asembly reference to the MessageBox so that we can use it in
         // our game
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern uint MessageBox(IntPtr hWnd, string text, string caption, uint type);        
+        public static extern uint MessageBox(IntPtr hWnd, string text, string caption, uint type);
+
+        private const int k_SpaceBetweenLivesDraw = 30;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -39,6 +41,7 @@ namespace SpaceInvadersGame
         private BackGround m_BackGround;
         private InvadersMatrix m_EnemiesMatrix;
         private MotherShip m_MotherShip;
+        private PlayerLivesDrawer m_Player2LivesDrawer;
 
         // TODO: Check if i need to change the false to a constant
 
@@ -82,6 +85,10 @@ namespace SpaceInvadersGame
             m_MotherShip = new MotherShip(this);            
 
             this.Components.Add(m_EnemiesMatrix);
+
+            m_Player2LivesDrawer = new PlayerLivesDrawer(this, m_Player2);
+            this.Components.Add(new PlayerLivesDrawer(this, m_Player1));
+            this.Components.Add(m_Player2LivesDrawer);
         }
 
         /// <summary>
@@ -126,6 +133,10 @@ namespace SpaceInvadersGame
             m_Player2.DefaultPosition = player2Position;
 
             m_EnemiesMatrix.InvaderMaxPositionY = m_Player1.Bounds.Top;
+
+            Vector2 pos = m_Player2LivesDrawer.DrawPosition;
+            pos.Y += k_SpaceBetweenLivesDraw;
+            m_Player2LivesDrawer.DrawPosition = pos;
         }
 
         /// <summary>

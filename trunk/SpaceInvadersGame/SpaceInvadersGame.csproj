@@ -73,6 +73,7 @@
     <Compile Include="ObjectModel\SpaceShipBullet.cs" />
     <Compile Include="ObjectModel\YellowInvader.cs" />
     <Compile Include="PlayerControls.cs" />
+    <Compile Include="PlayerLivesDrawer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ScoreDrawable.cs" />
