@@ -19,5 +19,8 @@ namespace SpaceInvadersGame
 
         public const string k_Player1AssetName = @"Sprites\Ship01_32x32";
         public const string k_Player2AssetName = @"Sprites\Ship02_32x32";
+
+        public const float k_LivesDrawScaleValue = 0.5f;
+        public const float k_LivesDrawTransparentValue = 0.5f;
     }
 }
