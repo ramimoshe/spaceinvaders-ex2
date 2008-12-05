@@ -44,6 +44,8 @@ namespace SpaceInvadersGame.ObjectModel
         // lives left, or in case the ship collides with an invader
         public event GameOverDelegate PlayerIsDead;
 
+        public event PlayerWasHitDelegate PlayerWasHitEvent;
+
         #region CTOR's
 
         /*public SpaceShip(Game i_Game, IPlayerControls i_PlayerControls)
@@ -295,7 +297,8 @@ namespace SpaceInvadersGame.ObjectModel
         public override void    Collided(ICollidable i_OtherComponent)
         {
             Score -= k_LostLifeScoreDecrease;
-            RemainingLives -= 1; 
+            RemainingLives -= 1;
+            onPlayerWasHit();
 
             if ((m_RemainingLivesLeft <= 0) || (i_OtherComponent is Invader))
             {
@@ -336,6 +339,14 @@ namespace SpaceInvadersGame.ObjectModel
             {
                 Score += (i_OtherComponent as Enemy).Score;                
             } 
+        }
+
+        private void    onPlayerWasHit()
+        {
+            if (PlayerWasHitEvent != null)
+            {
+                PlayerWasHitEvent();
+            }
         }
     }
 }

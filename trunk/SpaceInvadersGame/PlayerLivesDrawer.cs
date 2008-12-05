@@ -28,6 +28,7 @@ namespace SpaceInvadersGame
             : base(i_Game)
         {
             m_Player = i_Player;
+            m_Player.PlayerWasHitEvent += new PlayerWasHitDelegate(player_PlayerWasHitEvent);
         }
 
         /// <summary>
@@ -76,26 +77,6 @@ namespace SpaceInvadersGame
 
         }
 
-        // TODO: Change it here to observer that notifies when the ship 
-        // was hit
-
-        public override void    Update(GameTime gameTime)
-        {
-            if (m_DrawTextures.Count != m_Player.RemainingLives)
-            {
-                int texturesNum = m_DrawTextures.Count;
-
-                for (int i = 0 ;
-                     i < m_DrawTextures.Count - m_Player.RemainingLives; 
-                     i++)
-                 {
-                        m_DrawTextures.RemoveAt(m_DrawTextures.Count - 1);
-                 }   
-            }
-
-            base.Update(gameTime);
-        }
-
         /// <summary>
         /// Draw the players lives on the screen
         /// </summary>
@@ -129,6 +110,11 @@ namespace SpaceInvadersGame
             m_Position = positionToDraw;
 
             base.Draw(gameTime);
+        }
+
+        private void    player_PlayerWasHitEvent()
+        {
+            m_DrawTextures.RemoveAt(m_DrawTextures.Count - 1);
         }
     }
 }
