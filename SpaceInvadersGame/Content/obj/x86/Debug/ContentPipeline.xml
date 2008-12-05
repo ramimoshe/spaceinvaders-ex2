@@ -46,6 +46,24 @@
       <Output>C:\Documents and Settings\KK\My Documents\לימודים\XNA\פתרונות\תרגיל3\A09 Ex03 Koby 021766944 Inbar 015267479\SpaceInvadersGame\bin\x86\Debug\Content\Sprites\allInvaders.xnb</Output>
       <Time>2008-11-29T20:25:40.4686773+02:00</Time>
     </Item>
+    <Item>
+      <Source>Fonts\David.spritefont</Source>
+      <Name>Fonts\David</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\KK\My Documents\לימודים\XNA\פתרונות\תרגיל3\A09 Ex03 Koby 021766944 Inbar 015267479\SpaceInvadersGame\bin\x86\Debug\Content\Fonts\David.xnb</Output>
+      <Time>2008-12-05T10:00:59.90625+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\Ship02_32x32.png</Source>
+      <Name>Sprites\Ship02_32x32</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Documents and Settings\KK\My Documents\לימודים\XNA\פתרונות\תרגיל3\A09 Ex03 Koby 021766944 Inbar 015267479\SpaceInvadersGame\bin\x86\Debug\Content\Sprites\Ship02_32x32.xnb</Output>
+      <Time>2008-11-26T12:45:58+02:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
