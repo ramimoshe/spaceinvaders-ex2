@@ -107,12 +107,12 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// <summary>
         /// Defines the draw scale factor
         /// </summary>
-        protected float m_Scale = 1;
+        protected Vector2 m_Scale = Vector2.One;
 
         /// <summary>
         /// Gets/sets the draw scale factor
         /// </summary>
-        public float Scale
+        public Vector2 Scale
         {
             get { return m_Scale; }
             set { m_Scale = value; }
@@ -122,11 +122,11 @@ namespace XnaGamesInfrastructure.ObjectModel
         {
             get
             {
-                return m_WidthBeforeScale * m_Scale;
+                return m_WidthBeforeScale * m_Scale.X;
             }
             set
             {
-                m_WidthBeforeScale = (int) (value / m_Scale);
+                m_WidthBeforeScale = (int) (value / m_Scale.X);
             }
         }
 
@@ -134,11 +134,11 @@ namespace XnaGamesInfrastructure.ObjectModel
         {
             get
             {
-                return m_HeightBeforeScale * m_Scale;
+                return m_HeightBeforeScale * m_Scale.X;
             }
             set
             {
-                m_HeightBeforeScale = (int) (value / m_Scale);
+                m_HeightBeforeScale = (int) (value / m_Scale.Y);
             }
         }
 
