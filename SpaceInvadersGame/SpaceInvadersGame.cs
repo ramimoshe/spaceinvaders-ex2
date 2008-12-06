@@ -77,7 +77,7 @@ namespace SpaceInvadersGame
                 new PlayerControls());
             m_Player1.PlayerIsDead += new GameOverDelegate(spaceShip_Player1IsDead);
             
-            m_BackGround = new BackGround(this);
+            m_BackGround = new BackGround(this, Constants.k_StarsNum);
             m_EnemiesMatrix = new InvadersMatrix(this);
             m_EnemiesMatrix.InvaderReachedScreenEnd += new InvaderReachedScreenEndDelegate(invadersMatrix_InvaderReachedScreenEnd);
             m_EnemiesMatrix.AllInvaderssEliminated += new NoRemainingInvadersDelegate(invadersMatrix_AllInvadersEliminated);
