@@ -49,7 +49,7 @@ namespace SpaceInvadersGame.ObjectModel
             tint.W = (float)rand.NextDouble();
             TintColor = new Color(tint);
 
-            TimeSpan fadeTime = TimeSpan.FromSeconds(0.5 + rand.Next() % 4 + rand.NextDouble());
+            TimeSpan fadeTime = TimeSpan.FromSeconds(1 + rand.Next() % 4 + rand.NextDouble());
 
             bool fadeOut = rand.Next(1) == 0 ? true : false;
             TimeSpan animationTime = TimeSpan.MaxValue;
