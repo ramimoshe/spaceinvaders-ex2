@@ -375,6 +375,7 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
         }
 
+        // TODO: Remove the variable
 
         /// <summary>
         /// Defines object 2Dimensional position
