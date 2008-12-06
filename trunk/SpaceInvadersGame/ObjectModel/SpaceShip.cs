@@ -18,11 +18,10 @@ namespace SpaceInvadersGame.ObjectModel
     /// SpaceShip)
     /// </summary>
     public class SpaceShip : CollidableSprite, IShootable, IPlayer
-    {        
-        private readonly TimeSpan r_ShootingCoolingOff = TimeSpan.FromSeconds(0.5f);
-        private const int k_AllowedBulletsNum = 3;
+    {                
+        private const int k_AllowedBulletsNum = 1;
         private const int k_Motion = 200;
-        private const int k_BulletVelocity = 200;
+        private const int k_BulletVelocity = 250;
         private const int k_LostLifeScoreDecrease = 2000;
         private const int k_LivesNum = 3;
 
@@ -31,8 +30,6 @@ namespace SpaceInvadersGame.ObjectModel
         private Vector2 m_DefaultPosition;
 
         private int m_RemainingLivesLeft;
-
-        private TimeSpan m_PreviousShootingTime;
 
         private List<Bullet> m_Bullets;
         private IInputManager m_InputManager;
@@ -83,7 +80,6 @@ namespace SpaceInvadersGame.ObjectModel
             : base(k_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
         {
             m_Bullets = new List<Bullet>();
-            m_PreviousShootingTime = r_ShootingCoolingOff;
             m_RemainingLivesLeft = k_LivesNum;
             m_PlayerKeys = i_PlayerControls;
         }
@@ -217,8 +213,6 @@ namespace SpaceInvadersGame.ObjectModel
         {
             Vector2 newMotion = Vector2.Zero;
 
-            m_PreviousShootingTime -= i_GameTime.ElapsedGameTime;
-
             if (m_InputManager.KeyboardState.IsKeyDown(m_PlayerKeys.LeftMovmentKey))
             {
                 newMotion.X = k_Motion * -1;
@@ -234,13 +228,10 @@ namespace SpaceInvadersGame.ObjectModel
             // can make an actiuon using the mouse and pressed the mouse 
             // button. In addition we also verify that enough time had 
             // passed from the previous shoot.
-            if ((m_InputManager.KeyPressed(m_PlayerKeys.ActionKey) ||
-                (m_PlayerKeys.ActionUsingMouse && 
-                 m_InputManager.ButtonPressed(eInputButtons.Left))) &&
-                m_PreviousShootingTime.TotalSeconds < 0)
-            {
-                m_PreviousShootingTime = r_ShootingCoolingOff;
-
+            if (m_InputManager.KeyPressed(m_PlayerKeys.ActionKey) ||
+               (m_PlayerKeys.ActionUsingMouse && 
+                m_InputManager.ButtonPressed(eInputButtons.Left)))
+            {               
                 Shoot();
             }
 
