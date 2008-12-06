@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ObjectInterfaces\ICollidable.cs" />
     <Compile Include="ObjectModel\Animations\CompositeAnimation.cs" />
     <Compile Include="ObjectModel\Animations\ConcreteAnimations\BlinkAnimation.cs" />
     <Compile Include="ObjectModel\Animations\ConcreteAnimations\CelAnimation.cs" />
@@ -63,7 +64,6 @@
     <Compile Include="ObjectModel\CollidableSprite.cs" />
     <Compile Include="ObjectModel\DrawableLoadableComponent.cs" />
     <Compile Include="ObjectModel\GameService.cs" />
-    <Compile Include="ObjectInterfaces\ICollidable.cs" />
     <Compile Include="ObjectModel\RegisteredComponent.cs" />
     <Compile Include="ObjectModel\Sprite.cs" />
     <Compile Include="ObjectModel\SpriteFontComponent.cs" />
