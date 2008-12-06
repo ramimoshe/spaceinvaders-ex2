@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework;
 
 namespace XnaGamesInfrastructure.ObjectModel
 {
+    // TODO: Remove the class as in the teacher framework
+
     /// <summary>
     /// Class implements a sprite capable of participating in collision managemnt
     /// </summary>
