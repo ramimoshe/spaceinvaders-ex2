@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XnaGamesInfrastructure.ObjectInterfaces;
 using SpaceInvadersGame.Interfaces;
+using XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations;
 
 namespace SpaceInvadersGame.ObjectModel
 {
@@ -170,8 +171,8 @@ namespace SpaceInvadersGame.ObjectModel
                 bullet.Initialize();
                 bullet.TintColor = Color.Red;
                 bullet.PositionForDraw = new Vector2(
-                                    m_PositionForDraw.X + (Bounds.Width / 2),
-                                    m_PositionForDraw.Y - (bullet.Bounds.Height / 2));
+                                    PositionForDraw.X + (Bounds.Width / 2),
+                                    PositionForDraw.Y - (bullet.Bounds.Height / 2));
                 bullet.MotionVector = new Vector2(0, -k_BulletVelocity);
                 bullet.BulletCollision += new BulletCollisionDelegate(spaceShipBullet_BulletCollision);
                 bullet.Disposed += new EventHandler(spaceShipBullet_Disposed);
@@ -241,12 +242,15 @@ namespace SpaceInvadersGame.ObjectModel
 
             base.Update(i_GameTime);
 
-            this.m_PositionForDraw.X += m_InputManager.MousePositionDelta.X;
+            Vector2 position = PositionForDraw;
+            position.X += m_InputManager.MousePositionDelta.X;
 
-            m_PositionForDraw.X = MathHelper.Clamp(
-                                m_PositionForDraw.X, 
+            position.X = MathHelper.Clamp(
+                                PositionForDraw.X, 
                                 0,
                                 this.GraphicsDevice.Viewport.Width - this.Texture.Width);
+
+            PositionForDraw = position;
         }
 
         /// <summary>
@@ -256,6 +260,9 @@ namespace SpaceInvadersGame.ObjectModel
         {
             m_InputManager = Game.Services.GetService(typeof(InputManager)) as IInputManager;
             base.Initialize();
+
+            Animations.Add(new CelAnimation(TimeSpan.FromMilliseconds(100), 30, TimeSpan.FromMinutes(1)));
+            Animations.Enabled = true;
         }    
 
         /// <summary>

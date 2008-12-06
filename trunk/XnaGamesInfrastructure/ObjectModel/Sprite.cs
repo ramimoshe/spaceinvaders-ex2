@@ -4,6 +4,7 @@ using XnaGamesInfrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using XnaGamesInfrastructure.ObjectModel.Animations;
 
 namespace XnaGamesInfrastructure.ObjectModel
 {
@@ -40,6 +41,13 @@ namespace XnaGamesInfrastructure.ObjectModel
             int i_DrawOrder)
             : base(i_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
         {
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+
+            m_Animations = new CompositeAnimation(this);
         }
 
         #region Data members & Properties
@@ -110,6 +118,145 @@ namespace XnaGamesInfrastructure.ObjectModel
             set { m_Scale = value; }
         }
 
+        public float WidthAfterScale
+        {
+            get
+            {
+                return m_WidthBeforeScale * m_Scale;
+            }
+            set
+            {
+                m_WidthBeforeScale = (int) (value / m_Scale);
+            }
+        }
+
+        public float HeightAfterScale
+        {
+            get
+            {
+                return m_HeightBeforeScale * m_Scale;
+            }
+            set
+            {
+                m_HeightBeforeScale = (int) (value / m_Scale);
+            }
+        }
+
+        public float WidthBeforeScale
+        {
+            get
+            {
+                return m_WidthBeforeScale;
+            }
+            set
+            {
+                m_WidthBeforeScale = (int)value;
+            }
+        }
+
+        public float HeightBeforeScale
+        {
+            get
+            {
+                return m_HeightBeforeScale;
+            }
+            set
+            {
+                m_HeightBeforeScale = (int) value;
+            }
+        }
+
+        protected Vector2 m_PositionOfOrigin = Vector2.Zero;
+        /// <summary>
+        /// Represents the location of the sprite's origin point in screen coorinates
+        /// </summary>
+        public Vector2 PositionOfOrigin
+        {
+            get
+            {
+                return m_PositionOfOrigin;
+            }
+            set
+            {
+                if (m_PositionOfOrigin != value)
+                {
+                    m_PositionOfOrigin = value;
+                    //OnPositionChanged();
+                }
+            }
+        }
+
+        public Vector2 m_PositionOrigin;
+        public Vector2 PositionOrigin
+        {
+            get
+            {
+                return m_PositionOrigin;
+            }
+            set
+            {
+                m_PositionOrigin = value;
+            }
+        }
+
+        public Vector2 m_RotationOrigin = Vector2.Zero;
+        public Vector2 RotationOrigin
+        {
+            get
+            {
+                return m_RotationOrigin;
+            }// r_SpriteParameters.RotationOrigin; }
+            set
+            {
+                m_RotationOrigin = value;
+            }
+        }
+
+        public Vector2 TopLeftPosition
+        {
+            get
+            {
+                return this.PositionOfOrigin - this.PositionOrigin;
+            }
+            set
+            {
+                this.PositionOfOrigin = value + this.PositionOrigin;
+            }
+        }
+
+        public Rectangle ScreenBoundsAfterScale
+        {
+            get
+            {
+                return new Rectangle(
+                    (int)TopLeftPosition.X,
+                    (int)TopLeftPosition.Y,
+                    (int)this.WidthAfterScale,
+                    (int)this.HeightAfterScale);
+            }
+        }
+
+        public Rectangle ScreenBoundsBeforeScale
+        {
+            get
+            {
+                return new Rectangle(
+                    (int)TopLeftPosition.X,
+                    (int)TopLeftPosition.Y,
+                    (int)this.WidthBeforeScale,
+                    (int)this.HeightBeforeScale);
+            }
+        }
+
+        public virtual Rectangle ColliadbleBounds
+        {
+            get
+            {
+                return ScreenBoundsAfterScale;
+            }
+        }
+
+
         /// <summary>
         /// Defines the source rectangle position
         /// </summary>
@@ -149,7 +296,7 @@ namespace XnaGamesInfrastructure.ObjectModel
         public Rectangle? SourceRectangle
         {
             get { return m_SourceRectangle; }
-            set { m_SourceRectangle = value; }
+            set { m_SourceRectangle = value;}
         }
 
         /// <summary>
@@ -165,6 +312,20 @@ namespace XnaGamesInfrastructure.ObjectModel
             {
                 m_SpriteBatch = value;
                 m_UseSharedBatch = true;
+            }
+        }
+
+        protected CompositeAnimation m_Animations;
+
+        public CompositeAnimation Animations
+        {
+            get
+            {
+                return m_Animations;
+            }
+            set
+            {
+                m_Animations = value;
             }
         }
 
@@ -207,10 +368,10 @@ namespace XnaGamesInfrastructure.ObjectModel
             get
             {
                 return new Rectangle(
-                    (int)m_PositionForDraw.X,
-                    (int)m_PositionForDraw.Y,
-                    m_WidthBeforeScale,
-                    m_HeightBeforeScale);
+                    (int)PositionForDraw.X,
+                    (int)PositionForDraw.Y,
+                    (int)WidthBeforeScale,
+                    (int)HeightBeforeScale);
             }
         }
 
@@ -218,7 +379,7 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// <summary>
         /// Defines object 2Dimensional position
         /// </summary>
-        protected Vector2   m_PositionForDraw;
+//        protected Vector2   m_PositionForDraw;
 
         /// <summary>
         /// Get/Sets object position
@@ -227,12 +388,12 @@ namespace XnaGamesInfrastructure.ObjectModel
         {
             get
             {
-                return m_PositionForDraw;
+                return this.PositionOfOrigin - this.PositionOrigin + this.RotationOrigin;
             }
 
             set
             {
-                m_PositionForDraw = value;
+                PositionOfOrigin = value;
             }
         }
 
@@ -281,6 +442,22 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
         }
 
+
+        private float m_AngularVelocity = 0;
+        /// <summary>
+        /// Radians per Second on X Axis
+        /// </summary>
+        public float AngularVelocity
+        {
+            get
+            {
+                return m_AngularVelocity;
+            }
+            set
+            {
+                m_AngularVelocity = value;
+            }
+        }
         #endregion
 
         /// <summary>
@@ -315,9 +492,14 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// <param name="gameTime">Elapsed time since last call</param>
         public override void    Update(GameTime gameTime)
         {
-            m_PositionForDraw += MotionVector * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            float totalSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            PositionOfOrigin += MotionVector * totalSeconds;
+            this.Rotation += this.AngularVelocity * totalSeconds;
+
 
             base.Update(gameTime);
+
+            Animations.Animate(gameTime);
         }
 
         /// <summary>
@@ -325,12 +507,17 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// </summary>
         protected override void     InitBounds()
         {
-            m_PositionForDraw = Vector2.Zero;
+            m_PositionOfOrigin = Vector2.Zero;
 
             m_WidthBeforeScale = m_Texture.Width;
             m_HeightBeforeScale = m_Texture.Height;
 
             InitSourceRectangle();
+            InitOrigins();
+        }
+
+        protected virtual void InitOrigins()
+        {
         }
 
         /// <summary>
@@ -380,6 +567,16 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
 
             base.Draw(gameTime);
+        }
+
+
+        /// <summary>
+        /// Creates a memberwise clone of sprite
+        /// </summary>
+        /// <returns>A copy of this sprite</returns>
+        public Sprite   ShallowClone()
+        {
+            return this.MemberwiseClone() as Sprite;
         }
     }
 }
