@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using XnaGamesInfrastructure.ObjectModel;
 using Microsoft.Xna.Framework;
+using XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceInvadersGame.ObjectModel
 {
@@ -35,6 +37,27 @@ namespace SpaceInvadersGame.ObjectModel
 
             PositionForDraw = i_Position;
             LayerDepth = k_DefaultLayerDepth;
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+            
+            Random rand = new Random();
+
+            Vector4 tint = this.TintColor.ToVector4();
+            tint.W = (float)rand.NextDouble();
+            TintColor = new Color(tint);
+
+            TimeSpan fadeTime = TimeSpan.FromSeconds(rand.Next() % 4 + rand.NextDouble());
+
+            bool fadeOut = rand.Next(1) == 0 ? true : false;
+            TimeSpan animationTime = TimeSpan.MaxValue;
+            FadeAnimation fadeAnimation = new FadeAnimation("star_Fade", fadeTime, true, 0, 1, fadeOut, animationTime);
+            fadeAnimation.Enabled = true;
+            
+            Animations.Add(fadeAnimation);
+            Animations.Enabled = true;
         }
 
         protected override void     InitBounds()
