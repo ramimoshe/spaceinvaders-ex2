@@ -50,6 +50,7 @@ namespace SpaceInvadersGame
         private PlayerLivesDrawer m_Player2LivesDrawer;
         private PlayerScoreDrawer m_Player1ScoreDrawer;
         private PlayerScoreDrawer m_Player2ScoreDrawer;
+        private BarriersHolder m_BarrierHolder;
 
         // TODO: Check if i need to change the false to a constant
 
@@ -109,6 +110,8 @@ namespace SpaceInvadersGame
                 m_Player2,
                 k_Player2ScorePrefix);
             m_Player2ScoreDrawer.TintColor = Color.Green;
+
+            m_BarrierHolder = new BarriersHolder(this);
         }
 
         /// <summary>
@@ -160,6 +163,10 @@ namespace SpaceInvadersGame
 
             m_Player1ScoreDrawer.Position = r_Player1ScorePosition;
             m_Player2ScoreDrawer.Position = r_Player2ScorePosition;
+
+            m_BarrierHolder.UpdateBarriersPossition(
+                m_Player1.Bounds.Top,
+                m_Player1.Texture.Height);
 
             // TODO: Remove the code
 
