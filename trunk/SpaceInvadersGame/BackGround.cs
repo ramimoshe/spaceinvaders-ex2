@@ -16,8 +16,6 @@ namespace SpaceInvadersGame
     {
         private const string k_AssetName = @"Sprites\BG_Space01_1024x768";
 
-        private List<Star> m_Stars;
-
         private int m_StarsNum;
 
         public BackGround(Game i_Game, int i_StarsNum) 
