@@ -51,8 +51,8 @@ namespace SpaceInvadersGame
                                 index / Texture.Width),
                             rand.Next(1, 4),
                             DrawOrder + 1);
-                    s.Initialize();
-                    s.TintColor = new Color(new Vector4(value));
+                    //s.Initialize();
+                    //s.TintColor = new Color(new Vector4(value));
                     /*s.PositionForDraw = new Vector2(
                         index % Texture.Width, 
                         index / Texture.Width);*/

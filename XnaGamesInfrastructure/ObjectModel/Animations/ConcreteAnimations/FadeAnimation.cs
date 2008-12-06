@@ -13,6 +13,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         private TimeSpan m_TimeLeftForNextFade;
         private float m_MinOpacity = 0;
         private float m_MaxOpacity = 1;
+        private float m_OpacityPerSecond;
         private bool m_FadeOut = true;
 
         // CTORs
@@ -31,24 +32,16 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
             m_ReverseFade = i_ReverseFade;
             m_FadeOut = i_FadeOut;
             m_TimeLeftForNextFade = i_FadeLength;
+            m_OpacityPerSecond = (m_MaxOpacity - m_MinOpacity) / (float)m_FadeLength.TotalSeconds;
         }
 
         protected override void DoFrame(GameTime i_GameTime)
         {
             m_TimeLeftForNextFade -= i_GameTime.ElapsedGameTime;
             Vector4 tint = BoundSprite.TintColor.ToVector4();
-            float opacity;
-            float opacityDelta = (  (float)m_TimeLeftForNextFade.TotalSeconds /
-                                    (float)m_FadeLength.TotalSeconds) * (m_MaxOpacity - m_MinOpacity);
+            float opacity = tint.W;
 
-            if (m_FadeOut)
-            {
-                opacity = m_MaxOpacity - opacityDelta;
-            }
-            else
-            {
-                opacity = m_MinOpacity + opacityDelta;
-            }
+            opacity += m_OpacityPerSecond * (m_FadeOut ? -1 : 1) * (float)i_GameTime.ElapsedGameTime.TotalSeconds;
 
             tint.W = opacity;
             BoundSprite.TintColor = new Color(tint);
