@@ -7,10 +7,14 @@ namespace SpaceInvadersGame.Interfaces
 {
 
     public delegate void PlayerWasHitDelegate();
+    
+    public delegate void PlayerScoreChangedDelegate();
 
     public interface IPlayer
     {
         event PlayerWasHitDelegate PlayerWasHitEvent;
+
+        event PlayerScoreChangedDelegate PlayerScoreChangedEvent;
 
         /// <summary>
         /// Property that gets the player remaining lives num
