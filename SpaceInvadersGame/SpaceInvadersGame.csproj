@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackGround.cs" />
+    <Compile Include="BarriersHolder.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\IPlayerControls.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Interfaces\IShootable.cs" />
     <Compile Include="ObjectModel\BlueInvader.cs" />
     <Compile Include="ObjectModel\Bullet.cs" />
+    <Compile Include="ObjectModel\Barrier.cs" />
     <Compile Include="ObjectModel\Enemy.cs" />
     <Compile Include="ObjectModel\Invader.cs" />
     <Compile Include="ObjectModel\EnemyBullet.cs" />
