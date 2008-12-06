@@ -71,6 +71,7 @@
     <Compile Include="ObjectModel\PinkInvader.cs" />
     <Compile Include="ObjectModel\SpaceShip.cs" />
     <Compile Include="ObjectModel\SpaceShipBullet.cs" />
+    <Compile Include="ObjectModel\Star.cs" />
     <Compile Include="ObjectModel\YellowInvader.cs" />
     <Compile Include="PlayerControls.cs" />
     <Compile Include="PlayerLivesDrawer.cs" />
