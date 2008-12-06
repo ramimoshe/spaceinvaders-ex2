@@ -66,6 +66,7 @@
     <Compile Include="ObjectInterfaces\ICollidable.cs" />
     <Compile Include="ObjectModel\RegisteredComponent.cs" />
     <Compile Include="ObjectModel\Sprite.cs" />
+    <Compile Include="ObjectModel\SpriteFontComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceInterfaces\ICollisionManager.cs" />
     <Compile Include="ServiceInterfaces\IInputManager.cs" />
