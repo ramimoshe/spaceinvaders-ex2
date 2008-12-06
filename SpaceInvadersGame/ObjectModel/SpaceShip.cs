@@ -45,6 +45,8 @@ namespace SpaceInvadersGame.ObjectModel
         // lives left, or in case the ship collides with an invader
         public event GameOverDelegate PlayerIsDead;
 
+        public event PlayerScoreChangedDelegate PlayerScoreChangedEvent;
+
         public event PlayerWasHitDelegate PlayerWasHitEvent;
 
         #region CTOR's
@@ -124,6 +126,8 @@ namespace SpaceInvadersGame.ObjectModel
                 {
                     m_PlayerScore = value;
                 }
+
+                onPlayerScoreChanged();
             }
         }
 
@@ -246,7 +250,7 @@ namespace SpaceInvadersGame.ObjectModel
             position.X += m_InputManager.MousePositionDelta.X;
 
             position.X = MathHelper.Clamp(
-                                PositionForDraw.X, 
+                                position.X, 
                                 0,
                                 this.GraphicsDevice.Viewport.Width - this.Texture.Width);
 
@@ -353,6 +357,14 @@ namespace SpaceInvadersGame.ObjectModel
             if (PlayerWasHitEvent != null)
             {
                 PlayerWasHitEvent();
+            }
+        }
+
+        private void    onPlayerScoreChanged()
+        {
+            if (PlayerScoreChangedEvent != null)
+            {
+                PlayerScoreChangedEvent();
             }
         }
     }
