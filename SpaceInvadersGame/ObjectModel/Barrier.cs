@@ -18,7 +18,6 @@ namespace SpaceInvadersGame.ObjectModel
         public Barrier(Game i_Game)
             : base(k_AssetName, i_Game)
         {
-            m_BoundCheckType = eSpriteBoundCheckType.ReachBounds;
             MotionVector = new Vector2(k_XMotionSpeed, 0);
         }
 
