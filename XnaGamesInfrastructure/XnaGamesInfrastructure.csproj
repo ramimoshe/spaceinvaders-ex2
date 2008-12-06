@@ -58,6 +58,7 @@
     <Compile Include="ObjectModel\Animations\CompositeAnimation.cs" />
     <Compile Include="ObjectModel\Animations\ConcreteAnimations\BlinkAnimation.cs" />
     <Compile Include="ObjectModel\Animations\ConcreteAnimations\CelAnimation.cs" />
+    <Compile Include="ObjectModel\Animations\ConcreteAnimations\FadeAnimation.cs" />
     <Compile Include="ObjectModel\Animations\ConcreteAnimations\SequencialAnimation.cs" />
     <Compile Include="ObjectModel\Animations\ConcreteAnimations\WaypointsAnymation.cs" />
     <Compile Include="ObjectModel\Animations\SpriteAnimation.cs" />
@@ -66,7 +67,6 @@
     <Compile Include="ObjectModel\GameService.cs" />
     <Compile Include="ObjectModel\RegisteredComponent.cs" />
     <Compile Include="ObjectModel\Sprite.cs" />
-    <Compile Include="ObjectModel\SpriteFontComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceInterfaces\ICollisionManager.cs" />
     <Compile Include="ServiceInterfaces\IInputManager.cs" />
