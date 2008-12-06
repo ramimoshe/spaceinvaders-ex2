@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using XnaGamesInfrastructure.Services;
 using SpaceInvadersGame.ObjectModel;
+using System.Windows.Forms;
 
 namespace SpaceInvadersGame
 {
@@ -29,10 +30,15 @@ namespace SpaceInvadersGame
 
         // Add an asembly reference to the MessageBox so that we can use it in
         // our game
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern uint MessageBox(IntPtr hWnd, string text, string caption, uint type);
+        //[DllImport("user32.dll", CharSet = CharSet.Auto)]
+        //public static extern uint MessageBox(IntPtr hWnd, string text, string caption, uint type);
 
         private const int k_SpaceBetweenLivesDraw = 30;
+        private const string k_Player1ScorePrefix = "P1 Score: ";
+        private const string k_Player2ScorePrefix = "P2 Score: ";
+
+        private readonly Vector2 r_Player1ScorePosition = new Vector2(5, 10);
+        private readonly Vector2 r_Player2ScorePosition = new Vector2(5, 30);
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -42,6 +48,8 @@ namespace SpaceInvadersGame
         private InvadersMatrix m_EnemiesMatrix;
         private MotherShip m_MotherShip;
         private PlayerLivesDrawer m_Player2LivesDrawer;
+        private PlayerScoreDrawer m_Player1ScoreDrawer;
+        private PlayerScoreDrawer m_Player2ScoreDrawer;
 
         // TODO: Check if i need to change the false to a constant
 
@@ -61,9 +69,9 @@ namespace SpaceInvadersGame
             // TODO: Move the keys to the constants class
 
             PlayerControls player2Controls = new PlayerControls(
-                Keys.Space,
-                Keys.A,
-                Keys.D,
+                Microsoft.Xna.Framework.Input.Keys.Space,
+                Microsoft.Xna.Framework.Input.Keys.A,
+                Microsoft.Xna.Framework.Input.Keys.D,
                 false);
 
             m_Player2 = new SpaceShip(
@@ -89,6 +97,18 @@ namespace SpaceInvadersGame
             m_Player2LivesDrawer = new PlayerLivesDrawer(this, m_Player2);
             this.Components.Add(new PlayerLivesDrawer(this, m_Player1));
             this.Components.Add(m_Player2LivesDrawer);
+
+            m_Player1ScoreDrawer = new PlayerScoreDrawer(
+                this,
+                m_Player1,
+                k_Player1ScorePrefix);
+            m_Player1ScoreDrawer.TintColor = Color.Blue;
+
+            m_Player2ScoreDrawer = new PlayerScoreDrawer(
+                this,
+                m_Player2,
+                k_Player2ScorePrefix);
+            m_Player2ScoreDrawer.TintColor = Color.Green;
         }
 
         /// <summary>
@@ -137,6 +157,15 @@ namespace SpaceInvadersGame
             Vector2 pos = m_Player2LivesDrawer.DrawPosition;
             pos.Y += k_SpaceBetweenLivesDraw;
             m_Player2LivesDrawer.DrawPosition = pos;
+
+            m_Player1ScoreDrawer.Position = r_Player1ScorePosition;
+            m_Player2ScoreDrawer.Position = r_Player2ScorePosition;
+
+            // TODO: Remove the code
+
+            /*pos = m_Player2ScoreDrawer.Position;
+            pos.Y += 25;
+            m_Player2ScoreDrawer.Position = pos;*/
         }
 
         /// <summary>
@@ -166,12 +195,13 @@ namespace SpaceInvadersGame
         {
             if (GameOver)
             {
-                MessageBox(
-                    new IntPtr(0), 
-                        "Game Over. \nPlayer1 Score Is: " + m_Player1.Score + 
+                MessageBox.Show(
+                    //new IntPtr(0), 
+                    "Game Over. \nPlayer1 Score Is: " + m_Player1.Score + 
                     "\nPlayer2 Score Is: " + m_Player2.Score, 
                     "Game Over", 
-                    0);
+                    MessageBoxButtons.OK, 
+                    System.Windows.Forms.MessageBoxIcon.Information);                
 
                 this.Exit();
             }
