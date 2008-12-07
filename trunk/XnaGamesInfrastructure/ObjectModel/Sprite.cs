@@ -48,9 +48,26 @@ namespace XnaGamesInfrastructure.ObjectModel
             base.Initialize();
 
             m_Animations = new CompositeAnimation(this);
+            m_ViewportBounds = new Rectangle(
+                        Game.GraphicsDevice.Viewport.X,
+                        Game.GraphicsDevice.Viewport.Y,
+                        Game.GraphicsDevice.Viewport.Width,
+                        Game.GraphicsDevice.Viewport.Height);
         }
 
-        #region Data members & Properties
+        #region Data members & Properties        
+
+        private Rectangle m_ViewportBounds;
+
+        // TODO: Check if the variable is nessecary
+
+        protected Color[] m_ColorData;
+
+        public Color[] ColorData
+        {
+            get { return m_ColorData; }
+            set { m_ColorData = value; }
+        }
 
         /// <summary>
         /// Defines whether component's SpriteBatch is a shared batch
@@ -466,7 +483,19 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// </summary>
         protected override void     LoadContent()
         {
-            m_Texture = m_ContentManager.Load<Texture2D>(m_AssetName);
+            m_Texture = m_ContentManager.Load<Texture2D>(m_AssetName);                        
+
+            // TODO: Check if i need this here
+
+            /*Game.GraphicsDevice.Indices = null;
+            Game.GraphicsDevice.Vertices[0].SetSource(null, 0, 0);*/
+            
+            // TODO: Add remark
+
+            Game.GraphicsDevice.Textures[0] = null;
+
+            m_ColorData = new Color[m_Texture.Width * m_Texture.Height];
+            Texture.GetData(m_ColorData, 0, Texture.Width * Texture.Height);
 
             // Checking if spritebatch already exists
             if (m_SpriteBatch == null)
@@ -482,7 +511,7 @@ namespace XnaGamesInfrastructure.ObjectModel
                 {
                     m_UseSharedBatch = true;
                 }
-            }
+            }            
 
             base.LoadContent();
         }
@@ -491,16 +520,15 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// Updates game position according to motion vector
         /// </summary>
         /// <param name="gameTime">Elapsed time since last call</param>
-        public override void    Update(GameTime gameTime)
+        public override void    Update(GameTime i_GameTime)
         {
-            float totalSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            float totalSeconds = (float)i_GameTime.ElapsedGameTime.TotalSeconds;
             PositionOfOrigin += MotionVector * totalSeconds;
             this.Rotation += this.AngularVelocity * totalSeconds;
 
+            base.Update(i_GameTime);
 
-            base.Update(gameTime);
-
-            Animations.Animate(gameTime);
+            Animations.Animate(i_GameTime);
         }
 
         /// <summary>
@@ -578,6 +606,6 @@ namespace XnaGamesInfrastructure.ObjectModel
         public Sprite   ShallowClone()
         {
             return this.MemberwiseClone() as Sprite;
-        }
+        }      
     }
 }
