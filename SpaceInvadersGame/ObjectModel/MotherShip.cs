@@ -15,7 +15,7 @@ namespace SpaceInvadersGame.ObjectModel
     {
         private readonly TimeSpan r_TimeBetweenMove = TimeSpan.FromSeconds(5.0f);
         private readonly Vector2 r_MotionVector = new Vector2(-150, 0);
-        private const string k_AssetName = @"Sprites\MotherShip_32x120";
+        private const string k_AssetName = @"Content\Sprites\MotherShip_32x120";
         private const int k_Score = 500;
         
         // The initialized position

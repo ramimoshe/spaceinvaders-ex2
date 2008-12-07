@@ -11,7 +11,7 @@ namespace SpaceInvadersGame.ObjectModel
     /// </summary>
     public abstract class Bullet : CollidableSprite
     {
-        private const string k_AssetName = @"Sprites\Bullet";
+        private const string k_AssetName = @"Content\Sprites\Bullet";
         private Rectangle m_ViewPortBounds;
 
         #region CTOR's
@@ -70,7 +70,9 @@ namespace SpaceInvadersGame.ObjectModel
         /// or that there is no collision between the components</returns>
         public override bool  CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
-            return !(i_OtherComponent is Bullet) && 
+            // TODO: Remove the barrier from the check
+
+            return !(i_OtherComponent is Bullet) && !(i_OtherComponent is Barrier) &&
                     base.CheckForCollision(i_OtherComponent);
         }                
     }
