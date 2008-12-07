@@ -72,6 +72,7 @@
     <Compile Include="ServiceInterfaces\ICollisionManager.cs" />
     <Compile Include="ServiceInterfaces\IInputManager.cs" />
     <Compile Include="Services\CollisionManager.cs" />
+    <Compile Include="Services\MyContentManager.cs" />
     <Compile Include="Services\InputManager.cs" />
   </ItemGroup>
   <ItemGroup>
