@@ -3,6 +3,7 @@ using XnaGamesInfrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using XnaGamesInfrastructure.Services;
 
 namespace XnaGamesInfrastructure.ObjectModel
 {
@@ -65,8 +66,11 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// </summary>
         public override void Initialize()
         {
+            // TODO: Check if it's ok
+
             // Getting initialized content device
-            m_ContentManager = Game.Content;
+            m_ContentManager = new MyContentManager(Game.Content.ServiceProvider);
+            //m_ContentManager = Game.Content;
 
             base.Initialize();
 
