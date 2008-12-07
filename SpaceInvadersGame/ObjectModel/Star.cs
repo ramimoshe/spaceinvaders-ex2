@@ -13,7 +13,7 @@ namespace SpaceInvadersGame.ObjectModel
     /// </summary>
     public class Star : Sprite
     {
-        private const string k_AssetName = @"Sprites\Star";
+        private const string k_AssetName = @"Content\Sprites\Star";
         private const int k_WidthBitsNum = 2;
         private const int k_DefaultLayerDepth = 1;
 
