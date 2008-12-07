@@ -93,15 +93,17 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// Default behaviour in case of collision - hides the sprite
         /// </summary>
         /// <param name="i_OtherComponent"></param>
-        public virtual void Collided(ICollidable i_OtherComponent)
+        public virtual void     Collided(ICollidable i_OtherComponent)
         {
             this.Visible = false;            
-        }
+        }        
 
         /// <summary>
         /// Raised when sprite's position is modified in current update
         /// </summary>
         public event PositionChangedDelegate PositionChanged;
+
+        
 
         /// <summary>
         /// Raises PositionChanged event if there are registered observers.
@@ -112,7 +114,7 @@ namespace XnaGamesInfrastructure.ObjectModel
             {
                 PositionChanged(this);
             }
-        }
+        }        
 
         #endregion
     }
