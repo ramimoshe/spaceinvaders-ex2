@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace XnaGamesInfrastructure.ObjectInterfaces
 {
@@ -38,6 +39,23 @@ namespace XnaGamesInfrastructure.ObjectInterfaces
         /// object)
         /// </summary>
         bool Visible
+        {
+            get;
+        }
+
+        // TODO: Check if nessecary here
+
+        Color[] ColorData
+        {
+            get;
+        }
+
+        Texture2D Texture
+        {
+            get;
+        }
+
+        Vector2 MotionVector
         {
             get;
         }
