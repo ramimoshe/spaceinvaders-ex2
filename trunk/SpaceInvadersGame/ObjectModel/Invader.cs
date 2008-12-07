@@ -21,7 +21,7 @@ namespace SpaceInvadersGame.ObjectModel
     /// </summary>
     public abstract class Invader : Enemy, IShootable
     {
-        private const string k_AssetName = @"Sprites\allInvaders";
+        private const string k_AssetName = @"Content\Sprites\allInvaders";
 
         // Raised when an invader reaches one of the allowed screen bounderies
         public event InvaderReachedScreenBoundsDelegate ReachedScreenBounds;
@@ -119,8 +119,18 @@ namespace SpaceInvadersGame.ObjectModel
         /// between the components </returns>
         public override bool    CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
-            return !(i_OtherComponent is EnemyBullet) &&
+            // TODO: Remove the barrier
+
+            return !(i_OtherComponent is EnemyBullet) && !(i_OtherComponent is Barrier) &&
                       base.CheckForCollision(i_OtherComponent);
+        }
+
+        public override void    Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
+        {
+            if (!(i_OtherComponent is Barrier))
+            {
+                base.Collided(i_OtherComponent);
+            }
         }
 
         #endregion
