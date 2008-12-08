@@ -85,7 +85,7 @@ namespace XnaGamesInfrastructure.Services
         {
             if (i_Collidable is ICollidable)
             {
-                CheckCollision(i_Collidable as ICollidable);
+                checkCollision(i_Collidable as ICollidable);
             }
         }
 
@@ -93,7 +93,7 @@ namespace XnaGamesInfrastructure.Services
         /// Checking if a collision occured for specified component
         /// </summary>
         /// <param name="i_Source">specified component</param>
-        private void CheckCollision(ICollidable i_Source)
+        private void    checkCollision(ICollidable i_Source)
         {
             // Checking for collision with each of the observed components
             foreach (ICollidable target in m_Collidables)
