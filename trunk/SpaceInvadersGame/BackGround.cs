@@ -27,7 +27,9 @@ namespace SpaceInvadersGame
         protected override void    LoadContent()
         {
             base.LoadContent();
-
+            Vector4 tint = Color.AntiqueWhite.ToVector4();
+            tint.W = 0.8f;
+            TintColor = new Color(tint);
             Random rand = new Random();
 
             Color[] pixels = new Color[this.Texture.Width * this.Texture.Height];
