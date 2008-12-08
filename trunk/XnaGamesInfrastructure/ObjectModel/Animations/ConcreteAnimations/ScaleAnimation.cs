@@ -22,6 +22,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
             : base(i_Name, i_AnimationLength)
         {
             m_TargetScaleSize = i_TargetScaleSize;
+            m_ScaleLength = i_ScaleLength;
             m_TimeLeftForScale = i_ScaleLength;
             m_ResetAfterFinish = i_ResetAfterFinish;
         }
@@ -30,8 +31,8 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         {
             get
             {
-                return new Vector2( m_TargetScaleSize.X / BoundSprite.Scale.X / (float) m_ScaleLength.TotalSeconds,
-                                    m_TargetScaleSize.Y / BoundSprite.Scale.Y / (float) m_ScaleLength.TotalSeconds);
+                return new Vector2( (m_TargetScaleSize.X - BoundSprite.Scale.X) / (float) m_ScaleLength.TotalSeconds,
+                                    (m_TargetScaleSize.Y - BoundSprite.Scale.Y) / (float) m_ScaleLength.TotalSeconds);
             }
         }
 
