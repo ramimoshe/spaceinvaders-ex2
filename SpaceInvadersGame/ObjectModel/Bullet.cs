@@ -70,9 +70,7 @@ namespace SpaceInvadersGame.ObjectModel
         /// or that there is no collision between the components</returns>
         public override bool  CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
-            // TODO: Remove the barrier from the check
-
-            return !(i_OtherComponent is Bullet) && !(i_OtherComponent is Barrier) &&
+            return !(i_OtherComponent is Bullet) &&
                     base.CheckForCollision(i_OtherComponent);
         }                
     }

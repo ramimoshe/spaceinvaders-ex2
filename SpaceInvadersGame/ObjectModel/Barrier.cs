@@ -8,25 +8,31 @@ using XnaGamesInfrastructure.ObjectInterfaces;
 
 namespace SpaceInvadersGame.ObjectModel
 {
+    /// <summary>
+    /// Represents the barrier game component
+    /// </summary>
     public class Barrier : CollidableSprite
     {
         private const string k_AssetName = @"Content\Sprites\Barrier_44x32";
 
         private const int k_XMotionSpeed = 100;
+        private const float k_TransparentPercent = .75f;
 
         private bool m_FirstUpdate = true;
         private float m_MaxXValue = 0;
         private float m_MinXValue = 0;
 
-        List<int> m_CollidingPixels = new List<int>();
-        private int m_MinCollidingPixel;
-
         public Barrier(Game i_Game)
             : base(k_AssetName, i_Game)
         {            
             MotionVector = new Vector2(k_XMotionSpeed, 0);
+            m_CollisionCheckType = eCollidableCheckType.PixelCollision;
         }
 
+        /// <summary>
+        /// Move the barrier in the screen 
+        /// </summary>
+        /// <param name="i_GameTime">Provides a snapshot of timing values.</param>
         public override void    Update(GameTime i_GameTime)
         {
             // On the first update, we'll set the barrier maximum and
@@ -46,93 +52,38 @@ namespace SpaceInvadersGame.ObjectModel
             {
                 MotionVector *= -1;
             }
-        }        
-
-        // TODO: Move to CollidableSprite
-
-        public bool     CheckPixelCollision(ICollidable i_OtherComponent)
-        {
-            int top = Math.Max(Bounds.Top, i_OtherComponent.Bounds.Top);
-            int bottom = Math.Min(Bounds.Bottom, i_OtherComponent.Bounds.Bottom);
-            int left = Math.Max(Bounds.Left, i_OtherComponent.Bounds.Left);
-            int right = Math.Min(Bounds.Right, i_OtherComponent.Bounds.Right);           
-
-            bool retVal = false;
-
-            Color[] dataA = ColorData;
-            Color[] dataB = i_OtherComponent.ColorData;
-
-            m_CollidingPixels.Clear();
-            m_MinCollidingPixel = -1;
-
-            // TODO: Remove the remark
-
-            /*Texture.GetData<Color>(dataA);
-            i_OtherComponent.Texture.GetData<Color>(dataB);            */
-
-            // Check every point within the intersection bounds
-            for (int y = top; y < bottom; y++)
-            {
-                for (int x = left; x < right; x++)
-                {
-                    // Get the color of both pixels at this point
-                    Color colorA = dataA[(x - Bounds.Left) +
-                                         (y - Bounds.Top) * Bounds.Width];
-                    Color colorB = dataB[(x - i_OtherComponent.Bounds.Left) +
-                                         (y - i_OtherComponent.Bounds.Top) * i_OtherComponent.Bounds.Width];
-
-                    // If both pixels are not completely transparent,
-                    if (colorA.A != 0 && colorB.A != 0)
-                    {
-                        // then an intersection has been found
-
-                        if (m_MinCollidingPixel == -1)
-                        {
-                            m_MinCollidingPixel = (x - Bounds.Left) +
-                                         (y - Bounds.Top) * Bounds.Width;
-                        }
-
-                        m_CollidingPixels.Add((x - Bounds.Left) +
-                                         (y - Bounds.Top) * Bounds.Width);
-
-                        retVal = true;
-                    }
-                }
-            }
-
-            // No intersection found
-            return retVal;
         }
 
-        public override bool    CheckForCollision(ICollidable i_OtherComponent)
+        /// <summary>
+        /// Implement the pixel collision between the current component and 
+        /// a given component.
+        /// in case it's an Enemy we'll call the base behaviour, otherwise 
+        /// we'll transperent pixels in the colliding position according
+        /// to the sent component texture size.
+        /// </summary>
+        /// <param name="i_OtherComponent">The component we collided with</param>
+        /// <param name="i_CollidingPixels">The current component pixels
+        /// that collides with the given component</param>
+        /// <returns>An array of the new component texture colors</returns>
+        protected override Color[]      PerformPixelCollision(
+            ICollidable i_OtherComponent, 
+            List<int> i_CollidingPixels)
         {
-            bool retVal = base.CheckForCollision(i_OtherComponent);
- 	     
-            if (retVal)
-            {
-                retVal = CheckPixelCollision(i_OtherComponent);
-            }
-
-            return retVal;
-        }
-
-        public override void    Collided(ICollidable i_OtherComponent)
-        {
-            Color[] colors = ColorData;
-
+            Color[] retVal = null;
+       
             if (i_OtherComponent is Enemy)
             {
-                foreach (int pixel in m_CollidingPixels)
-                {
-                    Vector4 color = colors[pixel].ToVector4();
-                    color.W = 0;
-                    colors[pixel] = new Color(color);
-                }
+                retVal = base.PerformPixelCollision(
+                            i_OtherComponent,
+                            i_CollidingPixels);
             }
-            else
+            else if (i_CollidingPixels != null)
             {
-                int pixelToTransperentNum = (int)(.75f * (i_OtherComponent.Texture.Width *
-                                         i_OtherComponent.Texture.Height));
+                retVal = ColorData;
+
+                int pixelToTransperentNum = (int)
+                    (k_TransparentPercent * (i_OtherComponent.Texture.Width *
+                     i_OtherComponent.Texture.Height));
 
                 // Calculate the direction which we need to transparent the 
                 // pixels accroding to the colliding component movement
@@ -141,7 +92,9 @@ namespace SpaceInvadersGame.ObjectModel
                     (i_OtherComponent.MotionVector.Y / 
                      Math.Abs(i_OtherComponent.MotionVector.Y));
 
-                int currPixel = m_MinCollidingPixel;
+                i_CollidingPixels.Sort();
+                int currPixel = i_CollidingPixels[0];
+
                 bool finish = false;
 
                 while (pixelToTransperentNum > 0 && !finish)
@@ -178,27 +131,26 @@ namespace SpaceInvadersGame.ObjectModel
                            widthPixel != finishPixel && 
                            !finishWidth)
                     {
-                        Vector4 color = colors[widthPixel].ToVector4();
+                        Vector4 color = retVal[widthPixel].ToVector4();
                         color.W = 0;
-                        colors[widthPixel] = new Color(color);
+                        retVal[widthPixel] = new Color(color);
 
                         widthPixel += transperentDirection;
                                                 
                         pixelToTransperentNum--;
-                        
-                        finishWidth = widthPixel > colors.Length - 1 || 
+
+                        finishWidth = widthPixel > retVal.Length - 1 || 
                                       widthPixel < 0;
                     }
 
                     currPixel += Texture.Width * transperentDirection;
 
-                    finish = currPixel > colors.Length - 1 || 
+                    finish = currPixel > retVal.Length - 1 || 
                              currPixel < 0;
-                }
+                }                
             }
-            
-            ColorData = colors;
-            Texture.SetData<Color>(colors);
+
+            return retVal;
         }        
     }
 }
