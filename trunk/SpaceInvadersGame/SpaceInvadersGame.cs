@@ -202,10 +202,12 @@ namespace SpaceInvadersGame
         {
             if (GameOver)
             {
+                string winningMsg = getWinningPlayerMsg();
+
                 MessageBox.Show(
                     //new IntPtr(0), 
                     "Game Over. \nPlayer1 Score Is: " + m_Player1.Score + 
-                    "\nPlayer2 Score Is: " + m_Player2.Score, 
+                    "\nPlayer2 Score Is: " + m_Player2.Score + winningMsg, 
                     "Game Over", 
                     MessageBoxButtons.OK, 
                     System.Windows.Forms.MessageBoxIcon.Information);                
@@ -214,6 +216,30 @@ namespace SpaceInvadersGame
             }
 
             base.Update(i_GameTime);
+        }
+
+        /// <summary>
+        /// Return a string that states the wining player
+        /// </summary>
+        /// <returns>A string that states the winning player number</returns>
+        private string  getWinningPlayerMsg()
+        {
+            string retVal = "\nPlayer {0} Won";
+
+            if (m_Player1.Score > m_Player2.Score)
+            {
+                retVal = String.Format(retVal, 1);
+            }
+            else if (m_Player1.Score > m_Player2.Score)
+            {
+                retVal = String.Format(retVal, 2);
+            }
+            else
+            {
+                retVal = "\nTie. Players scores are equal";
+            }
+
+            return retVal;
         }
 
         /// <summary>

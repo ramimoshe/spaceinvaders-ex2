@@ -35,7 +35,7 @@ namespace SpaceInvadersGame
 
         // The percent will decrease in the time it takes the enemies 
         // to move. used to increase the enemies speed
-        private const float k_IncreaseEnemiesSpeedFactor = 0.85f;
+        private const float k_IncreaseEnemiesSpeedFactor = .85f;
 
         // The time we want to wait between two enemies shoots
         private readonly TimeSpan r_DefaultTimeBetweenShots = TimeSpan.FromSeconds(1.5f);
@@ -130,13 +130,10 @@ namespace SpaceInvadersGame
         /// </summary>
         private void    initInvadersList()
         {
-            // Calculate the positions according to the number of enemies before the 
-            // middle enemy position
-            float startingPositionX = ((float)Game.GraphicsDevice.Viewport.Width / 2);
-            startingPositionX -= ((k_EnemiesInLineNum / 2) * (k_EnemyWidth * 2));
-            startingPositionX -= k_EnemyWidth / 2;
+            float startingPositionX = 0;
 
-            float startingPositionY = ((float)Game.GraphicsDevice.Viewport.Height / 2);
+            float startingPositionY = ((float)
+                Game.GraphicsDevice.Viewport.Height / 2);
 
             Vector2 currPosition = new Vector2(startingPositionX, startingPositionY);
             Invader currEnemy;
@@ -144,20 +141,20 @@ namespace SpaceInvadersGame
             int currInvaderRow = 1;
 
             // Creates all the enemies according to the enemies two dimentional 
-            // array
+            // array            
             for (int i = k_NumOfEnemiesLines - 1; i >= 0; i--)
             {                
                 List<Invader> currList = new List<Invader>();
                 currInvaderRow = 1;
 
-                for (int j = k_EnemiesInLineNum - 1; j >= 0; j--)
+                for (int j = 0; j < k_EnemiesInLineNum; j++)
                 {
                     if (prevRowType != null)
                     {
                         // If it's the first invader in the list, we'll check
                         // if the invader equals the previous one so that will
-                        // change the starting texture
-                        if ((j == k_EnemiesInLineNum - 1) &&
+                        // change the starting texture                        
+                        if ((j == 0) &&
                             (prevRowType.Equals(m_EnemiesMatrix[i, j])))
                         {
                             currInvaderRow = 2;
