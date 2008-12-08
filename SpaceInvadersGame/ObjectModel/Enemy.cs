@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using XnaGamesInfrastructure.ObjectModel;
 using Microsoft.Xna.Framework;
+using XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations;
 
 namespace SpaceInvadersGame.ObjectModel
 {
@@ -34,6 +35,14 @@ namespace SpaceInvadersGame.ObjectModel
         }
 #endregion
 
+        public override void Initialize()
+        {
+            base.Initialize();
+            ScaleAnimation scaleAnimation =
+                new ScaleAnimation("Scale_enemyDeath", TimeSpan.FromSeconds(0.1), new Vector2(0f, 0f), TimeSpan.Zero, false);
+            Animations.Add(scaleAnimation);
+            Animations.Enabled = false;
+        }
         /// <summary>
         /// A property that return the enemy score
         /// </summary>
