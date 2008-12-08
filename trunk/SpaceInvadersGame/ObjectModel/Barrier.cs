@@ -19,7 +19,7 @@ namespace SpaceInvadersGame.ObjectModel
         private float m_MinXValue = 0;
 
         List<int> m_CollidingPixels = new List<int>();
-        private int m_CollidingPixel;
+        private int m_MinCollidingPixel;
 
         public Barrier(Game i_Game)
             : base(k_AssetName, i_Game)
@@ -46,40 +46,7 @@ namespace SpaceInvadersGame.ObjectModel
             {
                 MotionVector *= -1;
             }
-        }
-
-        static bool IntersectPixels(Rectangle rectangleA, Color[] dataA,
-                                    Rectangle rectangleB, Color[] dataB)
-        {
-            // Find the bounds of the rectangle intersection
-            int top = Math.Max(rectangleA.Top, rectangleB.Top);
-            int bottom = Math.Min(rectangleA.Bottom, rectangleB.Bottom);
-            int left = Math.Max(rectangleA.Left, rectangleB.Left);
-            int right = Math.Min(rectangleA.Right, rectangleB.Right);
-
-            // Check every point within the intersection bounds
-            for (int y = top; y < bottom; y++)
-            {
-                for (int x = left; x < right; x++)
-                {
-                    // Get the color of both pixels at this point
-                    Color colorA = dataA[(x - rectangleA.Left) +
-                                         (y - rectangleA.Top) * rectangleA.Width];
-                    Color colorB = dataB[(x - rectangleB.Left) +
-                                         (y - rectangleB.Top) * rectangleB.Width];
-
-                    // If both pixels are not completely transparent,
-                    if (colorA.A != 0 && colorB.A != 0)
-                    {
-                        // then an intersection has been found
-                        return true;
-                    }
-                }
-            }
-
-            // No intersection found
-            return false;
-        }
+        }        
 
         // TODO: Move to CollidableSprite
 
@@ -96,7 +63,7 @@ namespace SpaceInvadersGame.ObjectModel
             Color[] dataB = i_OtherComponent.ColorData;
 
             m_CollidingPixels.Clear();
-            m_CollidingPixel = -1;
+            m_MinCollidingPixel = -1;
 
             // TODO: Remove the remark
 
@@ -119,9 +86,9 @@ namespace SpaceInvadersGame.ObjectModel
                     {
                         // then an intersection has been found
 
-                        if (m_CollidingPixel == -1)
+                        if (m_MinCollidingPixel == -1)
                         {
-                            m_CollidingPixel = (x - Bounds.Left) +
+                            m_MinCollidingPixel = (x - Bounds.Left) +
                                          (y - Bounds.Top) * Bounds.Width;
                         }
 
@@ -149,7 +116,7 @@ namespace SpaceInvadersGame.ObjectModel
             return retVal;
         }
 
-        public override void Collided(ICollidable i_OtherComponent)
+        public override void    Collided(ICollidable i_OtherComponent)
         {
             Color[] colors = ColorData;
 
@@ -164,44 +131,71 @@ namespace SpaceInvadersGame.ObjectModel
             }
             else
             {
+                int pixelToTransperentNum = (int)(.75f * (i_OtherComponent.Texture.Width *
+                                         i_OtherComponent.Texture.Height));
 
+                // Calculate the direction which we need to transparent the 
+                // pixels accroding to the colliding component movement
+                // direction
+                int transperentDirection = (int)
+                    (i_OtherComponent.MotionVector.Y / 
+                     Math.Abs(i_OtherComponent.MotionVector.Y));
+
+                int currPixel = m_MinCollidingPixel;
                 bool finish = false;
 
-                int pixelToTransperent = (int)(.75f * (i_OtherComponent.Texture.Width *
-                                         i_OtherComponent.Texture.Height));
-                int currPixel = m_CollidingPixel;
-                int transperentDirection = -1 * (int)(i_OtherComponent.MotionVector.Y / Math.Abs(i_OtherComponent.MotionVector.Y));
-
-                while (pixelToTransperent > 0 && !finish)
+                while (pixelToTransperentNum > 0 && !finish)
                 {
                     int widthPixel = currPixel;
                     bool finishWidth = false;
 
-                    while (widthPixel < currPixel + i_OtherComponent.Texture.Width && !finishWidth)
+                    // Calculate the last pixel we need to transpaernt in the
+                    // current line
+                    int finishPixel = currPixel + 
+                        (i_OtherComponent.Texture.Width * transperentDirection);
+
+                    // Calculate the last pixel that is in the current pixel 
+                    // texture line
+                    int boundPixel = currPixel + 
+                            transperentDirection * (currPixel % Texture.Width);
+
+                    // If we're close to the bounds (left or right), we
+                    // need to make sure that when will tansperent a barrier
+                    // pixel we won't Accidentally reach the other side 
+                    // (for example if the component collided with a pixel 
+                    // in the left side and decreasing/increasing the pixel 
+                    // to transperent can reach a pixel in the right side)
+                    if (transperentDirection < 0)
+                    {
+                        finishPixel = Math.Max(finishPixel, boundPixel);
+                    }
+                    else
+                    {
+                        finishPixel = Math.Min(finishPixel, boundPixel);
+                    }
+
+                    while (pixelToTransperentNum > 0 &&
+                           widthPixel != finishPixel && 
+                           !finishWidth)
                     {
                         Vector4 color = colors[widthPixel].ToVector4();
                         color.W = 0;
                         colors[widthPixel] = new Color(color);
 
                         widthPixel += transperentDirection;
-                        pixelToTransperent--;
-
-                        if (widthPixel > colors.Length - 1 || widthPixel < 0)
-                        {
-                            finishWidth = true;
-                        }
+                                                
+                        pixelToTransperentNum--;
+                        
+                        finishWidth = widthPixel > colors.Length - 1 || 
+                                      widthPixel < 0;
                     }
 
                     currPixel += Texture.Width * transperentDirection;
 
-                    if (currPixel > colors.Length - 1 || currPixel < 0)
-                    {
-                        finish = true;
-                    }
+                    finish = currPixel > colors.Length - 1 || 
+                             currPixel < 0;
                 }
             }
-           // }
-
             
             ColorData = colors;
             Texture.SetData<Color>(colors);
