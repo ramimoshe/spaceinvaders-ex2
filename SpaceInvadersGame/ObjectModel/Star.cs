@@ -53,7 +53,7 @@ namespace SpaceInvadersGame.ObjectModel
 
             bool fadeOut = rand.Next(1) == 0 ? true : false;
             TimeSpan animationTime = TimeSpan.MaxValue;
-            FadeAnimation fadeAnimation = new FadeAnimation("star_Fade", fadeTime, true, 0, 1, fadeOut, animationTime);
+            FadeAnimation fadeAnimation = new FadeAnimation("star_Fade", fadeTime, animationTime);
             fadeAnimation.Enabled = true;
             
             Animations.Add(fadeAnimation);
