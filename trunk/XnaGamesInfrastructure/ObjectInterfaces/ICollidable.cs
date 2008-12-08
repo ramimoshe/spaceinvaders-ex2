@@ -14,6 +14,15 @@ namespace XnaGamesInfrastructure.ObjectInterfaces
     public delegate void PositionChangedDelegate(ICollidable i_Collidable);
 
     /// <summary>
+    /// Enumeration containing all the available collision check types
+    /// </summary>
+    public enum eCollidableCheckType
+    {
+        RectangleCollision,
+        PixelCollision
+    }
+
+    /// <summary>
     /// Used to inform CollisionManager a collision has occured
     /// </summary>
     public interface ICollidable
@@ -24,7 +33,7 @@ namespace XnaGamesInfrastructure.ObjectInterfaces
         /// </summary>
         /// <param name="i_OtherComponent"></param>
         /// <returns></returns>
-        bool CheckForCollision(ICollidable i_OtherComponent);
+        bool    CheckForCollision(ICollidable i_OtherComponent);
         
         /// <summary>
         /// Describes ICollidable object's bounds as a rectangle
@@ -61,11 +70,20 @@ namespace XnaGamesInfrastructure.ObjectInterfaces
         }
 
         /// <summary>
-        /// Handles a collision in a specific way for each ICollidable class.
+        /// Property that states the collision check that the component 
+        /// needs
+        /// </summary>
+        eCollidableCheckType    CollisionCheckType
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Handles a rectangle collision in a specific way for each ICollidable class.
         /// Called by CollisionManager
         /// </summary>
         /// <param name="i_OtherComponent">The object which caused the collision</param>
-        void Collided(ICollidable i_OtherComponent);
+        void    Collided(ICollidable i_OtherComponent);
 
         /// <summary>
         /// Invoked in order to notify observer (CollisionManager) before object 
