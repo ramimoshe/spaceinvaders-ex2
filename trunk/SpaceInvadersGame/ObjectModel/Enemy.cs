@@ -44,11 +44,11 @@ namespace SpaceInvadersGame.ObjectModel
             scaleAnimation.Finished += new AnimationFinishedEventHandler(enemyScale_Finished) ;
             Animations.Add(scaleAnimation);
             Animations.Enabled = false;
+            Animations.ResetAfterFinish = false;
         }
 
-        public void enemyScale_Finished(SpriteAnimation i_Animation)
+        public virtual void enemyScale_Finished(SpriteAnimation i_Animation)
         {
-            this.Visible = false;
         }
 
         public override void Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
