@@ -37,8 +37,10 @@ namespace SpaceInvadersGame
         // to move. used to increase the enemies speed
         private const float k_IncreaseEnemiesSpeedFactor = .85f;
 
+        // TODO: Change to 0.75
+
         // The time we want to wait between two enemies shoots
-        private readonly TimeSpan r_DefaultTimeBetweenShots = TimeSpan.FromSeconds(1.5f);
+        private readonly TimeSpan r_DefaultTimeBetweenShots = TimeSpan.FromSeconds(.5f);
 
         public event NoRemainingInvadersDelegate AllInvaderssEliminated;
 
@@ -301,9 +303,9 @@ namespace SpaceInvadersGame
             // a random enemy
             if (m_Enemies.Count > 0)
             {
-                // Randomly choose an enemy from the enemies matrix                
+                // Randomly choose an invader from the invaders matrix
                 int enemyMatrixLine = rand.Next(0, m_Enemies.Count - 1);
-                int enemyMatrixColumn = rand.Next(0, m_Enemies[enemyMatrixLine].Count - 1);                                
+                int enemyMatrixColumn = rand.Next(0, m_Enemies[enemyMatrixLine].Count - 1);                                    
                 m_Enemies[enemyMatrixLine][enemyMatrixColumn].Shoot();
             }
         }
