@@ -52,8 +52,6 @@ namespace XnaGamesInfrastructure.ObjectInterfaces
             get;
         }
 
-        // TODO: Check if nessecary here
-
         Color[] ColorData
         {
             get;
