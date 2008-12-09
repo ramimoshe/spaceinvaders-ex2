@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceInvadersGame.Interfaces;
 using XnaGamesInfrastructure.ObjectModel.Animations;
+using XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations;
 
 namespace SpaceInvadersGame.ObjectModel
 {            
@@ -43,7 +44,7 @@ namespace SpaceInvadersGame.ObjectModel
         private float m_EnemyMaxPositionYVal;
 
         // The current frame from the invader texture
-        protected int m_CurrFrameIndex;
+        protected int m_StartingCel;
 
         public Invader(Game i_Game)
             : this(i_Game, 0, 0)
@@ -73,7 +74,7 @@ namespace SpaceInvadersGame.ObjectModel
             : base(k_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
         {            
             m_TimeLeftToNextMove = m_TimeBetweenMove;
-            m_CurrFrameIndex = i_InvaderStartFrame % k_NumOfFrames;
+            m_StartingCel = i_InvaderStartFrame % k_NumOfFrames;
         }       
 
         /// <summary>
@@ -129,6 +130,7 @@ namespace SpaceInvadersGame.ObjectModel
         {
             if (!(i_OtherComponent is Barrier))
             {
+                Animations[k_ScaleAnimationName].Restart();
                 base.Collided(i_OtherComponent);
             }
         }
@@ -160,6 +162,25 @@ namespace SpaceInvadersGame.ObjectModel
         #endregion
 
         /// <summary>
+        /// Initialize the invader by creating the invader animation, and 
+        /// setting he's bounds on the screen
+        /// </summary>
+        public override void    Initialize()
+        {
+            base.Initialize();
+
+            CelAnimation cellAnimation = new CelAnimation(
+                                    m_TimeBetweenMove,
+                                    k_NumOfFrames,
+                                    TimeSpan.Zero,
+                                    m_StartingCel);
+
+            Animations.Add(cellAnimation);
+            Animations.Enabled = true;
+            Animations[k_ScaleAnimationName].Enabled = false;
+        }
+
+        /// <summary>
         /// Catch a bullet disposed event and remove the bullet from the 
         /// bullets list.
         /// </summary>
@@ -173,7 +194,7 @@ namespace SpaceInvadersGame.ObjectModel
             {
                 m_Bullets.Remove(bullet);
             }
-        }
+        }        
 
         /// <summary>
         /// Move the invader in the screen in case enough time had passed 
@@ -200,7 +221,6 @@ namespace SpaceInvadersGame.ObjectModel
                 {
                     MotionVector = m_CurrMotion;
                     m_TimeLeftToNextMove = m_TimeBetweenMove;
-                    ChangeInvaderTexture();
 
                     moveEnemy = true;
                 }
@@ -232,19 +252,6 @@ namespace SpaceInvadersGame.ObjectModel
         }
 
         /// <summary>
-        /// Replace the origin so that will draw to the other invader image
-        /// </summary>
-        protected void  ChangeInvaderTexture()
-        {
-            m_CurrFrameIndex++;
-            m_CurrFrameIndex %= k_NumOfFrames;
-
-            this.SourcePosition = new Vector2(
-                k_InvaderSizeWidth * m_CurrFrameIndex,
-                this.SourcePosition.Y);             
-        }
-
-        /// <summary>
         /// Initialize the invader default width and height, and also 
         /// initialize the invader frame position in the texture        
         /// </summary>
@@ -254,7 +261,7 @@ namespace SpaceInvadersGame.ObjectModel
             m_HeightBeforeScale = k_InvaderSizeHeight;
 
             SourcePosition = new Vector2(
-                m_CurrFrameIndex * k_InvaderSizeWidth,
+                m_StartingCel * k_InvaderSizeWidth,
                 SourcePosition.Y);
 
             InitSourceRectangle();
