@@ -5,6 +5,7 @@ using XnaGamesInfrastructure.ObjectModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceInvadersGame.Interfaces;
+using XnaGamesInfrastructure.ObjectModel.Animations;
 
 namespace SpaceInvadersGame.ObjectModel
 {            
@@ -223,6 +224,11 @@ namespace SpaceInvadersGame.ObjectModel
                     }
                 }
             }
+        }
+
+        public override void    enemyScale_Finished(SpriteAnimation i_Animation)
+        {
+            this.Visible = false;
         }
 
         /// <summary>
