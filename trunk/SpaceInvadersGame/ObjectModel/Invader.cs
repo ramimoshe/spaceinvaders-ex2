@@ -21,7 +21,7 @@ namespace SpaceInvadersGame.ObjectModel
     /// </summary>
     public abstract class Invader : Enemy, IShootable
     {
-        private const string k_AssetName = @"Content\Sprites\allInvaders";
+        private const string k_AssetName = @"Sprites\allInvaders";
 
         // Raised when an invader reaches one of the allowed screen bounderies
         public event InvaderReachedScreenBoundsDelegate ReachedScreenBounds;
@@ -168,6 +168,7 @@ namespace SpaceInvadersGame.ObjectModel
             }
             else
             {
+
                 m_TimeLeftToNextMove -= i_GameTime.ElapsedGameTime;
 
                 // Check if enough time had passed since previous move

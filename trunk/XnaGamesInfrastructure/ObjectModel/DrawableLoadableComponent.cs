@@ -69,8 +69,7 @@ namespace XnaGamesInfrastructure.ObjectModel
             // TODO: Check if it's ok
 
             // Getting initialized content device
-            m_ContentManager = new MyContentManager(Game.Content.ServiceProvider);
-            //m_ContentManager = Game.Content;
+            m_ContentManager = Game.Content;
 
             base.Initialize();
 

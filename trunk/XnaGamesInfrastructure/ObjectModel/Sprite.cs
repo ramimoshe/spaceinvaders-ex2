@@ -94,20 +94,6 @@ namespace XnaGamesInfrastructure.ObjectModel
         }
 
         /// <summary>
-        /// Defines the draw rotation origin
-        /// </summary>
-        public Vector2 m_Origin = Vector2.Zero;
-
-        /// <summary>
-        /// Gets/sets the draw rotation origin
-        /// </summary>
-        public Vector2 Origin
-        {
-            get { return m_Origin; }
-            set { m_Origin = value; }
-        }
-
-        /// <summary>
         /// Defines the draw rotation
         /// </summary>
         protected float m_Rotation = 0;
@@ -585,7 +571,7 @@ namespace XnaGamesInfrastructure.ObjectModel
                 this.SourceRectangle, 
                 this.TintColor,
                 this.Rotation, 
-                this.Origin, 
+                this.RotationOrigin, 
                 this.Scale,
                 SpriteEffects.None, 
                 this.LayerDepth);

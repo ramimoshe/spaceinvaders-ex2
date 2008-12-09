@@ -31,8 +31,18 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         {
             get
             {
-                return new Vector2( (m_TargetScaleSize.X - BoundSprite.Scale.X) / (float) m_ScaleLength.TotalSeconds,
-                                    (m_TargetScaleSize.Y - BoundSprite.Scale.Y) / (float) m_ScaleLength.TotalSeconds);
+                return new Vector2( (m_TargetScaleSize.X - m_OriginalSpriteInfo.Scale.X) / (float) m_ScaleLength.TotalSeconds,
+                                    (m_TargetScaleSize.Y - m_OriginalSpriteInfo.Scale.Y) / (float)m_ScaleLength.TotalSeconds);
+            }
+        }
+
+        private Vector2 PositionShiftPerSecond
+        {
+            get
+            {
+                float targetWidth = m_OriginalSpriteInfo.WidthBeforeScale * ScalePerSecond.X;
+                float targetHeight = m_OriginalSpriteInfo.HeightBeforeScale * ScalePerSecond.Y;
+                return new Vector2(targetWidth / 2, targetHeight / 2);
             }
         }
 
@@ -54,16 +64,25 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
 
         protected override void DoFrame(GameTime i_GameTime)
         {
+            Vector2 position = BoundSprite.PositionOrigin;
             m_TimeLeftForScale -= i_GameTime.ElapsedGameTime;
             BoundSprite.Scale += (ScalePerSecond * (float) i_GameTime.ElapsedGameTime.TotalSeconds);
+            BoundSprite.PositionOrigin += PositionShiftPerSecond * (float)i_GameTime.ElapsedGameTime.TotalSeconds;
 
             if ((XScaleOut && BoundSprite.Scale.X >= m_TargetScaleSize.X ||
                  !XScaleOut && BoundSprite.Scale.X <= m_TargetScaleSize.X ) &&
                 (YScaleOut && BoundSprite.Scale.Y >= m_TargetScaleSize.Y ||
-                 !YScaleOut && BoundSprite.Scale.Y >= m_TargetScaleSize.Y))
+                 !YScaleOut && BoundSprite.Scale.Y <= m_TargetScaleSize.Y))
             {
                 IsFinished = true;
             }
-       }
+        }
+
+        public override void Reset(TimeSpan i_AnimationLength)
+        {
+            base.Reset(i_AnimationLength);
+            BoundSprite.Scale = m_OriginalSpriteInfo.Scale;
+            BoundSprite.PositionOrigin = m_OriginalSpriteInfo.PositionOrigin;
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace SpaceInvadersGame.ObjectModel
     /// </summary>
     public abstract class Bullet : CollidableSprite
     {
-        private const string k_AssetName = @"Content\Sprites\Bullet";
+        private const string k_AssetName = @"Sprites\Bullet";
         private Rectangle m_ViewPortBounds;
 
         #region CTOR's

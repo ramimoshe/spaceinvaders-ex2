@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework;
 
 namespace XnaGamesInfrastructure.ObjectModel.Animations
 {
+    public delegate void AnimationFinishedEventHandler (SpriteAnimation i_Animation);
+
     public abstract class SpriteAnimation
     {
         protected internal Sprite m_OriginalSpriteInfo;
@@ -25,19 +27,19 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations
             set { m_ResetAfterFinish = value; }
         }
 
-        public event EventHandler Finished;
+        public event AnimationFinishedEventHandler Finished;
 
         protected virtual void OnFinished()
         {
             if (m_ResetAfterFinish)
             {
-                Reset();
-                this.m_IsFinished = true;
+               Reset();
+               this.m_IsFinished = true;
             }
 
             if (Finished != null)
             {
-                Finished(this, EventArgs.Empty);
+                Finished(this);
             }
         }
 
@@ -128,7 +130,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations
             ReleasePause();
         }
 
-        public bool IsFinished
+        public virtual bool IsFinished
         {
             get { return this.m_IsFinished; }
             protected set

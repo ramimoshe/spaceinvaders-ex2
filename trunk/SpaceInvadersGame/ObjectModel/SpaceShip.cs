@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using XnaGamesInfrastructure.ObjectInterfaces;
 using SpaceInvadersGame.Interfaces;
 using XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations;
+using XnaGamesInfrastructure.ObjectModel.Animations;
 
 namespace SpaceInvadersGame.ObjectModel
 {
@@ -256,9 +257,31 @@ namespace SpaceInvadersGame.ObjectModel
             m_InputManager = Game.Services.GetService(typeof(InputManager)) as IInputManager;
             base.Initialize();
 
-            Animations.Add(new CelAnimation(TimeSpan.FromMilliseconds(100), 30, TimeSpan.FromMinutes(1)));
-            Animations.Enabled = true;
-        }    
+            RotateAnimation rotateAnimation = new RotateAnimation("spaceship_deathRotate", 2 * (float) Math.PI, TimeSpan.FromSeconds(0.2), true);
+            Animations.Add(rotateAnimation);
+            Animations.Enabled = false;
+            Animations.Finished += this.DeathAnimationEnded;
+            Animations.ResetAfterFinish = true;
+        }
+
+        public void DeathAnimationEnded(SpriteAnimation i_RotateAnimation)
+        {
+            Score -= k_LostLifeScoreDecrease;
+            RemainingLives -= 1;
+            onPlayerWasHit();
+
+            if (m_RemainingLivesLeft <= 0)
+            {
+                onPlayerIsDead();
+            }
+            else
+            {
+                Animations.Restart();
+                Animations["spaceship_deathRotate"].Pause();
+                Animations.Pause();
+                PositionForDraw = DefaultPosition;
+            }
+        }
 
         /// <summary>
         /// Catch the space ship bullet disposed event and remove the bullet
@@ -298,18 +321,8 @@ namespace SpaceInvadersGame.ObjectModel
         /// <param name="i_OtherComponent">The component the ship colided with</param>
         public override void    Collided(ICollidable i_OtherComponent)
         {
-            Score -= k_LostLifeScoreDecrease;
-            RemainingLives -= 1;
-            onPlayerWasHit();
-
-            if ((m_RemainingLivesLeft <= 0) || (i_OtherComponent is Invader))
-            {
-                onPlayerIsDead();
-            }
-            else
-            {
-                PositionForDraw = DefaultPosition;
-            }
+            Animations.Enabled = true;
+//            Animations.IsFinished = false;
         }
 
         /// <summary>
