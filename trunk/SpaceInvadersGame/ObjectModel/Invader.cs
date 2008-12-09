@@ -32,15 +32,17 @@ namespace SpaceInvadersGame.ObjectModel
         private const int k_InvaderSizeWidth = 32;
         private const int k_InvaderSizeHeight = 32;
         private const int k_DefaultInvadersListNum = 1;
+        private const int k_NumOfFrames = 2;
 
         private TimeSpan m_TimeBetweenMove = TimeSpan.FromSeconds(0.5f);
-        protected TimeSpan m_TimeLeftToNextMove;        
-
+        protected TimeSpan m_TimeLeftToNextMove;
+        
         protected Vector2 m_CurrMotion = new Vector2(500, 0);
 
         private float m_EnemyMaxPositionYVal;
 
-        protected int m_InvaderListNum;
+        // The current frame from the invader texture
+        protected int m_CurrFrameIndex;
 
         public Invader(Game i_Game)
             : this(i_Game, 0, 0)
@@ -57,8 +59,8 @@ namespace SpaceInvadersGame.ObjectModel
         public Invader(
             Game i_Game, 
             int i_UpdateOrder,
-            int i_InvaderListNum)
-            : this(i_Game, i_UpdateOrder, 0, i_InvaderListNum)
+            int i_InvaderStartFrame)
+            : this(i_Game, i_UpdateOrder, 0, i_InvaderStartFrame)
         {
         }        
 
@@ -66,14 +68,11 @@ namespace SpaceInvadersGame.ObjectModel
             Game i_Game, 
             int i_UpdateOrder, 
             int i_DrawOrder,
-            int i_InvaderListNum)
+            int i_InvaderStartFrame)
             : base(k_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
         {            
             m_TimeLeftToNextMove = m_TimeBetweenMove;
-            m_InvaderListNum = (int)MathHelper.Clamp(
-                (int)i_InvaderListNum - 1, 
-                0, 
-                1);
+            m_CurrFrameIndex = i_InvaderStartFrame % k_NumOfFrames;
         }       
 
         /// <summary>
@@ -231,28 +230,17 @@ namespace SpaceInvadersGame.ObjectModel
         /// </summary>
         protected void  ChangeInvaderTexture()
         {
-            if (this.SourcePosition.X == 0)
-            {
-                this.SourcePosition = new Vector2(
-                    k_InvaderSizeWidth,
-                    this.SourcePosition.Y); 
-            }
-            else
-            {
-                this.SourcePosition = new Vector2(
-                    0,
-                    this.SourcePosition.Y); 
-            }            
+            m_CurrFrameIndex++;
+            m_CurrFrameIndex %= k_NumOfFrames;
+
+            this.SourcePosition = new Vector2(
+                k_InvaderSizeWidth * m_CurrFrameIndex,
+                this.SourcePosition.Y);             
         }
 
-        // TODO Change methos summary
-
         /// <summary>
-        /// An empty proc that simply prevents the parent method that initializes
-        /// the coponent position from happening.
-        /// this is done due to the fact that the invader position is set from
-        /// the outside by the invaders matrix class, and there is no need to
-        /// initialize it ourselves
+        /// Initialize the invader default width and height, and also 
+        /// initialize the invader frame position in the texture        
         /// </summary>
         protected override void     InitBounds()
         {
@@ -260,7 +248,7 @@ namespace SpaceInvadersGame.ObjectModel
             m_HeightBeforeScale = k_InvaderSizeHeight;
 
             SourcePosition = new Vector2(
-                m_InvaderListNum * k_InvaderSizeWidth,
+                m_CurrFrameIndex * k_InvaderSizeWidth,
                 SourcePosition.Y);
 
             InitSourceRectangle();
