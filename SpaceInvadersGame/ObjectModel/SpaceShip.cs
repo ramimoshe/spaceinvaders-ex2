@@ -230,7 +230,7 @@ namespace SpaceInvadersGame.ObjectModel
             // button. In addition we also verify that enough time had 
             // passed from the previous shoot.
             if (m_InputManager.KeyPressed(m_PlayerKeys.ActionKey) ||
-               (m_PlayerKeys.ActionUsingMouse && 
+               (m_PlayerKeys.UseMouse && 
                 m_InputManager.ButtonPressed(eInputButtons.Left)))
             {               
                 Shoot();
@@ -239,7 +239,11 @@ namespace SpaceInvadersGame.ObjectModel
             base.Update(i_GameTime);
 
             Vector2 position = PositionForDraw;
-            position.X += m_InputManager.MousePositionDelta.X;
+
+            if (m_PlayerKeys.UseMouse)
+            {
+                position.X += m_InputManager.MousePositionDelta.X;
+            }
 
             position.X = MathHelper.Clamp(
                                 position.X, 
@@ -347,7 +351,7 @@ namespace SpaceInvadersGame.ObjectModel
         /// <param name="i_Bullet">The space ship bullet that colided with the coponent</param>
         private void    spaceShipBullet_BulletCollision(
                             ICollidable i_OtherComponent, 
-                            SpaceShipBullet i_Bullet)
+                            Bullet i_Bullet)
         {
             if (i_OtherComponent is Enemy)
             {
@@ -369,6 +373,6 @@ namespace SpaceInvadersGame.ObjectModel
             {
                 PlayerScoreChangedEvent();
             }
-        }
+        }       
     }
 }
