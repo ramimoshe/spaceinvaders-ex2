@@ -8,19 +8,38 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
 {
     public class CelAnimation : SpriteAnimation
     {
+        private const int k_DefaultStartingCel = 0;
+
         private TimeSpan m_FrameLength;
         private TimeSpan m_TimeLeftForFrame;
         private bool m_Loop = true;
         private int m_CurrCell = 0;
-        private int m_NumOfCels = 1;
+        private int m_NumOfCels = 1;        
+
+        public CelAnimation(
+            TimeSpan i_FrameLength,
+            int i_NumOfCels,
+            TimeSpan i_AnimationLength)
+            : this(
+                i_FrameLength, 
+                i_NumOfCels, 
+                i_AnimationLength,
+                k_DefaultStartingCel)
+        {
+        }
 
         // CTORs
-        public CelAnimation(TimeSpan i_FrameLength, int i_NumOfCels, TimeSpan i_AnimationLength)
+        public CelAnimation(
+            TimeSpan i_FrameLength, 
+            int i_NumOfCels, 
+            TimeSpan i_AnimationLength,
+            int i_StartingCel)
             : base("CelAnimation", i_AnimationLength)
         {
             this.m_FrameLength = i_FrameLength;
             this.m_TimeLeftForFrame = i_FrameLength;
             this.m_NumOfCels = i_NumOfCels;
+            this.m_CurrCell = i_StartingCel;
 
             m_Loop = i_AnimationLength == TimeSpan.Zero;
         }
