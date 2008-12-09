@@ -262,7 +262,7 @@ namespace SpaceInvadersGame.ObjectModel
             base.Initialize();
 
             RotateAnimation rotateAnimation = new RotateAnimation("spaceship_deathRotate", 2 * (float) Math.PI, TimeSpan.FromSeconds(.4f), true);
-            FadeAnimation fadeAnimation = new FadeAnimation("spaceship_deathFade", false, 0, 1, true, TimeSpan.FromSeconds(.4f), true);
+            FadeAnimation fadeAnimation = new FadeAnimation("spaceship_deathFade", false, 0, 1, true, TimeSpan.FromSeconds(.4f), TimeSpan.FromSeconds(.4f), true);
             Animations.Add(rotateAnimation);
             Animations.Add(fadeAnimation);
             Animations.Enabled = false;

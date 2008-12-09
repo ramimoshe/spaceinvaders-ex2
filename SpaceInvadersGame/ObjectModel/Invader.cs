@@ -226,7 +226,7 @@ namespace SpaceInvadersGame.ObjectModel
             }
         }
 
-        public override void    enemyScale_Finished(SpriteAnimation i_Animation)
+        protected override void    EnemyScale_Finished(SpriteAnimation i_Animation)
         {
             this.Visible = false;
         }
