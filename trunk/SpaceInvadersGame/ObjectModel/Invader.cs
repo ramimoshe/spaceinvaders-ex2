@@ -22,10 +22,12 @@ namespace SpaceInvadersGame.ObjectModel
     public abstract class Invader : Enemy, IShootable
     {
         private const string k_AssetName = @"Sprites\allInvaders";
+        private const int k_AllowedBulletsNum = 3;        
 
         // Raised when an invader reaches one of the allowed screen bounderies
         public event InvaderReachedScreenBoundsDelegate ReachedScreenBounds;
 
+        private List<Bullet> m_Bullets = new List<Bullet>();
         private const int k_BulletVelocity = 200;
         private const int k_InvaderSizeWidth = 32;
         private const int k_InvaderSizeHeight = 32;
@@ -140,16 +142,38 @@ namespace SpaceInvadersGame.ObjectModel
         /// </summary>
         public void     Shoot()
         {
-            Bullet bullet = new EnemyBullet(Game);
-            bullet.Initialize();
-            bullet.TintColor = Color.Blue;
-            bullet.PositionForDraw = new Vector2(
-                                    PositionForDraw.X + (Bounds.Width / 2),
-                                    PositionForDraw.Y - (bullet.Bounds.Height / 2));
-            bullet.MotionVector = new Vector2(0, k_BulletVelocity);
+            if (m_Bullets.Count < k_AllowedBulletsNum)
+            {
+                Bullet bullet = new EnemyBullet(Game);
+                bullet.Initialize();
+                bullet.TintColor = Color.Blue;
+                bullet.PositionForDraw = new Vector2(
+                                        PositionForDraw.X + (Bounds.Width / 2),
+                                        PositionForDraw.Y - (bullet.Bounds.Height / 2));
+                bullet.MotionVector = new Vector2(0, k_BulletVelocity);
+                bullet.Disposed += new EventHandler(bullet_Disposed);
+
+                m_Bullets.Add(bullet);
+            }
         }
 
         #endregion
+
+        /// <summary>
+        /// Catch a bullet disposed event and remove the bullet from the 
+        /// bullets list.
+        /// </summary>
+        /// <param name="i_Sender">The bullet object that got disposed</param>
+        /// <param name="i_Args">The event arguments</param>
+        private void    bullet_Disposed(object i_Sender, EventArgs i_Args)
+        {
+            Bullet bullet = i_Sender as Bullet;
+
+            if (bullet != null)
+            {
+                m_Bullets.Remove(bullet);
+            }
+        }
 
         /// <summary>
         /// Move the invader in the screen in case enough time had passed 
