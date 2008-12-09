@@ -59,8 +59,6 @@ namespace XnaGamesInfrastructure.ObjectModel
 
         private Rectangle m_ViewportBounds;
 
-        // TODO: Check if the variable is nessecary
-
         protected Color[] m_ColorData;
 
         public Color[] ColorData

@@ -73,9 +73,6 @@ namespace XnaGamesInfrastructure.ObjectModel
 
             base.Initialize();
 
-            // TODO: Check if we need to put the collision manager init in
-            // here
-
             // Component's position on graphics device is initialized
             InitBounds();
         }
