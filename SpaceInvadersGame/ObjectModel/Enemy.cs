@@ -41,12 +41,12 @@ namespace SpaceInvadersGame.ObjectModel
             base.Initialize();
             ScaleAnimation scaleAnimation =
                 new ScaleAnimation("Scale_enemyDeath", Vector2.Zero, TimeSpan.FromSeconds(.2f), false);
-            scaleAnimation.Finished += ScaleFinished;
+            scaleAnimation.Finished += new AnimationFinishedEventHandler(enemyScale_Finished) ;
             Animations.Add(scaleAnimation);
             Animations.Enabled = false;
         }
 
-        public void ScaleFinished(SpriteAnimation i_Animation)
+        public void enemyScale_Finished(SpriteAnimation i_Animation)
         {
             this.Visible = false;
         }
