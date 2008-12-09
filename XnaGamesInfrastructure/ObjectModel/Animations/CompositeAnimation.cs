@@ -107,17 +107,16 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations
         }
 
         // TODO: check this
-        public override void Reset()
+/*        public override void Reset()
         {
             base.Reset();
 
-            
             foreach (SpriteAnimation animation in m_AnimationsList)
             {
                 animation.Reset();
             }
         }
-
+*/
         public override void Reset(TimeSpan i_AnimationLength)
         {
             base.Reset(i_AnimationLength);
@@ -145,5 +144,6 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations
                 animation.Animate(i_GameTime);
             }
         }
+
     }
 }

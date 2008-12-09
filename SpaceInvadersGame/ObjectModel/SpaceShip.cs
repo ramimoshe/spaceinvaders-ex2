@@ -257,11 +257,13 @@ namespace SpaceInvadersGame.ObjectModel
             m_InputManager = Game.Services.GetService(typeof(InputManager)) as IInputManager;
             base.Initialize();
 
-            RotateAnimation rotateAnimation = new RotateAnimation("spaceship_deathRotate", 2 * (float) Math.PI, TimeSpan.FromSeconds(0.2), true);
+            RotateAnimation rotateAnimation = new RotateAnimation("spaceship_deathRotate", 2 * (float) Math.PI, TimeSpan.FromSeconds(1), true);
+            FadeAnimation fadeAnimation = new FadeAnimation("spaceship_deathFade", false, 0, 1, true, TimeSpan.FromSeconds(1), true);
             Animations.Add(rotateAnimation);
+            Animations.Add(fadeAnimation);
             Animations.Enabled = false;
             Animations.Finished += this.DeathAnimationEnded;
-            Animations.ResetAfterFinish = true;
+            Animations.ResetAfterFinish = false;
         }
 
         public void DeathAnimationEnded(SpriteAnimation i_RotateAnimation)
@@ -276,8 +278,6 @@ namespace SpaceInvadersGame.ObjectModel
             }
             else
             {
-                Animations.Restart();
-                Animations["spaceship_deathRotate"].Pause();
                 Animations.Pause();
                 PositionForDraw = DefaultPosition;
             }
@@ -321,8 +321,7 @@ namespace SpaceInvadersGame.ObjectModel
         /// <param name="i_OtherComponent">The component the ship colided with</param>
         public override void    Collided(ICollidable i_OtherComponent)
         {
-            Animations.Enabled = true;
-//            Animations.IsFinished = false;
+            Animations.Restart();
         }
 
         /// <summary>

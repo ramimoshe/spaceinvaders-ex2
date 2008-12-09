@@ -40,7 +40,7 @@ namespace SpaceInvadersGame.ObjectModel
         {
             base.Initialize();
             ScaleAnimation scaleAnimation =
-                new ScaleAnimation("Scale_enemyDeath", TimeSpan.FromSeconds(.2f), new Vector2(0f, 0f), TimeSpan.Zero, false);
+                new ScaleAnimation("Scale_enemyDeath", Vector2.Zero, TimeSpan.FromSeconds(.2f), false);
             scaleAnimation.Finished += ScaleFinished;
             Animations.Add(scaleAnimation);
             Animations.Enabled = false;

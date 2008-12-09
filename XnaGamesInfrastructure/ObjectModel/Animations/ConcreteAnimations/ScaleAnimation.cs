@@ -9,21 +9,18 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
 {
     public class ScaleAnimation : SpriteAnimation
     {
-        private TimeSpan m_TimeLeftForScale;
         private TimeSpan m_ScaleLength;
         private Vector2 m_TargetScaleSize;
 
         // CTORs
         public ScaleAnimation(  string i_Name,
-                                TimeSpan i_ScaleLength,
                                 Vector2 i_TargetScaleSize,
                                 TimeSpan i_AnimationLength,
                                 bool i_ResetAfterFinish)
             : base(i_Name, i_AnimationLength)
         {
             m_TargetScaleSize = i_TargetScaleSize;
-            m_ScaleLength = i_ScaleLength;
-            m_TimeLeftForScale = i_ScaleLength;
+            m_ScaleLength = i_AnimationLength;
             m_ResetAfterFinish = i_ResetAfterFinish;
         }
 
@@ -65,7 +62,6 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         protected override void DoFrame(GameTime i_GameTime)
         {
             Vector2 position = BoundSprite.PositionOrigin;
-            m_TimeLeftForScale -= i_GameTime.ElapsedGameTime;
             BoundSprite.Scale += (ScalePerSecond * (float) i_GameTime.ElapsedGameTime.TotalSeconds);
             BoundSprite.PositionOrigin += PositionShiftPerSecond * (float)i_GameTime.ElapsedGameTime.TotalSeconds;
 
