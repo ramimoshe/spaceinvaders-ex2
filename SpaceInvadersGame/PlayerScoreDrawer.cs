@@ -9,7 +9,7 @@ namespace SpaceInvadersGame
 {
     public class PlayerScoreDrawer : SpriteFontComponent
     {
-        private const string k_FontAssetName = @"Content\Fonts\David";        
+        private const string k_FontAssetName = @"Fonts\David";        
 
         private IPlayer m_Player;
         private string m_TextPrefix;

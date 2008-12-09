@@ -4,6 +4,7 @@ using System.Text;
 using XnaGamesInfrastructure.ObjectModel;
 using Microsoft.Xna.Framework;
 using XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations;
+using XnaGamesInfrastructure.ObjectModel.Animations;
 
 namespace SpaceInvadersGame.ObjectModel
 {
@@ -39,9 +40,28 @@ namespace SpaceInvadersGame.ObjectModel
         {
             base.Initialize();
             ScaleAnimation scaleAnimation =
-                new ScaleAnimation("Scale_enemyDeath", TimeSpan.FromSeconds(0.1), new Vector2(0f, 0f), TimeSpan.Zero, false);
+                new ScaleAnimation("Scale_enemyDeath", TimeSpan.FromSeconds(.2f), new Vector2(0f, 0f), TimeSpan.Zero, false);
+            scaleAnimation.Finished += ScaleFinished;
             Animations.Add(scaleAnimation);
             Animations.Enabled = false;
+        }
+
+        public void ScaleFinished(SpriteAnimation i_Animation)
+        {
+            this.Visible = false;
+        }
+
+        public override void Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
+        {
+            if (i_OtherComponent is Bullet)
+            {
+                Animations.Enabled = true;
+            }
+            else
+            {
+                base.Collided(i_OtherComponent);
+            }
+
         }
         /// <summary>
         /// A property that return the enemy score

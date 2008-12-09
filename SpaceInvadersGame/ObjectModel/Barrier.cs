@@ -13,7 +13,7 @@ namespace SpaceInvadersGame.ObjectModel
     /// </summary>
     public class Barrier : CollidableSprite
     {
-        private const string k_AssetName = @"Content\Sprites\Barrier_44x32";
+        private const string k_AssetName = @"Sprites\Barrier_44x32";
 
         private const int k_XMotionSpeed = 100;
         private const float k_TransparentPercent = .75f;

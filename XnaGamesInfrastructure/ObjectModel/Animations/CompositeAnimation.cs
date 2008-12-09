@@ -43,6 +43,26 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations
             i_Animation.Enabled = true;
             m_AnimationsDictionary.Add(i_Animation.Name, i_Animation);
             m_AnimationsList.Add(i_Animation);
+            i_Animation.Finished += new AnimationFinishedEventHandler(childAnimation_Finished);
+        }
+
+        private void childAnimation_Finished(SpriteAnimation i_ChildAnimation)
+        {
+            bool isFinished = true;
+
+            foreach (SpriteAnimation animation in this.m_AnimationsList)
+            {
+                if (!animation.IsFinished)
+                {
+                    isFinished = false;
+                    break;
+                }
+            }
+
+            if (isFinished)
+            {
+                this.IsFinished = true;
+            }
         }
 
         public void Remove(string i_AnimationName)
@@ -86,16 +106,21 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations
             }
         }
 
+        // TODO: check this
+        /*
         public override void Reset()
         {
             base.Reset();
 
+            
             foreach (SpriteAnimation animation in m_AnimationsList)
             {
                 animation.Reset();
             }
         }
+         */
 
+        /*
         public override void Reset(TimeSpan i_AnimationLength)
         {
             base.Reset(i_AnimationLength);
@@ -104,7 +129,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations
             {
                 animation.Reset();
             }
-        }
+        }*/
 
         protected override void CloneSpriteInfo()
         {
