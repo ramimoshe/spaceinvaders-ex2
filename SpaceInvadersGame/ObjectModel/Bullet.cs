@@ -3,9 +3,18 @@ using System.Collections.Generic;
 using System.Text;
 using XnaGamesInfrastructure.ObjectModel;
 using Microsoft.Xna.Framework;
+using XnaGamesInfrastructure.ObjectInterfaces;
 
 namespace SpaceInvadersGame.ObjectModel
-{    
+{
+    /// <summary>
+    /// The delegate is used by the Bullet to notify that he colided
+    /// with another component
+    /// </summary>
+    /// <param name="i_OtherComponent">The component the bullet colided with</param>
+    /// <param name="i_Bullet">The current bullet that coliided with the component</param>
+    public delegate void BulletCollisionDelegate(ICollidable i_OtherComponent, Bullet i_Bullet);
+
     /// <summary>
     /// A parent class for the bullet components in the game
     /// </summary>
@@ -13,6 +22,8 @@ namespace SpaceInvadersGame.ObjectModel
     {
         private const string k_AssetName = @"Sprites\Bullet";
         private Rectangle m_ViewPortBounds;
+
+        public event BulletCollisionDelegate BulletCollision; 
 
         #region CTOR's
         public Bullet(Game i_Game) 
@@ -62,16 +73,15 @@ namespace SpaceInvadersGame.ObjectModel
         }
 
         /// <summary>
-        /// Check if the bullet colides with another component
+        /// Raise a collision with a component event
         /// </summary>
-        /// <param name="i_OtherComponent">The component we want to check the collision
-        /// against</param>
-        /// <returns>True if the components collides or false if the component is another bullet
-        /// or that there is no collision between the components</returns>
-        public override bool  CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
+        /// <param name="i_Enemy">The component that the bullet colided with</param>
+        protected void  onBulletCollision(ICollidable i_OtherComponent)
         {
-            return !(i_OtherComponent is Bullet) &&
-                    base.CheckForCollision(i_OtherComponent);
-        }                
+            if (BulletCollision != null)
+            {
+                BulletCollision(i_OtherComponent, this);
+            }
+        }    
     }
 }
