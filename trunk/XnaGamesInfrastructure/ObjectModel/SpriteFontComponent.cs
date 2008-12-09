@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace XnaGamesInfrastructure.ObjectModel
 {
+    // TODO: Change the class so that it'll inherit from Sprite
+
     public class SpriteFontComponent : DrawableLoadableComponent
     {
         private string m_Text = String.Empty;
