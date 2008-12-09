@@ -27,8 +27,32 @@ namespace SpaceInvadersGame.ObjectModel
         /// between the components </returns>
         public override bool    CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
-            return !(i_OtherComponent is Invader) && 
-                base.CheckForCollision(i_OtherComponent);
-        }       
+            return !(i_OtherComponent is Invader) &&
+                   !(i_OtherComponent is EnemyBullet) &&
+                   base.CheckForCollision(i_OtherComponent);
+        }
+
+        /// <summary>
+        /// Implement the collision between the bullet and a game component by 
+        /// making the bullet invisible.
+        /// In case the colliding component is a space ship bullet, we'll 
+        /// randomly decide whether the bullet will be hit.
+        /// </summary>
+        /// <param name="i_OtherComponent">The component the bullet colided with</param>
+        public override void    Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
+        {
+            bool collided = true;
+
+            if (i_OtherComponent is Bullet)
+            {
+                // Randomly choose whether the bullet will be hit
+                collided = new Random().Next(0, 1) == 1;
+            }
+
+            if (collided)
+            {
+                base.Collided(i_OtherComponent);
+            }
+        }
     }
 }
