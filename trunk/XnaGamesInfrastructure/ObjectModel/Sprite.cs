@@ -358,6 +358,14 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// </summary>
         protected int m_WidthBeforeScale;
 
+        public Vector2 SpriteCenter
+        {
+            get
+            {
+                return new Vector2(WidthBeforeScale / 2, HeightBeforeScale / 2);
+            }
+        }
+
         /// <summary>
         /// Defines the original texture height
         /// </summary>

@@ -10,7 +10,6 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
     public class FadeAnimation : SpriteAnimation
     {
         private bool m_ReverseFade = true;
-        private TimeSpan m_TimeLeftForNextFade;
         private TimeSpan m_FadeLength;
         private float m_MinOpacity = 0;
         private float m_MaxOpacity = 1;
@@ -18,29 +17,26 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
 
         // CTORs
         public  FadeAnimation(  string i_Name, 
-                                TimeSpan i_FadeLength,
                                 bool  i_ReverseFade,
                                 float i_MinOpacity,
                                 float i_MaxOpacity,
                                 bool i_FadeOut, 
                                 TimeSpan i_AnimationLength,
                                 bool i_ResetAfterFinish)
-            : this(i_Name, i_FadeLength, i_AnimationLength)
+            : this(i_Name, i_AnimationLength)
         {
             m_MinOpacity = i_MinOpacity;
             m_MaxOpacity = i_MaxOpacity;
             m_ReverseFade = i_ReverseFade;
             m_FadeOut = i_FadeOut;
-            m_TimeLeftForNextFade = i_FadeLength;
             m_ResetAfterFinish = i_ResetAfterFinish;
         }
 
         public FadeAnimation(   string i_Name,
-                                TimeSpan i_FadeLength,
                                 TimeSpan i_AnimationLength)
             :base( i_Name, i_AnimationLength)
         {
-            m_FadeLength = i_FadeLength;
+            m_FadeLength = i_AnimationLength;
         }
 
         private float OpacityPerSecond 
@@ -51,23 +47,8 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
             }
         }
 
-        protected override void OnFinished()
-        {
-            if (m_ReverseFade)
-            {
-                m_FadeOut = !m_FadeOut;
-                m_TimeLeftForNextFade = m_FadeLength;
-                this.IsFinished = false;
-            }
-            else
-            {
-                base.OnFinished();
-            }
-        }
-
         protected override void DoFrame(GameTime i_GameTime)
         {
-            m_TimeLeftForNextFade -= i_GameTime.ElapsedGameTime;
             Vector4 tint = BoundSprite.TintColor.ToVector4();
             float opacity = tint.W;
 
@@ -76,10 +57,24 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
             tint.W = opacity;
             BoundSprite.TintColor = new Color(tint);
 
-            if (opacity < 0 || opacity > 1)
+            if (opacity < m_MinOpacity || opacity > m_MaxOpacity ||
+                opacity < 0 || opacity > 1)
             {
-                this.IsFinished = true;
+                if (m_ReverseFade)
+                {
+                    m_FadeOut = !m_FadeOut;
+                }
+                else
+                {
+                    IsFinished = true;
+                }
             }
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+            BoundSprite.TintColor = m_OriginalSpriteInfo.TintColor;
         }
     }
 }

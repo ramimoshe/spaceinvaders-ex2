@@ -39,8 +39,8 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
 
         protected override void DoFrame(GameTime i_GameTime)
         {
-            BoundSprite.RotationOrigin = new Vector2 (BoundSprite.WidthAfterScale / 2, BoundSprite.HeightAfterScale / 2);
-            BoundSprite.PositionOrigin = BoundSprite.RotationOrigin;
+            BoundSprite.RotationOrigin = BoundSprite.SpriteCenter;
+            //BoundSprite.PositionOrigin = new Vector2(BoundSprite.RotationOrigin.X, -BoundSprite.HeightAfterScale);
             BoundSprite.AngularVelocity = m_AngularVelocity;
         }
 
