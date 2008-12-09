@@ -14,6 +14,7 @@ namespace SpaceInvadersGame.ObjectModel
     /// </summary>
     public abstract class Enemy : CollidableSprite
     {
+        protected const string k_ScaleAnimationName = "Scale_enemyDeath";
         #region CTORs
 
         public Enemy(string i_AssetName, Game i_Game)
@@ -40,14 +41,14 @@ namespace SpaceInvadersGame.ObjectModel
         {
             base.Initialize();
             ScaleAnimation scaleAnimation =
-                new ScaleAnimation("Scale_enemyDeath", Vector2.Zero, TimeSpan.FromSeconds(.2f), false);
-            scaleAnimation.Finished += new AnimationFinishedEventHandler(enemyScale_Finished) ;
+                new ScaleAnimation(k_ScaleAnimationName, Vector2.Zero, TimeSpan.FromSeconds(.2f), false);
+            scaleAnimation.Finished += new AnimationFinishedEventHandler(EnemyScale_Finished) ;
             Animations.Add(scaleAnimation);
             Animations.Enabled = false;
             Animations.ResetAfterFinish = false;
         }
 
-        public virtual void enemyScale_Finished(SpriteAnimation i_Animation)
+        protected virtual void EnemyScale_Finished(SpriteAnimation i_Animation)
         {
         }
 
@@ -55,7 +56,7 @@ namespace SpaceInvadersGame.ObjectModel
         {
             if (i_OtherComponent is Bullet)
             {
-                Animations.Enabled = true;
+                Animations.Restart();
             }
             else
             {

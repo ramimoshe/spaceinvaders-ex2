@@ -29,7 +29,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
             get
             {
                 return new Vector2( (m_TargetScaleSize.X - m_OriginalSpriteInfo.Scale.X) / (float) m_ScaleLength.TotalSeconds,
-                                    (m_TargetScaleSize.Y - m_OriginalSpriteInfo.Scale.Y) / (float)m_ScaleLength.TotalSeconds);
+                                    (m_TargetScaleSize.Y - m_OriginalSpriteInfo.Scale.Y) / (float) m_ScaleLength.TotalSeconds);
             }
         }
 
@@ -43,35 +43,12 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
             }
         }
 
-        private bool XScaleOut
-        {
-            get
-            {
-                return m_TargetScaleSize.X > m_OriginalSpriteInfo.Scale.X;
-            }
-        }
-
-        private bool YScaleOut
-        {
-            get
-            {
-                return m_TargetScaleSize.Y > m_OriginalSpriteInfo.Scale.Y;
-            }
-        }
-
         protected override void DoFrame(GameTime i_GameTime)
         {
             Vector2 position = BoundSprite.PositionOrigin;
+
             BoundSprite.Scale += (ScalePerSecond * (float) i_GameTime.ElapsedGameTime.TotalSeconds);
             BoundSprite.PositionOrigin += PositionShiftPerSecond * (float)i_GameTime.ElapsedGameTime.TotalSeconds;
-
-            if ((XScaleOut && BoundSprite.Scale.X >= m_TargetScaleSize.X ||
-                 !XScaleOut && BoundSprite.Scale.X <= m_TargetScaleSize.X ) &&
-                (YScaleOut && BoundSprite.Scale.Y >= m_TargetScaleSize.Y ||
-                 !YScaleOut && BoundSprite.Scale.Y <= m_TargetScaleSize.Y))
-            {
-                IsFinished = true;
-            }
         }
 
         public override void Reset(TimeSpan i_AnimationLength)
