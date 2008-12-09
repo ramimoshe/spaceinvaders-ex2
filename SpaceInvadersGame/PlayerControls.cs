@@ -82,7 +82,7 @@ namespace SpaceInvadersGame
         /// Read only property that gets an indication wether the player can
         /// use the mouse button as an action key
         /// </summary>
-        public bool ActionUsingMouse
+        public bool UseMouse
         {
             get 
             {
