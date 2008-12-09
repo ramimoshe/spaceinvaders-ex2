@@ -6,22 +6,12 @@ using Microsoft.Xna.Framework.Graphics;
 using XnaGamesInfrastructure.ObjectInterfaces;
 
 namespace SpaceInvadersGame.ObjectModel
-{
-    /// <summary>
-    /// The delegate is used by the Bullet to notify that he colided
-    /// with another component
-    /// </summary>
-    /// <param name="i_OtherComponent">The component the bullet colided with</param>
-    /// <param name="i_Bullet">The current bullet that coliided with the component</param>
-    public delegate void BulletCollisionDelegate(ICollidable i_OtherComponent, SpaceShipBullet i_Bullet);
-
+{  
     /// <summary>
     /// A space ship bullet game component
     /// </summary>
     public class SpaceShipBullet : Bullet
-    {
-        public event BulletCollisionDelegate BulletCollision; 
-
+    {        
         public SpaceShipBullet(Game i_Game) : base(i_Game)
         {
             TintColor = Color.Red;
@@ -38,6 +28,7 @@ namespace SpaceInvadersGame.ObjectModel
         public override bool    CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
             return !(i_OtherComponent is SpaceShip) &&
+                   !(i_OtherComponent is SpaceShipBullet) &&
                    base.CheckForCollision(i_OtherComponent);            
         }
 
@@ -50,18 +41,6 @@ namespace SpaceInvadersGame.ObjectModel
             base.Collided(i_OtherComponent);
 
             onBulletCollision(i_OtherComponent);            
-        }      
-
-        /// <summary>
-        /// Raise a collision with a component event
-        /// </summary>
-        /// <param name="i_Enemy">The component that the bullet colided with</param>
-        private void    onBulletCollision(ICollidable i_OtherComponent)
-        {
-            if (BulletCollision != null)
-            {
-                BulletCollision(i_OtherComponent, this);
-            }
-        }        
+        }                  
     }
 }
