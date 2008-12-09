@@ -26,7 +26,7 @@ namespace SpaceInvadersGame.Interfaces
             get;
         }
 
-        bool ActionUsingMouse
+        bool UseMouse
         {
             get;
         }
