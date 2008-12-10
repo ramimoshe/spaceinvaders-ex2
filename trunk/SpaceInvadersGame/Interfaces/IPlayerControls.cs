@@ -6,27 +6,42 @@ using Microsoft.Xna.Framework.Input;
 namespace SpaceInvadersGame.Interfaces
 {
     /// <summary>
-    /// Interface that defines the players main keys: action key (fire key) 
+    /// Interface that defines a player main keys: action key (fire key) 
     /// and movement keys (left & right)    
     /// </summary>
     public interface IPlayerControls
     {
-        Keys ActionKey
+        /// <summary>
+        /// Read only property that states the player action key
+        /// </summary>
+        Keys    ActionKey
         {
             get;
         }
 
-        Keys RightMovmentKey
+        /// <summary>
+        /// Read only property that states the player right
+        /// movement key
+        /// </summary>
+        Keys    RightMovmentKey
         {
             get;
         }
 
-        Keys LeftMovmentKey
+        /// <summary>
+        /// Read only property that states the player left 
+        /// movement key
+        /// </summary>
+        Keys    LeftMovmentKey
         {
             get;
         }
 
-        bool UseMouse
+        /// <summary>
+        /// Read only property that states whether the player can
+        /// use the mouse input
+        /// </summary>
+        bool    UseMouse
         {
             get;
         }
