@@ -58,8 +58,7 @@ namespace SpaceInvadersGame
             InputManager inputManager = new InputManager(this, 1);
             CollisionManager collisionManager = new CollisionManager(this, 10000);
 
-            createGameComponents();
-            
+            createGameComponents();            
         }
 
         /// <summary>
