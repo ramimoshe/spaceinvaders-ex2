@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using XnaGamesInfrastructure.ObjectModel.Animations;
+using XnaGamesInfrastructure.Services;
 
 namespace XnaGamesInfrastructure.ObjectModel
 {
@@ -56,6 +57,10 @@ namespace XnaGamesInfrastructure.ObjectModel
         }
 
         #region Data members & Properties        
+        
+        // The variable marks if we want to load a fresh copy of the asset
+        // texture each time we call the LoadContent
+        protected bool m_LoadFreshTextureCopy = false;
 
         private Rectangle m_ViewportBounds;
 
@@ -475,7 +480,16 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// </summary>
         protected override void     LoadContent()
         {
-            m_Texture = m_ContentManager.Load<Texture2D>(m_AssetName);                        
+
+            // In case we want a fresh copy of the texture, will change the content
+            // manager to provide it
+            if (m_LoadFreshTextureCopy)
+            {
+                m_ContentManager = new MyContentManager(
+                    m_ContentManager.ServiceProvider);    
+            }
+
+            m_Texture = m_ContentManager.Load<Texture2D>(m_AssetName);
 
             // TODO: Check if i need this here
 
