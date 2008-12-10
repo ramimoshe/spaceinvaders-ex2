@@ -23,148 +23,220 @@
       </violation>
     </violations>
   </sourcecode>
+  <project key="-385654040">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+  <project key="658888023">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+  <project key="181459696">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
   <sourcecode name="ICollidable.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>11/26/2008 13:53:20</timestamp>
-      <milliseconds>78</milliseconds>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
     </settings>
-    <timestamp>11/25/2008 21:43:16</timestamp>
-    <milliseconds>125</milliseconds>
+    <timestamp>12/10/2008 00:01:53</timestamp>
+    <milliseconds>437</milliseconds>
     <violations />
   </sourcecode>
-  <sourcecode name="CollidableSprite.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+  <sourcecode name="BlinkAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>11/26/2008 13:53:20</timestamp>
-      <milliseconds>78</milliseconds>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
     </settings>
-    <timestamp>11/26/2008 13:52:46</timestamp>
-    <milliseconds>656</milliseconds>
+    <timestamp>12/06/2008 17:16:13</timestamp>
+    <milliseconds>573</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="CompositeAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
+    </settings>
+    <timestamp>12/10/2008 09:27:15</timestamp>
+    <milliseconds>828</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="FadeAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
+    </settings>
+    <timestamp>12/10/2008 09:27:15</timestamp>
+    <milliseconds>437</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="RotateAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
+    </settings>
+    <timestamp>12/10/2008 09:27:15</timestamp>
+    <milliseconds>375</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="SequencialAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
+    </settings>
+    <timestamp>12/10/2008 10:18:08</timestamp>
+    <milliseconds>875</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="WaypointsAnymation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
+    </settings>
+    <timestamp>12/10/2008 10:18:08</timestamp>
+    <milliseconds>953</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="SpriteAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
+    </settings>
+    <timestamp>12/10/2008 09:27:15</timestamp>
+    <milliseconds>890</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="GameService.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>11/26/2008 13:53:20</timestamp>
-      <milliseconds>78</milliseconds>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
     </settings>
     <timestamp>11/25/2008 21:43:15</timestamp>
     <milliseconds>859</milliseconds>
     <violations />
   </sourcecode>
-  <sourcecode name="DrawableLoadableComponent.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>11/26/2008 13:53:20</timestamp>
-      <milliseconds>78</milliseconds>
-    </settings>
-    <timestamp>11/25/2008 21:43:15</timestamp>
-    <milliseconds>796</milliseconds>
-    <violations />
-  </sourcecode>
   <sourcecode name="RegisteredComponent.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>11/26/2008 13:53:20</timestamp>
-      <milliseconds>78</milliseconds>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
     </settings>
     <timestamp>11/25/2008 21:43:15</timestamp>
     <milliseconds>625</milliseconds>
     <violations />
   </sourcecode>
-  <sourcecode name="ICollisionManager.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>11/26/2008 13:53:20</timestamp>
-      <milliseconds>78</milliseconds>
-    </settings>
-    <timestamp>11/25/2008 21:43:14</timestamp>
-    <milliseconds>921</milliseconds>
-    <violations />
-  </sourcecode>
-  <sourcecode name="InputManager.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>11/26/2008 13:53:20</timestamp>
-      <milliseconds>78</milliseconds>
-    </settings>
-    <timestamp>11/23/2008 22:59:08</timestamp>
-    <milliseconds>843</milliseconds>
-    <violations />
-  </sourcecode>
   <sourcecode name="AssemblyInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>11/26/2008 13:53:20</timestamp>
-      <milliseconds>78</milliseconds>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
     </settings>
     <timestamp>11/26/2008 13:53:45</timestamp>
     <milliseconds>531</milliseconds>
     <violations />
   </sourcecode>
+  <sourcecode name="ICollisionManager.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
+    </settings>
+    <timestamp>12/06/2008 18:30:21</timestamp>
+    <milliseconds>854</milliseconds>
+    <violations />
+  </sourcecode>
   <sourcecode name="IInputManager.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>11/26/2008 13:53:20</timestamp>
-      <milliseconds>78</milliseconds>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
     </settings>
     <timestamp>11/26/2008 13:54:45</timestamp>
     <milliseconds>125</milliseconds>
     <violations />
   </sourcecode>
-  <project key="-385654040">
-    <configuration>DEBUG;TRACE</configuration>
-  </project>
   <sourcecode name="CollisionManager.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>11/26/2008 13:53:20</timestamp>
-      <milliseconds>78</milliseconds>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
     </settings>
-    <timestamp>11/26/2008 13:54:59</timestamp>
-    <milliseconds>265</milliseconds>
+    <timestamp>12/08/2008 22:20:41</timestamp>
+    <milliseconds>281</milliseconds>
     <violations />
   </sourcecode>
-  <project key="658888023">
-    <configuration>DEBUG;TRACE</configuration>
-  </project>
-  <sourcecode name="Sprite.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+  <sourcecode name="MyContentManager.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>11/26/2008 16:45:58</timestamp>
-      <milliseconds>31</milliseconds>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
     </settings>
-    <timestamp>11/26/2008 16:56:42</timestamp>
-    <milliseconds>593</milliseconds>
+    <timestamp>12/09/2008 22:06:38</timestamp>
+    <milliseconds>656</milliseconds>
     <violations />
   </sourcecode>
-  <sourcecode name="SpriteAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+  <sourcecode name="InputManager.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>12/06/2008 22:43:00</timestamp>
-      <milliseconds>343</milliseconds>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
     </settings>
-    <timestamp>12/10/2008 08:09:48</timestamp>
-    <milliseconds>93</milliseconds>
+    <timestamp>11/29/2008 18:58:41</timestamp>
+    <milliseconds>843</milliseconds>
     <violations />
   </sourcecode>
-  <sourcecode name="CompositeAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+  <sourcecode name="CelAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>12/06/2008 22:43:00</timestamp>
-      <milliseconds>343</milliseconds>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
     </settings>
-    <timestamp>12/10/2008 08:25:05</timestamp>
-    <milliseconds>859</milliseconds>
-    <violations />
-  </sourcecode>
-  <sourcecode name="FadeAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>12/06/2008 22:43:00</timestamp>
-      <milliseconds>343</milliseconds>
-    </settings>
-    <timestamp>12/10/2008 08:41:57</timestamp>
+    <timestamp>12/10/2008 10:21:02</timestamp>
     <milliseconds>468</milliseconds>
     <violations />
   </sourcecode>
-  <project key="181459696">
+  <project key="970575545">
     <configuration>DEBUG;TRACE</configuration>
   </project>
-  <sourcecode name="RotateAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+  <sourcecode name="ScaleAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>12/06/2008 22:43:00</timestamp>
-      <milliseconds>343</milliseconds>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
     </settings>
-    <timestamp>12/10/2008 09:00:48</timestamp>
+    <timestamp>12/10/2008 10:29:10</timestamp>
     <milliseconds>78</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="CollidableSprite.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
+    </settings>
+    <timestamp>12/10/2008 10:37:53</timestamp>
+    <milliseconds>171</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="DrawableLoadableComponent.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
+    </settings>
+    <timestamp>12/10/2008 10:57:29</timestamp>
+    <milliseconds>62</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="SpriteFontComponent.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
+    </settings>
+    <timestamp>12/10/2008 11:00:20</timestamp>
+    <milliseconds>656</milliseconds>
+    <violations>
+      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="SingleLineCommentsMustNotBeFollowedByBlankLine" ruleCheckId="SA1512">
+        <context>A single-line comment must not be followed by a blank line. To ignore this error when commenting out a line of code, begin the comment with '////' rather than '//'.</context>
+        <line>9</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
+  </sourcecode>
+  <sourcecode name="Sprite.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/10/2008 10:20:55</timestamp>
+      <milliseconds>250</milliseconds>
+    </settings>
+    <timestamp>12/10/2008 10:58:05</timestamp>
+    <milliseconds>421</milliseconds>
     <violations />
   </sourcecode>
 </stylecopresultscache>
