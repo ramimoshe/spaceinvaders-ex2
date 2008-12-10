@@ -100,7 +100,8 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// a check, otherwise we'll clear the list and return all the 
         /// colliding pixels</param>
         /// <returns>indication whether the components pixels collides</returns>
-        protected bool  CheckForPixelCollision(ICollidable i_OtherComponent, 
+        protected bool  CheckForPixelCollision(
+                ICollidable i_OtherComponent, 
                 ref List<int> io_CollidablePixels)
         {
             int top = Math.Max(Bounds.Top, i_OtherComponent.Bounds.Top);
@@ -129,9 +130,10 @@ namespace XnaGamesInfrastructure.ObjectModel
                 {
                     // Get the color of both pixels at this point
                     Color colorA = dataA[(x - Bounds.Left) +
-                                         (y - Bounds.Top) * Bounds.Width];
+                                         ((y - Bounds.Top) * Bounds.Width)];
                     Color colorB = dataB[(x - i_OtherComponent.Bounds.Left) +
-                                         (y - i_OtherComponent.Bounds.Top) * i_OtherComponent.Bounds.Width];
+                                         ((y - i_OtherComponent.Bounds.Top) * 
+                                           i_OtherComponent.Bounds.Width)];
 
                     // If both pixels are not completely transparent,
                     if (colorA.A != 0 && colorB.A != 0)
@@ -139,7 +141,7 @@ namespace XnaGamesInfrastructure.ObjectModel
                         if (io_CollidablePixels != null)
                         {
                             io_CollidablePixels.Add((x - Bounds.Left) +
-                                         (y - Bounds.Top) * Bounds.Width);
+                                         ((y - Bounds.Top) * Bounds.Width));
                         }
 
                         // An intersection has been found
@@ -190,9 +192,7 @@ namespace XnaGamesInfrastructure.ObjectModel
                 List<int> pixels = new List<int>();
                 CheckForPixelCollision(i_OtherComponent, ref pixels);
 
-                // TODO: Check if the colorData assignment is necessary
-
-                ColorData = PerformPixelCollision(i_OtherComponent, pixels);
+                PerformPixelCollision(i_OtherComponent, pixels);
                 Texture.SetData<Color>(ColorData);
             }
             else if (CollisionCheckType == 

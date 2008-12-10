@@ -56,11 +56,7 @@ namespace XnaGamesInfrastructure.ObjectModel
                         Game.GraphicsDevice.Viewport.Height);
         }
 
-        #region Data members & Properties        
-        
-        // The variable marks if we want to load a fresh copy of the asset
-        // texture each time we call the LoadContent
-        protected bool m_LoadFreshTextureCopy = false;
+        #region Data members & Properties                        
 
         private Rectangle m_ViewportBounds;
 
@@ -130,9 +126,10 @@ namespace XnaGamesInfrastructure.ObjectModel
             {
                 return m_WidthBeforeScale * m_Scale.X;
             }
+
             set
             {
-                m_WidthBeforeScale = (int) (value / m_Scale.X);
+                m_WidthBeforeScale = (int)(value / m_Scale.X);
             }
         }
 
@@ -142,9 +139,10 @@ namespace XnaGamesInfrastructure.ObjectModel
             {
                 return m_HeightBeforeScale * m_Scale.X;
             }
+
             set
             {
-                m_HeightBeforeScale = (int) (value / m_Scale.Y);
+                m_HeightBeforeScale = (int)(value / m_Scale.Y);
             }
         }
 
@@ -154,6 +152,7 @@ namespace XnaGamesInfrastructure.ObjectModel
             {
                 return m_WidthBeforeScale;
             }
+
             set
             {
                 m_WidthBeforeScale = (int)value;
@@ -166,6 +165,7 @@ namespace XnaGamesInfrastructure.ObjectModel
             {
                 return m_HeightBeforeScale;
             }
+
             set
             {
                 m_HeightBeforeScale = (int) value;
@@ -173,6 +173,7 @@ namespace XnaGamesInfrastructure.ObjectModel
         }
 
         protected Vector2 m_PositionOfOrigin = Vector2.Zero;
+
         /// <summary>
         /// Represents the location of the sprite's origin point in screen coorinates
         /// </summary>
@@ -182,23 +183,25 @@ namespace XnaGamesInfrastructure.ObjectModel
             {
                 return m_PositionOfOrigin;
             }
+
             set
             {
                 if (m_PositionOfOrigin != value)
                 {
                     m_PositionOfOrigin = value;
-                    //OnPositionChanged();
                 }
             }
         }
 
         public Vector2 m_PositionOrigin;
+
         public Vector2 PositionOrigin
         {
             get
             {
                 return m_PositionOrigin;
             }
+
             set
             {
                 m_PositionOrigin = value;
@@ -206,12 +209,14 @@ namespace XnaGamesInfrastructure.ObjectModel
         }
 
         public Vector2 m_RotationOrigin = Vector2.Zero;
+
         public Vector2 RotationOrigin
         {
             get
             {
                 return m_RotationOrigin;
-            }// r_SpriteParameters.RotationOrigin; }
+            }
+
             set
             {
                 m_RotationOrigin = value;
@@ -224,6 +229,7 @@ namespace XnaGamesInfrastructure.ObjectModel
             {
                 return this.PositionOfOrigin - this.PositionOrigin;
             }
+
             set
             {
                 this.PositionOfOrigin = value + this.PositionOrigin;
@@ -261,7 +267,6 @@ namespace XnaGamesInfrastructure.ObjectModel
                 return ScreenBoundsAfterScale;
             }
         }
-
 
         /// <summary>
         /// Defines the source rectangle position
@@ -302,7 +307,7 @@ namespace XnaGamesInfrastructure.ObjectModel
         public Rectangle? SourceRectangle
         {
             get { return m_SourceRectangle; }
-            set { m_SourceRectangle = value;}
+            set { m_SourceRectangle = value; }
         }
 
         /// <summary>
@@ -314,6 +319,7 @@ namespace XnaGamesInfrastructure.ObjectModel
             {
                 return m_SpriteBatch;
             }
+
             set
             {
                 m_SpriteBatch = value;
@@ -329,6 +335,7 @@ namespace XnaGamesInfrastructure.ObjectModel
             {
                 return m_Animations;
             }
+
             set
             {
                 m_Animations = value;
@@ -388,13 +395,6 @@ namespace XnaGamesInfrastructure.ObjectModel
                     (int)HeightBeforeScale);
             }
         }
-
-        // TODO: Remove the variable
-
-        /// <summary>
-        /// Defines object 2Dimensional position
-        /// </summary>
-//        protected Vector2   m_PositionForDraw;
 
         /// <summary>
         /// Get/Sets object position
@@ -457,8 +457,8 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
         }
 
-
         private float m_AngularVelocity = 0;
+
         /// <summary>
         /// Radians per Second on X Axis
         /// </summary>
@@ -468,6 +468,7 @@ namespace XnaGamesInfrastructure.ObjectModel
             {
                 return m_AngularVelocity;
             }
+
             set
             {
                 m_AngularVelocity = value;
@@ -479,24 +480,8 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// Loads sprite's asset into content manager, and initializes spriteBatch
         /// </summary>
         protected override void     LoadContent()
-        {
-
-            // In case we want a fresh copy of the texture, will change the content
-            // manager to provide it
-            if (m_LoadFreshTextureCopy)
-            {
-                m_ContentManager = new MyContentManager(
-                    m_ContentManager.ServiceProvider);    
-            }
-
-            m_Texture = m_ContentManager.Load<Texture2D>(m_AssetName);
-
-            // TODO: Check if i need this here
-
-            /*Game.GraphicsDevice.Indices = null;
-            Game.GraphicsDevice.Vertices[0].SetSource(null, 0, 0);*/
-            
-            // TODO: Add remark
+        {           
+            m_Texture = m_ContentManager.Load<Texture2D>(m_AssetName);          
 
             Game.GraphicsDevice.Textures[0] = null;
 
@@ -583,8 +568,6 @@ namespace XnaGamesInfrastructure.ObjectModel
                 m_SpriteBatch.Begin();
             }
 
-            // TODO: Add rotation origin
-
             m_SpriteBatch.Draw(
                 m_Texture, 
                 this.PositionForDraw,
@@ -603,7 +586,6 @@ namespace XnaGamesInfrastructure.ObjectModel
 
             base.Draw(gameTime);
         }
-
 
         /// <summary>
         /// Creates a memberwise clone of sprite
