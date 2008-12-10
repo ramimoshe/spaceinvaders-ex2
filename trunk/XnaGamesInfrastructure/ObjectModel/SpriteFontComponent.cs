@@ -6,8 +6,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace XnaGamesInfrastructure.ObjectModel
 {
-    // TODO: Change the class so that it'll inherit from Sprite
-
+    /// <summary>
+    /// Implements a SpriteFont component that can be used to write on the
+    /// screen with
+    /// </summary>
     public class SpriteFontComponent : DrawableLoadableComponent
     {
         private string m_Text = String.Empty;
@@ -44,23 +46,35 @@ namespace XnaGamesInfrastructure.ObjectModel
         {
         }
 
-        public string Text
+        /// <summary>
+        /// Gets/sets the text we want to write on the screen
+        /// </summary>
+        public string   Text
         {
             get { return m_Text; }
             set { m_Text = value; }
         }
 
-        public Vector2 Position
+        /// <summary>
+        /// Gets/sets the position we want to write in the screen
+        /// </summary>
+        public Vector2  Position
         {
             get { return m_Position; }
             set { m_Position = value; }
         }	
 
+        /// <summary>
+        /// Initialize the component bounds
+        /// </summary>
         protected override void     InitBounds()
         {
             m_Position = Vector2.Zero;
-        }
+        }        
 
+        /// <summary>
+        /// Loads the desire SpriteFont
+        /// </summary>
         protected override void     LoadContent()
         {
             m_Font = m_ContentManager.Load<SpriteFont>(m_AssetName);
@@ -84,6 +98,11 @@ namespace XnaGamesInfrastructure.ObjectModel
             base.LoadContent();
         }
 
+        /// <summary>
+        /// Draws the given text in the screen according to the component
+        /// font and position
+        /// </summary>
+        /// <param name="i_GameTime">A snapshot to the game time</param>
         public override void    Draw(GameTime i_GameTime)
         {
             if (!m_UseSharedBatch)
@@ -103,6 +122,6 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
 
             base.Draw(i_GameTime);
-        }
+        }       
     }
 }

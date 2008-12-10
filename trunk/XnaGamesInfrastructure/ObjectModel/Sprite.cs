@@ -523,7 +523,10 @@ namespace XnaGamesInfrastructure.ObjectModel
         }
         #endregion
 
-        protected virtual void  PerformLoadLogic()
+        /// <summary>
+        /// Loads sprite's asset into content manager, and initializes spriteBatch
+        /// </summary>
+        protected override void    LoadContent()
         {
             m_Texture = m_ContentManager.Load<Texture2D>(m_AssetName);
 
@@ -531,14 +534,6 @@ namespace XnaGamesInfrastructure.ObjectModel
 
             m_ColorData = new Color[m_Texture.Width * m_Texture.Height];
             Texture.GetData(m_ColorData, 0, Texture.Width * Texture.Height);
-        }
-
-        /// <summary>
-        /// Loads sprite's asset into content manager, and initializes spriteBatch
-        /// </summary>
-        protected override void    LoadContent()
-        {
-            PerformLoadLogic();
 
             // Checking if spritebatch already exists
             if (m_SpriteBatch == null)
@@ -624,14 +619,14 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
 
             m_SpriteBatch.Draw(
-                m_Texture, 
+                m_Texture,
                 this.PositionForDraw,
-                this.SourceRectangle, 
+                this.SourceRectangle,
                 this.TintColor,
-                this.Rotation, 
-                this.RotationOrigin, 
+                this.Rotation,
+                this.RotationOrigin,
                 this.Scale,
-                SpriteEffects.None, 
+                SpriteEffects.None,
                 this.LayerDepth);
 
             if (!m_UseSharedBatch)
@@ -640,7 +635,7 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
 
             base.Draw(gameTime);
-        }
+        }        
 
         /// <summary>
         /// Creates a memberwise clone of sprite
