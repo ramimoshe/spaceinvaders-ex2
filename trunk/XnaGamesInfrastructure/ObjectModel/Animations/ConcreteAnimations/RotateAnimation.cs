@@ -7,14 +7,24 @@ using XnaGamesInfrastructure.ObjectModel.Animations;
 
 namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
 {
+    /// <summary>
+    /// Animates a sprite's rotation
+    /// </summary>
     public class RotateAnimation : SpriteAnimation
     {
         private float m_TargetRotateAngle;
         private TimeSpan m_RotateLength;
         private float m_AngularVelocity;
 
-        // CTORs
-        public RotateAnimation( string i_Name,
+        /// <summary>
+        /// Sets a new rotation animation
+        /// </summary>
+        /// <param name="i_Name">Animation name</param>
+        /// <param name="i_TargetRotateAngle">Sets the target rotation angle in radians</param>
+        /// <param name="i_AnimationLength">Animation time</param>
+        /// <param name="i_ResetAfterFinish">Specifies whther to reset animation when done</param>
+        public  RotateAnimation( 
+                                string i_Name,
                                 float i_TargetRotateAngle,
                                 TimeSpan i_AnimationLength,
                                 bool i_ResetAfterFinish)
@@ -25,26 +35,31 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
             m_RotateLength = i_AnimationLength;
         }
 
-        public override void Initialize()
+        /// <summary>
+        /// Overriden to calculate angular velocity for bound sprite
+        /// </summary>
+        public override void    Initialize()
         {
             base.Initialize();
             m_AngularVelocity = (m_TargetRotateAngle - BoundSprite.Rotation) / (float)m_RotateLength.TotalSeconds;
         }
 
-        protected override void OnFinished()
-        {
-            BoundSprite.AngularVelocity = m_OriginalSpriteInfo.AngularVelocity;
-            base.OnFinished();
-        }
-
-        protected override void DoFrame(GameTime i_GameTime)
+        /// <summary>
+        /// Animates the rotation
+        /// </summary>
+        /// <param name="i_GameTime">Time since last run</param>
+        protected override void     DoFrame(GameTime i_GameTime)
         {
             BoundSprite.RotationOrigin = BoundSprite.SpriteCenter;
             BoundSprite.PositionOrigin = BoundSprite.RotationOrigin;
             BoundSprite.AngularVelocity = m_AngularVelocity;
         }
 
-        public override void Reset(TimeSpan i_AnimationLength)
+        /// <summary>
+        /// Resets animation to initial state
+        /// </summary>
+        /// <param name="i_AnimationLength">Animation time</param>
+        public override void    Reset(TimeSpan i_AnimationLength)
         {
             base.Reset(i_AnimationLength);
             BoundSprite.Rotation = m_OriginalSpriteInfo.Rotation;

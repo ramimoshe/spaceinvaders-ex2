@@ -128,4 +128,43 @@
     <milliseconds>593</milliseconds>
     <violations />
   </sourcecode>
+  <sourcecode name="SpriteAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/06/2008 22:43:00</timestamp>
+      <milliseconds>343</milliseconds>
+    </settings>
+    <timestamp>12/10/2008 08:09:48</timestamp>
+    <milliseconds>93</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="CompositeAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/06/2008 22:43:00</timestamp>
+      <milliseconds>343</milliseconds>
+    </settings>
+    <timestamp>12/10/2008 08:25:05</timestamp>
+    <milliseconds>859</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="FadeAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/06/2008 22:43:00</timestamp>
+      <milliseconds>343</milliseconds>
+    </settings>
+    <timestamp>12/10/2008 08:41:57</timestamp>
+    <milliseconds>468</milliseconds>
+    <violations />
+  </sourcecode>
+  <project key="181459696">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+  <sourcecode name="RotateAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/06/2008 22:43:00</timestamp>
+      <milliseconds>343</milliseconds>
+    </settings>
+    <timestamp>12/10/2008 09:00:48</timestamp>
+    <milliseconds>78</milliseconds>
+    <violations />
+  </sourcecode>
 </stylecopresultscache>
