@@ -13,7 +13,8 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
             Sprite i_BoundSprite,
             params SpriteAnimation[] i_Animations)
             : base(i_Name, i_AnimationLength, i_BoundSprite, i_Animations)
-        {}
+        {
+        }
 
         protected override void DoFrame(GameTime i_GameTime)
         {

@@ -66,7 +66,6 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
             }
         }
 
-
         /// <summary>
         /// Resets the animation.
         /// </summary>
