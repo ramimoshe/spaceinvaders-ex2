@@ -13,7 +13,7 @@ namespace SpaceInvadersGame.ObjectModel
     /// </summary>
     public class Barrier : CollidableSprite
     {
-        private const string k_AssetName = @"Sprites\Barrier_44x32";
+        private const string k_AssetName = @"Content\Sprites\Barrier_44x32";
 
         private const int k_XMotionSpeed = 100;
         private const float k_TransparentPercent = .75f;
@@ -27,6 +27,7 @@ namespace SpaceInvadersGame.ObjectModel
         {            
             MotionVector = new Vector2(k_XMotionSpeed, 0);
             m_CollisionCheckType = eCollidableCheckType.PixelCollision;
+            m_LoadFreshTextureCopy = true;
         }
 
         /// <summary>
@@ -58,7 +59,7 @@ namespace SpaceInvadersGame.ObjectModel
         /// Implement the pixel collision between the current component and 
         /// a given component.
         /// in case it's an Enemy we'll call the base behaviour, otherwise 
-        /// we'll transperent pixels in the colliding position according
+        /// we'll transparent pixels in the colliding position according
         /// to the sent component texture size.
         /// </summary>
         /// <param name="i_OtherComponent">The component we collided with</param>
@@ -81,14 +82,14 @@ namespace SpaceInvadersGame.ObjectModel
             {
                 retVal = ColorData;
 
-                int pixelToTransperentNum = (int)
+                int pixelToTransparentNum = (int)
                     (k_TransparentPercent * (i_OtherComponent.Texture.Width *
                      i_OtherComponent.Texture.Height));
 
                 // Calculate the direction which we need to transparent the 
                 // pixels accroding to the colliding component movement
                 // direction
-                int transperentDirection = (int)
+                int transparentDirection = (int)
                     (i_OtherComponent.MotionVector.Y / 
                      Math.Abs(i_OtherComponent.MotionVector.Y));
 
@@ -97,7 +98,7 @@ namespace SpaceInvadersGame.ObjectModel
 
                 bool finish = false;
 
-                while (pixelToTransperentNum > 0 && !finish)
+                while (pixelToTransparentNum > 0 && !finish)
                 {
                     int widthPixel = currPixel;
                     bool finishWidth = false;
@@ -105,20 +106,20 @@ namespace SpaceInvadersGame.ObjectModel
                     // Calculate the last pixel we need to transpaernt in the
                     // current line
                     int finishPixel = currPixel + 
-                        (i_OtherComponent.Texture.Width * transperentDirection);
+                        (i_OtherComponent.Texture.Width * transparentDirection);
 
                     // Calculate the last pixel that is in the current pixel 
                     // texture line
                     int boundPixel = currPixel + 
-                            transperentDirection * (currPixel % Texture.Width);
+                            transparentDirection * (currPixel % Texture.Width);
 
                     // If we're close to the bounds (left or right), we
                     // need to make sure that when will tansperent a barrier
                     // pixel we won't Accidentally reach the other side 
                     // (for example if the component collided with a pixel 
                     // in the left side and decreasing/increasing the pixel 
-                    // to transperent can reach a pixel in the right side)
-                    if (transperentDirection < 0)
+                    // to transparent can reach a pixel in the right side)
+                    if (transparentDirection < 0)
                     {
                         finishPixel = Math.Max(finishPixel, boundPixel);
                     }
@@ -127,7 +128,9 @@ namespace SpaceInvadersGame.ObjectModel
                         finishPixel = Math.Min(finishPixel, boundPixel);
                     }
 
-                    while (pixelToTransperentNum > 0 &&
+                    int trasparentPixels = 0;
+
+                    while (pixelToTransparentNum > 0 &&
                            widthPixel != finishPixel && 
                            !finishWidth)
                     {
@@ -135,15 +138,26 @@ namespace SpaceInvadersGame.ObjectModel
                         color.W = 0;
                         retVal[widthPixel] = new Color(color);
 
-                        widthPixel += transperentDirection;
+                        widthPixel += transparentDirection;
                                                 
-                        pixelToTransperentNum--;
+                        pixelToTransparentNum--;
 
                         finishWidth = widthPixel > retVal.Length - 1 || 
                                       widthPixel < 0;
                     }
 
-                    currPixel += Texture.Width * transperentDirection;
+                    // Even if we didn't transparent enough pixels in the 
+                    // Texture width, we'll decrease the num of pixel
+                    // needed to transparent so that we won't Transparent
+                    // more pixels than needed from the texture height
+                    if (trasparentPixels < i_OtherComponent.Texture.Width)
+                    {
+                        pixelToTransparentNum -=
+                            i_OtherComponent.Texture.Width -
+                            trasparentPixels;
+                    }
+
+                    currPixel += Texture.Width * transparentDirection;
 
                     finish = currPixel > retVal.Length - 1 || 
                              currPixel < 0;
