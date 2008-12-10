@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework;
 
 namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
 {
+    /// <summary>
+    /// Animate a sprite texture by changing between the sprite frames
+    /// </summary>
     public class CelAnimation : SpriteAnimation
     {
         private const int k_DefaultStartingCel = 0;
@@ -28,7 +31,6 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         {
         }
 
-        // CTORs
         public CelAnimation(
             TimeSpan i_FrameLength, 
             int i_NumOfCels, 
@@ -44,7 +46,10 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
             m_Loop = i_AnimationLength == TimeSpan.Zero;
         }
 
-        public void NextFrame()
+        /// <summary>
+        /// Move the current frame to the next one in the texture
+        /// </summary>
+        public void     NextFrame()
         {
             m_CurrCell++;
             if (m_CurrCell >= m_NumOfCels)
@@ -61,21 +66,32 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
             }
         }
 
-        public override void Reset(TimeSpan i_AnimationLength)
+
+        /// <summary>
+        /// Resets the animation.
+        /// </summary>
+        /// <param name="i_AnimationLength">The time we want to perform
+        /// the animation</param>
+        public override void    Reset(TimeSpan i_AnimationLength)
         {
             base.Reset(i_AnimationLength);
 
             this.BoundSprite.SourceRectangle = m_OriginalSpriteInfo.SourceRectangle;
         }
 
-        protected override void DoFrame(GameTime i_GameTime)
+        /// <summary>
+        /// Implments the animation logic
+        /// </summary>
+        /// <param name="i_GameTime">A snapshot of the current game time
+        /// </param>
+        protected override void     DoFrame(GameTime i_GameTime)
         {
             if (m_FrameLength != TimeSpan.Zero)
             {
                 m_TimeLeftForFrame -= i_GameTime.ElapsedGameTime;
                 if (m_TimeLeftForFrame.TotalSeconds <= 0)
                 {
-                    // we have elapsed, so blink
+                    // we have elapsed, so change frame
                     NextFrame();
                     m_TimeLeftForFrame = m_FrameLength;
                 }
