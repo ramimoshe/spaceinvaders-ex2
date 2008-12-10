@@ -47,7 +47,7 @@ namespace SpaceInvadersGame.ObjectModel
             if (i_OtherComponent is Bullet)
             {
                 // Randomly choose whether the bullet will be hit
-                collided = new Random().Next(0, 1) == 1;
+                collided = Math.Round(new Random().NextDouble()) == 1;                
             }
 
             if (collided)
