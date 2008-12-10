@@ -22,7 +22,6 @@ namespace XnaGamesInfrastructure.ObjectModel
             set { m_TintColor = value; }
         }
 
-
         /// <summary>
         /// Defines the position where we want to draw the string
         /// </summary>

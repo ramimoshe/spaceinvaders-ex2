@@ -24,6 +24,12 @@ namespace XnaGamesInfrastructure.ObjectModel
         protected ContentManager m_ContentManager;
 
         /// <summary>
+        /// Marks if we want to load a fresh copy of the asset
+        /// texture each time we call the LoadContent
+        /// </summary>
+        protected bool m_LoadFreshTextureCopy = false;
+
+        /// <summary>
         /// The constructor intiates the main constructor, with DrawOrder &
         /// UpdateOrder which default to zero.
         /// </summary>
@@ -66,10 +72,17 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// </summary>
         public override void Initialize()
         {
-            // TODO: Check if it's ok
-
-            // Getting initialized content device
-            m_ContentManager = Game.Content;
+            // In case we want a fresh copy of the texture, will change the content
+            // manager to provide it
+            if (m_LoadFreshTextureCopy)
+            {
+                m_ContentManager = new MyContentManager(
+                    Game.Content.ServiceProvider);
+            }
+            else
+            {
+                m_ContentManager = Game.Content;
+            }
 
             base.Initialize();
 
