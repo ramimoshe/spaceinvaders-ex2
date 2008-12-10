@@ -37,7 +37,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations
         /// <summary>
         /// Gets/Sets whether animation will reset itself when done executing
         /// </summary>
-        public bool ResetAfterFinish
+        public bool     ResetAfterFinish
         {
             get { return m_ResetAfterFinish; }
             set { m_ResetAfterFinish = value; }

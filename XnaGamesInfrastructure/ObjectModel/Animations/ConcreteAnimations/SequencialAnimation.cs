@@ -5,6 +5,9 @@ using Microsoft.Xna.Framework;
 
 namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
 {
+    /// <summary>
+    /// Run animations one after the other
+    /// </summary>
     public class SequencialAnimation : CompositeAnimation
     {
         public SequencialAnimation(
@@ -16,6 +19,10 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         {
         }
 
+        /// <summary>
+        /// Perform the current animation update
+        /// </summary>
+        /// <param name="i_GameTime">A snapshot of the game time</param>
         protected override void DoFrame(GameTime i_GameTime)
         {
             bool allFinished = true;

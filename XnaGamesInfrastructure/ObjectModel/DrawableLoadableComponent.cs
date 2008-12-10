@@ -70,7 +70,7 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// Called when all game components are initialized, to enable
         /// initialization of new game elements including Content Manager.
         /// </summary>
-        public override void Initialize()
+        public override void    Initialize()
         {
             // In case we want a fresh copy of the texture, will change the content
             // manager to provide it
@@ -93,6 +93,6 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// <summary>
         /// Initialized initial component position on screen.
         /// </summary>
-        protected abstract void InitBounds();
+        protected abstract void     InitBounds();
     }
 }

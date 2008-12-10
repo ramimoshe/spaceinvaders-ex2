@@ -44,7 +44,11 @@ namespace XnaGamesInfrastructure.ObjectModel
         {
         }
 
-        public override void Initialize()
+        /// <summary>
+        /// Initializes the sprite by initializing the animations and
+        /// view port bounds
+        /// </summary>
+        public override void    Initialize()
         {
             base.Initialize();
 
@@ -62,10 +66,13 @@ namespace XnaGamesInfrastructure.ObjectModel
 
         protected Color[] m_ColorData;
 
-        public Color[] ColorData
+        /// <summary>
+        /// Property that gets the sprite texture color array
+        /// </summary>
+        public Color[]  ColorData
         {
             get { return m_ColorData; }
-            set { m_ColorData = value; }
+            protected set { m_ColorData = value; }
         }
 
         /// <summary>
@@ -86,7 +93,7 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// <summary>
         /// Gets/sets the draw layer depth
         /// </summary>
-        public float LayerDepth
+        public float    LayerDepth
         {
             get { return m_LayerDepth; }
             set { m_LayerDepth = value; }
@@ -114,13 +121,17 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// <summary>
         /// Gets/sets the draw scale factor
         /// </summary>
-        public Vector2 Scale
+        public Vector2  Scale
         {
             get { return m_Scale; }
             set { m_Scale = value; }
         }
 
-        public float WidthAfterScale
+        /// <summary>
+        /// Property that gets/sets the width before scale according to the 
+        /// scale factor
+        /// </summary>
+        public float    WidthAfterScale
         {
             get
             {
@@ -133,6 +144,10 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
         }
 
+        /// <summary>
+        /// Property that gets/sets the height before scale according to the 
+        /// scale factor
+        /// </summary>
         public float HeightAfterScale
         {
             get
@@ -146,6 +161,9 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
         }
 
+        /// <summary>
+        /// Property that gets/sets the width before scale 
+        /// </summary>
         public float WidthBeforeScale
         {
             get
@@ -159,6 +177,9 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
         }
 
+        /// <summary>
+        /// Property that gets/sets the height before scale 
+        /// </summary>
         public float HeightBeforeScale
         {
             get
@@ -195,7 +216,11 @@ namespace XnaGamesInfrastructure.ObjectModel
 
         public Vector2 m_PositionOrigin;
 
-        public Vector2 PositionOrigin
+        /// <summary>
+        /// Property that gets/sets the position for draw after the
+        /// origin factror
+        /// </summary>
+        public Vector2  PositionOrigin
         {
             get
             {
@@ -210,7 +235,11 @@ namespace XnaGamesInfrastructure.ObjectModel
 
         public Vector2 m_RotationOrigin = Vector2.Zero;
 
-        public Vector2 RotationOrigin
+        /// <summary>
+        /// Property that gets/sets the sprite rotation value after origin
+        /// add
+        /// </summary>
+        public Vector2  RotationOrigin
         {
             get
             {
@@ -223,7 +252,10 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
         }
 
-        public Vector2 TopLeftPosition
+        /// <summary>
+        /// Gets/sets the sprite top left position
+        /// </summary>
+        public Vector2  TopLeftPosition
         {
             get
             {
@@ -236,7 +268,10 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
         }
 
-        public Rectangle ScreenBoundsAfterScale
+        /// <summary>
+        /// Gets the screen bounds after the scale factor add
+        /// </summary>
+        public Rectangle    ScreenBoundsAfterScale
         {
             get
             {
@@ -248,7 +283,10 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
         }
 
-        public Rectangle ScreenBoundsBeforeScale
+        /// <summary>
+        /// Gets the screen bounds before the scale factor add
+        /// </summary>
+        public Rectangle    ScreenBoundsBeforeScale
         {
             get
             {
@@ -260,7 +298,10 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
         }
 
-        public virtual Rectangle ColliadbleBounds
+        /// <summary>
+        /// Gets the bounds for collision check
+        /// </summary>
+        public virtual Rectangle    ColliadbleBounds
         {
             get
             {
@@ -276,7 +317,7 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// <summary>
         /// Gets/sets the position of the draw source rectangle
         /// </summary>
-        public Vector2 SourcePosition
+        public Vector2  SourcePosition
         {
             get 
             { 
@@ -304,7 +345,7 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// <summary>
         /// Gets/sets the source textures rectangle
         /// </summary>
-        public Rectangle? SourceRectangle
+        public Rectangle?   SourceRectangle
         {
             get { return m_SourceRectangle; }
             set { m_SourceRectangle = value; }
@@ -329,7 +370,10 @@ namespace XnaGamesInfrastructure.ObjectModel
 
         protected CompositeAnimation m_Animations;
 
-        public CompositeAnimation Animations
+        /// <summary>
+        /// Gets/sets the sprite animations
+        /// </summary>
+        public CompositeAnimation   Animations
         {
             get
             {
@@ -368,7 +412,10 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// </summary>
         protected int m_WidthBeforeScale;
 
-        public Vector2 SpriteCenter
+        /// <summary>
+        /// Gets the center point of the sprite
+        /// </summary>
+        public Vector2  SpriteCenter
         {
             get
             {
@@ -462,7 +509,7 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// <summary>
         /// Radians per Second on X Axis
         /// </summary>
-        public float AngularVelocity
+        public float    AngularVelocity
         {
             get
             {
@@ -476,17 +523,22 @@ namespace XnaGamesInfrastructure.ObjectModel
         }
         #endregion
 
-        /// <summary>
-        /// Loads sprite's asset into content manager, and initializes spriteBatch
-        /// </summary>
-        protected override void     LoadContent()
-        {           
-            m_Texture = m_ContentManager.Load<Texture2D>(m_AssetName);          
+        protected virtual void  PerformLoadLogic()
+        {
+            m_Texture = m_ContentManager.Load<Texture2D>(m_AssetName);
 
             Game.GraphicsDevice.Textures[0] = null;
 
             m_ColorData = new Color[m_Texture.Width * m_Texture.Height];
             Texture.GetData(m_ColorData, 0, Texture.Width * Texture.Height);
+        }
+
+        /// <summary>
+        /// Loads sprite's asset into content manager, and initializes spriteBatch
+        /// </summary>
+        protected override void    LoadContent()
+        {
+            PerformLoadLogic();
 
             // Checking if spritebatch already exists
             if (m_SpriteBatch == null)
@@ -536,7 +588,10 @@ namespace XnaGamesInfrastructure.ObjectModel
             InitOrigins();
         }
 
-        protected virtual void InitOrigins()
+        /// <summary>
+        /// Initialize the sprite origin value
+        /// </summary>
+        protected virtual void  InitOrigins()
         {
         }
 
@@ -561,7 +616,7 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// spriteBatch.
         /// </summary>
         /// <param name="gameTime">Elapsed time since last call</param>
-        public override void Draw(GameTime gameTime)
+        public override void    Draw(GameTime gameTime)
         {
             if (!m_UseSharedBatch)
             {

@@ -40,7 +40,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         /// <summary>
         /// Overrided to perform calculation on original bound sprite
         /// </summary>
-        protected override void CloneSpriteInfo()
+        protected override void     CloneSpriteInfo()
         {
             base.CloneSpriteInfo();
 
@@ -64,7 +64,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         /// <summary>
         /// Returns the scale change per second
         /// </summary>
-        private Vector2 ScalePerSecond
+        private Vector2     ScalePerSecond
         {
             get
             {
@@ -75,7 +75,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         /// <summary>
         /// Returns the position shift er second to maintain sprite centered
         /// </summary>
-        private Vector2 PositionShiftPerSecond
+        private Vector2     PositionShiftPerSecond
         {
             get
             {
@@ -87,7 +87,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         /// Animates the scale
         /// </summary>
         /// <param name="i_GameTime">Time since last run</param>
-        protected override void DoFrame(GameTime i_GameTime)
+        protected override void     DoFrame(GameTime i_GameTime)
         {
             float totalSeconds = (float) i_GameTime.ElapsedGameTime.TotalSeconds;
 
@@ -100,7 +100,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         /// Resets the animation to original state
         /// </summary>
         /// <param name="i_AnimationLength">Animation length</param>
-        public override void Reset(TimeSpan i_AnimationLength)
+        public override void    Reset(TimeSpan i_AnimationLength)
         {
             base.Reset(i_AnimationLength);
             BoundSprite.Scale = m_OriginalSpriteInfo.Scale;
