@@ -142,7 +142,6 @@ namespace SpaceInvadersGame.ObjectModel
             {
                 m_RemainingLivesLeft = value;
             }
-
         }
 
         /// <summary>

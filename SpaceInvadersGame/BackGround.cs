@@ -39,48 +39,30 @@ namespace SpaceInvadersGame
 
             while (starsAdded < m_StarsNum)
             {
-                //generate a random pixel index, see if it is a black one,
-                //and generate a new random value for the pixel.
+                // generate a random pixel index, see if it is a black one,
+                // and generate a new random value for the pixel.
                 int index = rand.Next(pixels.Length);
                 if (pixels[index] == Color.TransparentBlack ||
                     pixels[index] == Color.Black)
                 {
+                    Vector2 starPosition = new Vector2(
+                        index % Texture.Width, 
+                        index / Texture.Width);
                     float value = (float)rand.NextDouble() + .5f;                    
                     Star s = new Star(
                             Game,
-                            new Vector2(
-                                index % Texture.Width, 
-                                index / Texture.Width),
+                            starPosition,
                             rand.Next(1, 4),
                             DrawOrder + 1);
 
                     starsAdded++;
                 }
-            }
-
-            // TODO: Remove the code 
-
-            /*this.Texture.GetData<Color>(pixels);
-
-            for (int i = 1; i <= 4; i++)
-            {
-                pixels[(Game.GraphicsDevice.Viewport.Width) * i] = new Color(new Vector4(1f));
-                pixels[(Game.GraphicsDevice.Viewport.Width * i) - 1] = new Color(new Vector4(1f));
-                pixels[(Game.GraphicsDevice.Viewport.Width * i) - 2] = new Color(new Vector4(1f));
-                pixels[(Game.GraphicsDevice.Viewport.Width * i) - 3] = new Color(new Vector4(1f));
-                pixels[(Game.GraphicsDevice.Viewport.Width * i) - 4] = new Color(new Vector4(1f));
-                pixels[(Game.GraphicsDevice.Viewport.Width * i) - 5] = new Color(new Vector4(1f));
-                pixels[(Game.GraphicsDevice.Viewport.Width * i) - 6] = new Color(new Vector4(1f));
-                pixels[(Game.GraphicsDevice.Viewport.Width * i) - 7] = new Color(new Vector4(1f));
-            }
-            //save the pixels to the texture
-            this.Texture.SetData(pixels);*/
+            }            
         }
 
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
-        }
-          
+        }         
     }
 }

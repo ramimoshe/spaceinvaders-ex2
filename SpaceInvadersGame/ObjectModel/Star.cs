@@ -16,11 +16,10 @@ namespace SpaceInvadersGame.ObjectModel
         private const string k_AssetName = @"Sprites\Star";
         private const int k_WidthBitsNum = 2;
         private const int k_DefaultLayerDepth = 1;
+        private const int k_DefaultStarSize = 1;
 
-        // TODO: Change the 1 to a constant
-
-        public Star(Game i_Game, Vector2 i_Position, int i_DrawOrder) 
-            : this(i_Game, i_Position, 1, i_DrawOrder)
+        public Star(Game i_Game, Vector2 i_Position, int i_DrawOrder)
+            : this(i_Game, i_Position, k_DefaultStarSize, i_DrawOrder)
         {
         }
 
@@ -49,7 +48,8 @@ namespace SpaceInvadersGame.ObjectModel
             tint.W = (float)rand.NextDouble();
             TintColor = new Color(tint);
 
-            TimeSpan fadeTime = TimeSpan.FromSeconds(1 + rand.Next() % 4 + rand.NextDouble());
+            TimeSpan fadeTime = 
+                TimeSpan.FromSeconds(1 + (rand.Next() % 4) + rand.NextDouble());
 
             bool fadeOut = rand.Next(1) == 0 ? true : false;
             TimeSpan animationTime = TimeSpan.Zero;

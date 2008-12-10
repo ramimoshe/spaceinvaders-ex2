@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceInvadersGame.Interfaces
 {
-
     public delegate void PlayerWasHitDelegate();
     
     public delegate void PlayerScoreChangedDelegate();

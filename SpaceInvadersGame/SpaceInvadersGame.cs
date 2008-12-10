@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -11,7 +12,6 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using XnaGamesInfrastructure.Services;
 using SpaceInvadersGame.ObjectModel;
-using System.Windows.Forms;
 
 namespace SpaceInvadersGame
 {
@@ -25,14 +25,7 @@ namespace SpaceInvadersGame
     /// This is the main type for your game
     /// </summary>
     public class SpaceInvadersGame : Microsoft.Xna.Framework.Game
-    {
-        // TODO: Move the dll to the project reference
-
-        // Add an asembly reference to the MessageBox so that we can use it in
-        // our game
-        //[DllImport("user32.dll", CharSet = CharSet.Auto)]
-        //public static extern uint MessageBox(IntPtr hWnd, string text, string caption, uint type);
-
+    {       
         private const int k_SpaceBetweenLivesDraw = 30;
         private const string k_Player1ScorePrefix = "P1 Score: ";
         private const string k_Player2ScorePrefix = "P2 Score: ";
@@ -52,8 +45,6 @@ namespace SpaceInvadersGame
         private PlayerScoreDrawer m_Player2ScoreDrawer;
         private BarriersHolder m_BarrierHolder;
 
-        // TODO: Check if i need to change the false to a constant
-
         private bool m_GameOver = false;
         private bool m_Player1IsDead = false;
         private bool m_Player2IsDead = false;
@@ -66,8 +57,6 @@ namespace SpaceInvadersGame
 
             InputManager inputManager = new InputManager(this, 1);
             CollisionManager collisionManager = new CollisionManager(this, 10000);
-
-            // TODO: Move the keys to the constants class
 
             PlayerControls player2Controls = new PlayerControls(
                 Microsoft.Xna.Framework.Input.Keys.Space,
@@ -138,10 +127,17 @@ namespace SpaceInvadersGame
         /// </summary>
         protected override void     Initialize()
         {            
-            base.Initialize();            
+            base.Initialize();
 
-            // TODO: Check if i need to put the init in here
-            
+            initComponentsPosition();                        
+        }
+
+        /// <summary>
+        /// Change the main components position in the screen according
+        /// to the desire game requierments
+        /// </summary>
+        private void    initComponentsPosition()
+        {
             // Change the players position
             Vector2 player1Position = new Vector2(
                 m_Player1.Texture.Width * 2,
@@ -166,13 +162,7 @@ namespace SpaceInvadersGame
 
             m_BarrierHolder.UpdateBarriersPossition(
                 m_Player1.Bounds.Top,
-                m_Player1.Texture.Height);
-
-            // TODO: Remove the code
-
-            /*pos = m_Player2ScoreDrawer.Position;
-            pos.Y += 25;
-            m_Player2ScoreDrawer.Position = pos;*/
+                m_Player1.Texture.Height);          
         }
 
         /// <summary>
@@ -205,7 +195,6 @@ namespace SpaceInvadersGame
                 string winningMsg = getWinningPlayerMsg();
 
                 MessageBox.Show(
-                    //new IntPtr(0), 
                     "Game Over. \nPlayer1 Score Is: " + m_Player1.Score + 
                     "\nPlayer2 Score Is: " + m_Player2.Score + winningMsg, 
                     "Game Over", 

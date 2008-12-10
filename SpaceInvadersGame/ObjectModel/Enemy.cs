@@ -5,6 +5,8 @@ using XnaGamesInfrastructure.ObjectModel;
 using Microsoft.Xna.Framework;
 using XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations;
 using XnaGamesInfrastructure.ObjectModel.Animations;
+using XnaGamesInfrastructure.ObjectInterfaces;
+using SpaceInvadersGame.Interfaces;
 
 namespace SpaceInvadersGame.ObjectModel
 {
@@ -12,7 +14,7 @@ namespace SpaceInvadersGame.ObjectModel
     /// An abstract class that all the enemies type in the game 
     /// inherits from
     /// </summary>
-    public abstract class Enemy : CollidableSprite
+    public abstract class Enemy : CollidableSprite, IEnemy
     {
         protected const string k_ScaleAnimationName = "Scale_enemyDeath";
         #region CTORs
@@ -42,7 +44,7 @@ namespace SpaceInvadersGame.ObjectModel
             base.Initialize();
             ScaleAnimation scaleAnimation =
                 new ScaleAnimation(k_ScaleAnimationName, Vector2.Zero, TimeSpan.FromSeconds(.2f), false);
-            scaleAnimation.Finished += new AnimationFinishedEventHandler(EnemyScale_Finished) ;
+            scaleAnimation.Finished += new AnimationFinishedEventHandler(EnemyScale_Finished);
             Animations.Add(scaleAnimation);
             Animations.Enabled = false;
             Animations.ResetAfterFinish = false;
@@ -52,7 +54,7 @@ namespace SpaceInvadersGame.ObjectModel
         {
         }
 
-        public override void Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
+        public override void Collided(ICollidable i_OtherComponent)
         {
             if (i_OtherComponent is Bullet)
             {
@@ -62,8 +64,8 @@ namespace SpaceInvadersGame.ObjectModel
             {
                 base.Collided(i_OtherComponent);
             }
-
         }
+
         /// <summary>
         /// A property that return the enemy score
         /// </summary>

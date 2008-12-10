@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceInvadersGame.Interfaces;
 
 namespace SpaceInvadersGame.ObjectModel
 {
@@ -27,7 +28,7 @@ namespace SpaceInvadersGame.ObjectModel
         /// between the components </returns>
         public override bool    CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
-            return !(i_OtherComponent is Invader) &&
+            return !(i_OtherComponent is IEnemy) &&
                    !(i_OtherComponent is EnemyBullet) &&
                    base.CheckForCollision(i_OtherComponent);
         }

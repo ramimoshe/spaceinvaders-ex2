@@ -41,8 +41,8 @@ namespace SpaceInvadersGame.ObjectModel
             if (m_FirstUpdate)
             {
                 m_FirstUpdate = false;
-                m_MinXValue = Bounds.Left - Texture.Width / 2;
-                m_MaxXValue = Bounds.Right + Texture.Width / 2;
+                m_MinXValue = Bounds.Left - (Texture.Width / 2);
+                m_MaxXValue = Bounds.Right + (Texture.Width / 2);
             }
 
             base.Update(i_GameTime);
@@ -111,7 +111,7 @@ namespace SpaceInvadersGame.ObjectModel
                     // Calculate the last pixel that is in the current pixel 
                     // texture line
                     int boundPixel = currPixel + 
-                            transparentDirection * (currPixel % Texture.Width);
+                            (transparentDirection * (currPixel % Texture.Width));
 
                     // If we're close to the bounds (left or right), we
                     // need to make sure that when will tansperent a barrier

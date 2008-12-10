@@ -37,10 +37,8 @@ namespace SpaceInvadersGame
         // to move. used to increase the enemies speed
         private const float k_IncreaseEnemiesSpeedFactor = .85f;
 
-        // TODO: Change to 0.75
-
         // The time we want to wait between two enemies shoots
-        private readonly TimeSpan r_DefaultTimeBetweenShots = TimeSpan.FromSeconds(.5f);
+        private readonly TimeSpan r_DefaultTimeBetweenShots = TimeSpan.FromSeconds(.75f);
 
         public event NoRemainingInvadersDelegate AllInvaderssEliminated;
 
@@ -156,8 +154,8 @@ namespace SpaceInvadersGame
                         // If it's the first invader in the list, we'll check
                         // if the invader equals the previous one so that will
                         // change the starting texture                        
-                        if ((j == 0) &&
-                            (prevRowType.Equals(m_EnemiesMatrix[i, j])))
+                        if (j == 0 &&
+                            prevRowType.Equals(m_EnemiesMatrix[i, j]))
                         {
                             currInvaderRow = 2;
                         }
