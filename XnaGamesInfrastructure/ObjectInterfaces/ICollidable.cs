@@ -52,16 +52,25 @@ namespace XnaGamesInfrastructure.ObjectInterfaces
             get;
         }
 
+        /// <summary>
+        /// Read only property to the component texture color array
+        /// </summary>
         Color[] ColorData
         {
             get;
         }
 
+        /// <summary>
+        /// Read only property to the component texture
+        /// </summary>
         Texture2D Texture
         {
             get;
         }
 
+        /// <summary>
+        /// Read only property to the component motion vector
+        /// </summary>
         Vector2 MotionVector
         {
             get;
