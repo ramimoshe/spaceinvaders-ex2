@@ -60,6 +60,7 @@
     <Compile Include="BackGround.cs" />
     <Compile Include="BarriersHolder.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Interfaces\IDefend.cs" />
     <Compile Include="Interfaces\IEnemy.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\IPlayerControls.cs" />
