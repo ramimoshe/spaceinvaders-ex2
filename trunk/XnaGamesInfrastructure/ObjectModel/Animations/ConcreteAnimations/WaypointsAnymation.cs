@@ -5,6 +5,10 @@ using Microsoft.Xna.Framework;
 
 namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
 {
+    /// <summary>
+    /// A wayport animation that moves a given sprite according to
+    /// given positions
+    /// </summary>
     public class WaypointsAnymation : SpriteAnimation
     {
         private float m_VelocityPerSecond;
@@ -12,7 +16,6 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         private int m_CurrentWaypoint = 0;
         private bool m_Loop = false;
 
-        // CTORs
         public WaypointsAnymation(
             float i_VelocityPerSecond,
             TimeSpan i_AnimationLength,
@@ -38,14 +41,22 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
             m_ResetAfterFinish = false;
         }
 
-        public override void Reset(TimeSpan i_AnimationLength)
+        /// <summary>
+        /// Resets the animation to original state
+        /// </summary>
+        /// <param name="i_AnimationLength">Animation length</param>
+        public override void    Reset(TimeSpan i_AnimationLength)
         {
             base.Reset(i_AnimationLength);
 
             this.BoundSprite.PositionOfOrigin = m_OriginalSpriteInfo.PositionForDraw;
         }
 
-        protected override void DoFrame(GameTime i_GameTime)
+        /// <summary>
+        /// Perform the animation next move
+        /// </summary>
+        /// <param name="i_GameTime">A snapshot to the game time</param>
+        protected override void     DoFrame(GameTime i_GameTime)
         {
             // This offset is how much we need to move based on how much time 
             // has elapsed.
@@ -64,15 +75,19 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
             // Move
             this.BoundSprite.PositionOfOrigin += remainingVector;
 
-            if (ReachedCurrentWaypoint())
+            if (reachedCurrentWaypoint())
             {
                 LookAtNextWayPoint();
             }
         }
 
-        private void LookAtNextWayPoint()
+        /// <summary>
+        /// Checks the next waypoint we need to move the sprite to, in case
+        /// it's the last one and the animation is finite will finish
+        /// </summary>
+        private void    LookAtNextWayPoint()
         {
-            if (OnLastWaypoint() && !m_Loop)
+            if (onLastWaypoint() && !m_Loop)
             {
                 // No more waypoints, so this animation is finished
                 this.IsFinished = true;
@@ -85,12 +100,20 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
             }
         }
 
-        private bool OnLastWaypoint()
+        /// <summary>
+        /// Return an indication whether we reached the last waypoint
+        /// </summary>
+        /// <returns>Indication whether we reached the last way point</returns>
+        private bool    onLastWaypoint()
         {
             return m_CurrentWaypoint == m_Waypoints.Length - 1;
         }
 
-        private bool ReachedCurrentWaypoint()
+        /// <summary>
+        /// Return an indication whether we reached the next way point
+        /// </summary>
+        /// <returns>Indication whether we reached the next way point</returns>
+        private bool    reachedCurrentWaypoint()
         {
             return this.BoundSprite.PositionForDraw == m_Waypoints[m_CurrentWaypoint];
         }

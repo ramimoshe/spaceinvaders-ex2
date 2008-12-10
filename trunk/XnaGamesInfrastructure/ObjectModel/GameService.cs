@@ -26,7 +26,7 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// Default GameService behaviour : 
         /// Registers the component as a service under game;
         /// </summary>
-        protected virtual void RegisterAsService()
+        protected virtual void  RegisterAsService()
         {
             this.Game.Services.AddService(this.GetType(), this);
         }
