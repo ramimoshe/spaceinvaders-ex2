@@ -65,7 +65,7 @@
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\IPlayerControls.cs" />
     <Compile Include="InvadersMatrix.cs" />
-    <Compile Include="Interfaces\IShootable.cs" />
+    <Compile Include="Interfaces\IShoot.cs" />
     <Compile Include="ObjectModel\BlueInvader.cs" />
     <Compile Include="ObjectModel\Bullet.cs" />
     <Compile Include="ObjectModel\Barrier.cs" />

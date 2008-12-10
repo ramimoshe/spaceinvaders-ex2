@@ -7,6 +7,9 @@ using SpaceInvadersGame.ObjectModel;
 
 namespace SpaceInvadersGame
 {
+    /// <summary>
+    /// Holds all the barriers in the game and manages them
+    /// </summary>
     public class BarriersHolder : RegisteredComponent
     {
         private const int k_BarriersNum = 4;
@@ -19,6 +22,9 @@ namespace SpaceInvadersGame
             createBarriers();
         }
 
+        /// <summary>
+        /// Create the barriers components
+        /// </summary>
         private void    createBarriers()
         {
             for (int i = 0; i < k_BarriersNum; i++)

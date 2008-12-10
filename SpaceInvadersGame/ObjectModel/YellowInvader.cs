@@ -28,7 +28,7 @@ namespace SpaceInvadersGame.ObjectModel
         /// <summary>
         /// A property for the invader score
         /// </summary>
-        public override int Score
+        public override int     Score
         {
             get 
             { 

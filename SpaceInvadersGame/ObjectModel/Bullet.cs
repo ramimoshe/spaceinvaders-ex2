@@ -21,6 +21,7 @@ namespace SpaceInvadersGame.ObjectModel
     public abstract class Bullet : CollidableSprite
     {
         private const string k_AssetName = @"Sprites\Bullet";
+
         private Rectangle m_ViewPortBounds;
 
         public event BulletCollisionDelegate BulletCollision; 

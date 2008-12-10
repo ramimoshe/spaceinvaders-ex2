@@ -23,7 +23,7 @@ namespace SpaceInvadersGame
     /// <summary>
     /// Holds all the invaders in the game and control their moves
     /// </summary>
-    public class InvadersMatrix : GameComponent
+    public class InvadersMatrix : RegisteredComponent
     {
         private const int k_EnemiesInLineNum = 9;
         private const int k_NumOfEnemiesLines = 5;
@@ -90,7 +90,7 @@ namespace SpaceInvadersGame
 
         private float m_MaxInvadersYPositionYVal;
 
-        public InvadersMatrix(Game i_Game) : base(i_Game)
+        public InvadersMatrix(Game i_Game) : base(i_Game, Int32.MinValue)
         {
             m_Enemies = new List<List<Invader>>();
             m_PrevShotTime = r_DefaultTimeBetweenShots;

@@ -7,6 +7,9 @@ using SpaceInvadersGame.Interfaces;
 
 namespace SpaceInvadersGame
 {
+    /// <summary>
+    /// Manages the drawing of a player score
+    /// </summary>
     public class PlayerScoreDrawer : SpriteFontComponent
     {
         private const string k_FontAssetName = @"Fonts\David";        
@@ -27,6 +30,10 @@ namespace SpaceInvadersGame
             Text = m_TextPrefix + m_Player.Score;
         }
 
+        /// <summary>
+        /// Catch a score changed event raised by the player, and updates
+        /// the players score
+        /// </summary>
         private void    player_PlayerScoreChangedEvent()
         {
             Text = m_TextPrefix + m_Player.Score;

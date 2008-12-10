@@ -38,7 +38,11 @@ namespace SpaceInvadersGame.ObjectModel
             LayerDepth = k_DefaultLayerDepth;
         }
 
-        public override void Initialize()
+        /// <summary>
+        /// Initialize the star component by setting the desire animation and 
+        /// the component color
+        /// </summary>
+        public override void    Initialize()
         {
             base.Initialize();
             
@@ -60,6 +64,9 @@ namespace SpaceInvadersGame.ObjectModel
             Animations.Enabled = true;
         }
 
+        /// <summary>
+        /// Initialize the star bounds
+        /// </summary>
         protected override void     InitBounds()
         {
             m_WidthBeforeScale = m_Texture.Width;
