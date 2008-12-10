@@ -58,6 +58,15 @@ namespace SpaceInvadersGame
             InputManager inputManager = new InputManager(this, 1);
             CollisionManager collisionManager = new CollisionManager(this, 10000);
 
+            createGameComponents();
+            
+        }
+
+        /// <summary>
+        /// Creates the main game components
+        /// </summary>
+        private void    createGameComponents()
+        {
             PlayerControls player2Controls = new PlayerControls(
                 Microsoft.Xna.Framework.Input.Keys.Space,
                 Microsoft.Xna.Framework.Input.Keys.A,
@@ -65,24 +74,23 @@ namespace SpaceInvadersGame
                 false);
 
             m_Player2 = new SpaceShip(
-                this, 
-                Constants.k_Player2AssetName, 
+                this,
+                Constants.k_Player2AssetName,
                 player2Controls);
             m_Player2.PlayerIsDead += new GameOverDelegate(spaceShip_Player2IsDead);
+
             m_Player1 = new SpaceShip(
-                this, 
-                Constants.k_Player1AssetName, 
+                this,
+                Constants.k_Player1AssetName,
                 new PlayerControls());
             m_Player1.PlayerIsDead += new GameOverDelegate(spaceShip_Player1IsDead);
-            
+
             m_BackGround = new BackGround(this, Constants.k_StarsNum);
             m_EnemiesMatrix = new InvadersMatrix(this);
             m_EnemiesMatrix.InvaderReachedScreenEnd += new InvaderReachedScreenEndDelegate(invadersMatrix_InvaderReachedScreenEnd);
             m_EnemiesMatrix.AllInvaderssEliminated += new NoRemainingInvadersDelegate(invadersMatrix_AllInvadersEliminated);
 
-            m_MotherShip = new MotherShip(this);            
-
-            this.Components.Add(m_EnemiesMatrix);
+            m_MotherShip = new MotherShip(this);
 
             m_Player2LivesDrawer = new PlayerLivesDrawer(this, m_Player2);
             this.Components.Add(new PlayerLivesDrawer(this, m_Player1));

@@ -9,8 +9,8 @@ using XnaGamesInfrastructure.ObjectModel;
 namespace SpaceInvadersGame
 {    
     /// <summary>
-    /// A drawable game component that is responsible to draw the 
-    /// players lives on the screen
+    /// A drawable game component that is responsible to draw a
+    /// player lives on the screen
     /// </summary>
     public class PlayerLivesDrawer : DrawableGameComponent
     {        
@@ -107,6 +107,10 @@ namespace SpaceInvadersGame
             base.Draw(gameTime);
         }
 
+        /// <summary>
+        /// Catch a PlayerWasHit event raised by a player, and updates the 
+        /// players remaining lives textures
+        /// </summary>
         private void    player_PlayerWasHitEvent()
         {
             m_DrawTextures.RemoveAt(m_DrawTextures.Count - 1);

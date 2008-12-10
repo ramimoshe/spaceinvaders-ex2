@@ -24,6 +24,9 @@ namespace SpaceInvadersGame
             m_StarsNum = i_StarsNum;
         }
 
+        /// <summary>
+        /// Loads the background asset, and creates the backgroung stars
+        /// </summary>
         protected override void    LoadContent()
         {
             base.LoadContent();
@@ -58,11 +61,6 @@ namespace SpaceInvadersGame
                     starsAdded++;
                 }
             }            
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            base.Draw(gameTime);
-        }         
+        }        
     }
 }

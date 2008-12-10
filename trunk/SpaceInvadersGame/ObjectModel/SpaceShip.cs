@@ -18,7 +18,7 @@ namespace SpaceInvadersGame.ObjectModel
     /// The class represents the player's component in the game (the 
     /// SpaceShip)
     /// </summary>
-    public class SpaceShip : CollidableSprite, IShootable, IPlayer
+    public class SpaceShip : CollidableSprite, IShoot, IPlayer
     {                
         private const int k_AllowedBulletsNum = 1;
         private const int k_Motion = 200;
@@ -88,7 +88,7 @@ namespace SpaceInvadersGame.ObjectModel
         #endregion
 
         /// <summary>
-        /// The property holds the starting position.
+        /// The property holds the space ship starting position.
         /// </summary>
         public Vector2   DefaultPosition
         {
@@ -254,6 +254,7 @@ namespace SpaceInvadersGame.ObjectModel
 
         /// <summary>
         /// Initialize the space ship by getting the game's input manager
+        /// and setting the components fade and rotate animations
         /// </summary>
         public override void    Initialize()
         {
@@ -265,11 +266,15 @@ namespace SpaceInvadersGame.ObjectModel
             Animations.Add(rotateAnimation);
             Animations.Add(fadeAnimation);
             Animations.Enabled = false;
-            Animations.Finished += this.DeathAnimationEnded;
+            Animations.Finished += this.spaceShip_DeathAnimationEnded;
             Animations.ResetAfterFinish = false;
         }
 
-        public void DeathAnimationEnded(SpriteAnimation i_RotateAnimation)
+        /// <summary>
+        /// Catch the animation ended event raised by the animations
+        /// </summary>
+        /// <param name="i_Animation">The animation that ended</param>
+        public void     spaceShip_DeathAnimationEnded(SpriteAnimation i_Animation)
         {
             Score -= k_LostLifeScoreDecrease;
             RemainingLives -= 1;
@@ -358,6 +363,9 @@ namespace SpaceInvadersGame.ObjectModel
             } 
         }
 
+        /// <summary>
+        /// Raise a PlayerWasHit event
+        /// </summary>
         private void    onPlayerWasHit()
         {
             if (PlayerWasHitEvent != null)
@@ -366,6 +374,9 @@ namespace SpaceInvadersGame.ObjectModel
             }
         }
 
+        /// <summary>
+        /// Raise a PlayerScoreChanged event
+        /// </summary>
         private void    onPlayerScoreChanged()
         {
             if (PlayerScoreChangedEvent != null)

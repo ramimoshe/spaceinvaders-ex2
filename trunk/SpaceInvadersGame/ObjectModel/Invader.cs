@@ -21,7 +21,7 @@ namespace SpaceInvadersGame.ObjectModel
     /// An abstract class that all the small invaders in the invaders matrix 
     /// inherits from
     /// </summary>
-    public abstract class Invader : Enemy, IShootable
+    public abstract class Invader : Enemy, IShoot
     {
         private const string k_AssetName = @"Sprites\allInvaders";
         private const int k_AllowedBulletsNum = 3;        
@@ -126,6 +126,12 @@ namespace SpaceInvadersGame.ObjectModel
                       base.CheckForCollision(i_OtherComponent);
         }
 
+        /// <summary>
+        /// Implement the component collision logic. 
+        /// In case we collided with a defend component we do nothing,
+        /// otherwise we call the base logic.
+        /// </summary>
+        /// <param name="i_OtherComponent">The colliding component</param>
         public override void    Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
             if (!(i_OtherComponent is IDefend))
@@ -245,7 +251,11 @@ namespace SpaceInvadersGame.ObjectModel
             }
         }
 
-        protected override void    EnemyScale_Finished(SpriteAnimation i_Animation)
+        /// <summary>
+        /// Catch a AnimationFinished event and make the component invisible
+        /// </summary>
+        /// <param name="i_Animation">the animation that ended</param>
+        protected override void    ScaleAnimation_Finished(SpriteAnimation i_Animation)
         {
             this.Visible = false;
         }
@@ -266,6 +276,10 @@ namespace SpaceInvadersGame.ObjectModel
             InitSourceRectangle();
         }
 
+        /// <summary>
+        /// Initialize the component source rectangle in the components
+        /// texture
+        /// </summary>
         protected override void     InitSourceRectangle()
         {
             this.SourceRectangle = new Rectangle(

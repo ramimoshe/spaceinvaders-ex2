@@ -17,6 +17,7 @@ namespace SpaceInvadersGame.ObjectModel
     public abstract class Enemy : CollidableSprite, IEnemy
     {
         protected const string k_ScaleAnimationName = "Scale_enemyDeath";
+
         #region CTORs
 
         public Enemy(string i_AssetName, Game i_Game)
@@ -39,22 +40,32 @@ namespace SpaceInvadersGame.ObjectModel
         }
 #endregion
 
-        public override void Initialize()
+        /// <summary>
+        /// Initialize the component animations
+        /// </summary>
+        public override void    Initialize()
         {
             base.Initialize();
             ScaleAnimation scaleAnimation =
                 new ScaleAnimation(k_ScaleAnimationName, Vector2.Zero, TimeSpan.FromSeconds(.2f), false);
-            scaleAnimation.Finished += new AnimationFinishedEventHandler(EnemyScale_Finished);
+            scaleAnimation.Finished += new AnimationFinishedEventHandler(ScaleAnimation_Finished);
             Animations.Add(scaleAnimation);
             Animations.Enabled = false;
             Animations.ResetAfterFinish = false;
         }
 
-        protected virtual void EnemyScale_Finished(SpriteAnimation i_Animation)
-        {
-        }
+        /// <summary>
+        /// Catch the end event raised by the component animation
+        /// </summary>
+        /// <param name="i_Animation">the animation that ended</param>
+        protected abstract void     ScaleAnimation_Finished(SpriteAnimation i_Animation);        
 
-        public override void Collided(ICollidable i_OtherComponent)
+        /// <summary>
+        /// Implement the component collision logic by starting the Enemy
+        /// death animation
+        /// </summary>
+        /// <param name="i_OtherComponent">The colliding component</param>
+        public override void    Collided(ICollidable i_OtherComponent)
         {
             if (i_OtherComponent is Bullet)
             {
