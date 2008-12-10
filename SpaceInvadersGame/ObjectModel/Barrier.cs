@@ -5,13 +5,14 @@ using XnaGamesInfrastructure.ObjectModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using XnaGamesInfrastructure.ObjectInterfaces;
+using SpaceInvadersGame.Interfaces;
 
 namespace SpaceInvadersGame.ObjectModel
 {
     /// <summary>
     /// Represents the barrier game component
     /// </summary>
-    public class Barrier : CollidableSprite
+    public class Barrier : CollidableSprite, IDefend
     {
         private const string k_AssetName = @"Content\Sprites\Barrier_44x32";
 

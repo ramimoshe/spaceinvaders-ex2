@@ -128,7 +128,7 @@ namespace SpaceInvadersGame.ObjectModel
 
         public override void    Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
-            if (!(i_OtherComponent is Barrier))
+            if (!(i_OtherComponent is IDefend))
             {
                 Animations[k_ScaleAnimationName].Restart();
                 base.Collided(i_OtherComponent);
