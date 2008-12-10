@@ -7,6 +7,10 @@ using XnaGamesInfrastructure.ObjectModel.Animations;
 
 namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
 {
+    /// <summary>
+    /// Performs a scaling animation that changes a sprite scale
+    /// factor
+    /// </summary>
     public class ScaleAnimation : SpriteAnimation
     {
         private TimeSpan m_ScaleLength;
@@ -21,10 +25,11 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         /// <param name="i_TargetScaleSize">The scale to be reached by the bounding sprite</param>
         /// <param name="i_AnimationLength">Animation time</param>
         /// <param name="i_ResetAfterFinish">Specifies if reset should be done after animation is done.</param>
-        public ScaleAnimation(  string i_Name,
-                                Vector2 i_TargetScaleSize,
-                                TimeSpan i_AnimationLength,
-                                bool i_ResetAfterFinish)
+        public ScaleAnimation(
+            string i_Name,
+            Vector2 i_TargetScaleSize,
+            TimeSpan i_AnimationLength,
+            bool i_ResetAfterFinish)
             : base(i_Name, i_AnimationLength)
         {
             m_TargetScaleSize = i_TargetScaleSize;
@@ -39,11 +44,16 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         {
             base.CloneSpriteInfo();
 
+            float xScale =
+                (m_TargetScaleSize.X - m_OriginalSpriteInfo.Scale.X) /
+                (float)m_ScaleLength.TotalSeconds;
+
+            float yScale =
+                (m_TargetScaleSize.Y - m_OriginalSpriteInfo.Scale.Y) /
+                (float)m_ScaleLength.TotalSeconds;
+
             // Scale change per second is calculated here
-            m_ScalePerSecond = new Vector2((m_TargetScaleSize.X - m_OriginalSpriteInfo.Scale.X) /
-                                                (float)m_ScaleLength.TotalSeconds,
-                                            (m_TargetScaleSize.Y - m_OriginalSpriteInfo.Scale.Y) /
-                                                (float)m_ScaleLength.TotalSeconds);
+            m_ScalePerSecond = new Vector2(xScale, yScale);
 
             // Position shift per second is calculated here
             float targetWidth = m_OriginalSpriteInfo.WidthBeforeScale * ScalePerSecond.X;

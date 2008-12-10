@@ -75,7 +75,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
             if (OnLastWaypoint() && !m_Loop)
             {
                 // No more waypoints, so this animation is finished
-                base.IsFinished = true;
+                this.IsFinished = true;
             }
             else
             {
@@ -87,12 +87,12 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
 
         private bool OnLastWaypoint()
         {
-            return (m_CurrentWaypoint == m_Waypoints.Length - 1);
+            return m_CurrentWaypoint == m_Waypoints.Length - 1;
         }
 
         private bool ReachedCurrentWaypoint()
         {
-            return (this.BoundSprite.PositionForDraw == m_Waypoints[m_CurrentWaypoint]);
+            return this.BoundSprite.PositionForDraw == m_Waypoints[m_CurrentWaypoint];
         }
     }
 }
