@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using XnaGamesInfrastructure.ObjectInterfaces;
+using SpaceInvadersGame.Interfaces;
 
 namespace SpaceInvadersGame.ObjectModel
 {  
@@ -27,7 +28,7 @@ namespace SpaceInvadersGame.ObjectModel
         /// no collision between the components </returns>
         public override bool    CheckForCollision(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
         {
-            return !(i_OtherComponent is SpaceShip) &&
+            return !(i_OtherComponent is IPlayer) &&
                    !(i_OtherComponent is SpaceShipBullet) &&
                    base.CheckForCollision(i_OtherComponent);            
         }

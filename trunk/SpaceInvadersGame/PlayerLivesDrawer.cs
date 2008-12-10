@@ -8,8 +8,6 @@ using XnaGamesInfrastructure.ObjectModel;
 
 namespace SpaceInvadersGame
 {    
-    // TODO: Change the class to sprite
-
     /// <summary>
     /// A drawable game component that is responsible to draw the 
     /// players lives on the screen
@@ -17,6 +15,8 @@ namespace SpaceInvadersGame
     public class PlayerLivesDrawer : DrawableGameComponent
     {        
         private const int k_SpaceBetweenLives = 25;
+        private const float k_DefaultLayer = 1f;
+        private const int k_DefaultRotationVal = 0;
 
         private IPlayer m_Player;
         private Vector2 m_Position;
@@ -55,8 +55,6 @@ namespace SpaceInvadersGame
         {
             base.Initialize();
 
-            // TODO: Check if i need the sprite batch
-
             m_SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             m_Position = new Vector2(
@@ -74,7 +72,6 @@ namespace SpaceInvadersGame
             Vector4 color = Color.White.ToVector4();
             color.W = Constants.k_LivesDrawTransparentValue;
             m_TintColor = new Color(color);
-
         }
 
         /// <summary>
@@ -89,18 +86,16 @@ namespace SpaceInvadersGame
 
             for (int i = 0; i < m_DrawTextures.Count; i++)
             {
-                // TODO: Move all the the variables to constants
-
-                m_SpriteBatch.Draw(
+                m_SpriteBatch.Draw(     
                     m_DrawTextures[i],
                     m_Position,
                     null,
                     m_TintColor,
-                    0,
+                    k_DefaultRotationVal,
                     Vector2.Zero,
                     new Vector2(Constants.k_LivesDrawScaleValue),
-                    SpriteEffects.None,
-                    1f);
+                    SpriteEffects.None,                    
+                    k_DefaultLayer);
 
                 m_Position.X -= k_SpaceBetweenLives;
             }

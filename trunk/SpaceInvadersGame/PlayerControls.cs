@@ -16,8 +16,6 @@ namespace SpaceInvadersGame
         private Keys m_LeftKey;
         private bool m_ActionUsingMouse;
 
-        // TODO: Check if the bool constant is ok
-
         /// <summary>
         /// An empty constructor that creates the class using all the default 
         /// keys from the Constants class
@@ -27,7 +25,7 @@ namespace SpaceInvadersGame
             Constants.r_DefaultActionKey,
             Constants.r_DefaultLeftMovmentKey,
             Constants.r_DefaultRightMovmentKey,
-            Constants.k_DeafultActionUsingMouse)
+            Constants.k_DeafultUsingMouse)
         {
         }
        

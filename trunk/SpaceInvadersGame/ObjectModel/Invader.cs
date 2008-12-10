@@ -213,7 +213,6 @@ namespace SpaceInvadersGame.ObjectModel
             }
             else
             {
-
                 m_TimeLeftToNextMove -= i_GameTime.ElapsedGameTime;
 
                 // Check if enough time had passed since previous move

@@ -15,7 +15,7 @@ namespace SpaceInvadersGame
         public static readonly Keys r_DefaultActionKey = Keys.Enter;
         public static readonly Keys r_DefaultLeftMovmentKey = Keys.Left;
         public static readonly Keys r_DefaultRightMovmentKey = Keys.Right;
-        public const bool k_DeafultActionUsingMouse = true;
+        public const bool k_DeafultUsingMouse = true;
 
         public const string k_Player1AssetName = @"Sprites\Ship01_32x32";
         public const string k_Player2AssetName = @"Sprites\Ship02_32x32";
