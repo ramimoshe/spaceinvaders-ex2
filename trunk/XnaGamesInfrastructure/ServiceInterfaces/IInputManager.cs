@@ -92,7 +92,7 @@ namespace XnaGamesInfrastructure.ServiceInterfaces
         /// <summary>
         /// Gets the change in mouse wheel
         /// </summary>
-        int ScroolWeelDelta
+        int ScrollWheelDelta
         {
             get;
         }

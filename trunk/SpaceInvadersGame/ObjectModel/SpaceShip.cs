@@ -85,6 +85,11 @@ namespace SpaceInvadersGame.ObjectModel
             m_PlayerKeys = i_PlayerControls;
         }
 
+        protected override void LoadContent()
+        {
+            base.LoadContent();
+        }
+
         #endregion
 
         /// <summary>

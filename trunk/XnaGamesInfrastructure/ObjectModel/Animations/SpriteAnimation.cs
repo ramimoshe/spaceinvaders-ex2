@@ -17,9 +17,9 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations
     public abstract class SpriteAnimation
     {
         // Data members
-        protected internal Sprite m_OriginalSpriteInfo;
+        protected internal SpriteBase m_OriginalSpriteInfo;
 
-        private Sprite      m_BoundSprite;
+        private SpriteBase  m_BoundSprite;
         private bool        m_IsFinished = false;
         private bool        m_Enabled = true;
         private TimeSpan    m_TimeLeft;
@@ -81,7 +81,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations
         /// <summary>
         /// Gets/Sets animation's bound sprite
         /// </summary>
-        protected internal Sprite   BoundSprite
+        protected internal SpriteBase   BoundSprite
         {
             get { return m_BoundSprite; }
             set { m_BoundSprite = value; }

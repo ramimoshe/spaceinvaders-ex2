@@ -26,7 +26,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations
         /// ("AnimationManager") and length (infinite)
         /// </summary>
         /// <param name="i_BoundSprite">The sprite which is animated</param>
-        public  CompositeAnimation(Sprite i_BoundSprite)
+        public  CompositeAnimation(SpriteBase i_BoundSprite)
             : this("AnimationsManager", TimeSpan.Zero, i_BoundSprite, new SpriteAnimation[] { })
         {
             this.Enabled = false;
@@ -42,7 +42,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations
         public  CompositeAnimation(
             string i_Name,
             TimeSpan i_AnimationLength,
-            Sprite i_BoundSprite,
+            SpriteBase i_BoundSprite,
             params SpriteAnimation[] i_Animations)
             : base(i_Name, i_AnimationLength)
         {
