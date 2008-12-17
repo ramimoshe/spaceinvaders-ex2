@@ -30,6 +30,32 @@
       <Private>False</Private>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Screens\blank.png">
+      <Link>Screens\blank.png</Link>
+      <Name>blank</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Screens\gradient.png">
+      <Link>Screens\gradient.png</Link>
+      <Name>gradient</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Screens\MessageBoxBG.png">
+      <Link>Screens\MessageBoxBG.png</Link>
+      <Name>MessageBoxBG</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Screens\MessageBoxIcons.png">
+      <Link>Screens\MessageBoxIcons.png</Link>
+      <Name>MessageBoxIcons</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v2.0\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

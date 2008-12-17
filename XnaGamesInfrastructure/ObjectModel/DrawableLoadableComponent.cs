@@ -61,9 +61,6 @@ namespace XnaGamesInfrastructure.ObjectModel
             this.m_AssetName = i_AssetName;
             this.UpdateOrder = i_UpdateOrder;
             this.DrawOrder = i_DrawOrder;
-
-            // Component is registered into game components list
-            this.Game.Components.Add(this);
         }
 
         /// <summary>

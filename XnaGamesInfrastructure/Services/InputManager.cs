@@ -197,7 +197,7 @@ namespace XnaGamesInfrastructure.Services
         /// <summary>
         /// Gets the change in mouse wheel
         /// </summary>
-        public int ScroolWeelDelta
+        public int ScrollWheelDelta
         {
             get
             {

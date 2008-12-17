@@ -25,7 +25,7 @@ namespace SpaceInvadersGame
     /// This is the main type for your game
     /// </summary>
     public class SpaceInvadersGame : Microsoft.Xna.Framework.Game
-    {       
+    {
         private const int k_SpaceBetweenLivesDraw = 30;
         private const string k_Player1ScorePrefix = "P1 Score: ";
         private const string k_Player2ScorePrefix = "P2 Score: ";
@@ -49,7 +49,7 @@ namespace SpaceInvadersGame
         private bool m_Player1IsDead = false;
         private bool m_Player2IsDead = false;
 
-        public  SpaceInvadersGame()
+        public SpaceInvadersGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -58,13 +58,13 @@ namespace SpaceInvadersGame
             InputManager inputManager = new InputManager(this, 1);
             CollisionManager collisionManager = new CollisionManager(this, 10000);
 
-            createGameComponents();            
+            createGameComponents();
         }
 
         /// <summary>
         /// Creates the main game components
         /// </summary>
-        private void    createGameComponents()
+        private void createGameComponents()
         {
             PlayerControls player2Controls = new PlayerControls(
                 Microsoft.Xna.Framework.Input.Keys.Space,
@@ -113,7 +113,7 @@ namespace SpaceInvadersGame
         /// <summary>
         /// Property that gets/sets indication whether the game ended
         /// </summary>
-        private bool    GameOver
+        private bool GameOver
         {
             get
             {
@@ -132,18 +132,18 @@ namespace SpaceInvadersGame
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         /// </summary>
-        protected override void     Initialize()
-        {            
+        protected override void Initialize()
+        {
             base.Initialize();
 
-            initComponentsPosition();                        
+            initComponentsPosition();
         }
 
         /// <summary>
         /// Change the main components position in the screen according
         /// to the desire game requierments
         /// </summary>
-        private void    initComponentsPosition()
+        private void initComponentsPosition()
         {
             // Change the players position
             Vector2 player1Position = new Vector2(
@@ -164,29 +164,29 @@ namespace SpaceInvadersGame
             pos.Y += k_SpaceBetweenLivesDraw;
             m_Player2LivesDrawer.DrawPosition = pos;
 
-            m_Player1ScoreDrawer.Position = r_Player1ScorePosition;
-            m_Player2ScoreDrawer.Position = r_Player2ScorePosition;
+            m_Player1ScoreDrawer.PositionOfOrigin = r_Player1ScorePosition;
+            m_Player2ScoreDrawer.PositionOfOrigin = r_Player2ScorePosition;
 
             m_BarrierHolder.UpdateBarriersPossition(
                 m_Player1.Bounds.Top,
-                m_Player1.Texture.Height);          
+                m_Player1.Texture.Height);
         }
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
         /// </summary>
-        protected override void     LoadContent()
+        protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);            
+            spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
         /// </summary>
-        protected override void     UnloadContent()
+        protected override void UnloadContent()
         {
         }
 
@@ -195,18 +195,18 @@ namespace SpaceInvadersGame
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="i_GameTime">Provides a snapshot of timing values.</param>
-        protected override void     Update(GameTime i_GameTime)
+        protected override void Update(GameTime i_GameTime)
         {
             if (GameOver)
             {
                 string winningMsg = getWinningPlayerMsg();
 
                 MessageBox.Show(
-                    "Game Over. \nPlayer1 Score Is: " + m_Player1.Score + 
-                    "\nPlayer2 Score Is: " + m_Player2.Score + winningMsg, 
-                    "Game Over", 
-                    MessageBoxButtons.OK, 
-                    System.Windows.Forms.MessageBoxIcon.Information);                
+                    "Game Over. \nPlayer1 Score Is: " + m_Player1.Score +
+                    "\nPlayer2 Score Is: " + m_Player2.Score + winningMsg,
+                    "Game Over",
+                    MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.Information);
 
                 this.Exit();
             }
@@ -218,7 +218,7 @@ namespace SpaceInvadersGame
         /// Return a string that states the wining player
         /// </summary>
         /// <returns>A string that states the winning player number</returns>
-        private string  getWinningPlayerMsg()
+        private string getWinningPlayerMsg()
         {
             string retVal = "\nPlayer {0} Won";
 
@@ -242,7 +242,7 @@ namespace SpaceInvadersGame
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="i_GameTime">Provides a snapshot of timing values.</param>
-        protected override void     Draw(GameTime i_GameTime)
+        protected override void Draw(GameTime i_GameTime)
         {
             graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
@@ -253,7 +253,7 @@ namespace SpaceInvadersGame
         /// Catch a PlayerIsDead event raised by player1 and mark that the
         /// player is dead
         /// </summary>
-        private void    spaceShip_Player1IsDead()
+        private void spaceShip_Player1IsDead()
         {
             m_Player1IsDead = true;
         }
@@ -262,7 +262,7 @@ namespace SpaceInvadersGame
         /// Catch a PlayerIsDead event raised by player2 and mark that the
         /// player is dead
         /// </summary>
-        private void    spaceShip_Player2IsDead()
+        private void spaceShip_Player2IsDead()
         {
             m_Player2IsDead = true;
         }
@@ -271,7 +271,7 @@ namespace SpaceInvadersGame
         /// Catch an AllEnemiesEliminated event raised by the EnemiesMatrix
         /// and mark the game for exit in the next call to update
         /// </summary>
-        private void     invadersMatrix_AllInvadersEliminated()
+        private void invadersMatrix_AllInvadersEliminated()
         {
             GameOver = true;
         }
@@ -280,7 +280,7 @@ namespace SpaceInvadersGame
         /// Catch an EnemyReachedScreenEnd event and mark the game for exit 
         /// in the next call to update
         /// </summary>
-        private void     invadersMatrix_InvaderReachedScreenEnd()
+        private void invadersMatrix_InvaderReachedScreenEnd()
         {
             GameOver = true;
         }

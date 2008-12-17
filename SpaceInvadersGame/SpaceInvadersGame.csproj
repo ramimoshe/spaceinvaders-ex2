@@ -74,6 +74,7 @@
     <Compile Include="ObjectModel\EnemyBullet.cs" />
     <Compile Include="ObjectModel\MotherShip.cs" />
     <Compile Include="ObjectModel\PinkInvader.cs" />
+    <Compile Include="ObjectModel\Screens\WelcomeScreen.cs" />
     <Compile Include="ObjectModel\SpaceShip.cs" />
     <Compile Include="ObjectModel\SpaceShipBullet.cs" />
     <Compile Include="ObjectModel\Star.cs" />

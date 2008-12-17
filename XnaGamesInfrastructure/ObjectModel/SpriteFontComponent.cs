@@ -10,118 +10,65 @@ namespace XnaGamesInfrastructure.ObjectModel
     /// Implements a SpriteFont component that can be used to write on the
     /// screen with
     /// </summary>
-    public class SpriteFontComponent : DrawableLoadableComponent
+    public class SpriteFontComponent : SpriteBase
     {
         private string m_Text = String.Empty;
 
         private SpriteFont m_Font;
 
-        private Color m_TintColor = Color.White;
-
-        public Color TintColor
-        {
-            get { return m_TintColor; }
-            set { m_TintColor = value; }
-        }
-
-        /// <summary>
-        /// Defines the position where we want to draw the string
-        /// </summary>
-        private Vector2 m_Position;
-
-        /// <summary>
-        /// Defines whether component's SpriteBatch is a shared batch
-        /// </summary>
-        private bool m_UseSharedBatch = false;
-
-        /// <summary>
-        /// Component's SpriteBatch (responsible for drawing the sprite)
-        /// </summary>
-        private SpriteBatch m_SpriteBatch;
-
         public SpriteFontComponent(
-            Game i_Game, 
+            Game i_Game,
             string i_FontAssetName)
             : base(i_FontAssetName, i_Game)
         {
         }
 
-        /// <summary>
-        /// Gets/sets the text we want to write on the screen
-        /// </summary>
-        public string   Text
+        protected override int TextureHeight
         {
-            get { return m_Text; }
-            set { m_Text = value; }
+            get
+            {
+                return (int)m_Font.MeasureString(Text).Y;
+            }
         }
 
-        /// <summary>
-        /// Gets/sets the position we want to write in the screen
-        /// </summary>
-        public Vector2  Position
+        protected override int TextureWidth
         {
-            get { return m_Position; }
-            set { m_Position = value; }
-        }	
+            get
+            {
+                return (int)m_Font.MeasureString(Text).X;
+            }
+        }
 
-        /// <summary>
-        /// Initialize the component bounds
-        /// </summary>
-        protected override void     InitBounds()
+        public string Text
         {
-            m_Position = Vector2.Zero;
-        }        
+            get
+            {
+                return m_Text;
+            }
 
-        /// <summary>
-        /// Loads the desire SpriteFont
-        /// </summary>
-        protected override void     LoadContent()
+            set
+            {
+                m_Text = value;
+            }
+        }
+
+        protected override void DoLoadContent()
         {
             m_Font = m_ContentManager.Load<SpriteFont>(m_AssetName);
-
-            // Checking if spritebatch already exists
-            if (m_SpriteBatch == null)
-            {
-                // Trying to receive game's sprite batch
-                m_SpriteBatch = Game.Services.GetService(typeof(SpriteBatch)) as SpriteBatch;
-
-                if (m_SpriteBatch == null)
-                {
-                    m_SpriteBatch = new SpriteBatch(this.GraphicsDevice);
-                }
-                else
-                {
-                    m_UseSharedBatch = true;
-                }
-            }
-
-            base.LoadContent();
         }
 
-        /// <summary>
-        /// Draws the given text in the screen according to the component
-        /// font and position
-        /// </summary>
-        /// <param name="i_GameTime">A snapshot to the game time</param>
-        public override void    Draw(GameTime i_GameTime)
+        public override void  DoDraw()
         {
-            if (!m_UseSharedBatch)
-            {
-                m_SpriteBatch.Begin();
-            }
-
-            m_SpriteBatch.DrawString(
+            SpriteBatch.DrawString(
                 m_Font,
                 Text,
-                m_Position,
-                TintColor);                
-
-            if (!m_UseSharedBatch)
-            {
-                m_SpriteBatch.End();
-            }
-
-            base.Draw(i_GameTime);
-        }       
+                this.PositionForDraw,
+                this.TintColor,
+                this.Rotation,
+                this.RotationOrigin,
+                this.Scale,
+                SpriteEffects.None,
+                this.LayerDepth);
+        }
     }
 }
