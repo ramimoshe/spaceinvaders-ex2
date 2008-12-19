@@ -85,6 +85,9 @@ namespace SpaceInvadersGame.ObjectModel
         {            
             m_TimeLeftToNextMove = m_TimeBetweenMove;
             m_StartingCel = i_InvaderStartFrame % k_NumOfFrames;
+
+            // TODO: Remove the code
+            Game.Components.Remove(this);
         }       
 
         /// <summary>
