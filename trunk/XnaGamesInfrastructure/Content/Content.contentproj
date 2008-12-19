@@ -31,25 +31,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Screens\blank.png">
+    <Compile Include="..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\blank.png">
       <Link>Screens\blank.png</Link>
       <Name>blank</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Screens\gradient.png">
+    <Compile Include="..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\gradient.png">
       <Link>Screens\gradient.png</Link>
       <Name>gradient</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Screens\MessageBoxBG.png">
+    <Compile Include="..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\MessageBoxBG.png">
       <Link>Screens\MessageBoxBG.png</Link>
       <Name>MessageBoxBG</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Screens\MessageBoxIcons.png">
+    <Compile Include="..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\MessageBoxIcons.png">
       <Link>Screens\MessageBoxIcons.png</Link>
       <Name>MessageBoxIcons</Name>
       <Importer>TextureImporter</Importer>
