@@ -298,7 +298,10 @@ namespace XnaGamesInfrastructure.ObjectModel
             m_SpriteBatch.Begin(m_SpritesBlendMode, m_SpritesSortMode, SaveStateMode.SaveState, m_TransformationMatrix);
             foreach (Sprite sprite in m_Sprites)
             {
-                sprite.Draw(gameTime);
+                if (sprite.Visible)
+                {
+                    sprite.Draw(gameTime);
+                }
             }
 
             m_SpriteBatch.End();
