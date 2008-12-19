@@ -11,7 +11,8 @@ namespace SpaceInvadersGame.ObjectModel
     /// </summary>
     public class BlueInvader : Invader
     {
-        private const int k_Score = 200;
+        // TODO: Remove the code
+        //private const int k_Score = 200;
 
         private const int k_TextureYPositionVal = 32;
 
@@ -29,15 +30,25 @@ namespace SpaceInvadersGame.ObjectModel
 
         #endregion
 
+        // TODO: Remove the code
+
         /// <summary>
         /// A property for the invader score
         /// </summary>
-        public override int     Score
+        /*public override int     Score
         {
             get 
             { 
                 return k_Score; 
             }
-        }        
+        }*/
+
+        /// <summary>
+        /// Returns the invader type (BlueInvader) 
+        /// </summary>
+        public override eInvadersType InvaderType
+        {
+            get { return eInvadersType.BlueInvader; }
+        }
     }
 }

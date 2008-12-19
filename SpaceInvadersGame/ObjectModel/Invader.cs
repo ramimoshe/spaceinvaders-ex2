@@ -9,7 +9,17 @@ using XnaGamesInfrastructure.ObjectModel.Animations;
 using XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations;
 
 namespace SpaceInvadersGame.ObjectModel
-{            
+{
+    /// <summary>
+    /// An enumeration of all the invader types in the game
+    /// </summary>
+    public enum eInvadersType
+    {
+        YellowInvader,
+        BlueInvader,
+        PinkInvader
+    }
+
     /// <summary>
     /// Used by Invader in order to inform that the he reached the 
     /// invaders allowed screen bounds
@@ -121,6 +131,14 @@ namespace SpaceInvadersGame.ObjectModel
             {
                 m_TimeBetweenMove = value;
             }
+        }
+
+        /// <summary>
+        /// Read only property that returns the invader type
+        /// </summary>
+        public abstract eInvadersType   InvaderType
+        {
+            get;
         }
 
         #region ICollidable Members
