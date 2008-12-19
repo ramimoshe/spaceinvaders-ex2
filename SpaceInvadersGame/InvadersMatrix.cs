@@ -23,7 +23,7 @@ namespace SpaceInvadersGame
     /// <summary>
     /// Holds all the invaders in the game and control their moves
     /// </summary>
-    public class InvadersMatrix : RegisteredComponent
+    public class InvadersMatrix : CompositeDrawableComponent<Invader>
     {
         private const int k_EnemiesInLineNum = 9;
         private const int k_NumOfEnemiesLines = 5;
@@ -35,7 +35,7 @@ namespace SpaceInvadersGame
 
         // The percent will decrease in the time it takes the enemies 
         // to move. used to increase the enemies speed
-        private const float k_IncreaseEnemiesSpeedFactor = .85f;
+        private const float k_IncreaseEnemiesSpeedFactor = .95f;
 
         // The time we want to wait between two enemies shoots
         private readonly TimeSpan r_DefaultTimeBetweenShots = TimeSpan.FromSeconds(.75f);
@@ -49,10 +49,6 @@ namespace SpaceInvadersGame
         // A time counter that contains a random seconds for the time space between
         // the enemies shoots
         private TimeSpan m_PrevShotTime;               
-
-        // TODO: Remove the variable
-
-        //private int m_RemainigEnemiesNum;        
 
         // A two dimentional array that represents the enemies matrix.
         // each cell in the matrix contains the type of the enemy that will
@@ -87,18 +83,14 @@ namespace SpaceInvadersGame
                                               }
                                             };
 
-        // The invaders matrix
-        private List<List<Invader>> m_Enemies;
-
         // A list of all the visible invaders in the matrix.
         // Used for choosing an active invader for shooting.
         private List<Invader> m_EnabledInvaders = new List<Invader>();
 
         private float m_MaxInvadersYPositionYVal;
 
-        public InvadersMatrix(Game i_Game) : base(i_Game, Int32.MinValue)
+        public InvadersMatrix(Game i_Game) : base(i_Game)
         {
-            m_Enemies = new List<List<Invader>>();
             m_PrevShotTime = r_DefaultTimeBetweenShots;
         }
 
@@ -180,16 +172,16 @@ namespace SpaceInvadersGame
                     currEnemy.InvaderWasHit += new InvaderWasHitDelegate(invader_InvaderWasHit);
                     currEnemy.Disposed += invader_Disposed;
 
-                    currList.Add(currEnemy);
+                    this.Add(currEnemy);
+                    m_EnabledInvaders.Add(currEnemy);
+
                     currPosition.X += k_EnemyWidth * 2;
                     prevRowType = m_EnemiesMatrix[i, j];
                 }
 
                 currPosition.Y -= k_EnemyHeight;
                 currPosition.Y -= (k_EnemyHeight / 2);
-                currPosition.X = startingPositionX;
-                m_Enemies.Add(currList);
-                m_EnabledInvaders.AddRange(currList);
+                currPosition.X = startingPositionX;                
             }
         }
 
@@ -199,29 +191,37 @@ namespace SpaceInvadersGame
         /// </summary>
         /// <param name="i_YMotionFactor">The factor that we want to move the 
         /// enemies in the Y axis by</param>
-        private void    changeInvadersMatrixPositions(float i_YMotionFactor)
-        {
+        /// <param name="i_ChangePosition">Mark if we want to change the
+        /// invaders position or only the invaders moving speed</param>
+        private void    changeInvadersMatrixPositions(
+            float i_YMotionFactor,
+            bool i_ChangePosition)
+        {   
+            IEnumerator<Invader> invadersEnumeration = this.GetEnumerator();
+
             // Move on the entire enemies matrix and change the enemy position
             // by the given factor
-            foreach (List<Invader> enemies in m_Enemies)
+            while (invadersEnumeration.MoveNext())
             {
-                foreach (Invader enemy in enemies)
-                {
-                    // Increase the number of times the enemy moves in a second
-                    // (by that we increase the invaders speed)
-                    TimeSpan moveTime = TimeSpan.FromSeconds(enemy.TimeBetweenMoves.TotalSeconds * 
-                                                             k_IncreaseEnemiesSpeedFactor);
-                    enemy.TimeBetweenMoves = moveTime;
+                Invader enemy = invadersEnumeration.Current;
 
+                // Increase the number of times the enemy moves in a second
+                // (by that we increase the invaders speed)
+                TimeSpan moveTime = TimeSpan.FromSeconds(enemy.TimeBetweenMoves.TotalSeconds * 
+                                                         k_IncreaseEnemiesSpeedFactor);
+                enemy.TimeBetweenMoves = moveTime;
+
+                if (i_ChangePosition)
+                {
                     // Change the Y position so that the enemy will go down                                                            
-                    Vector2 position = enemy.PositionForDraw; 
+                    Vector2 position = enemy.PositionForDraw;
                     position.Y += i_YMotionFactor;
                     enemy.PositionForDraw = position;
 
                     // Change the enemy direction
                     enemy.SwitchPosition();
                 }
-            }
+            }  
         }
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace SpaceInvadersGame
             // X motion, and increase their moving speed
             if (m_ChangeInvadersDirection)
             {                
-                changeInvadersMatrixPositions(k_EnemyMotionYVal);
+                changeInvadersMatrixPositions(k_EnemyMotionYVal, true);
                 m_ChangeInvadersDirection = false;
             }            
         }             
@@ -285,13 +285,17 @@ namespace SpaceInvadersGame
         }
 
         /// <summary>
-        /// Catch the InvaderWasHit event and removes the invader from the 
-        /// enabled invaders list
+        /// Catch the InvaderWasHit event, removes the invader from the 
+        /// enabled invaders list and increase the other invaders moving
+        /// speed
         /// </summary>
         /// <param name="i_Invader">The invader that was hit</param>
         public void     invader_InvaderWasHit(Invader i_Invader)
         {
-            removeInvaderFromEnabledList(i_Invader);            
+            removeInvaderFromEnabledList(i_Invader);
+
+            // Increase the invaders moving speed
+            changeInvadersMatrixPositions(0, false);
         }
 
         /// <summary>
@@ -344,22 +348,7 @@ namespace SpaceInvadersGame
         /// <param name="i_Enemy">The enemy that we want to remove from the matrix</param>
         private void    removeInvaderFromMatrix(Invader i_Enemy)
         {
-            foreach (List<Invader> enemiesLine in m_Enemies)
-            {
-                if (enemiesLine.Contains(i_Enemy))
-                {
-                    enemiesLine.Remove(i_Enemy);
-
-                    // In case it was the last invader in the line we'll remove 
-                    // the entire invaders line from the matrix
-                    if (enemiesLine.Count == 0)
-                    {
-                        m_Enemies.Remove(enemiesLine);
-                    }
-
-                    break;
-                }
-            }
+            this.Remove(i_Enemy);                        
         }
 
         /// <summary>
@@ -382,13 +371,13 @@ namespace SpaceInvadersGame
         /// </summary>
         private void    updateInvadersMaxYValue()
         {
-            foreach (List<Invader> enemiesLine in m_Enemies)
+            IEnumerator<Invader> invadersEnumeration = this.GetEnumerator();
+
+            while (invadersEnumeration.MoveNext())
             {
-                foreach(Invader invader in enemiesLine)
-                {
-                    invader.InvaderMaxPositionY = m_MaxInvadersYPositionYVal;
-                }
-            }
+                invadersEnumeration.Current.InvaderMaxPositionY = 
+                    m_MaxInvadersYPositionYVal;
+            }     
         }
     }
 }
