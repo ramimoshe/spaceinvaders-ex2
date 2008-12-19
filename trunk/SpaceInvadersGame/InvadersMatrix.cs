@@ -50,7 +50,9 @@ namespace SpaceInvadersGame
         // the enemies shoots
         private TimeSpan m_PrevShotTime;               
 
-        private int m_RemainigEnemiesNum;
+        // TODO: Remove the variable
+
+        //private int m_RemainigEnemiesNum;        
 
         // A two dimentional array that represents the enemies matrix.
         // each cell in the matrix contains the type of the enemy that will
@@ -88,14 +90,16 @@ namespace SpaceInvadersGame
         // The invaders matrix
         private List<List<Invader>> m_Enemies;
 
+        // A list of all the visible invaders in the matrix.
+        // Used for choosing an active invader for shooting.
+        private List<Invader> m_EnabledInvaders = new List<Invader>();
+
         private float m_MaxInvadersYPositionYVal;
 
         public InvadersMatrix(Game i_Game) : base(i_Game, Int32.MinValue)
         {
             m_Enemies = new List<List<Invader>>();
             m_PrevShotTime = r_DefaultTimeBetweenShots;
-
-            m_RemainigEnemiesNum = k_EnemiesInLineNum * k_NumOfEnemiesLines;            
         }
 
         /// <summary>
@@ -173,6 +177,7 @@ namespace SpaceInvadersGame
                     currEnemy.PositionForDraw = currPosition;
                     currEnemy.InvaderMaxPositionY = m_MaxInvadersYPositionYVal;
                     currEnemy.ReachedScreenBounds += new InvaderReachedScreenBoundsDelegate(invader_ReachedScreenBounds);
+                    currEnemy.InvaderWasHit += new InvaderWasHitDelegate(invader_InvaderWasHit);
                     currEnemy.Disposed += invader_Disposed;
 
                     currList.Add(currEnemy);
@@ -183,7 +188,8 @@ namespace SpaceInvadersGame
                 currPosition.Y -= k_EnemyHeight;
                 currPosition.Y -= (k_EnemyHeight / 2);
                 currPosition.X = startingPositionX;
-                m_Enemies.Add(currList);                
+                m_Enemies.Add(currList);
+                m_EnabledInvaders.AddRange(currList);
             }
         }
 
@@ -279,6 +285,16 @@ namespace SpaceInvadersGame
         }
 
         /// <summary>
+        /// Catch the InvaderWasHit event and removes the invader from the 
+        /// enabled invaders list
+        /// </summary>
+        /// <param name="i_Invader">The invader that was hit</param>
+        public void     invader_InvaderWasHit(Invader i_Invader)
+        {
+            removeInvaderFromEnabledList(i_Invader);            
+        }
+
+        /// <summary>
         /// Raise an EnemyReachedScreenEnd event when a certain enemy in the 
         /// enemies matrix reaches the maximum allowed Y value
         /// </summary>
@@ -297,14 +313,13 @@ namespace SpaceInvadersGame
         {
             Random rand = new Random();
 
-            // In case there are enemies we'll shoot the player from
-            // a random enemy
-            if (m_Enemies.Count > 0)
+            // In case there are visible invaders we'll shoot the player from
+            // a random invader
+            if (m_EnabledInvaders.Count > 0)
             {
-                // Randomly choose an invader from the invaders matrix
-                int enemyMatrixLine = rand.Next(0, m_Enemies.Count - 1);
-                int enemyMatrixColumn = rand.Next(0, m_Enemies[enemyMatrixLine].Count - 1);                                    
-                m_Enemies[enemyMatrixLine][enemyMatrixColumn].Shoot();
+                // Randomly choose an invader from the visible invaders list
+                int invaderIndex = rand.Next(0, m_EnabledInvaders.Count - 1);
+                m_EnabledInvaders[invaderIndex].Shoot();
             }
         }
        
@@ -320,12 +335,7 @@ namespace SpaceInvadersGame
 
             removeInvaderFromMatrix(enemy);
 
-            m_RemainigEnemiesNum--;
-
-            if (m_RemainigEnemiesNum <= 0)
-            {
-                onAllEnemiesEliminated();
-            }
+            removeInvaderFromEnabledList(enemy);
         }
 
         /// <summary>
@@ -349,6 +359,20 @@ namespace SpaceInvadersGame
 
                     break;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Removes an invader from the enabled invaders list
+        /// </summary>
+        /// <param name="i_Invader">The invader we want to remove from the list</param>
+        private void    removeInvaderFromEnabledList(Invader i_Invader)
+        {
+            m_EnabledInvaders.Remove(i_Invader);
+
+            if (m_EnabledInvaders.Count <= 0)
+            {
+                onAllEnemiesEliminated();
             }
         }
 
