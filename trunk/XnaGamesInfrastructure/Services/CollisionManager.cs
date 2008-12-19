@@ -64,7 +64,7 @@ namespace XnaGamesInfrastructure.Services
         /// </summary>
         /// <param name="sender">The observed component</param>
         /// <param name="e">Event arguments</param>
-        private void collidable_Disposed(object sender, EventArgs e)
+        private void    collidable_Disposed(object sender, EventArgs e)
         {
             ICollidable collidable = sender as ICollidable;
 
@@ -81,7 +81,7 @@ namespace XnaGamesInfrastructure.Services
         /// Checking if a collision occured for specified component
         /// </summary>
         /// <param name="i_Collidable">specified component</param>
-        private void collidable_PositionChanged(object i_Collidable)
+        private void    collidable_PositionChanged(object i_Collidable)
         {
             if (i_Collidable is ICollidable)
             {
@@ -98,8 +98,13 @@ namespace XnaGamesInfrastructure.Services
             // Checking for collision with each of the observed components
             foreach (ICollidable target in m_Collidables)
             {
-                // Validating both collidables are visible and differ
-                if (i_Source.Visible && i_Source != target && target.Visible)
+                // Validating both collidables are visible, differ and
+                // not in a dying state
+                if (i_Source.Visible && 
+                    i_Source != target && 
+                    target.Visible &&
+                    !i_Source.Dying &&
+                    !target.Dying)
                 {
                     // Checking if collision occured
                     if (target.CheckForCollision(i_Source))
