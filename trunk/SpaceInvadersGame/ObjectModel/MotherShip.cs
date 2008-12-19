@@ -17,7 +17,10 @@ namespace SpaceInvadersGame.ObjectModel
         private readonly TimeSpan r_TimeBetweenMove = TimeSpan.FromSeconds(5.0f);
         private readonly Vector2 r_MotionVector = new Vector2(-150, 0);
         private const string k_AssetName = @"Sprites\MotherShip_32x120";
-        private const int k_Score = 500;
+
+        // TODO: Remove the code
+        //private const int k_Score = 500;
+
         private bool m_MotherShipScaled = false;
         
         // The initialized position
@@ -31,16 +34,18 @@ namespace SpaceInvadersGame.ObjectModel
             TintColor = Color.Red;
         }
 
+        // TODO: Remove the code
+
         /// <summary>
         /// A property for the space ship score
         /// </summary>
-        public override int     Score
+        /*public override int     Score
         {
             get 
             { 
                 return k_Score; 
             }
-        }
+        }*/
 
         /// <summary>
         /// Initialize the ship position to be (Viewport.Width, ShipHeight), 

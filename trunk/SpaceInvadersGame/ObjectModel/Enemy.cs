@@ -17,6 +17,7 @@ namespace SpaceInvadersGame.ObjectModel
     public abstract class Enemy : CollidableSprite, IEnemy
     {
         protected const string k_ScaleAnimationName = "Scale_enemyDeath";
+        protected int m_EnemyScore;
 
         #region CTORs
 
@@ -36,7 +37,8 @@ namespace SpaceInvadersGame.ObjectModel
             int i_UpdateOrder,
             int i_DrawOrder)
             : base(i_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
-        {                        
+        {
+            Score = 0;         
         }
 #endregion
 
@@ -84,11 +86,19 @@ namespace SpaceInvadersGame.ObjectModel
         }
 
         /// <summary>
-        /// A property that return the enemy score
+        /// A property that gets/sets the enemy score
         /// </summary>
-        public abstract int     Score
+        public int     Score
         {
-            get;
+            get
+            {
+                return m_EnemyScore;
+            }
+
+            set
+            {
+                m_EnemyScore = value;
+            }
         }       
     }
 }
