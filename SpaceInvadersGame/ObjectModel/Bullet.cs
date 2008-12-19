@@ -54,7 +54,7 @@ namespace SpaceInvadersGame.ObjectModel
                 0,
                 Game.GraphicsDevice.Viewport.Width,
                 Game.GraphicsDevice.Viewport.Height);
-        }
+        }        
 
         /// <summary>
         /// Updates the bullet state in the game
@@ -63,11 +63,13 @@ namespace SpaceInvadersGame.ObjectModel
         /// update call</param>
         public override void    Update(GameTime i_GameTime)
         {
-            base.Update(i_GameTime);            
+            base.Update(i_GameTime);
+
+            // TODO: Remove the proc (we should't dispose bullets)
 
             // If the bullet is out of the screen, or collided with another 
             // component (not visible), we need to dispose it
-            if (!Bounds.Intersects(m_ViewPortBounds) || !Visible)            
+            if (!Bounds.Intersects(m_ViewPortBounds) || (!Visible && !(this is SpaceShipBullet)))            
             {                
                 Dispose();             
             }
