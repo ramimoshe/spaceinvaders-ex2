@@ -15,7 +15,14 @@ namespace SpaceInvadersGame.ObjectModel
     /// invaders allowed screen bounds
     /// </summary>
     /// <param name="i_Invader">The invader that reached the allowed screen bounds</param>
-    public delegate void InvaderReachedScreenBoundsDelegate(Invader i_Invader);    
+    public delegate void InvaderReachedScreenBoundsDelegate(Invader i_Invader);
+
+    /// <summary>
+    /// Used by Invader in order to inform that the he reached the 
+    /// invaders allowed screen bounds
+    /// </summary>
+    /// <param name="i_Invader">The invader that reached the allowed screen bounds</param>
+    public delegate void InvaderWasHitDelegate(Invader i_Invader);    
 
     /// <summary>
     /// An abstract class that all the small invaders in the invaders matrix 
@@ -28,6 +35,9 @@ namespace SpaceInvadersGame.ObjectModel
 
         // Raised when an invader reaches one of the allowed screen bounderies
         public event InvaderReachedScreenBoundsDelegate ReachedScreenBounds;
+
+        // Raised when an invader was hit by a player bullet
+        public event InvaderWasHitDelegate InvaderWasHit;
 
         private List<Bullet> m_Bullets = new List<Bullet>();
         private const int k_BulletVelocity = 200;
@@ -137,7 +147,7 @@ namespace SpaceInvadersGame.ObjectModel
             if (!(i_OtherComponent is IDefend))
             {
                 Animations[k_ScaleAnimationName].Restart();
-                base.Collided(i_OtherComponent);
+                base.Collided(i_OtherComponent);                
             }
         }
 
@@ -162,6 +172,21 @@ namespace SpaceInvadersGame.ObjectModel
                 bullet.Disposed += new EventHandler(bullet_Disposed);
 
                 m_Bullets.Add(bullet);
+            }
+            else
+            {
+                // Search for an existing bullet that isn't active
+                foreach (EnemyBullet bullet in m_Bullets)
+                {
+                    if (!bullet.Visible)
+                    {
+                        bullet.PositionForDraw = new Vector2(
+                                    PositionForDraw.X + (Bounds.Width / 2),
+                                    PositionForDraw.Y - (bullet.Bounds.Height / 2));
+                        bullet.Visible = true;
+                        break;
+                    }
+                }
             }
         }
 
@@ -211,14 +236,16 @@ namespace SpaceInvadersGame.ObjectModel
         {
             bool moveEnemy = false;
 
+            // TODO: Remove the dispose code
+
             // If the enemy was hit (changed to unvisible), we need to 
             // dispose it
-            if (Visible == false)
+        /*    if (Visible == false)
             {
                 Dispose();
             }
             else
-            {
+            {*/
                 m_TimeLeftToNextMove -= i_GameTime.ElapsedGameTime;
 
                 // Check if enough time had passed since previous move
@@ -242,13 +269,15 @@ namespace SpaceInvadersGame.ObjectModel
                 {
                     moveEnemy = false;
 
-                    if (Bounds.Left <= 0 || Bounds.Right >= Game.GraphicsDevice.Viewport.Width || 
-                        Bounds.Bottom >= m_EnemyMaxPositionYVal)
+                    if ((Bounds.Left <= 0 || Bounds.Right >= Game.GraphicsDevice.Viewport.Width || 
+                         Bounds.Bottom >= m_EnemyMaxPositionYVal) && Visible)
                     {
                         OnReachedScreenBounds();
                     }
                 }
-            }
+            // TODO: Remove the remark
+
+            //}
         }
 
         /// <summary>
@@ -257,7 +286,8 @@ namespace SpaceInvadersGame.ObjectModel
         /// <param name="i_Animation">the animation that ended</param>
         protected override void    ScaleAnimation_Finished(SpriteAnimation i_Animation)
         {
-            this.Visible = false;
+            base.ScaleAnimation_Finished(i_Animation);
+            OnInvaderWasHit();
         }
 
         /// <summary>
@@ -308,6 +338,18 @@ namespace SpaceInvadersGame.ObjectModel
             {
                 ReachedScreenBounds(this);
             }
-        }                
+        }
+
+        /// <summary>
+        /// Raising the InvaderWsasHit event that marks the invader was hit 
+        /// by a players bullet
+        /// </summary>
+        protected void      OnInvaderWasHit()
+        {
+            if (InvaderWasHit != null)
+            {
+                InvaderWasHit(this);
+            }
+        }
     }
 }

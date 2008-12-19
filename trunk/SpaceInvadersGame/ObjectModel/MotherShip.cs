@@ -64,9 +64,9 @@ namespace SpaceInvadersGame.ObjectModel
         /// </summary>
         /// <param name="i_Animation">the animation that ended</param>
         protected override void     ScaleAnimation_Finished(SpriteAnimation i_Animation)
-        {            
+        {
+            base.ScaleAnimation_Finished(i_Animation);
             m_MotherShipScaled = true;
-            Visible = false;
         }
 
         /// <summary>

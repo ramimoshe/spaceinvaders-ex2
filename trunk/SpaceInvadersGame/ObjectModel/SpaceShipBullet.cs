@@ -42,6 +42,6 @@ namespace SpaceInvadersGame.ObjectModel
             base.Collided(i_OtherComponent);
 
             onBulletCollision(i_OtherComponent);            
-        }                  
+        }     
     }
 }

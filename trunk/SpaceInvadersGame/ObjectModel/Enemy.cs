@@ -58,7 +58,11 @@ namespace SpaceInvadersGame.ObjectModel
         /// Catch the end event raised by the component animation
         /// </summary>
         /// <param name="i_Animation">the animation that ended</param>
-        protected abstract void     ScaleAnimation_Finished(SpriteAnimation i_Animation);        
+        protected virtual void  ScaleAnimation_Finished(SpriteAnimation i_Animation)
+        {
+            Visible = false;
+            Dying = false;
+        }
 
         /// <summary>
         /// Implement the component collision logic by starting the Enemy
@@ -67,6 +71,8 @@ namespace SpaceInvadersGame.ObjectModel
         /// <param name="i_OtherComponent">The colliding component</param>
         public override void    Collided(ICollidable i_OtherComponent)
         {
+            Dying = true;
+
             if (i_OtherComponent is Bullet)
             {
                 Animations.Restart();
