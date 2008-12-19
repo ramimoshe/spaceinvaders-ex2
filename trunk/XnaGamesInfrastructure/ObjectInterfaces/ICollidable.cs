@@ -84,6 +84,14 @@ namespace XnaGamesInfrastructure.ObjectInterfaces
         {
             get;
         }
+        
+        /// <summary>
+        /// Read only property that marks if the object is in a dying state
+        /// </summary>
+        bool    Dying
+        {
+            get;
+        }
 
         /// <summary>
         /// Handles a rectangle collision in a specific way for each ICollidable class.
