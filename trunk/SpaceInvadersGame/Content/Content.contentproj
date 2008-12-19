@@ -53,37 +53,37 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Barrier_44x32.png">
+    <Compile Include="..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Barrier_44x32.png">
       <Link>Sprites\Barrier_44x32.png</Link>
       <Name>Barrier_44x32</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\BG_Space01_1024x768.png">
+    <Compile Include="..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\BG_Space01_1024x768.png">
       <Link>Sprites\BG_Space01_1024x768.png</Link>
       <Name>BG_Space01_1024x768</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Bullet.png">
+    <Compile Include="..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Bullet.png">
       <Link>Sprites\Bullet.png</Link>
       <Name>Bullet</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\MotherShip_32x120.png">
+    <Compile Include="..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\MotherShip_32x120.png">
       <Link>Sprites\MotherShip_32x120.png</Link>
       <Name>MotherShip_32x120</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Ship01_32x32.png">
+    <Compile Include="..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Ship01_32x32.png">
       <Link>Sprites\Ship01_32x32.png</Link>
       <Name>Ship01_32x32</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Ship02_32x32.png">
+    <Compile Include="..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Ship02_32x32.png">
       <Link>Sprites\Ship02_32x32.png</Link>
       <Name>Ship02_32x32</Name>
       <Importer>TextureImporter</Importer>
