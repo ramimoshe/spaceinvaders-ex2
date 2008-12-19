@@ -39,6 +39,7 @@ namespace XnaGamesInfrastructure.ObjectModel
                 int i_DrawOrder)
                 : base(i_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
         {
+            Dying = false;
         }
 
         /// <summary>
@@ -52,6 +53,11 @@ namespace XnaGamesInfrastructure.ObjectModel
         protected eCollidableCheckType m_CollisionCheckType;
 
         /// <summary>
+        /// Marks if the current component was hit
+        /// </summary>
+        protected bool m_WasComponentHit;
+
+        /// <summary>
         /// Property that states the collision check that the component 
         /// needs. 
         /// By default the check is RectangleCollision.
@@ -59,6 +65,22 @@ namespace XnaGamesInfrastructure.ObjectModel
         public eCollidableCheckType     CollisionCheckType
         {
             get { return m_CollisionCheckType; }
+        }
+
+        /// <summary>
+        /// Read only property that marks if the object is in a dying state
+        /// </summary>
+        public bool     Dying
+        {
+            get
+            {
+                return m_WasComponentHit;
+            }
+
+            protected set
+            {
+                m_WasComponentHit = value;
+            }
         }
 
         /// <summary>
