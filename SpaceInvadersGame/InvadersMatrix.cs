@@ -24,8 +24,7 @@ namespace SpaceInvadersGame
     /// Holds all the invaders in the game and control their moves
     /// </summary>
     public class InvadersMatrix : CompositeDrawableComponent<Invader>
-    {
-        private const int k_EnemiesInLineNum = 9;
+    {        
         private const int k_NumOfEnemiesLines = 5;
 
         private const int k_EnemyWidth = 32;
@@ -45,43 +44,23 @@ namespace SpaceInvadersGame
         public event InvaderReachedScreenEndDelegate InvaderReachedScreenEnd;        
 
         private bool m_ChangeInvadersDirection = false;
+        private int m_EnemiesInLineNum;
 
         // A time counter that contains a random seconds for the time space between
         // the enemies shoots
-        private TimeSpan m_PrevShotTime;               
+        private TimeSpan m_PrevShotTime;
 
-        // A two dimentional array that represents the enemies matrix.
-        // each cell in the matrix contains the type of the enemy that will
-        // be dinamically created (using reflection) later on
-        private Type[,] m_EnemiesMatrix = new Type[k_NumOfEnemiesLines, k_EnemiesInLineNum] 
-                                            { 
-                                              { typeof(PinkInvader), typeof(PinkInvader), 
-                                                typeof(PinkInvader), typeof(PinkInvader), 
-                                                typeof(PinkInvader), typeof(PinkInvader), 
-                                                typeof(PinkInvader), typeof(PinkInvader), 
-                                                typeof(PinkInvader) },                         
-                                              { typeof(BlueInvader), typeof(BlueInvader), 
-                                                typeof(BlueInvader), typeof(BlueInvader), 
-                                                typeof(BlueInvader), typeof(BlueInvader), 
-                                                typeof(BlueInvader), typeof(BlueInvader), 
-                                                typeof(BlueInvader) },                         
-                                              { typeof(BlueInvader), typeof(BlueInvader), 
-                                                typeof(BlueInvader), typeof(BlueInvader), 
-                                                typeof(BlueInvader), typeof(BlueInvader), 
-                                                typeof(BlueInvader), typeof(BlueInvader), 
-                                                typeof(BlueInvader) },               
-                                              { typeof(YellowInvader), typeof(YellowInvader), 
-                                                typeof(YellowInvader), typeof(YellowInvader), 
-                                                typeof(YellowInvader), typeof(YellowInvader), 
-                                                typeof(YellowInvader), typeof(YellowInvader), 
-                                                typeof(YellowInvader) },                         
-                                              { typeof(YellowInvader), typeof(YellowInvader), 
-                                                typeof(YellowInvader), typeof(YellowInvader), 
-                                                typeof(YellowInvader), typeof(YellowInvader), 
-                                                typeof(YellowInvader), typeof(YellowInvader), 
-                                                typeof(YellowInvader)
-                                              }
-                                            };
+        // A list of invaders types representing the types order 
+        // in the invaders matrix
+        private readonly eInvadersType[] r_EnemiesLines = 
+            new eInvadersType[k_NumOfEnemiesLines]
+            {
+                eInvadersType.PinkInvader,            
+                eInvadersType.BlueInvader,
+                eInvadersType.BlueInvader,
+                eInvadersType.YellowInvader,
+                eInvadersType.YellowInvader
+            };    
 
         // A list of all the visible invaders in the matrix.
         // Used for choosing an active invader for shooting.
@@ -89,9 +68,14 @@ namespace SpaceInvadersGame
 
         private float m_MaxInvadersYPositionYVal;
 
-        public InvadersMatrix(Game i_Game) : base(i_Game)
+        private GameLevelData m_GameLevelData;
+
+        public InvadersMatrix(Game i_Game, GameLevelData i_LevelData) 
+            : base(i_Game)
         {
-            m_PrevShotTime = r_DefaultTimeBetweenShots;
+            m_PrevShotTime = r_DefaultTimeBetweenShots;            
+            m_GameLevelData = i_LevelData;
+            m_EnemiesInLineNum = i_LevelData.InvadersColumnNum;
         }
 
         /// <summary>
@@ -133,8 +117,9 @@ namespace SpaceInvadersGame
 
             Vector2 currPosition = new Vector2(startingPositionX, startingPositionY);
             Invader currEnemy;
-            Type prevRowType = null;
+            eInvadersType? prevRowType = null;
             int currInvaderRow = 1;
+            InvadersBuilder invadersBuilder = InvadersBuilder.GetInstance();
 
             // Creates all the enemies according to the enemies two dimentional 
             // array            
@@ -143,7 +128,7 @@ namespace SpaceInvadersGame
                 List<Invader> currList = new List<Invader>();
                 currInvaderRow = 1;
 
-                for (int j = 0; j < k_EnemiesInLineNum; j++)
+                for (int j = 0; j < m_EnemiesInLineNum; j++)
                 {
                     if (prevRowType != null)
                     {
@@ -151,21 +136,20 @@ namespace SpaceInvadersGame
                         // if the invader equals the previous one so that will
                         // change the starting texture                        
                         if (j == 0 &&
-                            prevRowType.Equals(m_EnemiesMatrix[i, j]))
+                            prevRowType.Equals(r_EnemiesLines[i]))
                         {
                             currInvaderRow = 2;
                         }
                     }
 
-                    // Dynamically creates the enemy according to the type in 
-                    // the two dimentional array that represents the enemies
-                    // matrix
-                    currEnemy = (Invader)Activator.CreateInstance(
-                                                         m_EnemiesMatrix[i, j], 
-                                                         Game,                                                          
-                                                         UpdateOrder - 1,
-                                                         currInvaderRow);
+                    currEnemy = invadersBuilder.CreateInvader(
+                        r_EnemiesLines[i],
+                        Game,
+                        UpdateOrder - 1,
+                        currInvaderRow);
 
+                    currEnemy.Score = 
+                        m_GameLevelData.GetInvaderScore(currEnemy.InvaderType);
                     currEnemy.PositionForDraw = currPosition;
                     currEnemy.InvaderMaxPositionY = m_MaxInvadersYPositionYVal;
                     currEnemy.ReachedScreenBounds += new InvaderReachedScreenBoundsDelegate(invader_ReachedScreenBounds);
@@ -176,7 +160,7 @@ namespace SpaceInvadersGame
                     m_EnabledInvaders.Add(currEnemy);
 
                     currPosition.X += k_EnemyWidth * 2;
-                    prevRowType = m_EnemiesMatrix[i, j];
+                    prevRowType = r_EnemiesLines[i];
                 }
 
                 currPosition.Y -= k_EnemyHeight;
@@ -380,4 +364,6 @@ namespace SpaceInvadersGame
             }     
         }
     }
+
+    //public void     UpdateComponentsData(
 }

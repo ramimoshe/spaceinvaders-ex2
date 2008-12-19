@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using XnaGamesInfrastructure.Services;
 using SpaceInvadersGame.ObjectModel;
+using SpaceInvadersGame.Interfaces;
 
 namespace SpaceInvadersGame
 {
@@ -49,6 +50,9 @@ namespace SpaceInvadersGame
         private bool m_Player1IsDead = false;
         private bool m_Player2IsDead = false;
 
+        // TODO: Remove the variable
+        private IGameLevelDataManager m_GameLevelDataManager;
+
         public SpaceInvadersGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -57,6 +61,9 @@ namespace SpaceInvadersGame
 
             InputManager inputManager = new InputManager(this, 1);
             CollisionManager collisionManager = new CollisionManager(this, 10000);
+
+            // TODO: Remove
+            m_GameLevelDataManager = new GameLevelDataManager(this);
 
             createGameComponents();
         }
@@ -86,7 +93,9 @@ namespace SpaceInvadersGame
 
             m_BackGround = new BackGround(this, Constants.k_StarsNum);
 
-            m_EnemiesMatrix = new InvadersMatrix(this);
+            m_EnemiesMatrix = new InvadersMatrix(
+                this, 
+                m_GameLevelDataManager[1]);
             m_EnemiesMatrix.InvaderReachedScreenEnd += new InvaderReachedScreenEndDelegate(invadersMatrix_InvaderReachedScreenEnd);
             m_EnemiesMatrix.AllInvaderssEliminated += new NoRemainingInvadersDelegate(invadersMatrix_AllInvadersEliminated);
 
@@ -94,6 +103,9 @@ namespace SpaceInvadersGame
             Components.Add(m_EnemiesMatrix);
 
             m_MotherShip = new MotherShip(this);
+
+            // TODO: Remove the code
+            m_MotherShip.Score = m_GameLevelDataManager[1].MotherShipScore;
 
             m_Player2LivesDrawer = new PlayerLivesDrawer(this, m_Player2);
             this.Components.Add(new PlayerLivesDrawer(this, m_Player1));
