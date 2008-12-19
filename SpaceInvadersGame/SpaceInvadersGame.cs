@@ -85,9 +85,13 @@ namespace SpaceInvadersGame
             m_Player1.PlayerIsDead += new GameOverDelegate(spaceShip_Player1IsDead);
 
             m_BackGround = new BackGround(this, Constants.k_StarsNum);
+
             m_EnemiesMatrix = new InvadersMatrix(this);
             m_EnemiesMatrix.InvaderReachedScreenEnd += new InvaderReachedScreenEndDelegate(invadersMatrix_InvaderReachedScreenEnd);
             m_EnemiesMatrix.AllInvaderssEliminated += new NoRemainingInvadersDelegate(invadersMatrix_AllInvadersEliminated);
+
+            // TODO: Remove the code
+            Components.Add(m_EnemiesMatrix);
 
             m_MotherShip = new MotherShip(this);
 
@@ -108,6 +112,9 @@ namespace SpaceInvadersGame
             m_Player2ScoreDrawer.TintColor = Color.Green;
 
             m_BarrierHolder = new BarriersHolder(this);
+
+            // TODO: Remove the code
+            Components.Add(m_BarrierHolder);
         }
 
         /// <summary>
