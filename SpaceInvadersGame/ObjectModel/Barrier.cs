@@ -29,6 +29,9 @@ namespace SpaceInvadersGame.ObjectModel
             MotionVector = new Vector2(k_XMotionSpeed, 0);
             m_CollisionCheckType = eCollidableCheckType.PixelCollision;
             m_LoadFreshTextureCopy = true;
+
+            // TODO: Remove the code
+            this.Game.Components.Remove(this);
         }
 
         /// <summary>
