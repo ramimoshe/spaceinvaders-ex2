@@ -4,6 +4,7 @@ using System.Text;
 using XnaGamesInfrastructure.ObjectModel;
 using Microsoft.Xna.Framework;
 using SpaceInvadersGame.Interfaces;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceInvadersGame
 {
@@ -12,7 +13,10 @@ namespace SpaceInvadersGame
     /// </summary>
     public class PlayerScoreDrawer : SpriteFontComponent
     {
-        private const string k_FontAssetName = @"Fonts\David";        
+        private const string k_FontAssetName = @"Fonts\David";
+
+        private readonly Color[] r_PlayersTintColor = new Color[] {
+            Color.Blue, Color.Green };
 
         private IPlayer m_Player;
         private string m_TextPrefix;
@@ -27,6 +31,7 @@ namespace SpaceInvadersGame
             m_Player.PlayerScoreChangedEvent += new PlayerScoreChangedDelegate(player_PlayerScoreChangedEvent);
             m_TextPrefix = i_TextPrefix;
 
+            TintColor = r_PlayersTintColor[m_Player.PlayerNum - 1];
             Text = m_TextPrefix + m_Player.Score;
         }
 

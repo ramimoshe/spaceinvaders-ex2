@@ -24,6 +24,7 @@ namespace SpaceInvadersGame
             : base(i_Game)
         {
             m_BackGround = new BackGround(i_Game);
+            m_StarsNum = i_StarsNum;
             this.Add(m_BackGround);
         }
 
@@ -37,7 +38,7 @@ namespace SpaceInvadersGame
 
         // TODO: Remove the code
 
-        /*protected override void     LoadContent()
+       /* protected override void     LoadContent()
         {
             base.LoadContent();
 
@@ -71,7 +72,7 @@ namespace SpaceInvadersGame
                     starsAdded++;
                 }
             }            
-        }*/
+        }*/        
 
         public override void    Initialize()
         {

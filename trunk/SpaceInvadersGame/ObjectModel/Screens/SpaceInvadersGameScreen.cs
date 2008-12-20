@@ -41,20 +41,28 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         
         private InvadersMatrix m_EnemiesMatrix;
         private MotherShip m_MotherShip;
-        private PlayerLivesDrawer m_Player2LivesDrawer;
+        private PlayerLivesDrawer[] m_PlayersLiveDrawer;
+        private PlayerScoreDrawer[] m_PlayersScoreDrawer;
+
+        // TODO: Remove the code
+        /*private PlayerLivesDrawer m_Player2LivesDrawer;
         private PlayerScoreDrawer m_Player1ScoreDrawer;
-        private PlayerScoreDrawer m_Player2ScoreDrawer;
+        private PlayerScoreDrawer m_Player2ScoreDrawer;*/
+
         private BarriersHolder m_BarrierHolder;
 
         private bool m_GameOver = false;
-        private bool m_Player1IsDead = false;
-        private bool m_Player2IsDead = false;
+
+        // TODO: Remove code
+
+/*        private bool m_Player1IsDead = false;
+        private bool m_Player2IsDead = false;*/
 
         public SpaceInvadersGameScreen(Game i_Game, int i_PlayersNum)
             : base(i_Game)
-        {
-            createPlayers(i_PlayersNum);
+        {            
             createGameComponents();
+            createPlayers(i_PlayersNum);
 
             /*m_WelcomeMessage = new SpriteFontComponent(i_Game, @"Fonts\David");
             m_WelcomeMessage.Text = "Hello";
@@ -96,12 +104,14 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         {            
             m_Players = new SpaceShipComposite[i_PlayersNum];
             m_PlayersAliveMark = new bool[i_PlayersNum];
+            m_PlayersLiveDrawer = new PlayerLivesDrawer[i_PlayersNum];
+            m_PlayersScoreDrawer = new PlayerScoreDrawer[i_PlayersNum];
 
-            m_Players[0] = createPlayer(
+            createPlayer(
                 new PlayerControls(), 
                 1,
-                Constants.k_Player1AssetName);
-            m_PlayersAliveMark[0] = true;
+                Constants.k_Player1AssetName,
+                k_Player1ScorePrefix);            
 
             // In case we have 2 players in the game, we'll create the second
             // player
@@ -113,11 +123,11 @@ namespace SpaceInvadersGame.ObjectModel.Screens
                     Microsoft.Xna.Framework.Input.Keys.D,
                     false);
 
-                m_Players[1] = createPlayer(
+                createPlayer(
                     player2Controls, 
                     2,
-                    Constants.k_Player2AssetName);
-                m_PlayersAliveMark[1] = true;
+                    Constants.k_Player2AssetName,
+                    k_Player2ScorePrefix);                
             }
         }
 
@@ -127,12 +137,12 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         /// </summary>
         /// <param name="i_PlayerControls">The controls that we want the new player
         /// will have</param>
-        /// <param name="i_PlayerNum">The number of the new player</param>
-        /// <returns></returns>
-        private SpaceShipComposite   createPlayer(
+        /// <param name="i_PlayerNum">The number of the new player</param>        
+        private void   createPlayer(
             PlayerControls i_PlayerControls,
             int i_PlayerNum,
-            string i_PlayerAsset)
+            string i_PlayerAsset,
+            string i_ScorePrefix)
         {
             SpaceShip newPlayer =  new SpaceShip(
                     Game,
@@ -145,9 +155,22 @@ namespace SpaceInvadersGame.ObjectModel.Screens
                 Game,
                 newPlayer);
 
-            this.Add(spaceShipHolder);
+            PlayerLivesDrawer lDrawer = new PlayerLivesDrawer(
+                    Game,
+                    newPlayer);
+            PlayerScoreDrawer sDrawer = new PlayerScoreDrawer(
+                Game,
+                newPlayer,
+                i_ScorePrefix);
 
-            return spaceShipHolder;
+            this.Add(spaceShipHolder);
+            this.Add(lDrawer);
+            this.Add(sDrawer);
+            
+            m_Players[i_PlayerNum - 1] = spaceShipHolder;
+            m_PlayersScoreDrawer[i_PlayerNum - 1] = sDrawer;
+            m_PlayersLiveDrawer[i_PlayerNum - 1] = lDrawer;
+            m_PlayersAliveMark[i_PlayerNum - 1] = true;
         }
 
         /// <summary>
@@ -156,7 +179,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         private void    createGameComponents()
         {           
             m_BackGround = new BackGroundComposite(Game, Constants.k_StarsNum);
-            //this.Add(m_BackGround);
+            this.Add(m_BackGround);
 
             m_EnemiesMatrix = new InvadersMatrix(Game);
             m_EnemiesMatrix.InvaderReachedScreenEnd += new InvaderReachedScreenEndDelegate(invadersMatrix_InvaderReachedScreenEnd);
@@ -165,25 +188,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             this.Add(m_EnemiesMatrix);
 
             m_MotherShip = new MotherShip(Game);
-            this.Add(m_MotherShip);
-
-            // TODO: Remove the code
-
-            /*m_Player2LivesDrawer = new PlayerLivesDrawer(this, m_Player2);
-            //this.Components.Add(new PlayerLivesDrawer(this, m_Player1));
-            //this.Components.Add(m_Player2LivesDrawer);            
-
-            /*m_Player1ScoreDrawer = new PlayerScoreDrawer(
-                this,
-                m_Player1,
-                k_Player1ScorePrefix);
-            m_Player1ScoreDrawer.TintColor = Color.Blue;
-
-            m_Player2ScoreDrawer = new PlayerScoreDrawer(
-                this,
-                m_Player2,
-                k_Player2ScorePrefix);
-            m_Player2ScoreDrawer.TintColor = Color.Green;*/
+            this.Add(m_MotherShip);            
 
             m_BarrierHolder = new BarriersHolder(Game);
 
@@ -214,6 +219,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         {
             m_MotherShip.LevelData = m_GameLevelDataManager[m_CurrLevelNum];
             m_EnemiesMatrix.LevelData = m_GameLevelDataManager[m_CurrLevelNum];
+            m_BarrierHolder.LevelData = m_GameLevelDataManager[m_CurrLevelNum];
         }
 
         // TODO: Move the players to a dedicated manager class
@@ -224,10 +230,27 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         /// </summary>
         private void initComponentsPosition()
         {
-            // Change the players position
+            initSpaceShipsPosition();
+
+            m_EnemiesMatrix.InvaderMaxPositionY = 
+                m_Players[0].SpaceShip.Bounds.Top;
+
+            initScoreDrawerPosition();
+            initLivesDrawersPosition();
+
+            m_BarrierHolder.UpdateBarriersPossition(
+                m_Players[0].SpaceShip.Bounds.Top,
+                m_Players[0].SpaceShip.Texture.Height);
+        }
+
+        /// <summary>
+        /// Initialize the positions of all the SpaceShip components
+        /// </summary>
+        private void    initSpaceShipsPosition()
+        {
             Vector2 player1Position = new Vector2(
                 m_Players[0].SpaceShip.Texture.Width * 2,
-                this.GraphicsDevice.Viewport.Height - 
+                this.GraphicsDevice.Viewport.Height -
                 m_Players[0].SpaceShip.Texture.Height);
 
             m_Players[0].SpaceShip.PositionForDraw = player1Position;
@@ -243,22 +266,38 @@ namespace SpaceInvadersGame.ObjectModel.Screens
                 m_Players[1].SpaceShip.PositionForDraw = player2Position;
                 m_Players[1].SpaceShip.DefaultPosition = player2Position;
             }
+        }
 
-            m_EnemiesMatrix.InvaderMaxPositionY = 
-                m_Players[0].SpaceShip.Bounds.Top;
+        /// <summary>
+        /// Initialize the positions of all the score drawer components
+        /// </summary>
+        private void    initScoreDrawerPosition()
+        {
+            m_PlayersScoreDrawer[0].PositionOfOrigin = r_Player1ScorePosition;
 
-            // TODO: Return the code
+            if (m_Players.Length == 2)
+            {
+                m_PlayersScoreDrawer[1].PositionOfOrigin = r_Player2ScorePosition;
+            }
+        }
 
-            /*Vector2 pos = m_Player2LivesDrawer.DrawPosition;
-            pos.Y += k_SpaceBetweenLivesDraw;
-            m_Player2LivesDrawer.DrawPosition = pos;
+        /// <summary>
+        /// Initialize the positions of all the life drawer components
+        /// </summary>
+        private void    initLivesDrawersPosition()
+        {
+            Vector2 livesDrawPosition = new Vector2(
+                Game.GraphicsDevice.Viewport.Width -
+                (m_Players[0].SpaceShip.PlayerTexture.Width *
+                 Constants.k_LivesDrawScaleValue),
+                m_Players[0].SpaceShip.PlayerTexture.Height *
+                 Constants.k_LivesDrawScaleValue);
 
-            m_Player1ScoreDrawer.PositionOfOrigin = r_Player1ScorePosition;
-            m_Player2ScoreDrawer.PositionOfOrigin = r_Player2ScorePosition;*/
-
-            m_BarrierHolder.UpdateBarriersPossition(
-                m_Players[0].SpaceShip.Bounds.Top,
-                m_Players[0].SpaceShip.Texture.Height);
+            foreach (PlayerLivesDrawer lifeDraw in m_PlayersLiveDrawer)
+            {
+                lifeDraw.DrawPosition = livesDrawPosition;
+                livesDrawPosition.Y += k_SpaceBetweenLivesDraw;
+            }
         }
 
         /// <summary>
