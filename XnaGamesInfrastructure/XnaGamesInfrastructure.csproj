@@ -58,6 +58,7 @@
     <Compile Include="ObjectModel\Animations\CompositeAnimation.cs" />
     <Compile Include="ObjectModel\Animations\ConcreteAnimations\BlinkAnimation.cs" />
     <Compile Include="ObjectModel\Animations\ConcreteAnimations\CelAnimation.cs" />
+    <Compile Include="ObjectModel\Animations\ConcreteAnimations\PulseAnimation.cs" />
     <Compile Include="ObjectModel\Animations\ConcreteAnimations\RotateAnimation.cs" />
     <Compile Include="ObjectModel\Animations\ConcreteAnimations\ScaleAnimation.cs" />
     <Compile Include="ObjectModel\Animations\ConcreteAnimations\FadeAnimation.cs" />

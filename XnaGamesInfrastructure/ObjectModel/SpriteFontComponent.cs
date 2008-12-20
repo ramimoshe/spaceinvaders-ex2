@@ -18,9 +18,11 @@ namespace XnaGamesInfrastructure.ObjectModel
 
         public SpriteFontComponent(
             Game i_Game,
-            string i_FontAssetName)
+            string i_FontAssetName, 
+            string i_Text)
             : base(i_FontAssetName, i_Game)
         {
+            m_Text = i_Text;
         }
 
         protected override int TextureHeight

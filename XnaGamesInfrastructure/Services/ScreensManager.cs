@@ -8,16 +8,9 @@ using Microsoft.Xna.Framework;
 
 namespace XnaGamesInfrastructure.Services
 {
-    /// <summary>
-    /// Implements a screen manager
-    /// </summary>
     public class ScreensMananger : CompositeDrawableComponent<GameScreen>, IScreensMananger
     {
-        /// <summary>
-        /// Constructor. Registers itself as a game component
-        /// </summary>
-        /// <param name="i_Game">Hosting game</param>
-        public  ScreensMananger(Game i_Game)
+        public ScreensMananger(Game i_Game)
             : base(i_Game)
         {
             i_Game.Components.Add(this);
@@ -25,10 +18,7 @@ namespace XnaGamesInfrastructure.Services
 
         private Stack<GameScreen> m_ScreensStack = new Stack<GameScreen>();
 
-        /// <summary>
-        /// Gets the current active screen
-        /// </summary>
-        public GameScreen   ActiveScreen
+        public GameScreen ActiveScreen
         {
             get
             {
@@ -36,10 +26,6 @@ namespace XnaGamesInfrastructure.Services
             }
         }
 
-        /// <summary>
-        /// Sets the curent Screen
-        /// </summary>
-        /// <param name="i_GameScreen">The specified screen</param>
         public void SetCurrentScreen(GameScreen i_GameScreen)
         {
             Push(i_GameScreen);
@@ -47,11 +33,6 @@ namespace XnaGamesInfrastructure.Services
             i_GameScreen.Activate();
         }
 
-        /// <summary>
-        /// Adds and activates a new GameScreen at the top of the stack (if not already in 
-        /// stack)
-        /// </summary>
-        /// <param name="i_GameScreen">Specified screen</param>
         public void Push(GameScreen i_GameScreen)
         {
             i_GameScreen.ScreensManager = this;
@@ -60,7 +41,7 @@ namespace XnaGamesInfrastructure.Services
             {
                 this.Add(i_GameScreen);
 
-                i_GameScreen.Closed += Screen_Closed;
+                i_GameScreen.StateChanged += Screen_StateChanged;
             }
 
             if (ActiveScreen != i_GameScreen)
@@ -81,22 +62,32 @@ namespace XnaGamesInfrastructure.Services
             i_GameScreen.DrawOrder = m_ScreensStack.Count;
         }
 
-        /// <summary>
-        /// Removes the notifying screen from Stack
-        /// </summary>
-        /// <param name="sender">The game screen which closed</param>
-        /// <param name="e">Arguments</param>
-        private void    Screen_Closed(object sender, EventArgs e)
+        void Screen_StateChanged(object sender, StateChangedEventArgs e)
         {
-            Pop(sender as GameScreen);
-            Remove(sender as GameScreen);
+            switch (e.CurrentState)
+            {
+                case eScreenState.Activating:
+                    break;
+                case eScreenState.Active:
+                    break;
+                case eScreenState.Deactivating:
+                    break;
+                case eScreenState.Closing:
+                    Pop(sender as GameScreen);
+                    break;
+                case eScreenState.Deactive:
+                    break;
+                case eScreenState.Closed:
+                    Remove(sender as GameScreen);
+                    break;
+                default:
+                    break;
+            }
+
+            OnScreenStateChanged(sender, e);
         }
 
-        /// <summary>
-        /// Pops the specified screen from stack, and activates the previous screen
-        /// </summary>
-        /// <param name="i_GameScreen">Specified game Screen</param>
-        private void    Pop(GameScreen i_GameScreen)
+        private void Pop(GameScreen i_GameScreen)
         {
             m_ScreensStack.Pop();
 
@@ -106,35 +97,30 @@ namespace XnaGamesInfrastructure.Services
             }
         }
 
-        /// <summary>
-        /// Removes the specified screen
-        /// </summary>
-        /// <param name="i_Screen">Specified Screen</param>
-        /// <returns>true, if component exists in composite component</returns>
-        private new bool    Remove(GameScreen i_Screen)
+        private new bool Remove(GameScreen i_Screen)
         {
             return base.Remove(i_Screen);
         }
 
-        /// <summary>
-        /// Adds a new screen
-        /// </summary>
-        /// <param name="i_Component">The new component</param>
-        private new void    Add(GameScreen i_Component)
+        private new void Add(GameScreen i_Component)
         {
             base.Add(i_Component);
         }
 
-        /// <summary>
-        /// Called when a new component is removed from m_Components, to handle 
-        /// removal of component from additional collections
-        /// </summary>
-        /// <param name="e">Argument including the removed screen</param>
+        public event EventHandler<StateChangedEventArgs> ScreenStateChanged;
+        protected virtual void OnScreenStateChanged(object sender, StateChangedEventArgs e)
+        {
+            if (ScreenStateChanged != null)
+            {
+                ScreenStateChanged(sender, e);
+            }
+        }
+
         protected override void OnComponentRemoved(GameComponentEventArgs<GameScreen> e)
         {
             base.OnComponentRemoved(e);
 
-            e.GameComponent.Closed -= Screen_Closed;
+            e.GameComponent.StateChanged -= Screen_StateChanged;
 
             if (m_ScreensStack.Count == 0)
             {
@@ -142,10 +128,7 @@ namespace XnaGamesInfrastructure.Services
             }
         }
 
-        /// <summary>
-        /// Initialize screen manager as service
-        /// </summary>
-        public override void    Initialize()
+        public override void Initialize()
         {
             Game.Services.AddService(typeof(IScreensMananger), this);
 
