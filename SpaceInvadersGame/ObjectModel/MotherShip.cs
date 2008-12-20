@@ -18,6 +18,8 @@ namespace SpaceInvadersGame.ObjectModel
         private readonly Vector2 r_MotionVector = new Vector2(-150, 0);
         private const string k_AssetName = @"Sprites\MotherShip_32x120";
 
+        private GameLevelData m_LevelData;
+
         // TODO: Remove the code
         //private const int k_Score = 500;
 
@@ -32,6 +34,19 @@ namespace SpaceInvadersGame.ObjectModel
             : base(k_AssetName, i_Game)
         {
             TintColor = Color.Red;
+        }
+
+        /// <summary>
+        /// Sets the component level game data and change the score according
+        /// to the given level data
+        /// </summary>
+        public GameLevelData    LevelData
+        {
+            set 
+            { 
+                m_LevelData = value;
+                Score = m_LevelData.MotherShipScore;
+            } 
         }
 
         // TODO: Remove the code

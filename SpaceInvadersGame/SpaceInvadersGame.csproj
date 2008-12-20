@@ -60,6 +60,7 @@
     <Compile Include="BackGround.cs" />
     <Compile Include="BarriersHolder.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="BackGroundComposite.cs" />
     <Compile Include="GameLevelData.cs" />
     <Compile Include="GameLevelDataManager.cs" />
     <Compile Include="Interfaces\IDefend.cs" />
@@ -73,11 +74,14 @@
     <Compile Include="ObjectModel\BlueInvader.cs" />
     <Compile Include="ObjectModel\Bullet.cs" />
     <Compile Include="ObjectModel\Barrier.cs" />
+    <Compile Include="ObjectModel\SpaceShipComposite.cs" />
+    <Compile Include="ObjectModel\InvaderComposite.cs" />
     <Compile Include="ObjectModel\Enemy.cs" />
     <Compile Include="ObjectModel\Invader.cs" />
     <Compile Include="ObjectModel\EnemyBullet.cs" />
     <Compile Include="ObjectModel\MotherShip.cs" />
     <Compile Include="ObjectModel\PinkInvader.cs" />
+    <Compile Include="ObjectModel\Screens\SpaceInvadersGameScreen.cs" />
     <Compile Include="ObjectModel\Screens\WelcomeScreen.cs" />
     <Compile Include="ObjectModel\SpaceShip.cs" />
     <Compile Include="ObjectModel\SpaceShipBullet.cs" />

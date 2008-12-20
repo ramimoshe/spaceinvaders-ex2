@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceInvadersGame.Interfaces
 {
+    public delegate void PlayerIsDeadDelegate(IPlayer i_Player);
+
     public delegate void PlayerWasHitDelegate();
     
     public delegate void PlayerScoreChangedDelegate();
@@ -35,6 +37,14 @@ namespace SpaceInvadersGame.Interfaces
         /// Property that gets the players texture
         /// </summary>
         Texture2D PlayerTexture
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Property that gets the player number
+        /// </summary>
+        int PlayerNum
         {
             get;
         }

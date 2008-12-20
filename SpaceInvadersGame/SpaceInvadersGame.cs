@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using XnaGamesInfrastructure.Services;
 using SpaceInvadersGame.ObjectModel;
+using SpaceInvadersGame.ObjectModel.Screens;
 using SpaceInvadersGame.Interfaces;
 
 namespace SpaceInvadersGame
@@ -20,7 +21,7 @@ namespace SpaceInvadersGame
     /// A delegate that is used by the game components to notify the 
     /// SpaceInvadersGame class that the game ended
     /// </summary>
-    public delegate void GameOverDelegate();
+    public delegate void GameOverDelegate(IPlayer[] i_Players);
 
     /// <summary>
     /// This is the main type for your game
@@ -36,7 +37,12 @@ namespace SpaceInvadersGame
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-        private SpaceShip m_Player1;
+
+        private int m_Player1Score;
+        private int m_Player2Score;
+
+        // TODO: Remove the code
+        /*private SpaceShip m_Player1;
         private SpaceShip m_Player2;
         private BackGround m_BackGround;
         private InvadersMatrix m_EnemiesMatrix;
@@ -44,14 +50,11 @@ namespace SpaceInvadersGame
         private PlayerLivesDrawer m_Player2LivesDrawer;
         private PlayerScoreDrawer m_Player1ScoreDrawer;
         private PlayerScoreDrawer m_Player2ScoreDrawer;
-        private BarriersHolder m_BarrierHolder;
+        private BarriersHolder m_BarrierHolder;*/
 
         private bool m_GameOver = false;
-        private bool m_Player1IsDead = false;
-        private bool m_Player2IsDead = false;
-
-        // TODO: Remove the variable
-        private IGameLevelDataManager m_GameLevelDataManager;
+        /*private bool m_Player1IsDead = false;
+        private bool m_Player2IsDead = false;        */
 
         public SpaceInvadersGame()
         {
@@ -61,17 +64,27 @@ namespace SpaceInvadersGame
 
             InputManager inputManager = new InputManager(this, 1);
             CollisionManager collisionManager = new CollisionManager(this, 10000);
+            GameLevelDataManager gameLevelDataManager = new GameLevelDataManager(this);
 
-            // TODO: Remove
-            m_GameLevelDataManager = new GameLevelDataManager(this);
+            // TODO: Change the creation
 
-            createGameComponents();
+            SpaceInvadersGameScreen gameScreen = new SpaceInvadersGameScreen(
+                this,
+                2);
+            gameScreen.GameOver += new GameOverDelegate(spaceInvadersGameScreen_GameOver);
+
+            ScreensMananger screensMananger = new ScreensMananger(this);                        
+            screensMananger.SetCurrentScreen(gameScreen);
+
+            // TODO: Remove the code
+
+           // createGameComponents();
         }
 
         /// <summary>
         /// Creates the main game components
         /// </summary>
-        private void createGameComponents()
+        /*private void createGameComponents()
         {
             PlayerControls player2Controls = new PlayerControls(
                 Microsoft.Xna.Framework.Input.Keys.Space,
@@ -127,22 +140,16 @@ namespace SpaceInvadersGame
 
             // TODO: Remove the code
             Components.Add(m_BarrierHolder);
-        }
+        }*/
 
         /// <summary>
-        /// Property that gets/sets indication whether the game ended
+        /// Property that gets an indication whether the game ended
         /// </summary>
         private bool GameOver
         {
-            get
-            {
-                return m_GameOver || (m_Player1IsDead && m_Player2IsDead);
-            }
+            get { return m_GameOver; }
 
-            set
-            {
-                m_GameOver = value;
-            }
+            set { m_GameOver = value; }
         }
 
         /// <summary>
@@ -155,14 +162,15 @@ namespace SpaceInvadersGame
         {
             base.Initialize();
 
-            initComponentsPosition();
+            // TODO: Remove the code
+//            initComponentsPosition();
         }
 
         /// <summary>
         /// Change the main components position in the screen according
         /// to the desire game requierments
         /// </summary>
-        private void initComponentsPosition()
+        /*private void initComponentsPosition()
         {
             // Change the players position
             Vector2 player1Position = new Vector2(
@@ -189,7 +197,7 @@ namespace SpaceInvadersGame
             m_BarrierHolder.UpdateBarriersPossition(
                 m_Player1.Bounds.Top,
                 m_Player1.Texture.Height);
-        }
+        }*/
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -221,8 +229,8 @@ namespace SpaceInvadersGame
                 string winningMsg = getWinningPlayerMsg();
 
                 MessageBox.Show(
-                    "Game Over. \nPlayer1 Score Is: " + m_Player1.Score +
-                    "\nPlayer2 Score Is: " + m_Player2.Score + winningMsg,
+                    "Game Over. \nPlayer1 Score Is: " + m_Player1Score +
+                    "\nPlayer2 Score Is: " + m_Player2Score + winningMsg,
                     "Game Over",
                     MessageBoxButtons.OK,
                     System.Windows.Forms.MessageBoxIcon.Information);
@@ -241,11 +249,11 @@ namespace SpaceInvadersGame
         {
             string retVal = "\nPlayer {0} Won";
 
-            if (m_Player1.Score > m_Player2.Score)
+            if (m_Player1Score > m_Player2Score)
             {
                 retVal = String.Format(retVal, 1);
             }
-            else if (m_Player1.Score > m_Player2.Score)
+            else if (m_Player1Score > m_Player2Score)
             {
                 retVal = String.Format(retVal, 2);
             }
@@ -268,11 +276,13 @@ namespace SpaceInvadersGame
             base.Draw(i_GameTime);
         }
 
+        // TODO: Remove the code
+
         /// <summary>
         /// Catch a PlayerIsDead event raised by player1 and mark that the
         /// player is dead
         /// </summary>
-        private void spaceShip_Player1IsDead()
+        /*private void spaceShip_Player1IsDead()
         {
             m_Player1IsDead = true;
         }
@@ -284,13 +294,22 @@ namespace SpaceInvadersGame
         private void spaceShip_Player2IsDead()
         {
             m_Player2IsDead = true;
+        }*/
+
+        private void    spaceInvadersGameScreen_GameOver(IPlayer[] i_Players)
+        {
+            GameOver = true;
+
+            // TODO: Change the assign
+            m_Player1Score = i_Players[0].Score;
+            m_Player2Score = i_Players[1].Score;
         }
 
         /// <summary>
         /// Catch an AllEnemiesEliminated event raised by the EnemiesMatrix
         /// and mark the game for exit in the next call to update
         /// </summary>
-        private void invadersMatrix_AllInvadersEliminated()
+        /*private void invadersMatrix_AllInvadersEliminated()
         {
             GameOver = true;
         }
@@ -302,6 +321,6 @@ namespace SpaceInvadersGame
         private void invadersMatrix_InvaderReachedScreenEnd()
         {
             GameOver = true;
-        }
+        }*/
     }
 }

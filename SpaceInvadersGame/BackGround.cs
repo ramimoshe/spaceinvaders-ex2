@@ -8,31 +8,27 @@ using XnaGamesInfrastructure.ObjectInterfaces;
 using SpaceInvadersGame.ObjectModel;
 
 namespace SpaceInvadersGame
-{
+{       
     /// <summary>
     /// The game background sprite
     /// </summary>
     public class BackGround : Sprite
     {
         private const string k_AssetName = @"Sprites\BG_Space01_1024x768";
-
-        private int m_StarsNum;
-
-        public BackGround(Game i_Game, int i_StarsNum) 
+       
+        public BackGround(Game i_Game) 
             : base(k_AssetName, i_Game, Int32.MaxValue, Int32.MinValue)
         {
-            m_StarsNum = i_StarsNum;
         }
+
+        // TODO: Remove the code
 
         /// <summary>
         /// Loads the background asset, and creates the backgroung stars
         /// </summary>
-        protected override void    LoadContent()
+      /*  protected override void    LoadContent()
         {
             base.LoadContent();
-//            Vector4 tint = Color.AntiqueWhite.ToVector4();
-//            tint.W = 0.8f;
-//            TintColor = new Color(tint);
             Random rand = new Random();
 
             Color[] pixels = new Color[this.Texture.Width * this.Texture.Height];
@@ -61,6 +57,18 @@ namespace SpaceInvadersGame
                     starsAdded++;
                 }
             }            
-        }        
+        }*/
+
+        /// <summary>
+        /// Raise an AddedStar event
+        /// </summary>
+        /// <param name="i_Star">The new star we created</param>
+        /*private void    onAddedStar(IGameComponent i_Star)
+        {
+            if (AddedStar != null)
+            {
+                AddedStar(i_Start);
+            }
+        }*/
     }
 }

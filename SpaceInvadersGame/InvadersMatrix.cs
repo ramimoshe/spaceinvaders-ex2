@@ -5,6 +5,7 @@ using System.Reflection;
 using Microsoft.Xna.Framework;
 using XnaGamesInfrastructure.ObjectModel;
 using SpaceInvadersGame.ObjectModel;
+using SpaceInvadersGame.ObjectModel.Screens;
 
 namespace SpaceInvadersGame
 {
@@ -23,7 +24,7 @@ namespace SpaceInvadersGame
     /// <summary>
     /// Holds all the invaders in the game and control their moves
     /// </summary>
-    public class InvadersMatrix : CompositeDrawableComponent<Invader>
+    public class InvadersMatrix : CompositeDrawableComponent<InvaderComposite>
     {        
         private const int k_NumOfEnemiesLines = 5;
 
@@ -70,12 +71,10 @@ namespace SpaceInvadersGame
 
         private GameLevelData m_GameLevelData;
 
-        public InvadersMatrix(Game i_Game, GameLevelData i_LevelData) 
+        public InvadersMatrix(Game i_Game) 
             : base(i_Game)
         {
-            m_PrevShotTime = r_DefaultTimeBetweenShots;            
-            m_GameLevelData = i_LevelData;
-            m_EnemiesInLineNum = i_LevelData.InvadersColumnNum;
+            m_PrevShotTime = r_DefaultTimeBetweenShots;                        
         }
 
         /// <summary>
@@ -89,6 +88,19 @@ namespace SpaceInvadersGame
                 m_MaxInvadersYPositionYVal = value;
 
                 updateInvadersMaxYValue(); 
+            }
+        }
+
+        /// <summary>
+        /// Sets the component game level data and change the invaders matrix
+        /// column num according to the given level data
+        /// </summary>
+        public GameLevelData    LevelData
+        {
+            set
+            {
+                m_GameLevelData = value;
+                m_EnemiesInLineNum = m_GameLevelData.InvadersColumnNum;                
             }
         }
 
@@ -154,9 +166,11 @@ namespace SpaceInvadersGame
                     currEnemy.InvaderMaxPositionY = m_MaxInvadersYPositionYVal;
                     currEnemy.ReachedScreenBounds += new InvaderReachedScreenBoundsDelegate(invader_ReachedScreenBounds);
                     currEnemy.InvaderWasHit += new InvaderWasHitDelegate(invader_InvaderWasHit);
-                    currEnemy.Disposed += invader_Disposed;
 
-                    this.Add(currEnemy);
+                    InvaderComposite invaderHolder = new InvaderComposite(Game, currEnemy);
+                    invaderHolder.Disposed += invader_Disposed;
+
+                    this.Add(invaderHolder);
                     m_EnabledInvaders.Add(currEnemy);
 
                     currPosition.X += k_EnemyWidth * 2;
@@ -180,14 +194,14 @@ namespace SpaceInvadersGame
         private void    changeInvadersMatrixPositions(
             float i_YMotionFactor,
             bool i_ChangePosition)
-        {   
-            IEnumerator<Invader> invadersEnumeration = this.GetEnumerator();
+        {
+            IEnumerator<InvaderComposite> invadersEnumeration = this.GetEnumerator();
 
             // Move on the entire enemies matrix and change the enemy position
             // by the given factor
             while (invadersEnumeration.MoveNext())
             {
-                Invader enemy = invadersEnumeration.Current;
+                Invader enemy = invadersEnumeration.Current.Invader;
 
                 // Increase the number of times the enemy moves in a second
                 // (by that we increase the invaders speed)
@@ -319,18 +333,18 @@ namespace SpaceInvadersGame
         /// <param name="i_EventArgs">The event arguments</param>
         private void    invader_Disposed(object i_Sender, EventArgs i_EventArgs)
         {
-            Invader enemy = i_Sender as Invader;
+            InvaderComposite enemy = i_Sender as InvaderComposite;
 
             removeInvaderFromMatrix(enemy);
 
-            removeInvaderFromEnabledList(enemy);
+            removeInvaderFromEnabledList(enemy.Invader);
         }
 
         /// <summary>
         /// Removes an invader from the invaders matrix
         /// </summary>
         /// <param name="i_Enemy">The enemy that we want to remove from the matrix</param>
-        private void    removeInvaderFromMatrix(Invader i_Enemy)
+        private void    removeInvaderFromMatrix(InvaderComposite i_Enemy)
         {
             this.Remove(i_Enemy);                        
         }
@@ -355,15 +369,13 @@ namespace SpaceInvadersGame
         /// </summary>
         private void    updateInvadersMaxYValue()
         {
-            IEnumerator<Invader> invadersEnumeration = this.GetEnumerator();
+            IEnumerator<InvaderComposite> invadersEnumeration = this.GetEnumerator();
 
             while (invadersEnumeration.MoveNext())
             {
-                invadersEnumeration.Current.InvaderMaxPositionY = 
+                invadersEnumeration.Current.Invader.InvaderMaxPositionY = 
                     m_MaxInvadersYPositionYVal;
             }     
         }
-    }
-
-    //public void     UpdateComponentsData(
+    }    
 }
