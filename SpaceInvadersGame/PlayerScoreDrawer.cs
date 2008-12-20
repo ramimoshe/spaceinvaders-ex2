@@ -21,7 +21,7 @@ namespace SpaceInvadersGame
             Game i_Game, 
             IPlayer i_Player, 
             string i_TextPrefix)
-            : base(i_Game, k_FontAssetName)
+            : base(i_Game, k_FontAssetName, i_TextPrefix)
         {
             m_Player = i_Player;
             m_Player.PlayerScoreChangedEvent += new PlayerScoreChangedDelegate(player_PlayerScoreChangedEvent);
