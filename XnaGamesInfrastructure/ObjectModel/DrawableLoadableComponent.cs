@@ -61,6 +61,10 @@ namespace XnaGamesInfrastructure.ObjectModel
             this.m_AssetName = i_AssetName;
             this.UpdateOrder = i_UpdateOrder;
             this.DrawOrder = i_DrawOrder;
+
+            // TODO: Remove after creating the screens
+
+            //Game.Components.Add(this);
         }
 
         /// <summary>
