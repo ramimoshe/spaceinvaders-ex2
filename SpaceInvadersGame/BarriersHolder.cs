@@ -13,11 +13,25 @@ namespace SpaceInvadersGame
     public class BarriersHolder : CompositeDrawableComponent<Barrier>
     {
         private const int k_BarriersNum = 4;
+        private GameLevelData m_GameLevelData;
 
         public BarriersHolder(Game i_Game)
             : base(i_Game)
         {
             createBarriers();
+        }
+
+        /// <summary>
+        /// Sets the component game level data and change the invaders matrix
+        /// column num according to the given level data
+        /// </summary>
+        public GameLevelData LevelData
+        {
+            set
+            {
+                m_GameLevelData = value;
+                onSettingGameLevelData();
+            }
         }
 
         /// <summary>
@@ -74,6 +88,22 @@ namespace SpaceInvadersGame
                         0);
                 }
                 while (barriersEnumeration.MoveNext());
+            }
+        }
+
+        /// <summary>
+        /// Changing the motion speed for all the barriers
+        /// </summary>
+        private void    onSettingGameLevelData()
+        {
+            IEnumerator<Barrier> barriersEnumeration = GetEnumerator();
+
+            // Update all the barriers speed
+            while (barriersEnumeration.MoveNext())
+            {
+                barriersEnumeration.Current.MotionVector = new Vector2(
+                    m_GameLevelData.BarrierSpeed,
+                    0);
             }
         }
     }

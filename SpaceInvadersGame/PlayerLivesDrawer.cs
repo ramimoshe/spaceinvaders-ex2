@@ -56,12 +56,6 @@ namespace SpaceInvadersGame
             base.Initialize();
 
             m_SpriteBatch = new SpriteBatch(GraphicsDevice);
-/*
-            m_Position = new Vector2(
-                Game.GraphicsDevice.Viewport.Width -
-                (m_Player.PlayerTexture.Width * Constants.k_LivesDrawScaleValue),
-                m_Player.PlayerTexture.Height * Constants.k_LivesDrawScaleValue);
-            */
             m_DrawTextures = new List<Texture2D>();
 
             for (int i = 0; i < m_Player.RemainingLives; i++)
