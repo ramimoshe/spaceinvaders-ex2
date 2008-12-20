@@ -59,6 +59,19 @@ namespace XnaGamesInfrastructure.ObjectModel
             m_Font = m_ContentManager.Load<SpriteFont>(m_AssetName);
         }
 
+        public float Spacing
+        {
+            get
+            {
+                return m_Font.Spacing;
+            }
+
+            set
+            {
+                m_Font.Spacing = value;
+            }
+        }
+
         public override void  DoDraw()
         {
             SpriteBatch.DrawString(
