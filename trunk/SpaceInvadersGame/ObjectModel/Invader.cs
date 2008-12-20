@@ -5,6 +5,7 @@ using XnaGamesInfrastructure.ObjectModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceInvadersGame.Interfaces;
+using SpaceInvadersGame.ObjectModel.Screens;
 using XnaGamesInfrastructure.ObjectModel.Animations;
 using XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations;
 
@@ -34,6 +35,8 @@ namespace SpaceInvadersGame.ObjectModel
     /// <param name="i_Invader">The invader that reached the allowed screen bounds</param>
     public delegate void InvaderWasHitDelegate(Invader i_Invader);    
 
+    // TODO: Change the class to inherit from composite component
+
     /// <summary>
     /// An abstract class that all the small invaders in the invaders matrix 
     /// inherits from
@@ -48,6 +51,8 @@ namespace SpaceInvadersGame.ObjectModel
 
         // Raised when an invader was hit by a player bullet
         public event InvaderWasHitDelegate InvaderWasHit;
+
+        public event AddGameComponentDelegate ReleasedShot;
 
         private List<Bullet> m_Bullets = new List<Bullet>();
         private const int k_BulletVelocity = 200;
@@ -184,7 +189,8 @@ namespace SpaceInvadersGame.ObjectModel
             if (m_Bullets.Count < k_AllowedBulletsNum)
             {
                 Bullet bullet = new EnemyBullet(Game);
-                bullet.Initialize();
+                onReleasedShot(bullet);
+                
                 bullet.TintColor = Color.Blue;
                 bullet.PositionForDraw = new Vector2(
                                         PositionForDraw.X + (Bounds.Width / 2),
@@ -205,10 +211,10 @@ namespace SpaceInvadersGame.ObjectModel
                                     PositionForDraw.X + (Bounds.Width / 2),
                                     PositionForDraw.Y - (bullet.Bounds.Height / 2));
                         bullet.Visible = true;
-                        break;
+                        break;                        
                     }
                 }
-            }
+            }            
         }
 
         #endregion
@@ -370,6 +376,14 @@ namespace SpaceInvadersGame.ObjectModel
             if (InvaderWasHit != null)
             {
                 InvaderWasHit(this);
+            }
+        }
+
+        private void    onReleasedShot(Bullet i_Bullet)
+        {
+            if (ReleasedShot != null)
+            {
+                ReleasedShot(i_Bullet);
             }
         }
     }

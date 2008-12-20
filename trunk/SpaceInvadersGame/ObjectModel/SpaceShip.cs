@@ -9,11 +9,14 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using XnaGamesInfrastructure.ObjectInterfaces;
 using SpaceInvadersGame.Interfaces;
+using SpaceInvadersGame.ObjectModel.Screens;
 using XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations;
 using XnaGamesInfrastructure.ObjectModel.Animations;
 
 namespace SpaceInvadersGame.ObjectModel
 {
+    // TODO: Change the class to inherit from composite component
+
     /// <summary>
     /// The class represents the player's component in the game (the 
     /// SpaceShip)
@@ -35,40 +38,37 @@ namespace SpaceInvadersGame.ObjectModel
         private List<Bullet> m_Bullets;
         private IInputManager m_InputManager;
 
+        private int m_PlayerNum;
         private int m_PlayerScore = 0;
         private IPlayerControls m_PlayerKeys;
         private bool m_WasDefaultPositionSet = false;
 
         // Raised when the player collides with a bullet and there is no more
         // lives left, or in case the ship collides with an invader
-        public event GameOverDelegate PlayerIsDead;
+        public event PlayerIsDeadDelegate PlayerIsDead;
 
         public event PlayerScoreChangedDelegate PlayerScoreChangedEvent;
 
         public event PlayerWasHitDelegate PlayerWasHitEvent;
 
-        #region CTOR's
+        public event AddGameComponentDelegate ReleasedShot;
 
-        /*public SpaceShip(Game i_Game, IPlayerControls i_PlayerControls)
-            : this(
-            k_AssetName, 
-            i_Game, 
-            Int32.MaxValue, 
-            Int32.MaxValue, 
-            i_PlayerControls)
-        {
-        }*/
+        #region CTOR's     
+
+        // TODO: Change the draw and update to constants
 
         public SpaceShip(
             Game i_Game, 
             string i_AssetName,
-            IPlayerControls i_PlayerControls)
+            IPlayerControls i_PlayerControls,
+            int i_PlayerNum)
             : this(
             i_AssetName,
             i_Game,
-            Int32.MaxValue,
-            Int32.MaxValue,
-            i_PlayerControls)
+            -1,
+            0,
+            i_PlayerControls,
+            i_PlayerNum)
         {
         }
 
@@ -77,20 +77,24 @@ namespace SpaceInvadersGame.ObjectModel
             Game i_Game, 
             int i_UpdateOrder,
             int i_DrawOrder,
-            IPlayerControls i_PlayerControls)
+            IPlayerControls i_PlayerControls,
+            int i_PlayerNum)
             : base(k_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
         {
             m_Bullets = new List<Bullet>();
             m_RemainingLivesLeft = k_LivesNum;
             m_PlayerKeys = i_PlayerControls;
-        }
-
-        protected override void LoadContent()
-        {
-            base.LoadContent();
+            PlayerNum = i_PlayerNum;
         }
 
         #endregion
+
+        public int PlayerNum
+        {
+            get { return m_PlayerNum; }
+
+            private set { m_PlayerNum = value;  }
+        }
 
         /// <summary>
         /// The property holds the space ship starting position.
@@ -178,7 +182,11 @@ namespace SpaceInvadersGame.ObjectModel
                 if (m_Bullets.Count < k_AllowedBulletsNum)
                 {
                     retVal = new SpaceShipBullet(this.Game);
-                    retVal.Initialize();
+                    
+                    // TODO: Check if it's ok and remove the remarked code
+                    onReleasedShot(retVal);
+                    //retVal.Initialize();
+
                     retVal.TintColor = Color.Red;
                     retVal.PositionForDraw = new Vector2(
                                         PositionForDraw.X + (Bounds.Width / 2),
@@ -187,7 +195,7 @@ namespace SpaceInvadersGame.ObjectModel
                     retVal.BulletCollision += new BulletCollisionDelegate(spaceShipBullet_BulletCollision);
                     retVal.Disposed += new EventHandler(spaceShipBullet_Disposed);
 
-                    m_Bullets.Add(retVal);
+                    m_Bullets.Add(retVal);                    
                 }
                 else
                 {
@@ -403,7 +411,7 @@ namespace SpaceInvadersGame.ObjectModel
 
             if (PlayerIsDead != null)
             {
-                PlayerIsDead();
+                PlayerIsDead(this);
             }
         }
 
@@ -444,6 +452,25 @@ namespace SpaceInvadersGame.ObjectModel
             {
                 PlayerScoreChangedEvent();
             }
-        }       
+        }
+
+        /// <summary>
+        /// Raise an event when the player release a new shot
+        /// </summary>
+        /// <param name="i_Bullet">The new bullet that the player shot</param>
+        private void    onReleasedShot(Bullet i_Bullet)
+        {
+            if (ReleasedShot != null)
+            {
+                ReleasedShot(i_Bullet);
+            }
+        }
+
+        // TODO: Remove the code
+
+        public override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
+        }
     }
 }
