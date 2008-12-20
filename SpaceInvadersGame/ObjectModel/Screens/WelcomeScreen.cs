@@ -11,7 +11,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
 {
     public class WelcomeScreen : GameScreen
     {
-        private BackGround m_Background;
+        private BackGroundComposite m_Background;
         private SpriteFontComponent m_WelcomeMessage;
 
         public  WelcomeScreen(Game i_Game)
@@ -21,7 +21,9 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             m_WelcomeMessage.TintColor = Color.White;
             m_WelcomeMessage.Scale = new Vector2(3, 3);
 
-            m_Background = new BackGround(i_Game, 100);
+            // TODO: Change the parameter to a constant
+
+            m_Background = new BackGroundComposite(i_Game, 100);
             this.Add(m_Background);
             this.Add(m_WelcomeMessage);   
         }
