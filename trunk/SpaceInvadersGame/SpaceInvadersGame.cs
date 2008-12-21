@@ -14,6 +14,7 @@ using XnaGamesInfrastructure.Services;
 using SpaceInvadersGame.ObjectModel;
 using SpaceInvadersGame.ObjectModel.Screens;
 using SpaceInvadersGame.Interfaces;
+using XnaGamesInfrastructure.ObjectModel.Screens;
 
 namespace SpaceInvadersGame
 {
@@ -73,8 +74,16 @@ namespace SpaceInvadersGame
                 2);
             gameScreen.GameOver += new GameOverDelegate(spaceInvadersGameScreen_GameOver);
 
-            ScreensMananger screensMananger = new ScreensMananger(this);                        
-            screensMananger.SetCurrentScreen(gameScreen);
+            ScreensMananger screensMananger = new ScreensMananger(this);
+            BackgroundScreen backgroundScreen = new BackgroundScreen(this, 100);
+            screensMananger.Push(backgroundScreen); 
+            screensMananger.Push(gameScreen);
+
+            
+            WelcomeScreen welcomeScreen = new WelcomeScreen(this);
+            welcomeScreen.IsModal = true;
+            screensMananger.SetCurrentScreen(welcomeScreen);
+            backgroundScreen.State = eScreenState.Active;
 
             // TODO: Remove the code
 

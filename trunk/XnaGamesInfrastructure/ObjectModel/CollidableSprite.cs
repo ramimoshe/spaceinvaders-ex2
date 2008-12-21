@@ -110,7 +110,7 @@ namespace XnaGamesInfrastructure.ObjectModel
                 OnPositionChanged();
             }
         }
-
+         
         /// <summary>
         /// Check if the current components pixels collides with another
         /// component pixels

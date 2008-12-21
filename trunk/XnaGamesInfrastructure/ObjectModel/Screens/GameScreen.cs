@@ -216,7 +216,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Screens
 
         public override void Initialize()
         {
-            m_InputManager = Game.Services.GetService(typeof(IInputManager)) as IInputManager;
+            m_InputManager = Game.Services.GetService(typeof(InputManager)) as IInputManager;
             if (m_InputManager == null)
             {
                 m_InputManager = m_DummyInputManager;

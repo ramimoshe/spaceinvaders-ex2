@@ -6,26 +6,26 @@ using XnaGamesInfrastructure.ObjectModel;
 using XnaGamesInfrastructure.ObjectModel.Screens;
 using SpaceInvadersGame.ObjectModel;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using XnaGamesInfrastructure.ServiceInterfaces;
+using XnaGamesInfrastructure.Services;
 
 namespace SpaceInvadersGame.ObjectModel.Screens
 {
     public class WelcomeScreen : GameScreen
     {
-        private BackGroundComposite m_Background;
         private SpriteFontComponent m_WelcomeMessage;
 
         public  WelcomeScreen(Game i_Game)
             : base(i_Game)
         {
-            m_WelcomeMessage = new SpriteFontComponent(i_Game, @"Fonts\David", "Welcome");
+            m_WelcomeMessage = new SpriteFontComponent(i_Game, @"Fonts\David28", "Welcome");
             m_WelcomeMessage.TintColor = Color.White;
-            m_WelcomeMessage.Scale = new Vector2(3, 3);
 
             // TODO: Change the parameter to a constant
 
-            m_Background = new BackGroundComposite(i_Game, 100);
-            this.Add(m_Background);
-            this.Add(m_WelcomeMessage);   
+            this.Add(m_WelcomeMessage);
+            this.HasFocus = true;
         }
 
         public override void Initialize()
@@ -37,9 +37,14 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             m_WelcomeMessage.PositionOrigin = m_WelcomeMessage.SpriteCenter;
         }
 
-        public override void Draw(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
-            base.Draw(gameTime);
+            base.Update(gameTime);
+
+            if (InputManager.KeyPressed(Keys.Enter))
+            {
+                ExitScreen();
+            }
         }
     }
 }
