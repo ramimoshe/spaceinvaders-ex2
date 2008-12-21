@@ -29,7 +29,14 @@ namespace XnaGamesInfrastructure.ObjectModel
         {
             get
             {
-                return (int)m_Font.MeasureString(Text).Y;
+                if (m_Font != null)
+                {
+                    return (int)m_Font.MeasureString(Text).Y;
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
 
@@ -37,7 +44,14 @@ namespace XnaGamesInfrastructure.ObjectModel
         {
             get
             {
-                return (int)m_Font.MeasureString(Text).X;
+                if (m_Font != null)
+                {
+                    return (int)m_Font.MeasureString(Text).X;
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
 
@@ -50,7 +64,12 @@ namespace XnaGamesInfrastructure.ObjectModel
 
             set
             {
-                m_Text = value;
+                if (m_Text != value)
+                {
+                    m_Text = value;
+                    OnTextureModified();
+                }
+
             }
         }
 
@@ -68,8 +87,18 @@ namespace XnaGamesInfrastructure.ObjectModel
 
             set
             {
-                m_Font.Spacing = value;
+                if (m_Font.Spacing != value)
+                {
+                    m_Font.Spacing = value;
+                    OnTextureModified();
+                }
             }
+        }
+
+        private void OnTextureModified()
+        {
+            m_HeightBeforeScale = TextureHeight;
+            m_WidthBeforeScale = TextureWidth;
         }
 
         public override void  DoDraw()

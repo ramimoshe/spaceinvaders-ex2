@@ -60,7 +60,6 @@
     <Compile Include="BackGround.cs" />
     <Compile Include="BarriersHolder.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="BackGroundComposite.cs" />
     <Compile Include="GameLevelData.cs" />
     <Compile Include="GameLevelDataManager.cs" />
     <Compile Include="Interfaces\IDefend.cs" />
