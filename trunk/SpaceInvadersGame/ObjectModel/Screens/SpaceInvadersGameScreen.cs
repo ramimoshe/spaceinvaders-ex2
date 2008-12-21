@@ -169,9 +169,6 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         /// </summary>
         private void    createGameComponents()
         {           
-            //m_BackGround = new BackGroundComposite(Game, Constants.k_StarsNum);
-            //this.Add(m_BackGround);
-
             m_EnemiesMatrix = new InvadersMatrix(Game);
             m_EnemiesMatrix.InvaderReachedScreenEnd += new InvaderReachedScreenEndDelegate(invadersMatrix_InvaderReachedScreenEnd);
             m_EnemiesMatrix.AllInvaderssEliminated += new NoRemainingInvadersDelegate(invadersMatrix_AllInvadersEliminated);

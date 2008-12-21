@@ -21,7 +21,6 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         {
             m_WelcomeMessage = new SpriteFontComponent(i_Game, @"Fonts\David28", "Welcome");
             m_WelcomeMessage.TintColor = Color.White;
-
             // TODO: Change the parameter to a constant
 
             this.Add(m_WelcomeMessage);
@@ -31,6 +30,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         public override void Initialize()
         {
             base.Initialize();
+            m_WelcomeMessage.Spacing = 20;
             m_WelcomeMessage.PositionOfOrigin = new Vector2(
                                                     GraphicsDevice.Viewport.Width / 2,
                                                     GraphicsDevice.Viewport.Height / 2);
