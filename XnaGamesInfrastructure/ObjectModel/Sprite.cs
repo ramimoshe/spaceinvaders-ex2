@@ -44,17 +44,19 @@ namespace XnaGamesInfrastructure.ObjectModel
         {
         }
 
-        protected Color[] m_ColorData;
-
         /// <summary>
-        /// Property that gets the sprite texture color array
+        /// Read only property to the component texture color array
         /// </summary>
-        public Color[]  ColorData
+        public Color[] ColorData
         {
-            get { return m_ColorData; }
-            protected set { m_ColorData = value; }
+            get
+            {
+                Color[] colorData = new Color[m_Texture.Width * m_Texture.Height];
+                Texture.GetData(colorData, 0, Texture.Width * Texture.Height);
+                return colorData;
+            }
         }
-
+        
         protected override int TextureWidth
         {
             get
@@ -97,9 +99,6 @@ namespace XnaGamesInfrastructure.ObjectModel
             m_Texture = m_ContentManager.Load<Texture2D>(m_AssetName);
 
             Game.GraphicsDevice.Textures[0] = null;
-
-            m_ColorData = new Color[m_Texture.Width * m_Texture.Height];
-            Texture.GetData(m_ColorData, 0, Texture.Width * Texture.Height);
         }
 
         public override void  DoDraw()

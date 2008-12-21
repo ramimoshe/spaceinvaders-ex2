@@ -560,8 +560,6 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// </summary>
         protected override void     InitBounds()
         {
-            m_PositionOfOrigin = Vector2.Zero;
-
             m_WidthBeforeScale = TextureWidth;
             m_HeightBeforeScale = TextureHeight;
 

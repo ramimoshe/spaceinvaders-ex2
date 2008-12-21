@@ -26,6 +26,7 @@ namespace SpaceInvadersGame
             m_BackGround = new BackGround(i_Game);
             m_StarsNum = i_StarsNum;
             this.Add(m_BackGround);
+            m_StarsNum = i_StarsNum;
         }
 
         /// <summary>
@@ -80,12 +81,9 @@ namespace SpaceInvadersGame
 
             Random rand = new Random();
 
-            Color[] pixels = new Color[BackGround.Texture.Width *
-                BackGround.Texture.Height];
-            this.BackGround.Texture.GetData<Color>(pixels);
+            Color[] pixels = m_BackGround.ColorData;
 
             int starsAdded = 0;
-
             while (starsAdded < m_StarsNum)
             {
                 // generate a random pixel index, see if it is a black one,
@@ -110,6 +108,10 @@ namespace SpaceInvadersGame
             }    
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+        }
         // TODO: Remove the code
 
         /// <summary>

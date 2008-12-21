@@ -14,7 +14,7 @@ namespace SpaceInvadersGame.ObjectModel
     public class Star : Sprite
     {
         private const string k_AssetName = @"Sprites\Star";
-        private const int k_WidthBitsNum = 2;
+        //private const int k_WidthBitsNum = 2;
         private const int k_DefaultLayerDepth = 1;
         private const int k_DefaultStarSize = 1;
 
@@ -32,11 +32,13 @@ namespace SpaceInvadersGame.ObjectModel
         {
             // We divide the size so that the star will have a maximum
             // bits according to the configured value
-            Scale = new Vector2(k_WidthBitsNum, i_StarSize / k_WidthBitsNum);
+            Scale = Vector2.One * i_StarSize;
 
-            PositionForDraw = i_Position;
+            PositionOfOrigin = i_Position;
             LayerDepth = k_DefaultLayerDepth;
         }
+
+        static private Random m_Random = new Random();
 
         /// <summary>
         /// Initialize the star component by setting the desire animation and 
@@ -44,33 +46,29 @@ namespace SpaceInvadersGame.ObjectModel
         /// </summary>
         public override void    Initialize()
         {
-            base.Initialize();
-            
-            Random rand = new Random();
+            base.Initialize();   
 
             Vector4 tint = this.TintColor.ToVector4();
-            tint.W = (float)rand.NextDouble();
+            tint.W = (float)m_Random.NextDouble();
             TintColor = new Color(tint);
 
-            TimeSpan fadeTime = 
-                TimeSpan.FromSeconds(1 + (rand.Next() % 4) + rand.NextDouble());
+            TimeSpan fadeTime = TimeSpan.FromSeconds(m_Random.Next(1, 4) + m_Random.NextDouble());
 
-            bool fadeOut = rand.Next(1) == 0 ? true : false;
+            bool fadeOut = m_Random.Next() % 2 == 0;
             TimeSpan animationTime = TimeSpan.Zero;
-            FadeAnimation fadeAnimation = new FadeAnimation("star_Fade", true, 0, 1, fadeOut, fadeTime, animationTime, false);
+            FadeAnimation fadeAnimation = new   FadeAnimation(
+                                                "star_Fade", 
+                                                true, 
+                                                0, 
+                                                1, 
+                                                fadeOut, 
+                                                fadeTime, 
+                                                animationTime, 
+                                                false);
             fadeAnimation.Enabled = true;
             
             Animations.Add(fadeAnimation);
             Animations.Enabled = true;
         }
-
-        /// <summary>
-        /// Initialize the star bounds
-        /// </summary>
-        protected override void     InitBounds()
-        {
-            m_WidthBeforeScale = m_Texture.Width;
-            m_HeightBeforeScale = m_Texture.Height;
-        }       
-    }
+    } 
 }

@@ -27,8 +27,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         public event GameOverDelegate GameOver;        
 
         private IGameLevelDataManager m_GameLevelDataManager;
-        private int m_CurrLevelNum = 1;
-        private BackGroundComposite m_BackGround;        
+        private int m_CurrLevelNum = 1;     
         private SpaceShipComposite[] m_Players;
         private bool[] m_PlayersAliveMark;
 
@@ -60,18 +59,10 @@ namespace SpaceInvadersGame.ObjectModel.Screens
 
         public SpaceInvadersGameScreen(Game i_Game, int i_PlayersNum)
             : base(i_Game)
-        {            
+        {
+            this.IsModal = true;
             createGameComponents();
             createPlayers(i_PlayersNum);
-
-            /*m_WelcomeMessage = new SpriteFontComponent(i_Game, @"Fonts\David");
-            m_WelcomeMessage.Text = "Hello";
-            m_WelcomeMessage.TintColor = Color.White ;
-            m_WelcomeMessage.Scale = new Vector2(3,3);
-
-            m_Background = new BackGround(i_Game, 100);
-            this.Add(m_WelcomeMessage);
-            this.Add(m_Background);*/
         }
 
         /// <summary>
@@ -178,8 +169,8 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         /// </summary>
         private void    createGameComponents()
         {           
-            m_BackGround = new BackGroundComposite(Game, Constants.k_StarsNum);
-            this.Add(m_BackGround);
+            //m_BackGround = new BackGroundComposite(Game, Constants.k_StarsNum);
+            //this.Add(m_BackGround);
 
             m_EnemiesMatrix = new InvadersMatrix(Game);
             m_EnemiesMatrix.InvaderReachedScreenEnd += new InvaderReachedScreenEndDelegate(invadersMatrix_InvaderReachedScreenEnd);
@@ -366,6 +357,11 @@ namespace SpaceInvadersGame.ObjectModel.Screens
 
                 GameOver(players);
             }
-        }       
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
+        }
     }
 }
