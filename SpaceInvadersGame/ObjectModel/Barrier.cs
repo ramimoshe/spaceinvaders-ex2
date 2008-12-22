@@ -15,16 +15,24 @@ namespace SpaceInvadersGame.ObjectModel
     public class Barrier : CollidableSprite, IDefend
     {
         private const string k_AssetName = @"Content\Sprites\Barrier_44x32";
+        private const int k_DefaultUpdateOrder = 1;
+        private const int k_DefaultDrawOrder = 1;
 
         private const int k_XMotionSpeed = 100;
-        private const float k_TransparentPercent = .75f;
+        private const float k_TransparentPercent = .75f;        
 
         private bool m_FirstUpdate = true;
         private float m_MaxXValue = 0;
-        private float m_MinXValue = 0;
+        private float m_MinXValue = 0;        
+
+        private Color[] m_DefaultColorData;
 
         public Barrier(Game i_Game)
-            : base(k_AssetName, i_Game)
+            : base( 
+                k_AssetName, 
+                i_Game, 
+                k_DefaultUpdateOrder,
+                k_DefaultDrawOrder)
         {            
             MotionVector = new Vector2(k_XMotionSpeed, 0);
             m_CollisionCheckType = eCollidableCheckType.PixelCollision;
@@ -34,12 +42,23 @@ namespace SpaceInvadersGame.ObjectModel
             this.Game.Components.Remove(this);
         }
 
+        private Vector2 m_DefaultPosition;
+
+        public Vector2 DefaultPosition
+        {
+            get { return m_DefaultPosition; }
+            set { m_DefaultPosition = value; }
+        }
+
+
         /// <summary>
         /// Move the barrier in the screen 
         /// </summary>
         /// <param name="i_GameTime">Provides a snapshot of timing values.</param>
         public override void    Update(GameTime i_GameTime)
         {
+            // TODO: Check why i need this code here
+
             // On the first update, we'll set the barrier maximum and
             // minimum bounds 
             if (m_FirstUpdate)
@@ -57,6 +76,19 @@ namespace SpaceInvadersGame.ObjectModel
             {
                 MotionVector *= -1;
             }
+        }
+
+        protected override void     LoadContent()
+        {
+            base.LoadContent();
+
+            Color[] colorData = this.ColorData;
+
+            m_DefaultColorData = new Color[colorData.Length];
+            Array.Copy(colorData, m_DefaultColorData, colorData.Length);
+
+            m_MinXValue = Bounds.Left - (Texture.Width / 2);
+            m_MaxXValue = Bounds.Right + (Texture.Width / 2);
         }
 
         /// <summary>
@@ -169,6 +201,23 @@ namespace SpaceInvadersGame.ObjectModel
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        /// Return the barrier to the starting state
+        /// </summary>
+        public void     ResetBarrier()
+        {
+            // TODO: move the check to the barrier holder
+
+            if (m_DefaultColorData != null)
+            {
+                this.Texture.SetData<Color>(m_DefaultColorData);
+                this.PositionForDraw = DefaultPosition;
+
+                // TODO: Check if i need this set
+                m_FirstUpdate = true;
+            }
         }        
     }
 }

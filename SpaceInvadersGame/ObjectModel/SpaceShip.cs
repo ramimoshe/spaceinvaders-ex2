@@ -466,11 +466,21 @@ namespace SpaceInvadersGame.ObjectModel
             }
         }
 
-        // TODO: Remove the code
-
-        public override void Draw(GameTime gameTime)
+        /// <summary>
+        /// Reset the space ship to the starting state by removing the 
+        /// bullets and moving it to the default position
+        /// </summary>
+        public void     ResetSpaceShip()
         {
-            base.Draw(gameTime);
+            this.PositionForDraw = DefaultPosition;
+
+            // "Remove" all the spaceship bullets
+            foreach (SpaceShipBullet bullet in m_Bullets)
+            {
+                bullet.Visible = false;
+            }
         }
+
+
     }
 }

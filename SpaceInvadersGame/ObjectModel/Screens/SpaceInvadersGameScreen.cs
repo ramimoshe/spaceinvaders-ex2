@@ -43,6 +43,8 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         private PlayerLivesDrawer[] m_PlayersLiveDrawer;
         private PlayerScoreDrawer[] m_PlayersScoreDrawer;
 
+        private GameScreen m_LevelTransitionGameScreen;
+
         // TODO: Remove the code
         /*private PlayerLivesDrawer m_Player2LivesDrawer;
         private PlayerScoreDrawer m_Player1ScoreDrawer;
@@ -57,12 +59,20 @@ namespace SpaceInvadersGame.ObjectModel.Screens
 /*        private bool m_Player1IsDead = false;
         private bool m_Player2IsDead = false;*/
 
-        public SpaceInvadersGameScreen(Game i_Game, int i_PlayersNum)
+        // TODO: Change the transition screen so that it won't be 
+        // a parameter
+
+        public SpaceInvadersGameScreen(
+            Game i_Game, 
+            int i_PlayersNum,
+            GameScreen i_LevelTransitionScreen)
             : base(i_Game)
         {
             this.IsModal = true;
             createGameComponents();
             createPlayers(i_PlayersNum);
+
+            m_LevelTransitionGameScreen = i_LevelTransitionScreen;
         }
 
         /// <summary>
@@ -189,7 +199,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
 
             m_GameLevelDataManager = Game.Services.GetService(typeof(GameLevelDataManager)) as IGameLevelDataManager;
 
-            initComponentsWithLevelData();
+            updateComponentsWithLevelData();
 
             // TODO: Add a new list for all the level data components
 
@@ -203,12 +213,38 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         /// Updates all the relevant components with the current game level 
         /// data
         /// </summary>
-        private void    initComponentsWithLevelData()
+        private void    updateComponentsWithLevelData()
         {
-            m_MotherShip.LevelData = m_GameLevelDataManager[m_CurrLevelNum];
-            m_EnemiesMatrix.LevelData = m_GameLevelDataManager[m_CurrLevelNum];
-            m_BarrierHolder.LevelData = m_GameLevelDataManager[m_CurrLevelNum];
+            GameLevelData newGameLevelData = 
+                m_GameLevelDataManager[m_CurrLevelNum];
+
+            m_MotherShip.LevelData = newGameLevelData ;
+            m_EnemiesMatrix.LevelData = newGameLevelData;
+            m_BarrierHolder.LevelData = newGameLevelData;
         }
+
+        private void    onLevelEnd()
+        {
+            m_CurrLevelNum++;
+            updateComponentsWithLevelData();
+
+            // Return the players to their default position
+            foreach (SpaceShipComposite spaceShipComp in m_Players)
+            {
+                spaceShipComp.SpaceShip.ResetSpaceShip();
+            }
+        }
+
+        // TODO: Remove the proc
+
+        /*private void    updateComponentsWithLevelData()
+        {
+            
+
+            m_MotherShip.UpdateComponentLevelData(m_GameLevelDataManager[m_CurrLevelNum]);
+            m_EnemiesMatrix.UpdateComponentLevelData(m_GameLevelDataManager[m_CurrLevelNum]);
+            m_BarrierHolder.UpdateComponentLevelData(m_GameLevelDataManager[m_CurrLevelNum]);
+        }*/
 
         // TODO: Move the players to a dedicated manager class
 
@@ -327,7 +363,8 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         /// </summary>
         private void invadersMatrix_AllInvadersEliminated()
         {
-            GameEnded = true;
+            onLevelEnd();
+            ScreensManager.SetCurrentScreen(m_LevelTransitionGameScreen);
         }
 
         /// <summary>

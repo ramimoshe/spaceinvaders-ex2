@@ -45,7 +45,7 @@ namespace SpaceInvadersGame.ObjectModel
             set 
             { 
                 m_LevelData = value;
-                Score = m_LevelData.MotherShipScore;
+                onSettingLevelData();
             } 
         }
 
@@ -127,6 +127,14 @@ namespace SpaceInvadersGame.ObjectModel
                     Visible = false;
                 }
             }
+        }
+
+        /// <summary>
+        /// Change the mother ship score according to the level data
+        /// </summary>
+        private void onSettingLevelData()
+        {
+            this.Score = m_LevelData.MotherShipScore;
         }
     }
 }
