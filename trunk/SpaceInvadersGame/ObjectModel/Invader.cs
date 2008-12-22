@@ -43,6 +43,9 @@ namespace SpaceInvadersGame.ObjectModel
     /// </summary>
     public abstract class Invader : Enemy, IShoot
     {
+        private readonly TimeSpan r_DefaultTimeBetweenMoves = 
+            TimeSpan.FromSeconds(0.5f);
+
         private const string k_AssetName = @"Sprites\allInvaders";
         private const int k_AllowedBulletsNum = 3;        
 
@@ -61,12 +64,13 @@ namespace SpaceInvadersGame.ObjectModel
         private const int k_DefaultInvadersListNum = 1;
         private const int k_NumOfFrames = 2;
 
-        private TimeSpan m_TimeBetweenMove = TimeSpan.FromSeconds(0.5f);
+        private TimeSpan m_TimeBetweenMove;
         protected TimeSpan m_TimeLeftToNextMove;
         
         protected Vector2 m_CurrMotion = new Vector2(500, 0);
 
         private float m_EnemyMaxPositionYVal;
+        private Vector2 m_DefaultPosition;
 
         // The current frame from the invader texture
         protected int m_StartingCel;
@@ -97,13 +101,24 @@ namespace SpaceInvadersGame.ObjectModel
             int i_DrawOrder,
             int i_InvaderStartFrame)
             : base(k_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
-        {            
+        {
+            m_TimeBetweenMove = r_DefaultTimeBetweenMoves;
             m_TimeLeftToNextMove = m_TimeBetweenMove;
             m_StartingCel = i_InvaderStartFrame % k_NumOfFrames;
 
             // TODO: Remove the code
             Game.Components.Remove(this);
-        }       
+        }
+
+        /// <summary>
+        /// Gets the invader starting position
+        /// </summary>
+        public Vector2      DefaultPosition
+        {
+            get { return m_DefaultPosition; }
+
+            set { m_DefaultPosition = value; }
+        }
 
         /// <summary>
         /// A property for the maximum value the enemy is allowed to reach
@@ -314,7 +329,7 @@ namespace SpaceInvadersGame.ObjectModel
         protected override void    ScaleAnimation_Finished(SpriteAnimation i_Animation)
         {
             base.ScaleAnimation_Finished(i_Animation);
-            OnInvaderWasHit();
+            OnInvaderWasHit();           
         }
 
         /// <summary>
@@ -384,6 +399,25 @@ namespace SpaceInvadersGame.ObjectModel
             if (ReleasedShot != null)
             {
                 ReleasedShot(i_Bullet);
+            }
+        }
+
+        /// <summary>
+        /// Return the invader to the starting state
+        /// </summary>
+        public void     ResetInvader()
+        {
+            this.PositionForDraw = DefaultPosition;
+            m_TimeBetweenMove = r_DefaultTimeBetweenMoves;
+            Animations[k_ScaleAnimationName].Reset();
+            Animations[k_ScaleAnimationName].Pause();
+
+            if (m_Bullets != null)
+            {
+                foreach (EnemyBullet bullet in m_Bullets)
+                {
+                    bullet.Visible = false;
+                }
             }
         }
     }
