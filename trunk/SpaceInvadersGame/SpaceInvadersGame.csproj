@@ -74,6 +74,7 @@
     <Compile Include="ObjectModel\Bullet.cs" />
     <Compile Include="ObjectModel\Barrier.cs" />
     <Compile Include="ObjectModel\Screens\BackgroundScreen.cs" />
+    <Compile Include="ObjectModel\Screens\LevelTransitionScreen.cs" />
     <Compile Include="ObjectModel\SpaceShipComposite.cs" />
     <Compile Include="ObjectModel\InvaderComposite.cs" />
     <Compile Include="ObjectModel\Enemy.cs" />
