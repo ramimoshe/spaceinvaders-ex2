@@ -81,6 +81,7 @@ namespace SpaceInvadersGame
                     currBarrier = barriersEnumeration.Current;
 
                     currBarrier.PositionForDraw = currPosition;
+                    currBarrier.DefaultPosition = currPosition;
 
                     currPosition += new Vector2(
                         (firstBarrier.Texture.Width * 1.5f) +
@@ -95,15 +96,16 @@ namespace SpaceInvadersGame
         /// Changing the motion speed for all the barriers
         /// </summary>
         private void    onSettingGameLevelData()
-        {
+        {                        
             IEnumerator<Barrier> barriersEnumeration = GetEnumerator();
 
             // Update all the barriers speed
             while (barriersEnumeration.MoveNext())
             {
+                barriersEnumeration.Current.ResetBarrier();
                 barriersEnumeration.Current.MotionVector = new Vector2(
                     m_GameLevelData.BarrierSpeed,
-                    0);
+                    0);                
             }
         }
     }
