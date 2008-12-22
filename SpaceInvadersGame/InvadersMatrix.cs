@@ -26,6 +26,10 @@ namespace SpaceInvadersGame
     /// </summary>
     public class InvadersMatrix : CompositeDrawableComponent<InvaderComposite>
     {        
+
+        // TODO: Remove  the variable
+        private TimeSpan m_Sleep = TimeSpan.FromSeconds(1.5f);
+
         private const int k_NumOfEnemiesLines = 5;
 
         private const int k_EnemyWidth = 32;
@@ -97,10 +101,12 @@ namespace SpaceInvadersGame
         /// </summary>
         public GameLevelData    LevelData
         {
+            private get { return m_GameLevelData; }
+
             set
             {
                 m_GameLevelData = value;
-                m_EnemiesInLineNum = m_GameLevelData.InvadersColumnNum;                
+                onSettingLevelData();                
             }
         }
 
@@ -163,6 +169,7 @@ namespace SpaceInvadersGame
                     currEnemy.Score = 
                         m_GameLevelData.GetInvaderScore(currEnemy.InvaderType);
                     currEnemy.PositionForDraw = currPosition;
+                    currEnemy.DefaultPosition = currPosition;
                     currEnemy.InvaderMaxPositionY = m_MaxInvadersYPositionYVal;
                     currEnemy.ReachedScreenBounds += new InvaderReachedScreenBoundsDelegate(invader_ReachedScreenBounds);
                     currEnemy.InvaderWasHit += new InvaderWasHitDelegate(invader_InvaderWasHit);
@@ -231,22 +238,34 @@ namespace SpaceInvadersGame
         {
             base.Update(i_GameTime);
 
-            m_PrevShotTime -= i_GameTime.ElapsedGameTime;
+            // TODO: Remove the sleep decrease and if. for debug only.
+           /* m_Sleep -= i_GameTime.ElapsedGameTime;
 
-            if (m_PrevShotTime.TotalSeconds < 0)
+            if (m_Sleep.TotalSeconds <= 0)
             {
-                shootThePlayer();
-                m_PrevShotTime = r_DefaultTimeBetweenShots;
+                m_Sleep = TimeSpan.FromSeconds(10.5f);
+                onAllEnemiesEliminated();
             }
+            else
+            {*/
 
-            // In case an enemy reached the end of the screen width, we
-            // need to change the invaders Y position, change their
-            // X motion, and increase their moving speed
-            if (m_ChangeInvadersDirection)
-            {                
-                changeInvadersMatrixPositions(k_EnemyMotionYVal, true);
-                m_ChangeInvadersDirection = false;
-            }            
+                m_PrevShotTime -= i_GameTime.ElapsedGameTime;
+
+                if (m_PrevShotTime.TotalSeconds < 0)
+                {
+                    shootThePlayer();
+                    m_PrevShotTime = r_DefaultTimeBetweenShots;
+                }
+
+                // In case an enemy reached the end of the screen width, we
+                // need to change the invaders Y position, change their
+                // X motion, and increase their moving speed
+                if (m_ChangeInvadersDirection)
+                {
+                    changeInvadersMatrixPositions(k_EnemyMotionYVal, true);
+                    m_ChangeInvadersDirection = false;
+                }
+           // }
         }             
 
         /// <summary>
@@ -257,6 +276,8 @@ namespace SpaceInvadersGame
         {
             if (AllInvaderssEliminated != null)
             {
+                // TODO: Check if i should put it in here
+
                 AllInvaderssEliminated();
             }
         }
@@ -301,7 +322,7 @@ namespace SpaceInvadersGame
         /// enemies matrix reaches the maximum allowed Y value
         /// </summary>
         private void onInvaderReachedScreenEnd()
-        {
+        {                        
             if (InvaderReachedScreenEnd != null)
             {
                 InvaderReachedScreenEnd();
@@ -377,5 +398,55 @@ namespace SpaceInvadersGame
                     m_MaxInvadersYPositionYVal;
             }     
         }
-    }    
+
+        /// <summary>
+        /// Change the mother ship score according to the level data
+        /// </summary>
+        private void    onSettingLevelData()
+        {
+            m_EnemiesInLineNum = LevelData.InvadersColumnNum;
+
+            // TODO: Delete the remarks
+
+            // If all the invaders are eliminated (end of the level), we need
+            // to make them all visible
+            /*if (m_EnabledInvaders.Count == 0)
+            {*/
+                enableAndUpdateInvadersScore();
+            //}
+        }
+
+        /// <summary>
+        /// Move on all the invaders in the matrix and update their 
+        /// score according to the game level data
+        /// </summary>
+        private void    enableAndUpdateInvadersScore()
+        {
+            IEnumerator<InvaderComposite> invadersEnumeration = this.GetEnumerator();
+
+            while (invadersEnumeration.MoveNext())
+            {                
+                Invader currInvader = invadersEnumeration.Current.Invader;
+                currInvader.Score =
+                    m_GameLevelData.GetInvaderScore(currInvader.InvaderType);
+                currInvader.Visible = true;
+                currInvader.ResetInvader();
+
+                // TODO: check if i should put it in here
+                if (!m_EnabledInvaders.Contains(currInvader))
+                {
+                    m_EnabledInvaders.Add(currInvader);
+                }
+            }
+        }
+
+        /*private void    addColumnsToMatrix(int i_ColumnsNum)
+        {
+            // Move on the invaders lines
+            for (int i = 0; i < (this.Count / m_EnemiesInLineNum); i++)
+            {
+
+            }
+        }*/
+    }
 }

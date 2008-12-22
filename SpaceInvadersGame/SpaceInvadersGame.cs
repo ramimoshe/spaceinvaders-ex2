@@ -65,19 +65,24 @@ namespace SpaceInvadersGame
 
             InputManager inputManager = new InputManager(this, 1);
             CollisionManager collisionManager = new CollisionManager(this, 10000);
-            GameLevelDataManager gameLevelDataManager = new GameLevelDataManager(this);
+            GameLevelDataManager gameLevelDataManager = new GameLevelDataManager(this);            
+
+            LevelTransitionScreen levelTransitionScreen =
+                new LevelTransitionScreen(this);
 
             // TODO: Change the creation
 
             SpaceInvadersGameScreen gameScreen = new SpaceInvadersGameScreen(
                 this,
-                2);
-            gameScreen.GameOver += new GameOverDelegate(spaceInvadersGameScreen_GameOver);
+                2,
+                levelTransitionScreen);
+            gameScreen.GameOver += new GameOverDelegate(spaceInvadersGameScreen_GameOver);              
 
             ScreensMananger screensMananger = new ScreensMananger(this);
             BackgroundScreen backgroundScreen = new BackgroundScreen(this, 100);
             screensMananger.Push(backgroundScreen); 
             screensMananger.Push(gameScreen);
+            screensMananger.Push(levelTransitionScreen);
 
             
             WelcomeScreen welcomeScreen = new WelcomeScreen(this);
