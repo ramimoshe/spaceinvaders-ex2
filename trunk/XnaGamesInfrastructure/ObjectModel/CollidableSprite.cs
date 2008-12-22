@@ -214,8 +214,9 @@ namespace XnaGamesInfrastructure.ObjectModel
                 List<int> pixels = new List<int>();
                 CheckForPixelCollision(i_OtherComponent, ref pixels);
 
-                PerformPixelCollision(i_OtherComponent, pixels);
-                Texture.SetData<Color>(ColorData);
+                Color[] newColorData = 
+                    PerformPixelCollision(i_OtherComponent, pixels);
+                Texture.SetData<Color>(newColorData);
             }
             else if (CollisionCheckType == 
                 eCollidableCheckType.RectangleCollision)
