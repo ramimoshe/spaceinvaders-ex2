@@ -8,6 +8,7 @@ using SpaceInvadersGame.ObjectModel;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceInvadersGame.Interfaces;
 using SpaceInvadersGame;
+using Microsoft.Xna.Framework.Input;
 
 namespace SpaceInvadersGame.ObjectModel.Screens
 {   
@@ -44,6 +45,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         private PlayerScoreDrawer[] m_PlayersScoreDrawer;
 
         private GameScreen m_LevelTransitionGameScreen;
+        private GameScreen m_PauseScreen;
 
         // TODO: Remove the code
         /*private PlayerLivesDrawer m_Player2LivesDrawer;
@@ -73,6 +75,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             createPlayers(i_PlayersNum);
 
             m_LevelTransitionGameScreen = i_LevelTransitionScreen;
+            m_PauseScreen = new PauseScreen(Game);
         }
 
         /// <summary>
@@ -204,6 +207,9 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             // TODO: Add a new list for all the level data components
 
             base.Initialize();
+
+            ScreensManager.Add(m_PauseScreen);
+
 
             initComponentsPosition();
 
@@ -338,6 +344,13 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             else
             {
                 base.Update(gameTime);
+
+                // Move the P key to constant
+
+                if (InputManager.KeyPressed(Keys.P))
+                {
+                    ScreensManager.SetCurrentScreen(m_PauseScreen);
+                }
             }
         }
 
