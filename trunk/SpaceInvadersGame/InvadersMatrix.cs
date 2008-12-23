@@ -39,7 +39,7 @@ namespace SpaceInvadersGame
 
         // The percent will decrease in the time it takes the enemies 
         // to move. used to increase the enemies speed
-        private const float k_IncreaseEnemiesSpeedFactor = .95f;
+        private const float k_IncreaseEnemiesSpeedFactor = 0.95f;
 
         // The time we want to wait between two enemies shoots
         private readonly TimeSpan r_DefaultTimeBetweenShots = TimeSpan.FromSeconds(.75f);
@@ -163,7 +163,7 @@ namespace SpaceInvadersGame
                     currEnemy = invadersBuilder.CreateInvader(
                         r_EnemiesLines[i],
                         Game,
-                        UpdateOrder - 1,
+                        i,
                         currInvaderRow);
 
                     currEnemy.Score = 
@@ -253,7 +253,8 @@ namespace SpaceInvadersGame
 
                 if (m_PrevShotTime.TotalSeconds < 0)
                 {
-                    shootThePlayer();
+                    // TODO: Remove the remark
+                    //shootThePlayer();
                     m_PrevShotTime = r_DefaultTimeBetweenShots;
                 }
 

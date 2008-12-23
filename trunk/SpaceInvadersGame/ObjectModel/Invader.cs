@@ -187,8 +187,7 @@ namespace SpaceInvadersGame.ObjectModel
         {
             if (!(i_OtherComponent is IDefend))
             {
-                Animations[k_ScaleAnimationName].Restart();
-                base.Collided(i_OtherComponent);                
+                base.Collided(i_OtherComponent);
             }
         }
 

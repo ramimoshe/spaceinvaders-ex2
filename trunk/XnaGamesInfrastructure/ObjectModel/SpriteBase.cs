@@ -112,7 +112,7 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// <summary>
         /// Gets/sets the draw scale factor
         /// </summary>
-        public Vector2  Scale
+        public virtual Vector2  Scale
         {
             get { return m_Scale; }
             set { m_Scale = value; }
@@ -498,6 +498,7 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// </summary>
         protected override void    LoadContent()
         {
+            base.LoadContent();
             DoLoadContent();
 
             // Checking if spritebatch already exists
@@ -515,8 +516,6 @@ namespace XnaGamesInfrastructure.ObjectModel
                     m_UseSharedBatch = true;
                 }
             }            
-
-            base.LoadContent();
         }
 
         /// <summary>
