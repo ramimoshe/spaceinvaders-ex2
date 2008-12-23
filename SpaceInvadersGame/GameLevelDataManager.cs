@@ -16,7 +16,7 @@ namespace SpaceInvadersGame
         private const int k_YellowInvaderScore = 100;
         private const int k_BlueInvaderScore = 200;
         private const int k_PinkInvaderScore = 300;
-        private const int k_Barrier1LevelSpeed = 0;
+        private const int k_Barrier1LevelSpeed = 40;
         private const int k_Barrier2LevelSpeed = 40;
         private const float k_IncreaseBarrierSpeed = .25f;
         private const int k_InvadersColumnNum = 9;        

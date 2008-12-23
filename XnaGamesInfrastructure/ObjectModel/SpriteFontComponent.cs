@@ -25,6 +25,12 @@ namespace XnaGamesInfrastructure.ObjectModel
             m_Text = i_Text;
         }
 
+        protected override void LoadContent()
+        {
+            base.LoadContent();
+            OnTextureModified();
+        }
+
         protected override int TextureHeight
         {
             get

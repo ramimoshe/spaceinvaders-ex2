@@ -65,7 +65,7 @@ namespace SpaceInvadersGame
 
             InputManager inputManager = new InputManager(this, 1);
             CollisionManager collisionManager = new CollisionManager(this, 10000);
-            GameLevelDataManager gameLevelDataManager = new GameLevelDataManager(this);            
+            GameLevelDataManager gameLevelDataManager = new GameLevelDataManager(this);
 
             LevelTransitionScreen levelTransitionScreen =
                 new LevelTransitionScreen(this);
@@ -174,6 +174,9 @@ namespace SpaceInvadersGame
         /// </summary>
         protected override void Initialize()
         {
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            Services.AddService(typeof(SpriteBatch), spriteBatch);
             base.Initialize();
 
             // TODO: Remove the code
@@ -219,8 +222,8 @@ namespace SpaceInvadersGame
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            base.LoadContent();
         }
 
         /// <summary>

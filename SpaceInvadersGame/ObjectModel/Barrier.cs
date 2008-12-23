@@ -74,6 +74,9 @@ namespace SpaceInvadersGame.ObjectModel
             // the movment direction
             if (Bounds.Left <= m_MinXValue || Bounds.Right >= m_MaxXValue)
             {
+                Vector2 position = PositionOfOrigin;
+                position.X = MathHelper.Clamp(position.X, m_MinXValue, m_MaxXValue - WidthAfterScale);
+                PositionOfOrigin = position;
                 MotionVector *= -1;
             }
         }

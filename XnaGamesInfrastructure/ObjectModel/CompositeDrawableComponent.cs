@@ -223,7 +223,13 @@ namespace XnaGamesInfrastructure.ObjectModel
         {
             base.LoadContent();
 
-            m_SpriteBatch = new SpriteBatch(this.GraphicsDevice);
+            // Trying to receive game's sprite batch
+            m_SpriteBatch = Game.Services.GetService(typeof(SpriteBatch)) as SpriteBatch;
+
+            if (m_SpriteBatch == null)
+            {
+                m_SpriteBatch = new SpriteBatch(this.GraphicsDevice);
+            }
 
             foreach (SpriteBase sprite in m_Sprites)
             {
