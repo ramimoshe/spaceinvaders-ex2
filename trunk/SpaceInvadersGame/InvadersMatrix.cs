@@ -34,6 +34,7 @@ namespace SpaceInvadersGame
 
         private const int k_EnemyWidth = 32;
         private const int k_EnemyHeight = 32;
+        private const int k_InvadersUpdateOrder = 1;
 
         private const int k_EnemyMotionYVal = 16;
 
@@ -65,7 +66,9 @@ namespace SpaceInvadersGame
                 eInvadersType.BlueInvader,
                 eInvadersType.YellowInvader,
                 eInvadersType.YellowInvader
-            };    
+            };
+
+        private Invader[] m_LastInvadersInLine;
 
         // A list of all the visible invaders in the matrix.
         // Used for choosing an active invader for shooting.
@@ -78,7 +81,8 @@ namespace SpaceInvadersGame
         public InvadersMatrix(Game i_Game) 
             : base(i_Game)
         {
-            m_PrevShotTime = r_DefaultTimeBetweenShots;                        
+            m_PrevShotTime = r_DefaultTimeBetweenShots;
+            m_LastInvadersInLine = new Invader[k_NumOfEnemiesLines];
         }
 
         /// <summary>
@@ -134,7 +138,7 @@ namespace SpaceInvadersGame
                 Game.GraphicsDevice.Viewport.Height / 2);
 
             Vector2 currPosition = new Vector2(startingPositionX, startingPositionY);
-            Invader currEnemy;
+            Invader currEnemy = null;
             eInvadersType? prevRowType = null;
             int currInvaderRow = 1;
             InvadersBuilder invadersBuilder = InvadersBuilder.GetInstance();
@@ -163,7 +167,7 @@ namespace SpaceInvadersGame
                     currEnemy = invadersBuilder.CreateInvader(
                         r_EnemiesLines[i],
                         Game,
-                        i,
+                        k_InvadersUpdateOrder,
                         currInvaderRow);
 
                     currEnemy.Score = 
@@ -183,6 +187,10 @@ namespace SpaceInvadersGame
                     currPosition.X += k_EnemyWidth * 2;
                     prevRowType = r_EnemiesLines[i];
                 }
+
+                // Save the last invader of the current line
+                // (used for ivaders matrix column add later on)
+                m_LastInvadersInLine[i] = currEnemy;
 
                 currPosition.Y -= k_EnemyHeight;
                 currPosition.Y -= (k_EnemyHeight / 2);
@@ -239,7 +247,7 @@ namespace SpaceInvadersGame
             base.Update(i_GameTime);
 
             // TODO: Remove the sleep decrease and if. for debug only.
-           /* m_Sleep -= i_GameTime.ElapsedGameTime;
+            /*m_Sleep -= i_GameTime.ElapsedGameTime;
 
             if (m_Sleep.TotalSeconds <= 0)
             {
@@ -266,7 +274,7 @@ namespace SpaceInvadersGame
                     changeInvadersMatrixPositions(k_EnemyMotionYVal, true);
                     m_ChangeInvadersDirection = false;
                 }
-           // }
+          //  }
         }             
 
         /// <summary>
@@ -405,6 +413,11 @@ namespace SpaceInvadersGame
         /// </summary>
         private void    onSettingLevelData()
         {
+            if (m_EnemiesInLineNum != 0)
+            {
+                addColumnsToMatrix(LevelData.InvadersColumnNum - m_EnemiesInLineNum);
+            }
+
             m_EnemiesInLineNum = LevelData.InvadersColumnNum;
 
             // TODO: Delete the remarks
@@ -414,7 +427,7 @@ namespace SpaceInvadersGame
             /*if (m_EnabledInvaders.Count == 0)
             {*/
                 enableAndUpdateInvadersScore();
-            //}
+            //}            
         }
 
         /// <summary>
@@ -441,13 +454,60 @@ namespace SpaceInvadersGame
             }
         }
 
-        /*private void    addColumnsToMatrix(int i_ColumnsNum)
+        /// <summary>
+        /// Adds columns to the invaders matrix
+        /// </summary>
+        /// <param name="i_ColumnsNum">The number of columns that we want to 
+        /// add to the matrix</param>
+        private void    addColumnsToMatrix(int i_ColumnsNum)
         {
-            // Move on the invaders lines
-            for (int i = 0; i < (this.Count / m_EnemiesInLineNum); i++)
+            if (i_ColumnsNum > 0)
             {
+                Invader currEnemy = null;
+                InvadersBuilder invadersBuilder = InvadersBuilder.GetInstance();
+                Vector2 currPosition = Vector2.Zero;
 
+                // Move on the invaders lines and adds new invaders at the end
+                // according to the given column number
+                for (int i = 0; i < m_LastInvadersInLine.Length; i++)
+                {
+                    currPosition = m_LastInvadersInLine[i].DefaultPosition +
+                        new Vector2(k_EnemyWidth * 2, 0);
+
+                    for (int j = i_ColumnsNum; j > 0; j--)
+                    {
+                        // TODO: Move the creation code to a method and replace the initialize
+                        // also
+
+                        // TODO: Add invader row in the builder call and check 
+                        // what to put in the update order
+
+                        currEnemy = invadersBuilder.CreateInvader(
+                            m_LastInvadersInLine[i].InvaderType,
+                            Game,
+                            k_InvadersUpdateOrder,
+                            1);
+
+                        currEnemy.Score =
+                            m_GameLevelData.GetInvaderScore(currEnemy.InvaderType);
+                        currEnemy.PositionForDraw = currPosition;
+                        currEnemy.DefaultPosition = currPosition;
+                        currEnemy.InvaderMaxPositionY = m_MaxInvadersYPositionYVal;
+                        currEnemy.ReachedScreenBounds += new InvaderReachedScreenBoundsDelegate(invader_ReachedScreenBounds);
+                        currEnemy.InvaderWasHit += new InvaderWasHitDelegate(invader_InvaderWasHit);
+
+                        InvaderComposite invaderHolder = new InvaderComposite(Game, currEnemy);
+                        invaderHolder.Disposed += invader_Disposed;
+
+                        this.Add(invaderHolder);
+                        m_EnabledInvaders.Add(currEnemy);
+
+                        currPosition.X += k_EnemyWidth * 2;
+                    }
+
+                    m_LastInvadersInLine[i] = currEnemy;
+                }
             }
-        }*/
+        }
     }
 }
