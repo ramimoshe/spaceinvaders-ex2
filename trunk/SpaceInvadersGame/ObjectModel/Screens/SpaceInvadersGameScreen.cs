@@ -25,7 +25,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
     /// </summary>
     public class SpaceInvadersGameScreen : GameScreen
     {
-        public event GameOverDelegate GameOver;        
+        public event GameOverDelegate ExitGame;        
 
         private IGameLevelDataManager m_GameLevelDataManager;
         private int m_CurrLevelNum = 1;     
@@ -46,6 +46,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
 
         private GameScreen m_LevelTransitionGameScreen;
         private GameScreen m_PauseScreen;
+        private GameOverScreen m_GameOverScreen;
 
         // TODO: Remove the code
         /*private PlayerLivesDrawer m_Player2LivesDrawer;
@@ -76,12 +77,14 @@ namespace SpaceInvadersGame.ObjectModel.Screens
 
             m_LevelTransitionGameScreen = i_LevelTransitionScreen;
             m_PauseScreen = new PauseScreen(Game);
+            m_GameOverScreen = new GameOverScreen(Game, Players);
+            m_GameOverScreen.ExitGame += new GameOverDelegate(gameOverScreen_ExitGame);
         }
 
         /// <summary>
         /// Property that gets/sets indication whether the game ended
         /// </summary>
-        private bool GameEnded
+        private bool    GameEnded
         {
             get
             {
@@ -96,6 +99,30 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             set
             {
                 m_GameOver = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets an array of the game players
+        /// </summary>
+        private IPlayer[]   Players
+        {
+            get
+            {
+                IPlayer[] retVal = null;
+                if (m_Players != null)
+                {
+                    retVal = new SpaceShip[m_Players.Length];                    
+                    int i = 0;
+
+                    foreach (SpaceShipComposite spaceShip in m_Players)
+                    {
+                        retVal[i] = spaceShip.SpaceShip;
+                        i++;
+                    }
+                }
+
+                return retVal;
             }
         }
 
@@ -208,6 +235,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
 
             base.Initialize();
 
+            ScreensManager.Add(m_GameOverScreen);
             ScreensManager.Add(m_PauseScreen);
 
 
@@ -339,7 +367,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         {
             if (GameEnded)
             {
-                onGameOver();
+                onGameEnded();
             }
             else
             {
@@ -389,26 +417,33 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             GameEnded = true;
         }
 
-        private void    onGameOver()
+        private void    onExitGame()
         {
-            if (GameOver != null)
+            if (ExitGame != null)
             {
-                IPlayer[] players = new SpaceShip[m_Players.Length];
+                // TODO: Remove the remarked code
+
+                /*IPlayer[] players = new SpaceShip[m_Players.Length];
                 int i = 0;
 
                 foreach (SpaceShipComposite spaceShip in m_Players)
                 {
                     players[i] = spaceShip.SpaceShip;
                     i++;
-                }
+                }*/
 
-                GameOver(players);
+                ExitGame(/*players*/);
             }
         }
 
-        public override void Draw(GameTime gameTime)
+        private void    onGameEnded()
         {
-            base.Draw(gameTime);
+            ScreensManager.SetCurrentScreen(m_GameOverScreen);
+        }
+
+        private void    gameOverScreen_ExitGame()
+        {
+            onExitGame();
         }
     }
 }
