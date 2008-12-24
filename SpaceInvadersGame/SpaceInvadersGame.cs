@@ -82,11 +82,14 @@ namespace SpaceInvadersGame
             ScreensMananger screensMananger = new ScreensMananger(this);
             BackgroundScreen backgroundScreen = new BackgroundScreen(this, 100);
             screensMananger.Push(backgroundScreen);
-            //screensMananger.Push(pauseScreen); 
+            //screensMananger.Push(pauseScreen);
             screensMananger.Push(gameScreen);
             screensMananger.Push(levelTransitionScreen);
+            /*
+            MainMenuScreen mainMenu = new MainMenuScreen(this);
+            mainMenu.IsModal = true;
+            screensMananger.Push(mainMenu);*/
 
-            
             WelcomeScreen welcomeScreen = new WelcomeScreen(this);
             welcomeScreen.IsModal = true;
             screensMananger.SetCurrentScreen(welcomeScreen);
@@ -176,9 +179,7 @@ namespace SpaceInvadersGame
         /// </summary>
         protected override void Initialize()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            Services.AddService(typeof(SpriteBatch), spriteBatch);
+
             base.Initialize();
 
             // TODO: Remove the code
@@ -224,7 +225,9 @@ namespace SpaceInvadersGame
         /// </summary>
         protected override void LoadContent()
         {
-
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            Services.AddService(typeof(SpriteBatch), spriteBatch);
             base.LoadContent();
         }
 
@@ -293,7 +296,6 @@ namespace SpaceInvadersGame
         protected override void Draw(GameTime i_GameTime)
         {
             graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
-
             base.Draw(i_GameTime);
         }
 

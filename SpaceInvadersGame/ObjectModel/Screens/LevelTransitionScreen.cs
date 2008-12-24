@@ -44,10 +44,10 @@ namespace SpaceInvadersGame.ObjectModel.Screens
                 i_Game, 
                 @"Fonts\David28", 
                 getMessageText(r_LevelMessageText, m_CurrLevelNum));            
-            m_SecondsMessage = new SpriteFontComponent(
-                i_Game, 
-                @"Fonts\David28", "Level will start in 3 seconds");
-//                getMessageText(r_SecondsMessageText, k_TransitionScreenTime));
+            m_SecondsMessage = new  SpriteFontComponent(
+                                    i_Game, 
+                                    @"Fonts\David",
+                                    getMessageText(r_SecondsMessageText, k_TransitionScreenTime));
 
             m_LevelMessage.TintColor = Color.White;
             m_SecondsMessage.TintColor = Color.White;
@@ -92,17 +92,13 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         public override void    Initialize()
         {
             base.Initialize();
+
+            Vector2 center = m_LevelMessage.ViewPortCenter;
             
-            Vector2 center = new    Vector2(
-                                    GraphicsDevice.Viewport.Width / 2,
-                                    GraphicsDevice.Viewport.Height / 2);
-            
-            m_LevelMessage.Spacing = 20;
             m_LevelMessage.PositionOfOrigin = center;
             m_LevelMessage.PositionOrigin = m_LevelMessage.SpriteCenter;
 
             m_SecondsMessage.Text = m_SecondsMessage.Text;
-            m_SecondsMessage.Scale = Vector2.One * 0.5f;
             m_SecondsMessage.PositionOfOrigin = new Vector2(center.X, center.Y + m_LevelMessage.HeightAfterScale);
             m_SecondsMessage.PositionOrigin = m_SecondsMessage.SpriteCenter;
         }

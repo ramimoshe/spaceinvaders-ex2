@@ -60,7 +60,6 @@ namespace SpaceInvadersGame.ObjectModel.Screens
                                     GraphicsDevice.Viewport.Width / 2,
                                     GraphicsDevice.Viewport.Height / 2);
             
-            m_PauseMessage.Spacing = 20;
             m_PauseMessage.PositionOfOrigin = center;
             m_PauseMessage.PositionOrigin = m_PauseMessage.SpriteCenter;
 

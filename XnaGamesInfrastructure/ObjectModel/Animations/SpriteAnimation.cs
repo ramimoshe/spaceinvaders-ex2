@@ -164,7 +164,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations
             m_AnimationLength = i_AnimationLength;
             m_TimeLeft = m_AnimationLength;
             this.IsFinished = false;
-            m_IsFinite = i_AnimationLength != TimeSpan.Zero;
+            m_IsFinite = i_AnimationLength!= TimeSpan.Zero;
         }
 
         /// <summary>
