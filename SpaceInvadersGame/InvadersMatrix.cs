@@ -40,7 +40,7 @@ namespace SpaceInvadersGame
 
         // The percent will decrease in the time it takes the enemies 
         // to move. used to increase the enemies speed
-        private const float k_IncreaseEnemiesSpeedFactor = 0.95f;
+        private const float k_IncreaseEnemiesSpeedFactor = 0.5f;
 
         // The time we want to wait between two enemies shoots
         private readonly TimeSpan r_DefaultTimeBetweenShots = TimeSpan.FromSeconds(.75f);
@@ -330,7 +330,7 @@ namespace SpaceInvadersGame
         /// Raise an EnemyReachedScreenEnd event when a certain enemy in the 
         /// enemies matrix reaches the maximum allowed Y value
         /// </summary>
-        private void onInvaderReachedScreenEnd()
+        private void    onInvaderReachedScreenEnd()
         {                        
             if (InvaderReachedScreenEnd != null)
             {
