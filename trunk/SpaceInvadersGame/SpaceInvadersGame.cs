@@ -22,7 +22,7 @@ namespace SpaceInvadersGame
     /// A delegate that is used by the game components to notify the 
     /// SpaceInvadersGame class that the game ended
     /// </summary>
-    public delegate void GameOverDelegate(IPlayer[] i_Players);
+    public delegate void GameOverDelegate();
 
     /// <summary>
     /// This is the main type for your game
@@ -76,11 +76,13 @@ namespace SpaceInvadersGame
                 this,
                 2,
                 levelTransitionScreen);
-            gameScreen.GameOver += new GameOverDelegate(spaceInvadersGameScreen_GameOver);              
+            gameScreen.ExitGame += new GameOverDelegate(spaceInvadersGameScreen_GameOver);
 
+            //PauseScreen pauseScreen = new PauseScreen(this);
             ScreensMananger screensMananger = new ScreensMananger(this);
             BackgroundScreen backgroundScreen = new BackgroundScreen(this, 100);
-            screensMananger.Push(backgroundScreen); 
+            screensMananger.Push(backgroundScreen);
+            //screensMananger.Push(pauseScreen); 
             screensMananger.Push(gameScreen);
             screensMananger.Push(levelTransitionScreen);
 
@@ -243,14 +245,16 @@ namespace SpaceInvadersGame
         {
             if (GameOver)
             {
-                string winningMsg = getWinningPlayerMsg();
+                // TODO: Remove the code
+
+                /*string winningMsg = getWinningPlayerMsg();
 
                 MessageBox.Show(
                     "Game Over. \nPlayer1 Score Is: " + m_Player1Score +
                     "\nPlayer2 Score Is: " + m_Player2Score + winningMsg,
                     "Game Over",
                     MessageBoxButtons.OK,
-                    System.Windows.Forms.MessageBoxIcon.Information);
+                    System.Windows.Forms.MessageBoxIcon.Information);*/
 
                 this.Exit();
             }
@@ -313,13 +317,9 @@ namespace SpaceInvadersGame
             m_Player2IsDead = true;
         }*/
 
-        private void    spaceInvadersGameScreen_GameOver(IPlayer[] i_Players)
+        private void    spaceInvadersGameScreen_GameOver()
         {
             GameOver = true;
-
-            // TODO: Change the assign
-            m_Player1Score = i_Players[0].Score;
-            m_Player2Score = i_Players[1].Score;
         }
 
         /// <summary>
