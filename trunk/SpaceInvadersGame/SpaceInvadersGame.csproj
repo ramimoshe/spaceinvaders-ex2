@@ -75,6 +75,9 @@
     <Compile Include="ObjectModel\Barrier.cs" />
     <Compile Include="ObjectModel\Screens\BackgroundScreen.cs" />
     <Compile Include="ObjectModel\Screens\GameOverScreen.cs" />
+    <Compile Include="ObjectModel\Screens\MainMenu.cs" />
+    <Compile Include="ObjectModel\Screens\MenuItem.cs" />
+    <Compile Include="ObjectModel\Screens\MenuTypeScreen.cs" />
     <Compile Include="ObjectModel\Screens\PauseScreen.cs" />
     <Compile Include="ObjectModel\Screens\LevelTransitionScreen.cs" />
     <Compile Include="ObjectModel\SpaceShipComposite.cs" />

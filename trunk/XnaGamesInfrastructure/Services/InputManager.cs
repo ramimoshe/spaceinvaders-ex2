@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using XnaGamesInfrastructure.ServiceInterfaces;
 using XnaGamesInfrastructure.ObjectModel;
+using System.Text;
 
 namespace XnaGamesInfrastructure.Services
 {
@@ -232,6 +233,65 @@ namespace XnaGamesInfrastructure.Services
             m_CurrKeyboardState = Keyboard.GetState();
 
             base.Update(gameTime);
+        }
+        public string PressedKeys
+        {
+            get
+            {
+                Keys[] pressedKeys = KeyboardState.GetPressedKeys();
+                string keys = string.Empty;
+
+                if (pressedKeys.Length > 0)
+                {
+                    StringBuilder keysMsgBuilder = new StringBuilder(pressedKeys.Length * 3);
+                    int keysCount = 0;
+                    foreach (Keys key in pressedKeys)
+                    {
+                        keysCount++;
+                        keysMsgBuilder.Append(key.ToString());
+                        if (keysCount < pressedKeys.Length)
+                        {
+                            keysMsgBuilder.Append(", ");
+                        }
+                    }
+
+                    keys = keysMsgBuilder.ToString();
+                }
+
+                return keys;
+            }
+        }
+
+                public override string ToString()
+        {
+            string status = string.Format(@"
+Keyboard.PressedKeys:       {10}
+
+Mouse.X:            {0}
+Mouse.Y:            {1}
+Mouse.DeltaXY:      {2}
+Mouse.Left:         {3}
+Mouse.Middle:       {4}
+Mouse.Right:        {5}
+Mouse.XButton1:     {6}
+Mouse.XButton2:     {7}
+ScrollWheelValue:   {8}
+ScrollWheelDelta:   {9}
+",
+
+ MouseState.X,
+ MouseState.Y,
+ MousePositionDelta,
+ MouseState.LeftButton,
+ MouseState.MiddleButton,
+ MouseState.RightButton,
+ MouseState.XButton1,
+ MouseState.XButton2,
+ MouseState.ScrollWheelValue,
+ ScrollWheelDelta,
+ PressedKeys
+ );
+			return status;
         }
     }
 }

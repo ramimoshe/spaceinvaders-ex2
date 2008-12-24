@@ -84,23 +84,6 @@ namespace XnaGamesInfrastructure.ObjectModel
             m_Font = m_ContentManager.Load<SpriteFont>(m_AssetName);
         }
 
-        public float Spacing
-        {
-            get
-            {
-                return m_Font.Spacing;
-            }
-
-            set
-            {
-                if (m_Font.Spacing != value)
-                {
-                    m_Font.Spacing = value;
-                    OnTextureModified();
-                }
-            }
-        }
-
         private void OnTextureModified()
         {
             m_HeightBeforeScale = TextureHeight;

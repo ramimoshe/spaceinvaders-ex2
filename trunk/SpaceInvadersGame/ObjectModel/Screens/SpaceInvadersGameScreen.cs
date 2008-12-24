@@ -235,12 +235,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
 
             base.Initialize();
 
-            ScreensManager.Add(m_GameOverScreen);
-            ScreensManager.Add(m_PauseScreen);
-
-
             initComponentsPosition();
-
         }
 
         /// <summary>

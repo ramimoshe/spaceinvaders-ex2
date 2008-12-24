@@ -24,7 +24,10 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         private readonly Keys r_EndGameKey = Keys.Escape;
         private readonly string r_GameOverText = "Game Over";
         private readonly string r_KeysText = 
-            "Press Esc to exit, R to start a new Game, O to go to the Main Menu";
+@"Press: 
+Esc to exit
+R to start a new Game
+O to go to the Main Menu";
 
         private IPlayer[] m_Players;
 
@@ -37,13 +40,13 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             : base(i_Game)
         {
             m_GameOverMessage = new SpriteFontComponent(
-                i_Game, 
-                @"Fonts\David28", 
-                r_GameOverText);            
+                                    i_Game, 
+                                    @"Fonts\David28", 
+                                    r_GameOverText);            
             m_KeysMessage = new SpriteFontComponent(
-                i_Game, 
-                @"Fonts\David28",
-                r_KeysText);
+                                i_Game, 
+                                @"Fonts\David",
+                                r_KeysText);
 
             this.IsModal = true;
 
@@ -98,18 +101,14 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         public override void    Initialize()
         {
             base.Initialize();
+
+            Vector2 center = m_GameOverMessage.ViewPortCenter;
             
-            Vector2 center = new    Vector2(
-                                    GraphicsDevice.Viewport.Width / 2,
-                                    GraphicsDevice.Viewport.Height / 2);
-            
-            m_GameOverMessage.Spacing = 20;
             m_GameOverMessage.PositionOfOrigin = center;
             m_GameOverMessage.PositionOrigin = m_GameOverMessage.SpriteCenter;
 
             m_KeysMessage.Text = m_KeysMessage.Text;
-            m_KeysMessage.Scale = Vector2.One * 0.5f;
-            m_KeysMessage.PositionOfOrigin = new Vector2(center.X, center.Y + m_GameOverMessage.HeightAfterScale);
+            m_KeysMessage.PositionOfOrigin = new Vector2(center.X, center.Y + m_GameOverMessage.HeightAfterScale * 2);
             m_KeysMessage.PositionOrigin = m_KeysMessage.SpriteCenter;
         }
 

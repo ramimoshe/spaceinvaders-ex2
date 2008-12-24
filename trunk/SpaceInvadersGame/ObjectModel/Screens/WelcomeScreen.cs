@@ -15,26 +15,36 @@ namespace SpaceInvadersGame.ObjectModel.Screens
     public class WelcomeScreen : GameScreen
     {
         private SpriteFontComponent m_WelcomeMessage;
+        private SpriteFontComponent m_HitEnterMessage;
 
         public  WelcomeScreen(Game i_Game)
             : base(i_Game)
         {
             m_WelcomeMessage = new SpriteFontComponent(i_Game, @"Fonts\David28", "Welcome");
+            m_HitEnterMessage = new SpriteFontComponent(
+                                    i_Game, 
+                                    @"Fonts\David", 
+                                    "Hit Enter to continue");
             m_WelcomeMessage.TintColor = Color.White;
+            m_HitEnterMessage.TintColor = Color.PowderBlue;
+
             // TODO: Change the parameter to a constant
 
             this.Add(m_WelcomeMessage);
+            this.Add(m_HitEnterMessage);
             this.HasFocus = true;
         }
 
         public override void Initialize()
         {
             base.Initialize();
-            m_WelcomeMessage.Spacing = 20;
-            m_WelcomeMessage.PositionOfOrigin = new Vector2(
-                                                    GraphicsDevice.Viewport.Width / 2,
-                                                    GraphicsDevice.Viewport.Height / 2);
+
+            Vector2 center = m_WelcomeMessage.ViewPortCenter;
+
+            m_WelcomeMessage.PositionOfOrigin = center;
             m_WelcomeMessage.PositionOrigin = m_WelcomeMessage.SpriteCenter;
+            m_HitEnterMessage.PositionOfOrigin = new Vector2(center.X, center.Y + m_WelcomeMessage.HeightAfterScale);
+            m_HitEnterMessage.PositionOrigin = m_HitEnterMessage.SpriteCenter;
         }
 
         public override void Update(GameTime gameTime)

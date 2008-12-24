@@ -491,6 +491,33 @@ namespace XnaGamesInfrastructure.ObjectModel
                 m_AngularVelocity = value;
             }
         }
+
+        /// <summary>
+        /// Returns the center coordinate of the viewport
+        /// </summary>
+        public Vector2 ViewPortCenter
+        {
+            get
+            {
+                return new Vector2(
+                           GraphicsDevice.Viewport.Width / 2,
+                           GraphicsDevice.Viewport.Height / 2);
+            }
+        }
+        
+        /// <summary>
+        /// Sets the opacity (alpha-factor) of the sprite
+        /// </summary>
+        public float Opacity
+        {
+            set
+            {
+                Vector4 tint = TintColor.ToVector4();
+                tint.W = value;
+                TintColor = new Color(tint);
+            }
+        }
+
         #endregion
 
         /// <summary>
