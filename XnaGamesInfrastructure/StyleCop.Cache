@@ -134,15 +134,6 @@
     <milliseconds>312</milliseconds>
     <violations />
   </sourcecode>
-  <sourcecode name="CompositeAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>12/10/2008 10:20:55</timestamp>
-      <milliseconds>250</milliseconds>
-    </settings>
-    <timestamp>12/10/2008 12:10:49</timestamp>
-    <milliseconds>859</milliseconds>
-    <violations />
-  </sourcecode>
   <sourcecode name="BlinkAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
       <timestamp>12/10/2008 10:20:55</timestamp>
@@ -276,6 +267,27 @@
     </settings>
     <timestamp>12/15/2008 23:51:50</timestamp>
     <milliseconds>156</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="CompositeAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/15/2008 21:33:08</timestamp>
+      <milliseconds>703</milliseconds>
+    </settings>
+    <timestamp>12/25/2008 20:16:25</timestamp>
+    <milliseconds>375</milliseconds>
+    <violations />
+  </sourcecode>
+  <project key="-283553984">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+  <sourcecode name="PulseAnimation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/15/2008 21:33:08</timestamp>
+      <milliseconds>703</milliseconds>
+    </settings>
+    <timestamp>12/25/2008 20:38:25</timestamp>
+    <milliseconds>343</milliseconds>
     <violations />
   </sourcecode>
 </stylecopresultscache>

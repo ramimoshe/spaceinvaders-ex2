@@ -37,7 +37,7 @@ namespace SpaceInvadersGame
         private readonly Vector2 r_Player2ScorePosition = new Vector2(5, 30);
 
         private GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
+        private SpriteBatch m_SpriteBatch;
 
         private int m_Player1Score;
         private int m_Player2Score;
@@ -85,13 +85,12 @@ namespace SpaceInvadersGame
             //screensMananger.Push(pauseScreen);
             screensMananger.Push(gameScreen);
             screensMananger.Push(levelTransitionScreen);
-            /*
+            
             MainMenuScreen mainMenu = new MainMenuScreen(this);
             mainMenu.IsModal = true;
-            screensMananger.Push(mainMenu);*/
+            screensMananger.Push(mainMenu);
 
             WelcomeScreen welcomeScreen = new WelcomeScreen(this);
-            welcomeScreen.IsModal = true;
             screensMananger.SetCurrentScreen(welcomeScreen);
             backgroundScreen.State = eScreenState.Active;
 
@@ -179,6 +178,8 @@ namespace SpaceInvadersGame
         /// </summary>
         protected override void Initialize()
         {
+            m_SpriteBatch = new SpriteBatch(GraphicsDevice);
+            Services.AddService(typeof(SpriteBatch), m_SpriteBatch);
 
             base.Initialize();
 
@@ -218,18 +219,6 @@ namespace SpaceInvadersGame
                 m_Player1.Bounds.Top,
                 m_Player1.Texture.Height);
         }*/
-
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
-        protected override void LoadContent()
-        {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            Services.AddService(typeof(SpriteBatch), spriteBatch);
-            base.LoadContent();
-        }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload

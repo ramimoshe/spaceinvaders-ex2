@@ -647,9 +647,6 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// Creates a memberwise clone of sprite
         /// </summary>
         /// <returns>A copy of this sprite</returns>
-        public Sprite   ShallowClone()
-        {
-            return this.MemberwiseClone() as Sprite;
-        }      
+        abstract public SpriteBase   ShallowClone();
     }
 }

@@ -103,5 +103,15 @@ namespace XnaGamesInfrastructure.ObjectModel
                 SpriteEffects.None,
                 this.LayerDepth);
         }
+
+        /// <summary>
+        /// Creates a memberwise clone of sprite
+        /// </summary>
+        /// <returns>A copy of this sprite</returns>
+        override public SpriteBase   ShallowClone()
+        {
+            return this.MemberwiseClone() as SpriteFontComponent;
+        }      
+
     }
 }

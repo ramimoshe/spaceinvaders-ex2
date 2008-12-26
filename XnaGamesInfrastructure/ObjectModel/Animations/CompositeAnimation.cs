@@ -66,7 +66,50 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations
             m_AnimationsList.Add(i_Animation);
 
             // Registers itself as an observer for child animations
-            i_Animation.Finished += new AnimationFinishedEventHandler(childAnimation_Finished);
+            if (NotifyWhenAllAnimationsFinished)
+            {
+                i_Animation.Finished += new AnimationFinishedEventHandler(childAnimation_Finished);
+            }
+        }
+
+        private bool m_NotifyWhenAllAnimationsFinished = false;
+
+        /// <summary>
+        /// Gets / Sets whether to inform subscriber of CompositeAnimations.Finished
+        /// when all animations finished
+        /// </summary>
+        public bool NotifyWhenAllAnimationsFinished
+        {
+            get
+            {
+                return m_NotifyWhenAllAnimationsFinished;
+            }
+
+            set
+            {
+                // Checking if value was changed
+                if (m_NotifyWhenAllAnimationsFinished != value)
+                {
+                    m_NotifyWhenAllAnimationsFinished = value;
+
+                    // Registering \ DeRegistering CompositeAnimation as a subscriber
+                    // for child animation Finished event.
+                    if (m_NotifyWhenAllAnimationsFinished)
+                    {
+                        foreach (SpriteAnimation animation in this.m_AnimationsList)
+                        {
+                            animation.Finished += new AnimationFinishedEventHandler(childAnimation_Finished);
+                        }
+                    }
+                    else
+                    {
+                        foreach (SpriteAnimation animation in this.m_AnimationsList)
+                        {
+                            animation.Finished += new AnimationFinishedEventHandler(childAnimation_Finished);
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>

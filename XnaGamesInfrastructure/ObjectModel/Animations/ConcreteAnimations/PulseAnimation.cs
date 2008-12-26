@@ -6,81 +6,75 @@ using XnaGamesInfrastructure.ObjectModel.Animations;
 
 namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
 {
-    /*
-    public class PulseAnimation : SpriteAnimation
+    public class PulseAnimation : ScaleAnimation
     {
-        protected Vector2 m_Scale;
-        public Vector2 Scale
+        TimeSpan m_TimeLeftForPulse;
+        TimeSpan m_PulseTime;
+        Vector2 m_MinScale;
+
+        /// <summary>
+        /// Creates a new scale animation
+        /// </summary>
+        /// <param name="i_Name">Animation name</param>
+        /// <param name="i_MinScale">Minimal scale factor</param>
+        /// <param name="i_MaxScale">Maximal scale factor</param>
+        /// <param name="i_AnimationLength">Animation time</param>
+        /// <param name="i_ResetAfterFinish">Specifies if reset should be done after animation is done.</param>
+        /// <param name="i_PulseTime">Specifies the time between each pulse
+        /// as 1 pulse=1 Scale in\out</param>
+        public PulseAnimation(
+            string i_Name,
+            Vector2 i_MinScale,
+            Vector2 i_MaxScale,
+            TimeSpan i_AnimationLength,
+            bool i_ResetAfterFinish,
+            TimeSpan i_PulseTime)
+            : base(i_Name, i_MaxScale, i_PulseTime, i_ResetAfterFinish)
         {
-            get { return m_Scale; }
-            set { m_Scale = value; }
+            m_TimeLeftForPulse = i_PulseTime;
+            m_PulseTime = i_PulseTime;
+            m_MinScale = i_MinScale;
+            this.Finished += new AnimationFinishedEventHandler(ScaleAnimation_Finished);
         }
 
-        protected float m_PulsePerSecond;
-        
-        public float PulsePerSecond
+        public override void Initialize()
         {
-            get { return m_PulsePerSecond; }
-            set { m_PulsePerSecond = value; }
+            base.Initialize();
+            BoundSprite.Scale = m_MinScale;
         }
 
-        private bool m_Shrinking;
-        private float m_TargetScale;
-        private float m_SourceScale;
-        private float m_DeltaScale;
 
-        public PulseAnimation(string i_Name, TimeSpan i_AnimationLength, float i_TargetScale, float i_PulsePerSecond)
-            : base(i_Name, i_AnimationLength)
+        protected void ScaleAnimation_Finished(SpriteAnimation i_Animation)
         {
-            m_Scale = i_TargetScale;
-            m_PulsePerSecond = i_PulsePerSecond;
+            IsFinished = false;
+            Reset();
         }
 
-        public override void Reset(TimeSpan i_AnimationLength)
+        protected override Vector2 ScalePerSecond
         {
-            base.Reset(i_AnimationLength);
-
-            this.BoundSprite.Scale = m_OriginalSpriteInfo.Scale;
-
-            m_SourceScale = m_OriginalSpriteInfo.Scale;
-            m_TargetScale = m_Scale;
-            m_DeltaScale = m_TargetScale - m_SourceScale;
-            m_Shrinking = m_DeltaScale < 0;
-        }
-
-        protected override void DoFrame(GameTime i_GameTime)
-        {
-            float totalSeconds = (float)i_GameTime.ElapsedGameTime.TotalSeconds;
-
-            if (m_Shrinking)
+            get
             {
-                if (this.BoundSprite.Scale > m_TargetScale)
-                {
-                    this.BoundSprite.Scale -= totalSeconds * 2*m_PulsePerSecond * m_DeltaScale;
-                }
-                else
-                {
-                    this.BoundSprite.Scale = m_TargetScale;
-                    m_Shrinking = false;
-                    m_TargetScale = m_SourceScale;
-                    m_SourceScale = this.BoundSprite.Scale;
-                }
+                return (m_TargetScaleSize - m_MinScale) / (float)m_ScaleLength.TotalSeconds;
             }
-            else 
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+
+            if (!IsFinished)
             {
-                if (this.BoundSprite.Scale < m_TargetScale)
-                {
-                    this.BoundSprite.Scale += totalSeconds * 2*m_PulsePerSecond * m_DeltaScale;
-                }
-                else
-                {
-                    this.BoundSprite.Scale = m_TargetScale;
-                    m_Shrinking = true;
-                    m_TargetScale = m_SourceScale;
-                    m_SourceScale = this.BoundSprite.Scale;
-                }
+                //BoundSprite.PositionOrigin = m_OriginalSpriteInfo.PositionOrigin + PositionShiftPerSecond;
+                Vector2 temp = m_MinScale;
+                m_MinScale = m_TargetScaleSize;
+                m_TargetScaleSize = temp;
+                BoundSprite.Scale = temp;
             }
+        }
+
+        protected override void OnFinished()
+        {
+            base.OnFinished();
         }
     }
-     */
 }

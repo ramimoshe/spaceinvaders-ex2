@@ -330,6 +330,7 @@ namespace SpaceInvadersGame.ObjectModel
             m_InputManager = Game.Services.GetService(typeof(InputManager)) as IInputManager;
             base.Initialize();
 
+            Animations.NotifyWhenAllAnimationsFinished = true;
             RotateAnimation rotateAnimation = new RotateAnimation("spaceship_deathRotate", 2 * (float) Math.PI, TimeSpan.FromSeconds(.4f), true);
             FadeAnimation fadeAnimation = new FadeAnimation("spaceship_deathFade", false, 0, 1, true, TimeSpan.FromSeconds(.4f), TimeSpan.FromSeconds(.4f), true);
             Animations.Add(rotateAnimation);
