@@ -12,7 +12,7 @@ namespace SpaceInvadersGame.ObjectModel
     /// <summary>
     /// Represents the barrier game component
     /// </summary>
-    public class Barrier : CollidableSprite, IDefend
+    public class Barrier : CollidableSprite, IDefend, ISoundableGameComponent
     {
         private const string k_AssetName = @"Content\Sprites\Barrier_44x32";
         private const int k_DefaultUpdateOrder = 1;
@@ -26,6 +26,8 @@ namespace SpaceInvadersGame.ObjectModel
         private float m_MinXValue = 0;        
 
         private Color[] m_DefaultColorData;
+
+        public event PlayActionSoundDelegate PlayActionSoundEvent;
 
         public Barrier(Game i_Game)
             : base( 
@@ -81,6 +83,9 @@ namespace SpaceInvadersGame.ObjectModel
             }
         }
 
+        /// <summary>
+        /// Load the component data and saves the loaded texture pixel data
+        /// </summary>
         protected override void     LoadContent()
         {
             base.LoadContent();
@@ -92,6 +97,18 @@ namespace SpaceInvadersGame.ObjectModel
 
             m_MinXValue = Bounds.Left - (Texture.Width / 2);
             m_MaxXValue = Bounds.Right + (Texture.Width / 2);
+        }
+
+        /// <summary>
+        /// Perform the collision logic between the barrier and a given 
+        /// component and than raise a PlayActionSound event
+        /// </summary>
+        /// <param name="i_OtherComponent">The coponent the barrier colided with</param>
+        public override void    Collided(ICollidable i_OtherComponent)
+        {
+            base.Collided(i_OtherComponent);
+
+            onPlayActionSound(eSoundActions.BarrierHit);
         }
 
         /// <summary>
@@ -221,6 +238,18 @@ namespace SpaceInvadersGame.ObjectModel
                 // TODO: Check if i need this set
                 m_FirstUpdate = true;
             }
-        }        
+        }
+
+        /// <summary>
+        /// Raise a PlayActionSoundEvent
+        /// </summary>
+        /// <param name="i_Action">The action that cause the event</param>
+        private void onPlayActionSound(eSoundActions i_Action)
+        {
+            if (PlayActionSoundEvent != null)
+            {
+                PlayActionSoundEvent(i_Action);
+            }
+        }
     }
 }

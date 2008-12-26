@@ -46,5 +46,13 @@ namespace SpaceInvadersGame.ObjectModel
         {
             get { return eInvadersType.PinkInvader; }
         }
+
+        /// <summary>
+        /// Read only property that gets the pink invader hit action value
+        /// </summary>
+        protected override eSoundActions HitAction
+        {
+            get { return eSoundActions.PinkInvaderHit; }
+        }        
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpaceInvadersGame.Interfaces;
 using SpaceInvadersGame;
 using Microsoft.Xna.Framework.Input;
+using SpaceInvadersGame.Service;
 
 namespace SpaceInvadersGame.ObjectModel.Screens
 {   
@@ -23,9 +24,12 @@ namespace SpaceInvadersGame.ObjectModel.Screens
     /// <summary>
     /// The main screen of the space invaders game
     /// </summary>
-    public class SpaceInvadersGameScreen : GameScreen
+    public class SpaceInvadersGameScreen : SpaceInvadersScreenAbstract
     {
-        public event GameOverDelegate ExitGame;        
+        public event GameOverDelegate ExitGame;
+
+        // TODO: Remove the code
+        //protected SoundManager m_SoundManager;
 
         private IGameLevelDataManager m_GameLevelDataManager;
         private int m_CurrLevelNum = 1;     
@@ -182,6 +186,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
                     i_PlayerNum);
 
             newPlayer.PlayerIsDead += new PlayerIsDeadDelegate(spaceShip_PlayerIsDead);
+            newPlayer.PlayActionSoundEvent += new PlayActionSoundDelegate(Component_PlayActionSoundEvent);
             SpaceShipComposite spaceShipHolder = new SpaceShipComposite(
                 Game,
                 newPlayer);
@@ -212,6 +217,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             m_EnemiesMatrix = new InvadersMatrix(Game);
             m_EnemiesMatrix.InvaderReachedScreenEnd += new InvaderReachedScreenEndDelegate(invadersMatrix_InvaderReachedScreenEnd);
             m_EnemiesMatrix.AllInvaderssEliminated += new NoRemainingInvadersDelegate(invadersMatrix_AllInvadersEliminated);
+            m_EnemiesMatrix.PlayActionSoundEvent += new PlayActionSoundDelegate(Component_PlayActionSoundEvent);
             
             this.Add(m_EnemiesMatrix);
 
@@ -219,6 +225,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             this.Add(m_MotherShip);            
 
             m_BarrierHolder = new BarriersHolder(Game);
+            m_BarrierHolder.PlayActionSoundEvent += new PlayActionSoundDelegate(Component_PlayActionSoundEvent);
 
             this.Add(m_BarrierHolder);
         }
@@ -228,6 +235,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             // TODO: Check if we can change it to typeof(IGameLevelDataManager)
 
             m_GameLevelDataManager = Game.Services.GetService(typeof(GameLevelDataManager)) as IGameLevelDataManager;
+            m_SoundManager = Game.Services.GetService(typeof(SoundManager)) as SoundManager;
 
             updateComponentsWithLevelData();
 
@@ -237,6 +245,25 @@ namespace SpaceInvadersGame.ObjectModel.Screens
 
             initComponentsPosition();
         }
+
+        // TODO: Check if i can remove it and the interface also
+
+        /// <summary>
+        /// Adds a component to the screen when in case its a SoundableComponent
+        /// will add a listener to the components event
+        /// </summary>
+        /// <param name="i_Component">The component we want to add to the screen</param>
+        /*public override void    Add(IGameComponent i_Component)
+        {
+            base.Add(i_Component);
+
+            ISoundableGameComponent component = i_Component as ISoundableGameComponent;
+
+            if (component != null)
+            {
+                component.PlayActionSoundEvent += new PlayActionSoundDelegate(component_PlayActionSoundEvent);
+            }
+        }*/
 
         /// <summary>
         /// Updates all the relevant components with the current game level 
@@ -440,5 +467,22 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         {
             onExitGame();
         }
+
+        // TODO: Remove the code
+
+        /// <summary>
+        /// Catch the PlayActionSoundEvent raised by a SoundableGameComponent
+        /// and plays the action sound
+        /// </summary>
+        /// <param name="i_Action">The action that happened in the game that 
+        /// should result in playing a sound</param>
+/*        private void    component_PlayActionSoundEvent(eSoundActions i_Action)
+        {
+            string cue = SoundFactory.GetActionCue(i_Action);
+            if (!cue.Equals(String.Empty))
+            {
+                m_SoundManager.Play(cue);
+            }
+        }*/
     }
 }
