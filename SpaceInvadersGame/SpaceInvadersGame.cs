@@ -15,6 +15,7 @@ using SpaceInvadersGame.ObjectModel;
 using SpaceInvadersGame.ObjectModel.Screens;
 using SpaceInvadersGame.Interfaces;
 using XnaGamesInfrastructure.ObjectModel.Screens;
+using SpaceInvadersGame.Service;
 
 namespace SpaceInvadersGame
 {
@@ -30,8 +31,9 @@ namespace SpaceInvadersGame
     public class SpaceInvadersGame : Microsoft.Xna.Framework.Game
     {
         private const int k_SpaceBetweenLivesDraw = 30;
-        private const string k_Player1ScorePrefix = "P1 Score: ";
-        private const string k_Player2ScorePrefix = "P2 Score: ";
+        private const string k_MusicFileName = "GameMusic";
+        //private const string k_Player1ScorePrefix = "P1 Score: ";
+        //private const string k_Player2ScorePrefix = "P2 Score: ";
 
         private readonly Vector2 r_Player1ScorePosition = new Vector2(5, 10);
         private readonly Vector2 r_Player2ScorePosition = new Vector2(5, 30);
@@ -39,8 +41,10 @@ namespace SpaceInvadersGame
         private GraphicsDeviceManager graphics;
         private SpriteBatch m_SpriteBatch;
 
-        private int m_Player1Score;
-        private int m_Player2Score;
+        private SoundManager m_SoundManager;
+
+        /*private int m_Player1Score;
+        private int m_Player2Score;*/
 
         // TODO: Remove the code
         /*private SpaceShip m_Player1;
@@ -88,11 +92,13 @@ namespace SpaceInvadersGame
             
             MainMenuScreen mainMenu = new MainMenuScreen(this);
             mainMenu.IsModal = true;
-            screensMananger.Push(mainMenu);
+            //screensMananger.Push(mainMenu);
 
             WelcomeScreen welcomeScreen = new WelcomeScreen(this);
             screensMananger.SetCurrentScreen(welcomeScreen);
             backgroundScreen.State = eScreenState.Active;
+
+            m_SoundManager = new SoundManager(this);
 
             // TODO: Remove the code
 
@@ -183,6 +189,10 @@ namespace SpaceInvadersGame
 
             base.Initialize();
 
+            // TODO: Return the music play
+
+            m_SoundManager.Play(k_MusicFileName);
+
             // TODO: Remove the code
 //            initComponentsPosition();
         }
@@ -258,7 +268,7 @@ namespace SpaceInvadersGame
         /// Return a string that states the wining player
         /// </summary>
         /// <returns>A string that states the winning player number</returns>
-        private string getWinningPlayerMsg()
+        /*private string getWinningPlayerMsg()
         {
             string retVal = "\nPlayer {0} Won";
 
@@ -276,7 +286,7 @@ namespace SpaceInvadersGame
             }
 
             return retVal;
-        }
+        }*/
 
         /// <summary>
         /// This is called when the game should draw itself.

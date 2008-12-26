@@ -4,6 +4,7 @@ using System.Text;
 using XnaGamesInfrastructure.ObjectModel;
 using Microsoft.Xna.Framework;
 using SpaceInvadersGame.ObjectModel;
+using SpaceInvadersGame.Interfaces;
 
 namespace SpaceInvadersGame
 {
@@ -14,6 +15,8 @@ namespace SpaceInvadersGame
     {
         private const int k_BarriersNum = 4;
         private GameLevelData m_GameLevelData;
+
+        public event PlayActionSoundDelegate PlayActionSoundEvent;
 
         public BarriersHolder(Game i_Game)
             : base(i_Game)
@@ -41,7 +44,10 @@ namespace SpaceInvadersGame
         {
             for (int i = 0; i < k_BarriersNum; i++)
             {
-                this.Add(new Barrier(this.Game));
+                Barrier bar = new Barrier(this.Game);
+                bar.PlayActionSoundEvent += new PlayActionSoundDelegate(barrier_PlayActionSoundEvent);
+
+                this.Add(bar);
             }
         }        
 
@@ -106,6 +112,29 @@ namespace SpaceInvadersGame
                 barriersEnumeration.Current.MotionVector = new Vector2(
                     m_GameLevelData.BarrierSpeed,
                     0);                
+            }
+        }
+
+        /// <summary>
+        /// Catch a PlayActionSound event raised by a barrier and raised
+        /// it to the listeners
+        /// </summary>
+        /// <param name="i_Action">The action that cause the event</param>
+        private void barrier_PlayActionSoundEvent(eSoundActions i_Action)
+        {
+            onPlayActionSound(i_Action);
+        }
+
+        /// <summary>
+        /// Raise a PlayActionSoundEvent that was raised by a barrier
+        /// </summary>
+        /// <param name="i_Action">The action we want to put in the raised
+        /// event</param>
+        private void onPlayActionSound(eSoundActions i_Action)
+        {
+            if (PlayActionSoundEvent != null)
+            {
+                PlayActionSoundEvent(i_Action);
             }
         }
     }
