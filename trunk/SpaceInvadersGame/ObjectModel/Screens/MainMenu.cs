@@ -19,7 +19,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             base.Initialize();
             MenuItem playersMenuItem = new MenuItem(Game, "Players:   {0}");
             playersMenuItem.Executed += new MenuItemEventHandler(playersMenuItemModified);
-            this.Add();
+//            this.Add();
 
             this.Add(new MenuItem(Game, "nice"));
             this.Add(new MenuItem(Game, "bye"));

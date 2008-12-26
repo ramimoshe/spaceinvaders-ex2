@@ -12,7 +12,7 @@ namespace SpaceInvadersGame.ObjectModel
     /// <summary>
     /// Represents the invaders mother ship
     /// </summary>
-    public class MotherShip : Enemy
+    public class MotherShip : Enemy, ISoundableGameComponent
     {
         private readonly TimeSpan r_TimeBetweenMove = TimeSpan.FromSeconds(5.0f);
         private readonly Vector2 r_MotionVector = new Vector2(-150, 0);
@@ -24,7 +24,9 @@ namespace SpaceInvadersGame.ObjectModel
         //private const int k_Score = 500;
 
         private bool m_MotherShipScaled = false;
-        
+
+        public event PlayActionSoundDelegate PlayActionSoundEvent;
+
         // The initialized position
         private Vector2 m_DefaultPosition;
 
@@ -107,6 +109,7 @@ namespace SpaceInvadersGame.ObjectModel
 
                 if (m_RemainingTimeToMove.TotalSeconds <= 0)
                 {
+                    
                     m_MotherShipScaled = false;
                     Animations[k_ScaleAnimationName].Reset();
 
@@ -135,6 +138,29 @@ namespace SpaceInvadersGame.ObjectModel
         private void onSettingLevelData()
         {
             this.Score = m_LevelData.MotherShipScore;
+        }
+
+        /// <summary>
+        /// Call the parent collided method and raise a PlayActionSoundEvent        
+        /// </summary>
+        /// <param name="i_OtherComponent">The other component we collided with</param>
+        public override void    Collided(XnaGamesInfrastructure.ObjectInterfaces.ICollidable i_OtherComponent)
+        {
+            base.Collided(i_OtherComponent);
+
+            onPlayActionSoundEvent(eSoundActions.MotherShipHit);
+        }
+
+        /// <summary>
+        /// Raise a PlayActionSoundEvent
+        /// </summary>
+        /// <param name="i_Action">The action that cause the event</param>
+        private void    onPlayActionSoundEvent(eSoundActions i_Action)
+        {
+            if (PlayActionSoundEvent != null)
+            {
+                PlayActionSoundEvent(i_Action);
+            }
         }
     }
 }

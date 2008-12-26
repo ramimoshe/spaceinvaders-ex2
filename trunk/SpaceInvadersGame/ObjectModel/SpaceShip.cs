@@ -21,13 +21,13 @@ namespace SpaceInvadersGame.ObjectModel
     /// The class represents the player's component in the game (the 
     /// SpaceShip)
     /// </summary>
-    public class SpaceShip : CollidableSprite, IShoot, IPlayer
+    public class SpaceShip : CollidableSprite, IShoot, IPlayer, ISoundableGameComponent
     {                
         private const int k_AllowedBulletsNum = 3;
         private const int k_Motion = 200;
         private const int k_BulletVelocity = 250;
         private const int k_LostLifeScoreDecrease = 2000;
-        private const int k_LivesNum = 3;
+        private const int k_LivesNum = 3;        
 
         // The initialized position. needed so that we'll know where to position
         // the ship in case of an hit
@@ -214,6 +214,11 @@ namespace SpaceInvadersGame.ObjectModel
                     }
                 }
 
+                if (retVal != null)
+                {
+                    onPlayActionSound(eSoundActions.PlayerShoot);
+                }
+
                 return retVal;
             }
         }
@@ -248,6 +253,7 @@ namespace SpaceInvadersGame.ObjectModel
             // TODO: Move the Bullet property code in here
 
             SpaceShipBullet b = Bullet;
+            
         }
 
         #endregion
@@ -400,6 +406,7 @@ namespace SpaceInvadersGame.ObjectModel
         public override void    Collided(ICollidable i_OtherComponent)
         {
             Animations.Restart();
+            onPlayActionSound(eSoundActions.PlayerHit);
         }
 
         /// <summary>
@@ -482,6 +489,16 @@ namespace SpaceInvadersGame.ObjectModel
             }
         }
 
+        private void    onPlayActionSound(eSoundActions i_Action)
+        {
+            
+            if (PlayActionSoundEvent != null)
+            {
+                PlayActionSoundEvent(i_Action);
+            }
+        }        
 
+        public event PlayActionSoundDelegate PlayActionSoundEvent;
+        
     }
 }

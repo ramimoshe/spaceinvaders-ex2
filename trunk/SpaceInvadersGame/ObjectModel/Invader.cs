@@ -41,13 +41,15 @@ namespace SpaceInvadersGame.ObjectModel
     /// An abstract class that all the small invaders in the invaders matrix 
     /// inherits from
     /// </summary>
-    public abstract class Invader : Enemy, IShoot
+    public abstract class Invader : Enemy, IShoot, ISoundableGameComponent
     {
         private readonly TimeSpan r_DefaultTimeBetweenMoves = 
             TimeSpan.FromSeconds(0.5f);
 
         private const string k_AssetName = @"Sprites\allInvaders";
         private const int k_AllowedBulletsNum = 3;        
+
+        public event PlayActionSoundDelegate PlayActionSoundEvent;
 
         // Raised when an invader reaches one of the allowed screen bounderies
         public event InvaderReachedScreenBoundsDelegate ReachedScreenBounds;
@@ -161,6 +163,14 @@ namespace SpaceInvadersGame.ObjectModel
             get;
         }
 
+        /// <summary>
+        /// Read only property that gets the invader hit action enum value
+        /// </summary>
+        protected abstract eSoundActions   HitAction
+        {
+            get;
+        }        
+
         #region ICollidable Members
 
         /// <summary>
@@ -188,6 +198,8 @@ namespace SpaceInvadersGame.ObjectModel
             if (!(i_OtherComponent is IDefend))
             {
                 base.Collided(i_OtherComponent);
+
+                onPlayActionSound(this.HitAction);
             }
         }
 
@@ -200,6 +212,8 @@ namespace SpaceInvadersGame.ObjectModel
         /// </summary>
         public void     Shoot()
         {
+            bool shot = false;
+
             if (m_Bullets.Count < k_AllowedBulletsNum)
             {
                 Bullet bullet = new EnemyBullet(Game);
@@ -213,6 +227,8 @@ namespace SpaceInvadersGame.ObjectModel
                 bullet.Disposed += new EventHandler(bullet_Disposed);
 
                 m_Bullets.Add(bullet);
+
+                shot = true;
             }
             else
             {
@@ -225,10 +241,17 @@ namespace SpaceInvadersGame.ObjectModel
                                     PositionForDraw.X + (Bounds.Width / 2),
                                     PositionForDraw.Y - (bullet.Bounds.Height / 2));
                         bullet.Visible = true;
+                        shot = true;
                         break;                        
                     }
                 }
-            }            
+            }
+
+            // If the invader shot we'll raise a sound event
+            if (shot)
+            {
+                onPlayActionSound(eSoundActions.EnemyShoot);
+            }
         }
 
         #endregion
@@ -417,6 +440,19 @@ namespace SpaceInvadersGame.ObjectModel
                 {
                     bullet.Visible = false;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Raise a PlayActionSoundEvent
+        /// </summary>
+        /// <param name="i_Action">The action we want to put in the raised
+        /// event</param>
+        private void    onPlayActionSound(eSoundActions i_Action)
+        {
+            if (PlayActionSoundEvent != null)
+            {
+                PlayActionSoundEvent(i_Action);
             }
         }
     }

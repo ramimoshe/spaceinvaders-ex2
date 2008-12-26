@@ -12,7 +12,7 @@ using XnaGamesInfrastructure.Services;
 
 namespace SpaceInvadersGame.ObjectModel.Screens
 {
-    public class WelcomeScreen : GameScreen
+    public class WelcomeScreen : SpaceInvadersScreenAbstract
     {
         private SpriteFontComponent m_WelcomeMessage;
         private SpriteFontComponent m_HitEnterMessage;

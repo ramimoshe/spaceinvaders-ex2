@@ -15,7 +15,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
     /// <summary>
     /// The class is a transition screen between the game levels
     /// </summary>
-    public class LevelTransitionScreen : GameScreen
+    public class LevelTransitionScreen : SpaceInvadersScreenAbstract
     {
         private const int k_TransitionScreenTime = 3;
         private const int k_StartingLevelNum = 1;

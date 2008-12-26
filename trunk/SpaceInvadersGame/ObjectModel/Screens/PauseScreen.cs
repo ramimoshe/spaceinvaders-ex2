@@ -15,7 +15,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
     /// <summary>
     /// The class is the games pause screen
     /// </summary>
-    public class PauseScreen : GameScreen
+    public class PauseScreen : SpaceInvadersScreenAbstract
     {
         private readonly Keys r_ContinueGameKey = Keys.R;
         private readonly string r_PauseText = "PAUSE";
