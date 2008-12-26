@@ -35,6 +35,15 @@ namespace SpaceInvadersGame
             Text = m_TextPrefix + m_Player.Score;
         }
 
+        // TODO: Check if it's ok the set the scale
+
+        public override void    Initialize()
+        {
+            base.Initialize();
+
+            Scale = new Vector2(.5f);
+        }
+
         /// <summary>
         /// Catch a score changed event raised by the player, and updates
         /// the players score

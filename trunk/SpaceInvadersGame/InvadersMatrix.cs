@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using XnaGamesInfrastructure.ObjectModel;
 using SpaceInvadersGame.ObjectModel;
 using SpaceInvadersGame.ObjectModel.Screens;
+using SpaceInvadersGame.Interfaces;
 
 namespace SpaceInvadersGame
 {
@@ -40,14 +41,16 @@ namespace SpaceInvadersGame
 
         // The percent will decrease in the time it takes the enemies 
         // to move. used to increase the enemies speed
-        private const float k_IncreaseEnemiesSpeedFactor = 0.5f;
+        private const float k_IncreaseEnemiesSpeedFactor = 0.95f;
 
         // The time we want to wait between two enemies shoots
         private readonly TimeSpan r_DefaultTimeBetweenShots = TimeSpan.FromSeconds(.75f);
 
         public event NoRemainingInvadersDelegate AllInvaderssEliminated;
 
-        public event InvaderReachedScreenEndDelegate InvaderReachedScreenEnd;        
+        public event InvaderReachedScreenEndDelegate InvaderReachedScreenEnd;
+
+        public event PlayActionSoundDelegate PlayActionSoundEvent;
 
         private bool m_ChangeInvadersDirection = false;
         private int m_EnemiesInLineNum;
@@ -177,6 +180,7 @@ namespace SpaceInvadersGame
                     currEnemy.InvaderMaxPositionY = m_MaxInvadersYPositionYVal;
                     currEnemy.ReachedScreenBounds += new InvaderReachedScreenBoundsDelegate(invader_ReachedScreenBounds);
                     currEnemy.InvaderWasHit += new InvaderWasHitDelegate(invader_InvaderWasHit);
+                    currEnemy.PlayActionSoundEvent += new PlayActionSoundDelegate(invader_PlayActionSoundEvent);
 
                     InvaderComposite invaderHolder = new InvaderComposite(Game, currEnemy);
                     invaderHolder.Disposed += invader_Disposed;
@@ -260,9 +264,8 @@ namespace SpaceInvadersGame
                 m_PrevShotTime -= i_GameTime.ElapsedGameTime;
 
                 if (m_PrevShotTime.TotalSeconds < 0)
-                {
-                    // TODO: Remove the remark
-                    //shootThePlayer();
+                {                    
+                    shootThePlayer();
                     m_PrevShotTime = r_DefaultTimeBetweenShots;
                 }
 
@@ -495,6 +498,7 @@ namespace SpaceInvadersGame
                         currEnemy.InvaderMaxPositionY = m_MaxInvadersYPositionYVal;
                         currEnemy.ReachedScreenBounds += new InvaderReachedScreenBoundsDelegate(invader_ReachedScreenBounds);
                         currEnemy.InvaderWasHit += new InvaderWasHitDelegate(invader_InvaderWasHit);
+                        currEnemy.PlayActionSoundEvent += new PlayActionSoundDelegate(invader_PlayActionSoundEvent);
 
                         InvaderComposite invaderHolder = new InvaderComposite(Game, currEnemy);
                         invaderHolder.Disposed += invader_Disposed;
@@ -507,6 +511,29 @@ namespace SpaceInvadersGame
 
                     m_LastInvadersInLine[i] = currEnemy;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Catch a PlayActionSound event raised by an invader and raised
+        /// it to the listeners
+        /// </summary>
+        /// <param name="i_Action">The action that cause the event</param>
+        private void invader_PlayActionSoundEvent(eSoundActions i_Action)
+        {
+            onPlayActionSound(i_Action);
+        }
+
+        /// <summary>
+        /// Raise a PlayActionSoundEvent that was raised by an invader
+        /// </summary>
+        /// <param name="i_Action">The action we want to put in the raised
+        /// event</param>
+        private void    onPlayActionSound(eSoundActions i_Action)
+        {
+            if (PlayActionSoundEvent != null)
+            {
+                PlayActionSoundEvent(i_Action);
             }
         }
     }

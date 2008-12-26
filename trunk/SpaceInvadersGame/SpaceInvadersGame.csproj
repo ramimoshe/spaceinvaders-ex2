@@ -67,6 +67,7 @@
     <Compile Include="Interfaces\IGameLevelDataManager.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\IPlayerControls.cs" />
+    <Compile Include="Interfaces\ISoundableGameComponent.cs" />
     <Compile Include="InvadersBuilder.cs" />
     <Compile Include="InvadersMatrix.cs" />
     <Compile Include="Interfaces\IShoot.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="ObjectModel\Screens\MenuTypeScreen.cs" />
     <Compile Include="ObjectModel\Screens\PauseScreen.cs" />
     <Compile Include="ObjectModel\Screens\LevelTransitionScreen.cs" />
+    <Compile Include="ObjectModel\Screens\SpaceInvadersScreenAbstract.cs" />
     <Compile Include="ObjectModel\SpaceShipComposite.cs" />
     <Compile Include="ObjectModel\InvaderComposite.cs" />
     <Compile Include="ObjectModel\Enemy.cs" />
@@ -98,7 +100,9 @@
     <Compile Include="PlayerScoreDrawer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Service\SoundManager.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="SoundFactory.cs" />
     <Compile Include="SpaceInvadersGame.cs" />
   </ItemGroup>
   <ItemGroup>
