@@ -251,15 +251,15 @@ Wave Bank
     Windows Bank Path Edited = 0;
     Seek Tables = 1;
     Compression Preset Name = <none>;
-    Bank Last Revised Low = 2621768478;
-    Bank Last Revised High = 29976457;
+    Bank Last Revised Low = 3415129676;
+    Bank Last Revised High = 29976469;
 
     Wave
     {
         Name = bwoop;
-        File = ..\..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\bwoop.wav;
-        Build Settings Last Modified Low = 2219388378;
-        Build Settings Last Modified High = 29976432;
+        File = c:\temp\XNA_Assets\Ex04\Sounds\bwoop.wav;
+        Build Settings Last Modified Low = 3096535926;
+        Build Settings Last Modified High = 29976469;
 
         Cache
         {
@@ -280,9 +280,9 @@ Wave Bank
     Wave
     {
         Name = explode;
-        File = ..\..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\explode.wav;
-        Build Settings Last Modified Low = 2219388378;
-        Build Settings Last Modified High = 29976432;
+        File = c:\temp\XNA_Assets\Ex04\Sounds\explode.wav;
+        Build Settings Last Modified Low = 3277160926;
+        Build Settings Last Modified High = 29976469;
 
         Cache
         {
@@ -303,9 +303,9 @@ Wave Bank
     Wave
     {
         Name = laser;
-        File = ..\..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\laser.wav;
-        Build Settings Last Modified Low = 2219544628;
-        Build Settings Last Modified High = 29976432;
+        File = c:\temp\XNA_Assets\Ex04\Sounds\laser.wav;
+        Build Settings Last Modified Low = 3348254676;
+        Build Settings Last Modified High = 29976469;
 
         Cache
         {
@@ -326,9 +326,9 @@ Wave Bank
     Wave
     {
         Name = tear_it_down;
-        File = ..\..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\tear_it_down.wav;
-        Build Settings Last Modified Low = 2219544628;
-        Build Settings Last Modified High = 29976432;
+        File = c:\temp\XNA_Assets\Ex04\Sounds\tear_it_down.wav;
+        Build Settings Last Modified Low = 3415129676;
+        Build Settings Last Modified High = 29976469;
 
         Cache
         {
