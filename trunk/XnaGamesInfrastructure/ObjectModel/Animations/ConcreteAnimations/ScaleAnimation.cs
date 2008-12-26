@@ -13,10 +13,8 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
     /// </summary>
     public class ScaleAnimation : SpriteAnimation
     {
-        private TimeSpan m_ScaleLength;
-        private Vector2 m_TargetScaleSize;
-        private Vector2 m_ScalePerSecond;
-        private Vector2 m_PositionShiftPerSecond;
+        protected TimeSpan m_ScaleLength;
+        protected Vector2 m_TargetScaleSize;
 
         /// <summary>
         /// Creates a new scale animation
@@ -40,46 +38,47 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         /// <summary>
         /// Overrided to perform calculation on original bound sprite
         /// </summary>
-        protected override void     CloneSpriteInfo()
+        public override void     Initialize()
         {
-            base.CloneSpriteInfo();
+            base.Initialize();
+        }
 
-            float xScale =
-                (m_TargetScaleSize.X - m_OriginalSpriteInfo.Scale.X) /
-                (float)m_ScaleLength.TotalSeconds;
-
-            float yScale =
-                (m_TargetScaleSize.Y - m_OriginalSpriteInfo.Scale.Y) /
-                (float)m_ScaleLength.TotalSeconds;
-
-            // Scale change per second is calculated here
-            m_ScalePerSecond = new Vector2(xScale, yScale);
-
-            // Position shift per second is calculated here
-            float targetWidth = m_OriginalSpriteInfo.WidthBeforeScale * ScalePerSecond.X;
-            float targetHeight = m_OriginalSpriteInfo.HeightBeforeScale * ScalePerSecond.Y;
-            m_PositionShiftPerSecond = new Vector2(targetWidth / 2, targetHeight / 2);
+        /// <summary>
+        /// Gets the original sprite scale
+        /// </summary>
+        virtual protected Vector2   OriginalSpriteScale
+        {
+            get
+            {
+                return m_OriginalSpriteInfo.Scale;
+            }
         }
 
         /// <summary>
         /// Returns the scale change per second
         /// </summary>
-        private Vector2     ScalePerSecond
+        protected virtual Vector2 ScalePerSecond
         {
             get
             {
-                return m_ScalePerSecond;
+                return new Vector2(
+                    (m_TargetScaleSize.X - OriginalSpriteScale.X) / 
+                    (float)m_ScaleLength.TotalSeconds,
+                    (m_TargetScaleSize.Y - OriginalSpriteScale.Y) /
+                    (float)m_ScaleLength.TotalSeconds);
             }
         }
 
         /// <summary>
-        /// Returns the position shift er second to maintain sprite centered
+        /// Returns the position shift per second to maintain sprite centered
         /// </summary>
         private Vector2     PositionShiftPerSecond
         {
             get
             {
-                return m_PositionShiftPerSecond;
+                return new Vector2(
+                    m_OriginalSpriteInfo.WidthAfterScale * ScalePerSecond.X,
+                    m_OriginalSpriteInfo.HeightAfterScale * ScalePerSecond.Y);
             }
         }
 

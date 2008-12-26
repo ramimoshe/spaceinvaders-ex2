@@ -12,6 +12,7 @@ namespace SpaceInvadersGame
     /// A drawable game component that is responsible to draw a
     /// player lives on the screen
     /// </summary>
+    // TODO: change base class to CompositeDrawableComponent
     public class PlayerLivesDrawer : DrawableGameComponent
     {        
         private const int k_SpaceBetweenLives = 25;
@@ -55,7 +56,7 @@ namespace SpaceInvadersGame
         {
             base.Initialize();
 
-            m_SpriteBatch = new SpriteBatch(GraphicsDevice);
+            m_SpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
             m_DrawTextures = new List<Texture2D>();
 
             for (int i = 0; i < m_Player.RemainingLives; i++)
