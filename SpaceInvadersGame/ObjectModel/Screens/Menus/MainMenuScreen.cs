@@ -8,6 +8,9 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
     public class MainMenuScreen : MenuTypeScreen
     {
         const string k_MainMenuName = "Main Menu";
+        const int k_PlayersNumMin = 1;
+        const int k_PlayersNumMax = 2;
+        int m_PlayersNum = k_PlayersNumMin;
 
         OptionsMenuItem m_PlayersMenuItem;
         MenuItem m_ScreenOptionsItem;
@@ -47,10 +50,17 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
 
         private void playersItem_Increased()
         {
+            changeNumberOfPlayers(-1);
         }
 
         private void playersItem_Decreased()
         {
+            changeNumberOfPlayers(1);
+        }
+
+        private void changeNumberOfPlayers(int numDelta)
+        {
+            m_PlayersNum = (int) MathHelper.Clamp(m_PlayersNum + numDelta, k_PlayersNumMin, k_PlayersNumMax);
         }
 
         private void screenOptionsItem_Executed()
@@ -64,6 +74,9 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         private void playItem_Executed()
         {
             ExitScreen();
+            ScreensManager.SetCurrentScreen(new SpaceInvadersGameScreen(
+                                                Game, 
+                                                m_PlayersNum));
         }
 
         private void quitItem_Executed()
