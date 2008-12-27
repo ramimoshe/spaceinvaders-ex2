@@ -15,8 +15,6 @@ using XnaGamesInfrastructure.Services;
 
 namespace SpaceInvadersGame.ObjectModel.Screens
 {   
-    // TODO: Move the delegate to another class
-    
     /// <summary>
     /// A delegate for catching a new component created event for
     /// adding it to the current game screen
@@ -244,8 +242,6 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             m_GameLevelDataManager = Game.Services.GetService(typeof(GameLevelDataManager)) as IGameLevelDataManager;            
 
             updateComponentsWithLevelData();
-
-            // TODO: Add a new list for all the level data components
 
             base.Initialize();
 
