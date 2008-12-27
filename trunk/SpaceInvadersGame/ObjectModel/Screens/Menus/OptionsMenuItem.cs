@@ -7,7 +7,10 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SpaceInvadersGame.ObjectModel.Screens.Menus
 {
-    public delegate void MenuOptionChangedEventHandler();
+    /// <summary>
+    /// Used to notify menu item option 
+    /// </summary>
+    public delegate void MenuOptionChangedEventHandler(int i_CurrentOptionIndex);
 
     public class OptionsMenuItem : MenuItem
     {
@@ -15,11 +18,10 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         private int m_CurrentOptionIndex = 0;
 
         public  OptionsMenuItem(
-                Game i_Game, 
-                List<string> i_OptionsText,
-                MenuOptionChangedEventHandler decreasedHandler,
-                MenuOptionChangedEventHandler increasedHandler)
-            : this(i_Game, i_OptionsText, 0, decreasedHandler, increasedHandler)
+                Game i_Game,
+                List<string> i_OptionsText, 
+                MenuOptionChangedEventHandler modificationHandler)
+            : this(i_Game, i_OptionsText, 0, modificationHandler)
         {
         }
 
@@ -27,21 +29,15 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
                   Game i_Game,
                   List<string> i_OptionsText,
                   int i_StartingTextIndex,
-                  MenuOptionChangedEventHandler decreasedHandler,
-                  MenuOptionChangedEventHandler increasedHandler)
+                  MenuOptionChangedEventHandler modificationHandler)
             : base(i_Game, i_OptionsText[i_StartingTextIndex], null)
         {
             m_OptionsText = i_OptionsText;
             m_CurrentOptionIndex = i_StartingTextIndex;
 
-            if (decreasedHandler != null)
+            if (modificationHandler != null)
             {
-                Decreased += new MenuOptionChangedEventHandler(decreasedHandler);
-            }
-
-            if (increasedHandler != null)
-            {
-                Increased += new MenuOptionChangedEventHandler(increasedHandler);
+                Modified += new MenuOptionChangedEventHandler(modificationHandler);
             }
         }
 
@@ -61,15 +57,13 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             }
         }
 
-
         public override void Update(GameTime i_GameTime)
         {
             base.Update(i_GameTime);
+            int changeIndex = 0;
 
             if (IsSelected)
-            {
-                int changeIndex = 0;
-                
+            {                
                 if (m_InputManager.KeyPressed(Keys.PageDown))
                 {
                     changeIndex = -1;
@@ -79,44 +73,23 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
                     changeIndex = 1;
                 }
 
-                int nextIndex = (int) MathHelper.Clamp(
-                                m_CurrentOptionIndex + changeIndex, 
-                                0, 
-                                m_OptionsText.Count - 1);
-
-                if (nextIndex != m_CurrentOptionIndex)
+                if (changeIndex != 0)
                 {
-                    m_CurrentOptionIndex = nextIndex;
-                    Text = m_OptionsText[nextIndex];
-
-                    if (changeIndex == 1)
-                    {
-                        OnDecreased();
-                    }
-                    else
-                    {
-                        OnIncreased();
-                    }
+                    m_CurrentOptionIndex = (m_CurrentOptionIndex + m_OptionsText.Count + changeIndex) % m_OptionsText.Count;
+                    Text = m_OptionsText[m_CurrentOptionIndex];
+                    OnOptionModified();
                 }
+
             }
         }
 
-        public event MenuOptionChangedEventHandler Decreased;
-        public event MenuOptionChangedEventHandler Increased;
+        public event MenuOptionChangedEventHandler Modified;
 
-        private void OnDecreased()
+        private void OnOptionModified()
         {
-            if (Decreased != null)
+            if (Modified != null)
             {
-                Decreased();
-            }
-        }
-
-        private void OnIncreased()
-        {
-            if (Increased != null)
-            {
-                Increased();
+                Modified(m_CurrentOptionIndex);
             }
         }
     }

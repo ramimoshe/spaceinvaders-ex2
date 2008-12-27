@@ -251,8 +251,8 @@ Wave Bank
     Windows Bank Path Edited = 0;
     Seek Tables = 1;
     Compression Preset Name = <none>;
-    Bank Last Revised Low = 1345649382;
-    Bank Last Revised High = 29976633;
+    Bank Last Revised Low = 2363810776;
+    Bank Last Revised High = 29976744;
 
     Wave
     {
@@ -272,8 +272,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 318558122;
-            Last Modified High = 29972371;
+            Last Modified Low = 2891482112;
+            Last Modified High = 29921003;
         }
     }
 
@@ -295,8 +295,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 319808122;
-            Last Modified High = 29972371;
+            Last Modified Low = 1005037824;
+            Last Modified High = 29924781;
         }
     }
 
@@ -318,8 +318,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 320276872;
-            Last Modified High = 29972371;
+            Last Modified Low = 3935784192;
+            Last Modified High = 29920523;
         }
     }
 
@@ -341,8 +341,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 325120622;
-            Last Modified High = 29972371;
+            Last Modified Low = 1130882304;
+            Last Modified High = 29920526;
         }
     }
 
@@ -364,8 +364,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 3628530892;
-            Last Modified High = 29976573;
+            Last Modified Low = 2235772928;
+            Last Modified High = 29976632;
         }
     }
 
@@ -387,8 +387,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 1673192958;
-            Last Modified High = 29976577;
+            Last Modified Low = 275903744;
+            Last Modified High = 29976636;
         }
     }
 
@@ -410,8 +410,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 1481069056;
-            Last Modified High = 29653439;
+            Last Modified Low = 77998592;
+            Last Modified High = 29653498;
         }
     }
 
@@ -433,8 +433,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 1990147928;
-            Last Modified High = 29976632;
+            Last Modified Low = 592702464;
+            Last Modified High = 29976691;
         }
     }
 
@@ -456,8 +456,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 1839210428;
-            Last Modified High = 29976632;
+            Last Modified Low = 452702464;
+            Last Modified High = 29976691;
         }
     }
 
@@ -479,8 +479,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 2350929178;
-            Last Modified High = 29976632;
+            Last Modified Low = 952702464;
+            Last Modified High = 29976691;
         }
     }
 
@@ -502,8 +502,31 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 2224210428;
-            Last Modified High = 29976632;
+            Last Modified Low = 832702464;
+            Last Modified High = 29976691;
+        }
+    }
+
+    Wave
+    {
+        Name = GameMusic;
+        File = ..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Sounds\GameMusic.wav;
+        Build Settings Last Modified Low = 2261310776;
+        Build Settings Last Modified High = 29976744;
+
+        Cache
+        {
+            Format Tag = 0;
+            Channels = 2;
+            Sampling Rate = 11025;
+            Bits Per Sample = 0;
+            Play Region Offset = 46;
+            Play Region Length = 3414282;
+            Loop Region Offset = 0;
+            Loop Region Length = 0;
+            File Type = 1;
+            Last Modified Low = 3883153072;
+            Last Modified High = 29976743;
         }
     }
 }
@@ -1074,6 +1097,52 @@ Sound Bank
         }
     }
 
+    Sound
+    {
+        Name = GameMusic;
+        Volume = -1200;
+        Pitch = 0;
+        Priority = 0;
+
+        Category Entry
+        {
+            Name = Music;
+        }
+
+        Track
+        {
+            Volume = 0;
+
+            Play Wave Event
+            {
+                Break Loop = 0;
+                Use Speaker Position = 0;
+                Use Center Speaker = 1;
+                New Speaker Position On Loop = 1;
+                Speaker Position Angle = 0.000000;
+                Speaer Position Arc = 0.000000;
+
+                Event Header
+                {
+                    Timestamp = 0;
+                    Relative = 0;
+                    Random Recurrence = 0;
+                    Random Offset = 0;
+                }
+
+                Wave Entry
+                {
+                    Bank Name = SpaceInvaders;
+                    Bank Index = 0;
+                    Entry Name = GameMusic;
+                    Entry Index = 11;
+                    Weight = 255;
+                    Weight Min = 0;
+                }
+            }
+        }
+    }
+
     Cue
     {
         Name = OptionChange;
@@ -1127,8 +1196,8 @@ Sound Bank
 
         Sound Entry
         {
-            Name = tear_it_down;
-            Index = 0;
+            Name = GameMusic;
+            Index = 12;
             Weight Min = 0;
             Weight Max = 255;
         }

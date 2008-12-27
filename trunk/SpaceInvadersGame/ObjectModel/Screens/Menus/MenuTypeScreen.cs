@@ -26,6 +26,8 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             Add(m_Title);
         }
 
+
+
         /// <summary>
         /// Adds a new component to the screen. 
         /// In case it's a MenuItem, we'll save it in a dedicated list in
@@ -36,16 +38,29 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         {
             base.Add(i_Component);
 
-            if (i_Component is MenuItem)
+            MenuItem item = i_Component as MenuItem;
+
+            if (item != null)
             {
-                m_MenuItems.Add((MenuItem)i_Component);
+                m_MenuItems.Add(item);
                 SetItemPosition(m_MenuItems.Count - 1);
+                item.Selected += new MenuItemSelectedEventHandler(item_Selected);
 
                 if (m_MenuItems.Count == 1)
                 {
                     m_MenuItems[0].IsSelected = true;
                     m_CurrentMenuItem = 0;
                 }
+            }
+        }
+
+        void item_Selected(MenuItem i_Item)
+        {
+            int newSelectedItem = m_MenuItems.IndexOf(i_Item);
+
+            if (newSelectedItem != m_CurrentMenuItem)
+            {
+                setCurrentItem(newSelectedItem);
             }
         }
 
@@ -116,25 +131,19 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         private void    changeCurrentItem(bool i_MoveDown)
         {
             int itemsToMove = i_MoveDown ? 1 : -1;
-            int newCurrentItem = m_CurrentMenuItem + itemsToMove;
+            int newCurrentItem = m_CurrentMenuItem + itemsToMove + m_MenuItems.Count;
+            newCurrentItem %= m_MenuItems.Count;
 
-            // If we moved up from the first menu item, or if we moved down 
-            // from the last menu item, we'll move the current item to the 
-            // last/first item
-            if (newCurrentItem < 0)
-            {
-                newCurrentItem = m_MenuItems.Count + newCurrentItem;
-            }
-            else if (newCurrentItem > (m_MenuItems.Count - 1))
-            {
-                newCurrentItem = newCurrentItem - (m_MenuItems.Count - 1) - 1;
-            }
+            setCurrentItem(newCurrentItem);
+        }
 
-            if (newCurrentItem != m_CurrentMenuItem)
+        private void setCurrentItem(int i_NewItemIndex)
+        {
+            if (i_NewItemIndex != m_CurrentMenuItem && m_CurrentMenuItem != -1)
             {
                 m_MenuItems[m_CurrentMenuItem].IsSelected = false;
-                m_MenuItems[newCurrentItem].IsSelected = true;
-                m_CurrentMenuItem = newCurrentItem;
+                m_MenuItems[i_NewItemIndex].IsSelected = true;
+                m_CurrentMenuItem = i_NewItemIndex;
 
                 // Play the change menu item cue
                 PlayActionCue(eSoundActions.MenuItemChanged);

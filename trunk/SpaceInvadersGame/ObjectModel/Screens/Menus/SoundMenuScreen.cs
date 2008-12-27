@@ -39,19 +39,16 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
                                             Game,
                                             m_EffectVolumeTexts,
                                             currentSoundFXVolume,
-                                            m_SoundEffetsVolumeItem_Increased,
-                                            m_SoundEffetsVolumeItem_Decreased);
+                                            m_SoundEffetsVolumeItem_Modified);
             m_MusicVolumeItem = new OptionsMenuItem(
                                     Game,
                                     m_MusicVolumeTexts,
                                     currentMusicVolume,
-                                    m_MusicVolumeItem_Increased,
-                                    m_MusicVolumeItem_Decreased);
+                                    m_MusicVolumeItem_Modified);
             m_ToggleSoundItem = new OptionsMenuItem(
                                     Game,
                                     new List<string>(k_ToggleSoundText),
-                                    m_ToggleSoundItem_Increased,
-                                    m_ToggleSoundItem_Decreased);
+                                    m_ToggleSoundItem_Modified);
             m_DoneItem = new MenuItem(Game, "Done", m_DoneItem_Executed);
 
             Add(m_SoundEffetsVolumeItem);
@@ -60,32 +57,17 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             Add(m_DoneItem);
         }
 
-        void m_SoundEffetsVolumeItem_Increased()
+        void m_SoundEffetsVolumeItem_Modified(int i_CurrentVolume)
         {
-            m_SoundManager.SoundFXVolume += (float)k_VolumeChangeValue / (float) k_VolumeMax;
+            m_SoundManager.SoundFXVolume = (float)i_CurrentVolume * (float)k_VolumeChangeValue / (float)k_VolumeMax;
         }
 
-        void m_SoundEffetsVolumeItem_Decreased()
+        void m_MusicVolumeItem_Modified(int i_CurrentVolume)
         {
-            m_SoundManager.SoundFXVolume -= (float)k_VolumeChangeValue / (float)k_VolumeMax;
+            m_SoundManager.MusicVolume = (float)i_CurrentVolume * (float)k_VolumeChangeValue / (float)k_VolumeMax;
         }
 
-        void m_MusicVolumeItem_Increased()
-        {
-            m_SoundManager.MusicVolume += (float)k_VolumeChangeValue / (float)k_VolumeMax;
-        }
-
-        void m_MusicVolumeItem_Decreased()
-        {
-            m_SoundManager.MusicVolume -= (float)k_VolumeChangeValue / (float)k_VolumeMax;
-        }
-
-        void m_ToggleSoundItem_Increased()
-        {
-            m_SoundManager.ToggleMute(true);
-        }
-
-        void m_ToggleSoundItem_Decreased()
+        void m_ToggleSoundItem_Modified(int i_Dummy)
         {
             m_SoundManager.ToggleMute(true);
         }

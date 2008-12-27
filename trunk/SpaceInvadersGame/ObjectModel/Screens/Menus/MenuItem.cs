@@ -11,25 +11,35 @@ using XnaGamesInfrastructure.Services;
 
 namespace SpaceInvadersGame.ObjectModel.Screens.Menus
 {
-    public delegate void MenuItemEventHandler();
+    /// <summary>
+    /// Notifies when item needs to execute something
+    /// </summary>
+    public delegate void MenuItemExecuteEventHandler();
+
+    /// <summary>
+    /// Notifies when a non selected menu item was selected
+    /// </summary>
+    /// <param name="i_Item">Selected item</param>
+    public delegate void MenuItemSelectedEventHandler(MenuItem i_Item);
 
     public class MenuItem : SpriteFontComponent
     {
         private bool m_Selected = false;
         readonly private Color r_TintWhenSelected = Color.OrangeRed;
         readonly private Color r_TintWhenDeSelected = Color.Silver;
-        public event MenuItemEventHandler Executed = null;
+        public event MenuItemExecuteEventHandler Executed;
+        public event MenuItemSelectedEventHandler Selected;
         private const string k_DefaultAssetName = @"Fonts\Tahoma28";
         protected IInputManager m_InputManager;
 
-        public MenuItem(Game i_Game, string i_Text, MenuItemEventHandler executedHandler)
+        public MenuItem(Game i_Game, string i_Text, MenuItemExecuteEventHandler executedHandler)
             : base(i_Game, k_DefaultAssetName, i_Text)
         {
             TintColor = r_TintWhenDeSelected;
 
             if (executedHandler != null)
             {
-                Executed += new MenuItemEventHandler(executedHandler);
+                Executed += new MenuItemExecuteEventHandler(executedHandler);
             }
         }
 
@@ -79,6 +89,11 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             {
                 Animations.Restart(TimeSpan.Zero);
             }
+
+            if (Selected != null)
+            {
+                Selected(this);
+            }
         }
 
         public void OnMenuItemDeSelected()
@@ -96,27 +111,21 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         {
             base.Update(i_GameTime);
 
-            // TODO: try to fix this
-            /*
-            MouseState mouseState = m_InputManager.MouseState;
-            if (!IsSelected && 
-                ScreenBoundsAfterScale.Intersects(new Rectangle(mouseState.X, mouseState.Y, 1, 1)))
+            bool mouseOnItem = ScreenBoundsAfterScale.Intersects(
+                                        new Rectangle(
+                                            m_InputManager.MouseState.X, 
+                                            m_InputManager.MouseState.Y, 
+                                            1, 
+                                            1));
+
+            if (!IsSelected && mouseOnItem)
             {
                 IsSelected = true;
-
-                if (IsSelected && m_InputManager.ButtonPressed(eInputButtons.Left))
-                {
-                    Execute();
-                }
             }
-            else if (IsSelected &&
-                     !ScreenBoundsAfterScale.Intersects(new Rectangle(mouseState.X, mouseState.Y, 1, 1)))
-            {
-                IsSelected = false;
-            }
-            */
 
-            if (m_InputManager.KeyPressed(Keys.Enter) && IsSelected)
+            if ((m_InputManager.KeyPressed(Keys.Enter) ||
+                 (m_InputManager.ButtonPressed(eInputButtons.Left) && mouseOnItem))
+                && IsSelected)
             {
                 Execute();
             }
