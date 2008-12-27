@@ -1492,4 +1492,24 @@ Sound Bank
             Weight Max = 255;
         }
     }
+
+    Cue
+    {
+        Name = LevelTrans;
+
+        Variation
+        {
+            Variation Type = 3;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = LevelTrans;
+            Index = 13;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+    }
 }
