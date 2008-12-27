@@ -15,6 +15,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
     {
         protected TimeSpan m_ScaleLength;
         protected Vector2 m_TargetScaleSize;
+        protected Vector2 m_PositionShiftPerSecond;
 
         /// <summary>
         /// Creates a new scale animation
@@ -41,6 +42,10 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         public override void     Initialize()
         {
             base.Initialize();
+            m_PositionShiftPerSecond = new Vector2(
+                            m_OriginalSpriteInfo.WidthAfterScale * ScalePerSecond.X / 2,
+                            m_OriginalSpriteInfo.HeightAfterScale * ScalePerSecond.Y / 2);
+            m_PositionShiftPerSecond -= m_OriginalSpriteInfo.PositionOrigin;
         }
 
         /// <summary>
@@ -57,7 +62,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         /// <summary>
         /// Returns the scale change per second
         /// </summary>
-        protected virtual Vector2 ScalePerSecond
+        protected virtual Vector2   ScalePerSecond
         {
             get
             {
@@ -72,13 +77,11 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         /// <summary>
         /// Returns the position shift per second to maintain sprite centered
         /// </summary>
-        private Vector2     PositionShiftPerSecond
+        protected virtual Vector2   PositionShiftPerSecond
         {
             get
             {
-                return new Vector2(
-                    m_OriginalSpriteInfo.WidthAfterScale * ScalePerSecond.X,
-                    m_OriginalSpriteInfo.HeightAfterScale * ScalePerSecond.Y);
+                return m_PositionShiftPerSecond;
             }
         }
 

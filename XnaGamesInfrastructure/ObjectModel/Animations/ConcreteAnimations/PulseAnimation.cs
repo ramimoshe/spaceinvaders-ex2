@@ -28,26 +28,19 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
             Vector2 i_MaxScale,
             TimeSpan i_AnimationLength,
             bool i_ResetAfterFinish,
-            TimeSpan i_PulseTime)
-            : base(i_Name, i_MaxScale, i_PulseTime, i_ResetAfterFinish)
+            TimeSpan i_PulseTime) 
+            : base(i_Name, i_MaxScale, i_AnimationLength, i_ResetAfterFinish)
         {
             m_TimeLeftForPulse = i_PulseTime;
             m_PulseTime = i_PulseTime;
             m_MinScale = i_MinScale;
-            this.Finished += new AnimationFinishedEventHandler(ScaleAnimation_Finished);
+            m_ScaleLength = m_PulseTime;
         }
 
         public override void Initialize()
         {
             base.Initialize();
             BoundSprite.Scale = m_MinScale;
-        }
-
-
-        protected void ScaleAnimation_Finished(SpriteAnimation i_Animation)
-        {
-            IsFinished = false;
-            Reset();
         }
 
         protected override Vector2 ScalePerSecond
@@ -58,23 +51,40 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
             }
         }
 
-        public override void Reset()
+        /// <summary>
+        /// Returns the position shift per second to maintain sprite centered
+        /// </summary>
+        protected override Vector2 PositionShiftPerSecond
         {
-            base.Reset();
-
-            if (!IsFinished)
+            get
             {
-                //BoundSprite.PositionOrigin = m_OriginalSpriteInfo.PositionOrigin + PositionShiftPerSecond;
-                Vector2 temp = m_MinScale;
-                m_MinScale = m_TargetScaleSize;
-                m_TargetScaleSize = temp;
-                BoundSprite.Scale = temp;
+                return Vector2.Zero;
             }
         }
 
-        protected override void OnFinished()
+        protected override void DoFrame(GameTime i_GameTime)
         {
-            base.OnFinished();
+            base.DoFrame(i_GameTime);
+
+            m_TimeLeftForPulse -= i_GameTime.ElapsedGameTime;
+
+            if (m_TimeLeftForPulse <= TimeSpan.Zero)
+            {
+                m_TimeLeftForPulse = m_PulseTime;
+                Reset();
+                ReverseScale();
+            }
+        }
+
+        private void ReverseScale()
+        {
+            BoundSprite.Scale = m_TargetScaleSize;
+            Vector2 temp = m_MinScale;
+            m_MinScale = m_TargetScaleSize;
+            m_TargetScaleSize = temp;
+            m_PositionShiftPerSecond = new Vector2(
+                        BoundSprite.WidthAfterScale * ScalePerSecond.X / 2,
+                        BoundSprite.HeightAfterScale * ScalePerSecond.Y / 2);
         }
     }
 }

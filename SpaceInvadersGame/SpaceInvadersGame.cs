@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Storage;
 using XnaGamesInfrastructure.Services;
 using SpaceInvadersGame.ObjectModel;
 using SpaceInvadersGame.ObjectModel.Screens;
+using SpaceInvadersGame.ObjectModel.Screens.Menus;
 using SpaceInvadersGame.Interfaces;
 using XnaGamesInfrastructure.ObjectModel.Screens;
 using SpaceInvadersGame.Service;
@@ -82,17 +83,19 @@ namespace SpaceInvadersGame
                 levelTransitionScreen);
             gameScreen.ExitGame += new GameOverDelegate(spaceInvadersGameScreen_GameOver);
 
-            //PauseScreen pauseScreen = new PauseScreen(this);
+            PauseScreen pauseScreen = new PauseScreen(this);
             ScreensMananger screensMananger = new ScreensMananger(this);
             BackgroundScreen backgroundScreen = new BackgroundScreen(this, 100);
             screensMananger.Push(backgroundScreen);
-            //screensMananger.Push(pauseScreen);
+            screensMananger.Push(pauseScreen);
             screensMananger.Push(gameScreen);
             screensMananger.Push(levelTransitionScreen);
             
+            
             MainMenuScreen mainMenu = new MainMenuScreen(this);
             mainMenu.IsModal = true;
-            //screensMananger.Push(mainMenu);
+            screensMananger.Push(mainMenu);
+            
 
             WelcomeScreen welcomeScreen = new WelcomeScreen(this);
             screensMananger.SetCurrentScreen(welcomeScreen);
