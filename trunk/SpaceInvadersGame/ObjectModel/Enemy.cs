@@ -99,6 +99,6 @@ namespace SpaceInvadersGame.ObjectModel
             {
                 m_EnemyScore = value;
             }
-        }       
+        }            
     }
 }
