@@ -30,15 +30,10 @@ namespace SpaceInvadersGame.ObjectModel.Screens
     {
         public event GameOverDelegate ExitGame;
 
-        // TODO: Remove the code
-        //protected SoundManager m_SoundManager;
-
-        private IGameLevelDataManager m_GameLevelDataManager;
+        private IGameLevelDataManager m_GameLevelDataManager;     
         private int m_CurrLevelNum = 1;     
         private SpaceShipComposite[] m_Players;
         private bool[] m_PlayersAliveMark;
-
-        private bool m_NeedToPresentTransitionScreen = true;
 
         private const int k_SpaceBetweenLivesDraw = 30;
         private const string k_Player1ScorePrefix = "P1 Score: ";
@@ -56,24 +51,11 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         private GameScreen m_PauseScreen;
         private GameOverScreen m_GameOverScreen;
 
-        // TODO: Remove the code
-        /*private PlayerLivesDrawer m_Player2LivesDrawer;
-        private PlayerScoreDrawer m_Player1ScoreDrawer;
-        private PlayerScoreDrawer m_Player2ScoreDrawer;*/
-
         private BarriersHolder m_BarrierHolder;
 
         private bool m_GameOver = false;
         private bool m_GameStarted = false;
         private ICollisionManager m_CollisionManager;
-
-        // TODO: Remove code
-
-/*        private bool m_Player1IsDead = false;
-        private bool m_Player2IsDead = false;*/
-
-        // TODO: Change the transition screen so that it won't be 
-        // a parameter
 
         public SpaceInvadersGameScreen(Game i_Game, int i_PlayersNum)
             : base(i_Game)
@@ -252,8 +234,6 @@ namespace SpaceInvadersGame.ObjectModel.Screens
 
         public override void    Initialize()
         {
-            // TODO: Check if we can change it to typeof(IGameLevelDataManager)
-
             m_GameLevelDataManager = Game.Services.GetService(typeof(GameLevelDataManager)) as IGameLevelDataManager;            
 
             updateComponentsWithLevelData();
@@ -264,25 +244,6 @@ namespace SpaceInvadersGame.ObjectModel.Screens
 
             initComponentsPosition();
         }
-
-        // TODO: Check if i can remove it and the interface also
-
-        /// <summary>
-        /// Adds a component to the screen when in case its a SoundableComponent
-        /// will add a listener to the components event
-        /// </summary>
-        /// <param name="i_Component">The component we want to add to the screen</param>
-        /*public override void    Add(IGameComponent i_Component)
-        {
-            base.Add(i_Component);
-
-            ISoundableGameComponent component = i_Component as ISoundableGameComponent;
-
-            if (component != null)
-            {
-                component.PlayActionSoundEvent += new PlayActionSoundDelegate(component_PlayActionSoundEvent);
-            }
-        }*/
 
         /// <summary>
         /// Updates all the relevant components with the current game level 
@@ -313,19 +274,6 @@ namespace SpaceInvadersGame.ObjectModel.Screens
 
             PlayActionCue(eSoundActions.KillAllEnemies);
         }
-
-        // TODO: Remove the proc
-
-        /*private void    updateComponentsWithLevelData()
-        {
-            
-
-            m_MotherShip.UpdateComponentLevelData(m_GameLevelDataManager[m_CurrLevelNum]);
-            m_EnemiesMatrix.UpdateComponentLevelData(m_GameLevelDataManager[m_CurrLevelNum]);
-            m_BarrierHolder.UpdateComponentLevelData(m_GameLevelDataManager[m_CurrLevelNum]);
-        }*/
-
-        // TODO: Move the players to a dedicated manager class
 
         /// <summary>
         /// Change the main components position in the screen according
@@ -465,18 +413,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         {
             if (ExitGame != null)
             {
-                // TODO: Remove the remarked code
-
-                /*IPlayer[] players = new SpaceShip[m_Players.Length];
-                int i = 0;
-
-                foreach (SpaceShipComposite spaceShip in m_Players)
-                {
-                    players[i] = spaceShip.SpaceShip;
-                    i++;
-                }*/
-
-                ExitGame(/*players*/);
+                ExitGame();
             }
         }
 
@@ -493,22 +430,5 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             ScreensManager.SetCurrentScreen(m_GameOverScreen);
             this.Dispose();
         }  
-
-        // TODO: Remove the code
-
-        /// <summary>
-        /// Catch the PlayActionSoundEvent raised by a SoundableGameComponent
-        /// and plays the action sound
-        /// </summary>
-        /// <param name="i_Action">The action that happened in the game that 
-        /// should result in playing a sound</param>
-/*        private void    component_PlayActionSoundEvent(eSoundActions i_Action)
-        {
-            string cue = SoundFactory.GetActionCue(i_Action);
-            if (!cue.Equals(String.Empty))
-            {
-                m_SoundManager.Play(cue);
-            }
-        }*/
     }
 }
