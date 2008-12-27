@@ -11,9 +11,6 @@ namespace SpaceInvadersGame.ObjectModel
     /// </summary>
     public class PinkInvader : Invader
     {
-        // TODO: Remove the code
-        //private const int k_Score = 300;
-
         private const int k_TextureYPositionVal = 0;
 
         public PinkInvader(
@@ -25,19 +22,6 @@ namespace SpaceInvadersGame.ObjectModel
             TintColor = Color.Pink;
             this.SourcePosition = new Vector2(0, k_TextureYPositionVal);
         }
-
-        // TODO: Remove the code
-
-        /// <summary>
-        /// A property for the invader score
-        /// </summary>
-       /* public override int     Score
-        {
-            get 
-            { 
-                return k_Score; 
-            }
-        }*/
 
         /// <summary>
         /// Returns the invader type (PinkInvader) 
