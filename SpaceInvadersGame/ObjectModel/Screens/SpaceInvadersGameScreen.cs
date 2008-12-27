@@ -64,6 +64,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         private BarriersHolder m_BarrierHolder;
 
         private bool m_GameOver = false;
+        private bool m_GameStarted = false;
         private ICollisionManager m_CollisionManager;
 
         // TODO: Remove code
@@ -400,6 +401,12 @@ namespace SpaceInvadersGame.ObjectModel.Screens
                 lifeDraw.DrawPosition = livesDrawPosition;
                 livesDrawPosition.Y += k_SpaceBetweenLivesDraw;
             }
+        }
+
+        protected override void OnActivated()
+        {
+            base.OnActivated();
+            ScreensManager.SetCurrentScreen(m_LevelTransitionGameScreen);
         }
 
         /// <summary>
