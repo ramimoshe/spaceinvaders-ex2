@@ -65,6 +65,15 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         /// should result in playing a sound</param>
         protected void    Component_PlayActionSoundEvent(eSoundActions i_Action)
         {
+            PlayActionCue(i_Action);
+        }
+
+        /// <summary>
+        /// Plays a cue for a given action in the game
+        /// </summary>
+        /// <param name="i_Action">The action that we need to play a cue for</param>
+        protected void  PlayActionCue(eSoundActions i_Action)
+        {
             string cue = SoundFactory.GetActionCue(i_Action);
             if (!cue.Equals(String.Empty))
             {
