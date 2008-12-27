@@ -45,8 +45,9 @@ namespace SpaceInvadersGame.ObjectModel
             TimeSpan.FromSeconds(0.5f);
 
         private const string k_AssetName = @"Sprites\allInvaders";
-        private const int k_AllowedBulletsNum = 3;
         private readonly Vector2 r_DefaultMotionVector = new Vector2(500, 0);
+
+        private int m_AllowedBulletsNum;
 
         public event PlayActionSoundDelegate PlayActionSoundEvent;
 
@@ -110,6 +111,7 @@ namespace SpaceInvadersGame.ObjectModel
             m_TimeLeftToNextMove = m_TimeBetweenMove;
             m_InvaderRow = i_InvaderRow;
             m_StartingCel = i_InvaderRow % k_NumOfFrames;
+            m_AllowedBulletsNum = Constants.k_AllowedInvadersBulletsNum;
         }
 
         /// <summary>
@@ -177,7 +179,18 @@ namespace SpaceInvadersGame.ObjectModel
         protected abstract eSoundActions   HitAction
         {
             get;
-        }        
+        }
+
+        /// <summary>
+        /// Sets the invader allowed bullets num
+        /// </summary>
+        public int  AllowedBulletsNum
+        {
+            set
+            {
+                m_AllowedBulletsNum = value;
+            }
+        }
 
         #region ICollidable Members
 
@@ -222,7 +235,7 @@ namespace SpaceInvadersGame.ObjectModel
         {
             bool shot = false;
 
-            if (m_Bullets.Count < k_AllowedBulletsNum)
+            if (m_Bullets.Count < m_AllowedBulletsNum)
             {
                 Bullet bullet = new EnemyBullet(Game);
                 onReleasedShot(bullet);
