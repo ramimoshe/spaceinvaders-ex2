@@ -28,7 +28,7 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// </summary>
         protected virtual void  RegisterAsService()
         {
-            this.Game.Services.AddService(this.GetType(), this);
+            this.Game.Services.AddService(this.GetType(), this);            
         }
     }
 }
