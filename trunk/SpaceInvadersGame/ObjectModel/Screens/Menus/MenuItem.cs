@@ -22,10 +22,15 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         private const string k_DefaultAssetName = @"Fonts\Tahoma28";
         protected IInputManager m_InputManager;
 
-        public MenuItem(Game i_Game, string i_Text)
+        public MenuItem(Game i_Game, string i_Text, MenuItemEventHandler executedHandler)
             : base(i_Game, k_DefaultAssetName, i_Text)
         {
             TintColor = r_TintWhenDeSelected;
+
+            if (executedHandler != null)
+            {
+                Executed += new MenuItemEventHandler(executedHandler);
+            }
         }
 
         public override void Initialize()

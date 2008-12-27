@@ -76,10 +76,12 @@
     <Compile Include="ObjectModel\Barrier.cs" />
     <Compile Include="ObjectModel\Screens\BackgroundScreen.cs" />
     <Compile Include="ObjectModel\Screens\GameOverScreen.cs" />
+    <Compile Include="ObjectModel\Screens\Menus\DisplayMenuScreen.cs" />
     <Compile Include="ObjectModel\Screens\Menus\MainMenuScreen.cs" />
     <Compile Include="ObjectModel\Screens\Menus\MenuItem.cs" />
     <Compile Include="ObjectModel\Screens\Menus\MenuTypeScreen.cs" />
     <Compile Include="ObjectModel\Screens\Menus\OptionsMenuItem.cs" />
+    <Compile Include="ObjectModel\Screens\Menus\SoundMenuScreen.cs" />
     <Compile Include="ObjectModel\Screens\PauseScreen.cs" />
     <Compile Include="ObjectModel\Screens\LevelTransitionScreen.cs" />
     <Compile Include="ObjectModel\Screens\SpaceInvadersScreenAbstract.cs" />
