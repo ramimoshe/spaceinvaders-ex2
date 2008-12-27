@@ -121,20 +121,22 @@ namespace SpaceInvadersGame.Service
             }
         }
 
+        // TODO: Remove the code
+
         /// <summary>
         /// Mute the sound category only
         /// </summary>
-        public void     ToggleMute()
+     /*   public void     ToggleMute()
         {
             this.ToggleMute(k_DefaultMuteFX);
-        }
+        }*/
 
         /// <summary>
         /// Mute the sound category and the fx category if needed
         /// </summary>
         /// <param name="i_ToggleFXMute">Mark if we want to mute the sound
         /// fx also</param>
-        public void     ToggleMute(bool i_ToggleFXMute)
+        public void     ToggleMute(/*bool i_ForceMute*/)
         {
             m_MusicEnabled = !m_MusicEnabled;
 
@@ -142,15 +144,17 @@ namespace SpaceInvadersGame.Service
                 k_MusicCategoryName, 
                 !m_MusicEnabled ?  0 : m_MusicVolume);   
 
+            // TODO: Remove the remarked code
+
             // Check if we need to mute the FX also
-            if (i_ToggleFXMute)
-            {
+           // if (i_ToggleFXMute)
+           // {
                 m_FXEnabled = !m_FXEnabled;
 
                 changeCategoryVolume(
                     k_FXCategoryName,
                     !m_FXEnabled ? 0 : m_SoundFXVolume);   
-            }
+           // }
         }
 
         /// <summary>
