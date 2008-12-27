@@ -19,6 +19,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
     {
         private const int k_TransitionScreenTime = 3;
         private const int k_StartingLevelNum = 1;
+        private const string k_LevelTransitionCueName = "LevelTrans";
 
         private readonly string r_EndingSecondStr = "1";
         private readonly string r_LevelMessageText = "Level {0}";
@@ -144,7 +145,15 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             m_TimeRemainingForScreen = k_TransitionScreenTime;
             m_CurrLevelNum++;
             initMessagesText();            
-        }      
+        }
+
+        protected override void     OnActivating()
+        {
+            m_SoundManager.StopCue(Constants.k_MusicCueName);
+            m_SoundManager.Play(k_LevelTransitionCueName, false);
+
+            base.OnActivating();
+        }
 
         protected override void     OnDeactivated()
         {
