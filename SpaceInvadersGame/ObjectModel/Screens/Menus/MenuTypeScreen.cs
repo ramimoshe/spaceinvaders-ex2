@@ -98,12 +98,12 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             if (InputManager.KeyPressed(Keys.Down) || 
                 InputManager.ScrollWheelDelta < 0)
             {
-                ChangeCurrentItem(true);
+                changeCurrentItem(true);
             }
             else if (InputManager.KeyPressed(Keys.Up) ||
                      InputManager.ScrollWheelDelta > 0)
             {
-                ChangeCurrentItem(false);
+                changeCurrentItem(false);
             }
         }
 
