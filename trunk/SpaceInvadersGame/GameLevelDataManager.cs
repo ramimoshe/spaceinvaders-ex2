@@ -101,9 +101,9 @@ namespace SpaceInvadersGame
         {
             get 
             {
-                int levelNum = i_LevelNum % (k_LevelsNum + 1);
-                levelNum = (i_LevelNum > k_LevelsNum) ?
-                    levelNum : levelNum - 1;
+                int levelNum = (i_LevelNum % k_LevelsNum) - 1;
+                levelNum = (levelNum >= 0) ?
+                    levelNum : k_LevelsNum + levelNum;
 
                 return m_LevelsData[levelNum];
             }
