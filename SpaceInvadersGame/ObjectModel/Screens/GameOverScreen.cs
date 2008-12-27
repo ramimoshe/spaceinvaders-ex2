@@ -25,6 +25,9 @@ namespace SpaceInvadersGame.ObjectModel.Screens
 
         private readonly Vector2 r_WiningMsgScale = new Vector2(.85f, .85f);
 
+        private readonly string r_PlayerWonMsg = "Player {0} Won";
+        private readonly string r_TieMsg = "Tie. Players scores are equal.";
+        private readonly string r_PlayerScoreText = "Player {0} Score is: {1}";
         private readonly string r_GameOverText = "Game Over";
         private readonly string r_KeysText = 
 @"Press: 
@@ -78,7 +81,7 @@ O to go to the Main Menu";
 
                 if (m_Players.Length == 2)
                 {
-                    retVal = "Player {0} Won";
+                    retVal = r_PlayerWonMsg;
 
                     if (m_Players[0].Score > m_Players[1].Score)
                     {
@@ -90,14 +93,15 @@ O to go to the Main Menu";
                     }
                     else
                     {
-                        retVal = "Tie. Players scores are equal.";
+                        retVal = r_TieMsg;
                     }
                 }
 
+                // Creates the players score messages
                 for (int i = 0; i < m_Players.Length; i++)
                 {
-                    retVal += "\nplayer " + (i+1) + " score is: " + 
-                        m_Players[i].Score;
+                    retVal += "\n" + 
+                        String.Format(r_PlayerScoreText, (i+1), m_Players[i].Score);
                 }
 
                 return retVal;
@@ -111,6 +115,8 @@ O to go to the Main Menu";
         {
             set { m_Players = value; }
         }
+
+        // TODO: Split the method. to long
 
         /// <summary>
         /// Initialize the screen by setting the messages positions
@@ -145,7 +151,6 @@ O to go to the Main Menu";
             m_KeysMessage.PositionOfOrigin =
                 new Vector2(
                 center.X,
-                //                center.Y + m_WinningPlayerMessage.HeightAfterScale);
                 (m_GameOverMessage.PositionOfOrigin.Y +
                 (m_GameOverMessage.HeightAfterScale * 6)));
             m_KeysMessage.PositionOrigin = m_KeysMessage.SpriteCenter;            
