@@ -251,6 +251,12 @@ Wave Bank
     Windows Bank Path Edited = 0;
     Seek Tables = 1;
     Compression Preset Name = <none>;
+    Xbox Bank Last Modified Low = 0;
+    Xbox Bank Last Modified High = 0;
+    PC Bank Last Modified Low = 0;
+    PC Bank Last Modified High = 0;
+    Header Last Modified Low = 0;
+    Header Last Modified High = 0;
     Bank Last Revised Low = 3415129676;
     Bank Last Revised High = 29976469;
 
@@ -354,11 +360,13 @@ Sound Bank
     Windows File = Win\SpaceInvaders.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
+    Header Last Modified High = 0;
+    Header Last Modified Low = 0;
 
     Sound
     {
         Name = tear_it_down;
-        Volume = 0;
+        Volume = -300;
         Pitch = 0;
         Priority = 0;
 
@@ -405,7 +413,7 @@ Sound Bank
     Sound
     {
         Name = bwoop;
-        Volume = -1200;
+        Volume = 0;
         Pitch = 0;
         Priority = 0;
 
@@ -451,7 +459,7 @@ Sound Bank
     Sound
     {
         Name = explode;
-        Volume = -1200;
+        Volume = 0;
         Pitch = 0;
         Priority = 0;
 
@@ -497,7 +505,7 @@ Sound Bank
     Sound
     {
         Name = laser;
-        Volume = -500;
+        Volume = 0;
         Pitch = 0;
         Priority = 0;
 
@@ -543,7 +551,7 @@ Sound Bank
     Sound
     {
         Name = enemyLaser;
-        Volume = -1200;
+        Volume = 0;
         Pitch = 800;
         Priority = 0;
 
