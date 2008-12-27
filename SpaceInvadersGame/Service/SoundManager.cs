@@ -13,7 +13,6 @@ using Microsoft.Xna.Framework.Storage;
 
 namespace SpaceInvadersGame.Service
 {    
-
     /// <summary>
     /// The class manages all the games sounds
     /// </summary>
@@ -95,16 +94,14 @@ namespace SpaceInvadersGame.Service
             m_SoundBank = new SoundBank(m_AudioEngine, k_ContentFolder + k_SoundBankName);
         }
 
-        // TODO: Enable the code
-
         /// <summary>
         /// Updates the audio engine data
         /// </summary>
         /// <param name="i_GameTime">A snapshot of the current game time</param>
-       /* public override void    Update(GameTime i_GameTime)            
+        public override void    Update(GameTime i_GameTime)            
         {
             m_AudioEngine.Update();
-        }*/
+        }
 
         /// <summary>
         /// Play a given cue
@@ -126,17 +123,7 @@ namespace SpaceInvadersGame.Service
 
                 cue.Play();
             }
-        }
-
-        // TODO: Remove the code
-
-        /// <summary>
-        /// Mute the sound category only
-        /// </summary>
-     /*   public void     ToggleMute()
-        {
-            this.ToggleMute(k_DefaultMuteFX);
-        }*/
+        }   
 
         /// <summary>
         /// Mute the sound category and the fx category if needed
@@ -150,18 +137,12 @@ namespace SpaceInvadersGame.Service
             changeCategoryVolume(
                 k_MusicCategoryName, 
                 !m_MusicEnabled ?  0 : m_MusicVolume);   
+     
+            m_FXEnabled = !m_FXEnabled;
 
-            // TODO: Remove the remarked code
-
-            // Check if we need to mute the FX also
-           // if (i_ToggleFXMute)
-           // {
-                m_FXEnabled = !m_FXEnabled;
-
-                changeCategoryVolume(
+            changeCategoryVolume(
                     k_FXCategoryName,
                     !m_FXEnabled ? 0 : m_SoundFXVolume);   
-           // }
         }
 
         /// <summary>
