@@ -24,5 +24,7 @@ namespace SpaceInvadersGame
         public const float k_LivesDrawTransparentValue = 0.5f;
 
         public const int k_StarsNum = 100;
+
+        public const string k_MusicCueName = "GameMusic";
     }
 }
