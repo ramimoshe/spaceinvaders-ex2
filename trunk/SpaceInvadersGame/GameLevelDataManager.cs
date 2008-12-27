@@ -20,6 +20,9 @@ namespace SpaceInvadersGame
         private const int k_Barrier2LevelSpeed = 40;
         private const float k_IncreaseBarrierSpeed = .25f;
         private const int k_InvadersColumnNum = 9;        
+        private const float k_TimeBetweenInvadersShootsFactor = .05f;
+        private readonly TimeSpan r_DefaultTimeBetweenShots = 
+            TimeSpan.FromSeconds(.75f);
 
         private GameLevelData[] m_LevelsData;
 
@@ -43,16 +46,6 @@ namespace SpaceInvadersGame
             return retVal;
         }
 
-   /*     private void    initGameData()
-        {
-            m_FirstLevelData = new GameLevelData(
-                k_Barrier1LevelSpeed,
-                k_InvadersColumnNum,
-                k_MotherShipScore,
-                r_InvadersDefaultScores);
-
-        }*/
-
         private Dictionary<eInvadersType, int>  getFirstLevelScoreMap()
         {
             Dictionary<eInvadersType, int> retVal = 
@@ -70,24 +63,33 @@ namespace SpaceInvadersGame
             Dictionary<eInvadersType, int> currLevelInvadersScore =
                 getFirstLevelScoreMap();
 
+            TimeSpan currInvadersShootsTime =
+                    r_DefaultTimeBetweenShots;
+
             // Create first level game data
             m_LevelsData[0] = new GameLevelData(
                 k_Barrier1LevelSpeed,
                 k_InvadersColumnNum,
                 k_MotherShipScore,
-                getFirstLevelScoreMap());
+                getFirstLevelScoreMap(),
+                currInvadersShootsTime,
+                Constants.k_AllowedInvadersBulletsNum);            
 
             // Create all the rest game levels data
             for (int i = 1; i < k_LevelsNum; i++)
             {
                 currLevelInvadersScore =
-                    createNextLevelScoreMap(currLevelInvadersScore);
+                    createNextLevelScoreMap(currLevelInvadersScore);                
+                currInvadersShootsTime -= 
+                    TimeSpan.FromSeconds(k_TimeBetweenInvadersShootsFactor);
 
                 m_LevelsData[i] = new GameLevelData(
                     k_Barrier2LevelSpeed + (int)(k_IncreaseBarrierSpeed * (i-1)),
                     k_InvadersColumnNum + i,
                     k_MotherShipScore + (i * k_IncreaseLevelScoreVal),
-                    currLevelInvadersScore);
+                    currLevelInvadersScore,
+                    currInvadersShootsTime,
+                    Constants.k_AllowedInvadersBulletsNum + i);
             }
         }
 

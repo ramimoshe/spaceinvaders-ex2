@@ -44,9 +44,6 @@ namespace SpaceInvadersGame
         // to move. used to increase the enemies speed
         private const float k_IncreaseEnemiesSpeedFactor = 0.95f;
 
-        // The time we want to wait between two enemies shoots
-        private readonly TimeSpan r_DefaultTimeBetweenShots = TimeSpan.FromSeconds(.75f);
-
         public event NoRemainingInvadersDelegate AllInvaderssEliminated;
 
         public event InvaderReachedScreenEndDelegate InvaderReachedScreenEnd;
@@ -55,6 +52,8 @@ namespace SpaceInvadersGame
 
         private bool m_ChangeInvadersDirection = false;
         private int m_EnemiesInLineNum;
+
+        private TimeSpan m_TimeBetweenInvadersShots;
 
         // A time counter that contains a random seconds for the time space between
         // the enemies shoots
@@ -85,7 +84,6 @@ namespace SpaceInvadersGame
         public InvadersMatrix(Game i_Game) 
             : base(i_Game)
         {
-            m_PrevShotTime = r_DefaultTimeBetweenShots;
             m_LastInvadersInLine = new Invader[k_NumOfEnemiesLines];
         }
 
@@ -263,8 +261,8 @@ namespace SpaceInvadersGame
                 if (m_PrevShotTime.TotalSeconds < 0)
                 {     
                     // TODO: Enable
-                    //shootThePlayer();
-                    m_PrevShotTime = r_DefaultTimeBetweenShots;
+                    shootThePlayer();
+                    m_PrevShotTime = m_TimeBetweenInvadersShots;
                 }
 
                 // In case an enemy reached the end of the screen width, we
@@ -436,6 +434,8 @@ namespace SpaceInvadersGame
             }
             m_ChangeInvadersDirection = false;
             m_EnemiesInLineNum = LevelData.InvadersColumnNum;
+            m_TimeBetweenInvadersShots = LevelData.TimeBetweenEnemiesShoots;
+            m_PrevShotTime = m_TimeBetweenInvadersShots;
 
             // TODO: Delete the remarks
 
@@ -460,6 +460,8 @@ namespace SpaceInvadersGame
                 Invader currInvader = invadersEnumeration.Current.Invader;
                 currInvader.Score =
                     m_GameLevelData.GetInvaderScore(currInvader.InvaderType);
+                currInvader.AllowedBulletsNum =
+                    m_GameLevelData.AllowedEnemiesShootsNum;
                 currInvader.Visible = true;
                 currInvader.ResetInvader();
 
@@ -475,7 +477,7 @@ namespace SpaceInvadersGame
         /// </summary>
         /// <param name="i_ColumnsNum">The number of columns that we want to 
         /// remove from the matrix</param>
-        private void removeColumnsFromMatrix(int i_ColumnsNum)
+        private void    removeColumnsFromMatrix(int i_ColumnsNum)
         {
             if (i_ColumnsNum > 0)
             {
@@ -617,7 +619,7 @@ namespace SpaceInvadersGame
         /// it to the listeners
         /// </summary>
         /// <param name="i_Action">The action that cause the event</param>
-        private void invader_PlayActionSoundEvent(eSoundActions i_Action)
+        private void    invader_PlayActionSoundEvent(eSoundActions i_Action)
         {
             onPlayActionSound(i_Action);
         }

@@ -26,5 +26,7 @@ namespace SpaceInvadersGame
         public const int k_StarsNum = 100;
 
         public const string k_MusicCueName = "GameMusic";
+
+        public const int k_AllowedInvadersBulletsNum = 3;
     }
 }
