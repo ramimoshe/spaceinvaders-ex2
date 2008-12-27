@@ -19,9 +19,20 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
                 List<string> i_OptionsText,
                 MenuOptionChangedEventHandler decreasedHandler,
                 MenuOptionChangedEventHandler increasedHandler)
-            : base(i_Game, i_OptionsText[0], null)
+            : this(i_Game, i_OptionsText, 0, decreasedHandler, increasedHandler)
+        {
+        }
+
+        public OptionsMenuItem(
+                  Game i_Game,
+                  List<string> i_OptionsText,
+                  int i_StartingTextIndex,
+                  MenuOptionChangedEventHandler decreasedHandler,
+                  MenuOptionChangedEventHandler increasedHandler)
+            : base(i_Game, i_OptionsText[i_StartingTextIndex], null)
         {
             m_OptionsText = i_OptionsText;
+            m_CurrentOptionIndex = i_StartingTextIndex;
 
             if (decreasedHandler != null)
             {
@@ -32,11 +43,6 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             {
                 Increased += new MenuOptionChangedEventHandler(increasedHandler);
             }
-        }
-
-        void inc()
-        {
-            throw new Exception("The method or operation is not implemented.");
         }
 
         public List<string> OptionsText

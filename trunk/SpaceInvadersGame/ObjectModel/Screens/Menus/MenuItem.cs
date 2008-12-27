@@ -38,14 +38,13 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             base.Initialize();
             m_InputManager = Game.Services.GetService(typeof(InputManager)) as IInputManager;
 
-
             Animations.Add(new PulseAnimation(
                     "MenuItem_selected",
-                    Vector2.One * 0.95f,
-                    Vector2.One * 1.05f,
+                    Vector2.One * 0.97f,
+                    Vector2.One * 1.03f,
                     TimeSpan.Zero,
                     false,
-                    TimeSpan.FromSeconds(0.5f)));
+                    TimeSpan.FromSeconds(0.35f)));
         }
 
         public bool IsSelected
