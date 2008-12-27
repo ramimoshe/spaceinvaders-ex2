@@ -43,8 +43,12 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             }
         }
 
-        // TODO: Check if the code should be here
-
+        /// <summary>
+        /// Adds a new component to the screen and in case its a 
+        /// ISoundableGameComponent we'll add it to a dedicated inner list
+        /// </summary>
+        /// <param name="i_Component">The new component we want to add 
+        /// to the screen</param>
         public override void    Add(IGameComponent i_Component)
         {
             base.Add(i_Component);
