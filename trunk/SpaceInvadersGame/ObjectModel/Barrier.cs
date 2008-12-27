@@ -21,7 +21,6 @@ namespace SpaceInvadersGame.ObjectModel
         private const int k_XMotionSpeed = 100;
         private const float k_TransparentPercent = .75f;        
 
-        private bool m_FirstUpdate = true;
         private float m_MaxXValue = 0;
         private float m_MinXValue = 0;        
 
@@ -56,17 +55,6 @@ namespace SpaceInvadersGame.ObjectModel
         /// <param name="i_GameTime">Provides a snapshot of timing values.</param>
         public override void    Update(GameTime i_GameTime)
         {
-            // TODO: Check why i need this code here
-
-            // On the first update, we'll set the barrier maximum and
-            // minimum bounds 
-            if (m_FirstUpdate)
-            {
-                m_FirstUpdate = false;
-                m_MinXValue = Bounds.Left - (Texture.Width / 2);
-                m_MaxXValue = Bounds.Right + (Texture.Width / 2);
-            }
-
             base.Update(i_GameTime);
 
             // If the barrier reached one of the allowed bounds, we'll switch
@@ -90,8 +78,25 @@ namespace SpaceInvadersGame.ObjectModel
             Color[] colorData = this.ColorData;
 
             m_DefaultColorData = new Color[colorData.Length];
-            Array.Copy(colorData, m_DefaultColorData, colorData.Length);
+            Array.Copy(colorData, m_DefaultColorData, colorData.Length);            
+        }
 
+        /// <summary>
+        /// Initialize the component by calculating the bounds it 
+        /// can move between
+        /// </summary>
+        public override void    Initialize()
+        {
+            base.Initialize();
+
+            CalcBarrierBounds();
+        }
+
+        /// <summary>
+        /// Calculate the bounds that the barrier can move between
+        /// </summary>
+        public void    CalcBarrierBounds()
+        {
             m_MinXValue = Bounds.Left - (Texture.Width / 2);
             m_MaxXValue = Bounds.Right + (Texture.Width / 2);
         }
@@ -228,9 +233,7 @@ namespace SpaceInvadersGame.ObjectModel
             if (m_DefaultColorData != null)
             {
                 this.Texture.SetData<Color>(m_DefaultColorData);
-                this.PositionForDraw = DefaultPosition;
-
-                m_FirstUpdate = true;
+                this.PositionForDraw = DefaultPosition;               
             }
         }
 
