@@ -64,7 +64,6 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         private BarriersHolder m_BarrierHolder;
 
         private bool m_GameOver = false;
-        private bool m_GameStarted = false;
         private ICollisionManager m_CollisionManager;
 
         // TODO: Remove code

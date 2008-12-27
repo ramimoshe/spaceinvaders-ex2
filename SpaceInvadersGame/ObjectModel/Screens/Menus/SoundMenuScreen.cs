@@ -22,56 +22,72 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         private OptionsMenuItem m_ToggleSoundItem;
         private MenuItem m_DoneItem;
 
-        private int m_CurrentSoundEffectsVolumeIndicator = 0;
-        private int m_CurrentMusicEffectsVolumnIndicator = 0;
-
         public SoundMenuScreen(Game i_Game)
             : base(i_Game, k_SoundMenuName)
         {
             m_EffectVolumeTexts = generateTexts("Set Sound Effects Volume");
             m_MusicVolumeTexts = generateTexts("Set Music Volume");
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+            int currentSoundFXVolume = (int)(m_SoundManager.SoundFXVolume * k_VolumeChangeValue);
+            int currentMusicVolume = (int)(m_SoundManager.MusicVolume * k_VolumeChangeValue);
 
             m_SoundEffetsVolumeItem = new OptionsMenuItem(
-                                            Game, 
-                                            m_EffectVolumeTexts, 
-                                            m_SoundEffetsVolumeItem_Increased, 
+                                            Game,
+                                            m_EffectVolumeTexts,
+                                            currentSoundFXVolume,
+                                            m_SoundEffetsVolumeItem_Increased,
                                             m_SoundEffetsVolumeItem_Decreased);
             m_MusicVolumeItem = new OptionsMenuItem(
-                                    Game, 
-                                    m_MusicVolumeTexts, 
-                                    m_MusicVolumeItem_Increased, 
+                                    Game,
+                                    m_MusicVolumeTexts,
+                                    currentMusicVolume,
+                                    m_MusicVolumeItem_Increased,
                                     m_MusicVolumeItem_Decreased);
             m_ToggleSoundItem = new OptionsMenuItem(
-                                    Game, 
-                                    new List<string>(k_ToggleSoundText), 
-                                    m_ToggleSoundItem_Increased, 
+                                    Game,
+                                    new List<string>(k_ToggleSoundText),
+                                    m_ToggleSoundItem_Increased,
                                     m_ToggleSoundItem_Decreased);
             m_DoneItem = new MenuItem(Game, "Done", m_DoneItem_Executed);
+
+            Add(m_SoundEffetsVolumeItem);
+            Add(m_MusicVolumeItem);
+            Add(m_ToggleSoundItem);
+            Add(m_DoneItem);
         }
 
         void m_SoundEffetsVolumeItem_Increased()
         {
-            m_CurrentMusicEffectsVolumnIndicator += 1;
+            m_SoundManager.SoundFXVolume += k_VolumeChangeValue / k_VolumeMax;
         }
 
         void m_SoundEffetsVolumeItem_Decreased()
         {
+            m_SoundManager.SoundFXVolume -= k_VolumeChangeValue / k_VolumeMax;
         }
 
         void m_MusicVolumeItem_Increased()
         {
+            m_SoundManager.MusicVolume += k_VolumeChangeValue / k_VolumeMax;
         }
 
         void m_MusicVolumeItem_Decreased()
         {
+            m_SoundManager.MusicVolume -= k_VolumeChangeValue / k_VolumeMax;
         }
 
         void m_ToggleSoundItem_Increased()
         {
+            m_SoundManager.ToggleMute(true);
         }
 
         void m_ToggleSoundItem_Decreased()
         {
+            m_SoundManager.ToggleMute(true);
         }
 
         private List<string> generateTexts(string i_Prefix)
@@ -80,7 +96,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
 
             for (int i = k_VolumnMin; i <= k_VolumeMax; i += k_VolumeChangeValue)
             {
-                textList.Add(i_Prefix + ":\t" + i);
+                textList.Add(i_Prefix + ":  " + i);
             }
 
             return textList;
