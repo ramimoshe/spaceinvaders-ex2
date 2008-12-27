@@ -18,6 +18,11 @@ namespace XnaGamesInfrastructure.Services
         /// </summary>
         protected List<ICollidable> m_Collidables = new List<ICollidable>();
 
+        private Type RegisterType
+        {
+            get { return typeof(ICollisionManager); }
+        }
+
         /// <summary>
         /// Sets a manager with default maximum update order
         /// </summary>
@@ -41,7 +46,7 @@ namespace XnaGamesInfrastructure.Services
         /// </summary>
         protected override void     RegisterAsService()
         {
-            this.Game.Services.AddService(typeof(ICollisionManager), this);
+            this.Game.Services.AddService(RegisterType, this);
         }
 
         /// <summary>
@@ -115,5 +120,18 @@ namespace XnaGamesInfrastructure.Services
                 }
             }
         }
+
+        /// <summary>
+        /// Disposes the current coponent and remove it from the game services
+        /// list
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged 
+        /// resources; false to release only unmanaged resources.</param>
+        protected override void     Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            Game.Services.RemoveService(RegisterType);
+        }        
     }
 }
