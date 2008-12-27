@@ -10,7 +10,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
     {
         private const string k_SoundMenuName = "Sound Options";
         private const int k_VolumeChangeValue = 10;
-        private const int k_VolumnMin = 0;
+        private const int k_VolumeMin = 0;
         private const int k_VolumeMax = 100;
         private string[] k_ToggleSoundText = { "Toggle Sound: On", "Toggle Sound: Off" };
 
@@ -62,22 +62,22 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
 
         void m_SoundEffetsVolumeItem_Increased()
         {
-            m_SoundManager.SoundFXVolume += k_VolumeChangeValue / k_VolumeMax;
+            m_SoundManager.SoundFXVolume += (float)k_VolumeChangeValue / (float) k_VolumeMax;
         }
 
         void m_SoundEffetsVolumeItem_Decreased()
         {
-            m_SoundManager.SoundFXVolume -= k_VolumeChangeValue / k_VolumeMax;
+            m_SoundManager.SoundFXVolume -= (float)k_VolumeChangeValue / (float)k_VolumeMax;
         }
 
         void m_MusicVolumeItem_Increased()
         {
-            m_SoundManager.MusicVolume += k_VolumeChangeValue / k_VolumeMax;
+            m_SoundManager.MusicVolume += (float)k_VolumeChangeValue / (float)k_VolumeMax;
         }
 
         void m_MusicVolumeItem_Decreased()
         {
-            m_SoundManager.MusicVolume -= k_VolumeChangeValue / k_VolumeMax;
+            m_SoundManager.MusicVolume -= (float)k_VolumeChangeValue / (float)k_VolumeMax;
         }
 
         void m_ToggleSoundItem_Increased()
@@ -94,7 +94,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         {
             List<string> textList = new List<string>();
 
-            for (int i = k_VolumnMin; i <= k_VolumeMax; i += k_VolumeChangeValue)
+            for (int i = k_VolumeMin; i <= k_VolumeMax; i += k_VolumeChangeValue)
             {
                 textList.Add(i_Prefix + ":  " + i);
             }

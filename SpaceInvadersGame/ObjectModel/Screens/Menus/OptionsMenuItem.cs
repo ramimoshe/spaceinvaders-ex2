@@ -72,11 +72,11 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
                 
                 if (m_InputManager.KeyPressed(Keys.PageDown))
                 {
-                    changeIndex = 1;
+                    changeIndex = -1;
                 }
                 else if (m_InputManager.KeyPressed(Keys.PageUp))
                 {
-                    changeIndex = -1;
+                    changeIndex = 1;
                 }
 
                 int nextIndex = (int) MathHelper.Clamp(

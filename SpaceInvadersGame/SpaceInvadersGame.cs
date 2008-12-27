@@ -64,6 +64,7 @@ namespace SpaceInvadersGame
         public SpaceInvadersGame()
         {
             graphics = new GraphicsDeviceManager(this);
+            Services.AddService(typeof(GraphicsDeviceManager), graphics);
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
 
