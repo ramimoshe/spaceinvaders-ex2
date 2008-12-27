@@ -71,8 +71,9 @@ namespace SpaceInvadersGame.ObjectModel.Screens
 
         public SpaceInvadersGameScreen(
             Game i_Game, 
-            int i_PlayersNum,
-            GameScreen i_LevelTransitionScreen)
+            int i_PlayersNum
+            /*,
+            GameScreen i_LevelTransitionScreen*/)
             : base(i_Game)
         {
             this.IsModal = true;
@@ -80,7 +81,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             createPlayers(i_PlayersNum);
             m_PlayersNum = i_PlayersNum;
 
-            m_LevelTransitionGameScreen = i_LevelTransitionScreen;
+            m_LevelTransitionGameScreen = new LevelTransitionScreen(Game);
             m_PauseScreen = new PauseScreen(Game);
             m_GameOverScreen = new GameOverScreen(Game, Players);
             m_GameOverScreen.ExitGame += new GameOverDelegate(gameOverScreen_ExitGame);
@@ -422,14 +423,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
                     ScreensManager.SetCurrentScreen(m_PauseScreen);
                 }
             }
-        }
-
-        // TODO: Remove the code
-
-        /*public override void Draw(GameTime gameTime)
-        {
-            base.Draw(gameTime);
-        }*/     
+        }   
         
         /// <summary>
         /// Catch a PlayerIsDead event raised by the players and mark that 

@@ -33,6 +33,10 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             base.Update(gameTime);
         }
 
+        protected override void OnDeactivated()
+        {
+        }
+
         public override void Initialize()
         {
             base.Initialize();

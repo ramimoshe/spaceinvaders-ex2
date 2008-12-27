@@ -75,27 +75,25 @@ namespace SpaceInvadersGame
                 new LevelTransitionScreen(this);
 
             // TODO: Change the creation
-
+            /*
             SpaceInvadersGameScreen gameScreen = new SpaceInvadersGameScreen(
                 this,
                 2,
                 levelTransitionScreen);
             gameScreen.ExitGame += new GameOverDelegate(spaceInvadersGameScreen_GameOver);
-
+            */
             PauseScreen pauseScreen = new PauseScreen(this);
             ScreensMananger screensMananger = new ScreensMananger(this);
             BackgroundScreen backgroundScreen = new BackgroundScreen(this, 100);
             screensMananger.Push(backgroundScreen);
-            screensMananger.Push(pauseScreen);
-            screensMananger.Push(gameScreen);
-            screensMananger.Push(levelTransitionScreen);
-            
+            //screensMananger.Push(pauseScreen);
+            //screensMananger.Push(gameScreen);
+            //screensMananger.Push(levelTransitionScreen);
             
             MainMenuScreen mainMenu = new MainMenuScreen(this);
             mainMenu.IsModal = true;
             screensMananger.Push(mainMenu);
             
-
             WelcomeScreen welcomeScreen = new WelcomeScreen(this);
             screensMananger.SetCurrentScreen(welcomeScreen);
             backgroundScreen.State = eScreenState.Active;
