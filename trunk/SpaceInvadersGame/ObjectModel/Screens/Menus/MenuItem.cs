@@ -96,6 +96,26 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         {
             base.Update(i_GameTime);
 
+            // TODO: try to fix this
+            /*
+            MouseState mouseState = m_InputManager.MouseState;
+            if (!IsSelected && 
+                ScreenBoundsAfterScale.Intersects(new Rectangle(mouseState.X, mouseState.Y, 1, 1)))
+            {
+                IsSelected = true;
+
+                if (IsSelected && m_InputManager.ButtonPressed(eInputButtons.Left))
+                {
+                    Execute();
+                }
+            }
+            else if (IsSelected &&
+                     !ScreenBoundsAfterScale.Intersects(new Rectangle(mouseState.X, mouseState.Y, 1, 1)))
+            {
+                IsSelected = false;
+            }
+            */
+
             if (m_InputManager.KeyPressed(Keys.Enter) && IsSelected)
             {
                 Execute();

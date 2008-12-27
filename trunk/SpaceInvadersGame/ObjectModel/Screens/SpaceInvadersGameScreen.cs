@@ -64,6 +64,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         private BarriersHolder m_BarrierHolder;
 
         private bool m_GameOver = false;
+        private bool m_GameStarted = false;
         private ICollisionManager m_CollisionManager;
 
         // TODO: Remove code
@@ -402,11 +403,6 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             }
         }
 
-        protected override void OnActivated()
-        {
-            base.OnActivated();
-            ScreensManager.SetCurrentScreen(m_LevelTransitionGameScreen);
-        }
 
         /// <summary>
         /// Updates the screen state by checking if the game ended, if so
@@ -415,7 +411,12 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         /// <param name="gameTime">A snapshot of the current game time</param>
         public override void    Update(GameTime gameTime)
         {
-            if (GameEnded)
+            if (!m_GameStarted)
+            {
+                m_GameStarted = true;
+                ScreensManager.SetCurrentScreen(m_LevelTransitionGameScreen);
+            }
+            else if (GameEnded)
             {
                 onGameEnded();
             }
