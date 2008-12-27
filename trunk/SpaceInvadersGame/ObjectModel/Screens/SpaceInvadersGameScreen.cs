@@ -10,6 +10,8 @@ using SpaceInvadersGame.Interfaces;
 using SpaceInvadersGame;
 using Microsoft.Xna.Framework.Input;
 using SpaceInvadersGame.Service;
+using XnaGamesInfrastructure.ServiceInterfaces;
+using XnaGamesInfrastructure.Services;
 
 namespace SpaceInvadersGame.ObjectModel.Screens
 {   
@@ -36,6 +38,8 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         private SpaceShipComposite[] m_Players;
         private bool[] m_PlayersAliveMark;
 
+        private bool m_NeedToPresentTransitionScreen = true;
+
         private const int k_SpaceBetweenLivesDraw = 30;
         private const string k_Player1ScorePrefix = "P1 Score: ";
         private const string k_Player2ScorePrefix = "P2 Score: ";
@@ -60,6 +64,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         private BarriersHolder m_BarrierHolder;
 
         private bool m_GameOver = false;
+        private ICollisionManager m_CollisionManager;
 
         // TODO: Remove code
 
@@ -69,11 +74,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         // TODO: Change the transition screen so that it won't be 
         // a parameter
 
-        public SpaceInvadersGameScreen(
-            Game i_Game, 
-            int i_PlayersNum
-            /*,
-            GameScreen i_LevelTransitionScreen*/)
+        public SpaceInvadersGameScreen(Game i_Game, int i_PlayersNum)
             : base(i_Game)
         {
             this.IsModal = true;
@@ -84,7 +85,8 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             m_LevelTransitionGameScreen = new LevelTransitionScreen(Game);
             m_PauseScreen = new PauseScreen(Game);
             m_GameOverScreen = new GameOverScreen(Game, Players);
-            m_GameOverScreen.ExitGame += new GameOverDelegate(gameOverScreen_ExitGame);
+
+            m_CollisionManager = new CollisionManager(i_Game, 10000);
         }
 
         private int m_PlayersNum;
@@ -251,8 +253,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         {
             // TODO: Check if we can change it to typeof(IGameLevelDataManager)
 
-            m_GameLevelDataManager = Game.Services.GetService(typeof(GameLevelDataManager)) as IGameLevelDataManager;
-            m_SoundManager = Game.Services.GetService(typeof(SoundManager)) as SoundManager;
+            m_GameLevelDataManager = Game.Services.GetService(typeof(GameLevelDataManager)) as IGameLevelDataManager;            
 
             updateComponentsWithLevelData();
 
@@ -472,16 +473,19 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             }
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            m_CollisionManager.Dispose();
+        }
+
         private void    onGameEnded()
         {
             PlayActionCue(eSoundActions.GameOver);
             ScreensManager.SetCurrentScreen(m_GameOverScreen);
-        }
-
-        private void    gameOverScreen_ExitGame()
-        {
-            onExitGame();
-        }
+            this.Dispose();
+        }  
 
         // TODO: Remove the code
 
