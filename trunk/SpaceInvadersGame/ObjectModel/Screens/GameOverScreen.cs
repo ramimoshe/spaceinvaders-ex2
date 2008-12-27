@@ -14,8 +14,6 @@ using SpaceInvadersGame.ObjectModel.Screens.Menus;
 
 namespace SpaceInvadersGame.ObjectModel.Screens
 {
-    // TODO: Fix the class presentation
-
     /// <summary>
     /// The class implements the games GameOver screen
     /// </summary>
@@ -25,7 +23,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         private readonly Keys r_NewGameKey = Keys.R;
         private readonly Keys r_MainMenuKey = Keys.O;
 
-        private readonly Vector2 r_WiningMsgScale = new Vector2(.75f, .75f);
+        private readonly Vector2 r_WiningMsgScale = new Vector2(.85f, .85f);
 
         private readonly string r_GameOverText = "Game Over";
         private readonly string r_KeysText = 
@@ -70,7 +68,7 @@ O to go to the Main Menu";
         }
 
         /// <summary>
-        /// Return a string that states the wining player
+        /// Gets a string that states the wining player
         /// </summary>
         private string      WinningPlayerMsg
         {
@@ -98,13 +96,17 @@ O to go to the Main Menu";
 
                 for (int i = 0; i < m_Players.Length; i++)
                 {
-                    retVal += "\n player " + (i+1) + "score is: " + m_Players[i].Score;
+                    retVal += "\nplayer " + (i+1) + " score is: " + 
+                        m_Players[i].Score;
                 }
 
                 return retVal;
             }
         }
 
+        /// <summary>
+        /// Sets the players array that we want to present their scores
+        /// </summary>
         public IPlayer[]    Players
         {
             set { m_Players = value; }
@@ -118,26 +120,35 @@ O to go to the Main Menu";
             base.Initialize();
 
             Vector2 center = m_GameOverMessage.ViewPortCenter;
-            
-            m_GameOverMessage.PositionOfOrigin = center;
+
+            m_GameOverMessage.TintColor = Color.Red;
+            m_GameOverMessage.PositionOfOrigin = 
+                new Vector2(center.X, m_GameOverMessage.HeightAfterScale * 3);
             m_GameOverMessage.PositionOrigin = m_GameOverMessage.SpriteCenter;
 
             m_WinningPlayerMessage.Text = WinningPlayerMsg;
             m_WinningPlayerMessage.PositionOfOrigin =
                 new Vector2(
-                center.X, center.Y + 
-                m_GameOverMessage.HeightAfterScale * 2);
+                center.X,
+                m_GameOverMessage.PositionOfOrigin.Y + 
+                m_GameOverMessage.HeightAfterScale + 
+                m_WinningPlayerMessage.HeightAfterScale);
             m_WinningPlayerMessage.PositionOrigin =
-                m_GameOverMessage.SpriteCenter;
+                new Vector2(
+                (m_WinningPlayerMessage.SpriteCenter.X - 
+                (m_WinningPlayerMessage.SpriteCenter.X / 8)),
+                m_WinningPlayerMessage.SpriteCenter.Y);
             
             m_WinningPlayerMessage.Scale = r_WiningMsgScale;
 
             m_KeysMessage.Text = m_KeysMessage.Text;
-            m_KeysMessage.PositionOfOrigin = 
+            m_KeysMessage.PositionOfOrigin =
                 new Vector2(
                 center.X,
-                center.Y + m_WinningPlayerMessage.HeightAfterScale);
-            m_KeysMessage.PositionOrigin = m_WinningPlayerMessage.SpriteCenter;            
+                //                center.Y + m_WinningPlayerMessage.HeightAfterScale);
+                (m_GameOverMessage.PositionOfOrigin.Y +
+                (m_GameOverMessage.HeightAfterScale * 6)));
+            m_KeysMessage.PositionOrigin = m_KeysMessage.SpriteCenter;            
         }
 
         /// <summary>
