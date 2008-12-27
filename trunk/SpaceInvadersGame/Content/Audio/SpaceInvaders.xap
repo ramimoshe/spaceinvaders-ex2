@@ -251,8 +251,8 @@ Wave Bank
     Windows Bank Path Edited = 0;
     Seek Tables = 1;
     Compression Preset Name = <none>;
-    Bank Last Revised Low = 693381912;
-    Bank Last Revised High = 29976578;
+    Bank Last Revised Low = 1345649382;
+    Bank Last Revised High = 29976633;
 
     Wave
     {
@@ -412,6 +412,98 @@ Wave Bank
             File Type = 1;
             Last Modified Low = 1481069056;
             Last Modified High = 29653439;
+        }
+    }
+
+    Wave
+    {
+        Name = BInvaderExplode;
+        File = ..\..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Sounds\BInvaderExplode.wav;
+        Build Settings Last Modified Low = 3304210428;
+        Build Settings Last Modified High = 29976632;
+
+        Cache
+        {
+            Format Tag = 0;
+            Channels = 2;
+            Sampling Rate = 44100;
+            Bits Per Sample = 1;
+            Play Region Offset = 910;
+            Play Region Length = 719788;
+            Loop Region Offset = 0;
+            Loop Region Length = 0;
+            File Type = 1;
+            Last Modified Low = 1990147928;
+            Last Modified High = 29976632;
+        }
+    }
+
+    Wave
+    {
+        Name = PInvaderExplode;
+        File = ..\..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Sounds\PInvaderExplode.wav;
+        Build Settings Last Modified Low = 3304366678;
+        Build Settings Last Modified High = 29976632;
+
+        Cache
+        {
+            Format Tag = 0;
+            Channels = 2;
+            Sampling Rate = 44100;
+            Bits Per Sample = 1;
+            Play Region Offset = 910;
+            Play Region Length = 870332;
+            Loop Region Offset = 0;
+            Loop Region Length = 0;
+            File Type = 1;
+            Last Modified Low = 1839210428;
+            Last Modified High = 29976632;
+        }
+    }
+
+    Wave
+    {
+        Name = motherShipExplode;
+        File = ..\..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Sounds\motherShipExplode.wav;
+        Build Settings Last Modified Low = 3304366678;
+        Build Settings Last Modified High = 29976632;
+
+        Cache
+        {
+            Format Tag = 0;
+            Channels = 1;
+            Sampling Rate = 44100;
+            Bits Per Sample = 1;
+            Play Region Offset = 4096;
+            Play Region Length = 180296;
+            Loop Region Offset = 0;
+            Loop Region Length = 0;
+            File Type = 1;
+            Last Modified Low = 2350929178;
+            Last Modified High = 29976632;
+        }
+    }
+
+    Wave
+    {
+        Name = YInvaderExplode;
+        File = ..\..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Sounds\YInvaderExplode.wav;
+        Build Settings Last Modified Low = 3304366678;
+        Build Settings Last Modified High = 29976632;
+
+        Cache
+        {
+            Format Tag = 0;
+            Channels = 2;
+            Sampling Rate = 44100;
+            Bits Per Sample = 1;
+            Play Region Offset = 910;
+            Play Region Length = 422200;
+            Loop Region Offset = 0;
+            Loop Region Length = 0;
+            File Type = 1;
+            Last Modified Low = 2224210428;
+            Last Modified High = 29976632;
         }
     }
 }
@@ -653,6 +745,11 @@ Sound Bank
                 }
             }
         }
+
+        Track
+        {
+            Volume = 0;
+        }
     }
 
     Sound
@@ -704,7 +801,7 @@ Sound Bank
     Sound
     {
         Name = levelFinished;
-        Volume = -1200;
+        Volume = 0;
         Pitch = 0;
         Priority = 0;
 
@@ -793,6 +890,190 @@ Sound Bank
         }
     }
 
+    Sound
+    {
+        Name = YInvaderExplode;
+        Volume = 0;
+        Pitch = 0;
+        Priority = 0;
+
+        Category Entry
+        {
+            Name = SoundFX;
+        }
+
+        Track
+        {
+            Volume = 0;
+
+            Play Wave Event
+            {
+                Break Loop = 0;
+                Use Speaker Position = 0;
+                Use Center Speaker = 1;
+                New Speaker Position On Loop = 1;
+                Speaker Position Angle = 0.000000;
+                Speaer Position Arc = 0.000000;
+
+                Event Header
+                {
+                    Timestamp = 0;
+                    Relative = 0;
+                    Random Recurrence = 0;
+                    Random Offset = 0;
+                }
+
+                Wave Entry
+                {
+                    Bank Name = SpaceInvaders;
+                    Bank Index = 0;
+                    Entry Name = YInvaderExplode;
+                    Entry Index = 10;
+                    Weight = 255;
+                    Weight Min = 0;
+                }
+            }
+        }
+    }
+
+    Sound
+    {
+        Name = BInvaderExplode;
+        Volume = 0;
+        Pitch = 0;
+        Priority = 0;
+
+        Category Entry
+        {
+            Name = SoundFX;
+        }
+
+        Track
+        {
+            Volume = 0;
+
+            Play Wave Event
+            {
+                Break Loop = 0;
+                Use Speaker Position = 0;
+                Use Center Speaker = 1;
+                New Speaker Position On Loop = 1;
+                Speaker Position Angle = 0.000000;
+                Speaer Position Arc = 0.000000;
+
+                Event Header
+                {
+                    Timestamp = 0;
+                    Relative = 0;
+                    Random Recurrence = 0;
+                    Random Offset = 0;
+                }
+
+                Wave Entry
+                {
+                    Bank Name = SpaceInvaders;
+                    Bank Index = 0;
+                    Entry Name = BInvaderExplode;
+                    Entry Index = 7;
+                    Weight = 255;
+                    Weight Min = 0;
+                }
+            }
+        }
+    }
+
+    Sound
+    {
+        Name = PInvaderExplode;
+        Volume = 0;
+        Pitch = 0;
+        Priority = 0;
+
+        Category Entry
+        {
+            Name = SoundFX;
+        }
+
+        Track
+        {
+            Volume = 0;
+
+            Play Wave Event
+            {
+                Break Loop = 0;
+                Use Speaker Position = 0;
+                Use Center Speaker = 1;
+                New Speaker Position On Loop = 1;
+                Speaker Position Angle = 0.000000;
+                Speaer Position Arc = 0.000000;
+
+                Event Header
+                {
+                    Timestamp = 0;
+                    Relative = 0;
+                    Random Recurrence = 0;
+                    Random Offset = 0;
+                }
+
+                Wave Entry
+                {
+                    Bank Name = SpaceInvaders;
+                    Bank Index = 0;
+                    Entry Name = PInvaderExplode;
+                    Entry Index = 8;
+                    Weight = 255;
+                    Weight Min = 0;
+                }
+            }
+        }
+    }
+
+    Sound
+    {
+        Name = motherShipExplode;
+        Volume = 0;
+        Pitch = 0;
+        Priority = 0;
+
+        Category Entry
+        {
+            Name = SoundFX;
+        }
+
+        Track
+        {
+            Volume = 0;
+
+            Play Wave Event
+            {
+                Break Loop = 0;
+                Use Speaker Position = 0;
+                Use Center Speaker = 1;
+                New Speaker Position On Loop = 1;
+                Speaker Position Angle = 0.000000;
+                Speaer Position Arc = 0.000000;
+
+                Event Header
+                {
+                    Timestamp = 0;
+                    Relative = 0;
+                    Random Recurrence = 0;
+                    Random Offset = 0;
+                }
+
+                Wave Entry
+                {
+                    Bank Name = SpaceInvaders;
+                    Bank Index = 0;
+                    Entry Name = motherShipExplode;
+                    Entry Index = 9;
+                    Weight = 255;
+                    Weight Min = 0;
+                }
+            }
+        }
+    }
+
     Cue
     {
         Name = OptionChange;
@@ -856,86 +1137,6 @@ Sound Bank
     Cue
     {
         Name = PlayerHit;
-
-        Variation
-        {
-            Variation Type = 3;
-            Variation Table Type = 1;
-            New Variation on Loop = 0;
-        }
-
-        Sound Entry
-        {
-            Name = explode;
-            Index = 2;
-            Weight Min = 0;
-            Weight Max = 255;
-        }
-    }
-
-    Cue
-    {
-        Name = MotherShipHit;
-
-        Variation
-        {
-            Variation Type = 3;
-            Variation Table Type = 1;
-            New Variation on Loop = 0;
-        }
-
-        Sound Entry
-        {
-            Name = explode;
-            Index = 2;
-            Weight Min = 0;
-            Weight Max = 255;
-        }
-    }
-
-    Cue
-    {
-        Name = YInvaderHit;
-
-        Variation
-        {
-            Variation Type = 3;
-            Variation Table Type = 1;
-            New Variation on Loop = 0;
-        }
-
-        Sound Entry
-        {
-            Name = explode;
-            Index = 2;
-            Weight Min = 0;
-            Weight Max = 255;
-        }
-    }
-
-    Cue
-    {
-        Name = BInvaderHit;
-
-        Variation
-        {
-            Variation Type = 3;
-            Variation Table Type = 1;
-            New Variation on Loop = 0;
-        }
-
-        Sound Entry
-        {
-            Name = explode;
-            Index = 2;
-            Weight Min = 0;
-            Weight Max = 255;
-        }
-    }
-
-    Cue
-    {
-        Name = PInvaderHit;
 
         Variation
         {
@@ -1068,6 +1269,86 @@ Sound Bank
         {
             Name = clearEnemies;
             Index = 7;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+    }
+
+    Cue
+    {
+        Name = YInvaderHit;
+
+        Variation
+        {
+            Variation Type = 3;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = YInvaderExplode;
+            Index = 8;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+    }
+
+    Cue
+    {
+        Name = BInvaderHit;
+
+        Variation
+        {
+            Variation Type = 3;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = BInvaderExplode;
+            Index = 9;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+    }
+
+    Cue
+    {
+        Name = PInvaderHit;
+
+        Variation
+        {
+            Variation Type = 3;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = PInvaderExplode;
+            Index = 10;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+    }
+
+    Cue
+    {
+        Name = MotherShipHit;
+
+        Variation
+        {
+            Variation Type = 3;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = motherShipExplode;
+            Index = 11;
             Weight Min = 0;
             Weight Max = 255;
         }
