@@ -28,6 +28,8 @@ namespace SpaceInvadersGame.ObjectModel.Screens
     /// </summary>
     public class SpaceInvadersGameScreen : SpaceInvadersScreenAbstract
     {
+        private readonly Keys r_PauseKey = Keys.P;
+
         public event GameOverDelegate ExitGame;
 
         private IGameLevelDataManager m_GameLevelDataManager;     
@@ -372,9 +374,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             {
                 base.Update(gameTime);
 
-                // Move the P key to constant
-
-                if (InputManager.KeyPressed(Keys.P))
+                if (InputManager.KeyPressed(r_PauseKey))
                 {
                     ScreensManager.SetCurrentScreen(m_PauseScreen);
                 }
