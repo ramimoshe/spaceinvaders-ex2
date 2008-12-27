@@ -96,15 +96,13 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         private bool    GameEnded
         {
             get
-            {
-                // TODO: Enable code
-                /*bool playersDead = !m_PlayersAliveMark[0];
+            {             
+                bool playersDead = !m_PlayersAliveMark[0];
                 
                 playersDead = (m_PlayersAliveMark.Length == 2) ?
                      playersDead && !m_PlayersAliveMark[1] :
                      playersDead;
-                return m_GameOver || playersDead;*/
-                return true;
+                return m_GameOver || playersDead;
             }
 
             set
