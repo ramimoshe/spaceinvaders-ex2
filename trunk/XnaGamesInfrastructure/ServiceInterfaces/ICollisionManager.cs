@@ -8,7 +8,7 @@ namespace XnaGamesInfrastructure.ServiceInterfaces
     /// <summary>
     /// Encapsulates CollisionManager (to be used by Game.Services)
     /// </summary>
-    public interface ICollisionManager
+    public interface ICollisionManager : IDisposable
     {
         /// <summary>
         /// Add's a new ICollidable to CollisionManager's private monitored 
