@@ -109,9 +109,9 @@ namespace SpaceInvadersGame.ObjectModel
 
                 if (m_RemainingTimeToMove.TotalSeconds <= 0)
                 {
-                    
                     m_MotherShipScaled = false;
                     Animations[k_ScaleAnimationName].Reset();
+                    Animations.Pause();
 
                     // Start moving the ship in the next update
                     MotionVector = r_MotionVector;

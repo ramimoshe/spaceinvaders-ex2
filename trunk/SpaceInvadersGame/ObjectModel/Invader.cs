@@ -67,6 +67,8 @@ namespace SpaceInvadersGame.ObjectModel
         private const int k_DefaultInvadersListNum = 1;
         private const int k_NumOfFrames = 2;
 
+        private const string k_CellAnimationName = "CelAnimation";
+
         private TimeSpan m_TimeBetweenMove;
         protected TimeSpan m_TimeLeftToNextMove;
         
@@ -74,6 +76,7 @@ namespace SpaceInvadersGame.ObjectModel
 
         private float m_EnemyMaxPositionYVal;
         private Vector2 m_DefaultPosition;
+        private int m_InvaderRow;
 
         // The current frame from the invader texture
         protected int m_StartingCel;
@@ -93,8 +96,8 @@ namespace SpaceInvadersGame.ObjectModel
         public Invader(
             Game i_Game, 
             int i_UpdateOrder,
-            int i_InvaderStartFrame)
-            : this(i_Game, i_UpdateOrder, 0, i_InvaderStartFrame)
+            int i_InvaderRow)
+            : this(i_Game, i_UpdateOrder, 0, i_InvaderRow)
         {
         }        
 
@@ -102,12 +105,13 @@ namespace SpaceInvadersGame.ObjectModel
             Game i_Game, 
             int i_UpdateOrder, 
             int i_DrawOrder,
-            int i_InvaderStartFrame)
+            int i_InvaderRow)
             : base(k_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
         {
             m_TimeBetweenMove = r_DefaultTimeBetweenMoves;
             m_TimeLeftToNextMove = m_TimeBetweenMove;
-            m_StartingCel = i_InvaderStartFrame % k_NumOfFrames;
+            m_InvaderRow = i_InvaderRow;
+            m_StartingCel = i_InvaderRow % k_NumOfFrames;
 
             // TODO: Remove the code
             Game.Components.Remove(this);
@@ -154,6 +158,14 @@ namespace SpaceInvadersGame.ObjectModel
             {
                 m_TimeBetweenMove = value;
             }
+        }
+
+        /// <summary>
+        /// Gets the current invader row used for the starting cell calculation
+        /// </summary>
+        public int InvaderRow
+        {
+            get { return m_InvaderRow; }
         }
 
         /// <summary>
@@ -266,6 +278,7 @@ namespace SpaceInvadersGame.ObjectModel
             base.Initialize();
 
             CelAnimation cellAnimation = new CelAnimation(
+                                    k_CellAnimationName,
                                     m_TimeBetweenMove,
                                     k_NumOfFrames,
                                     TimeSpan.Zero,
@@ -435,6 +448,7 @@ namespace SpaceInvadersGame.ObjectModel
             m_TimeBetweenMove = r_DefaultTimeBetweenMoves;
             m_TimeLeftToNextMove = m_TimeBetweenMove;
             Animations[k_ScaleAnimationName].Reset();
+            Animations[k_CellAnimationName].Reset();
             Animations[k_ScaleAnimationName].Pause();
 
             if (m_Bullets != null)
