@@ -78,11 +78,27 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             this.IsModal = true;
             createGameComponents();
             createPlayers(i_PlayersNum);
+            m_PlayersNum = i_PlayersNum;
 
             m_LevelTransitionGameScreen = i_LevelTransitionScreen;
             m_PauseScreen = new PauseScreen(Game);
             m_GameOverScreen = new GameOverScreen(Game, Players);
             m_GameOverScreen.ExitGame += new GameOverDelegate(gameOverScreen_ExitGame);
+        }
+
+        private int m_PlayersNum;
+
+        public int PlayersNum
+        {
+            get
+            {
+                return m_PlayersNum;
+            }
+
+            set
+            {
+                m_PlayersNum = value;
+            }
         }
 
         /// <summary>

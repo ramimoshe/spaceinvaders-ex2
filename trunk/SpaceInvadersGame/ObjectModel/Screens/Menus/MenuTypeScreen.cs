@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace SpaceInvadersGame.ObjectModel.Screens
+namespace SpaceInvadersGame.ObjectModel.Screens.Menus
 {
     public abstract class MenuTypeScreen : GameScreen
     {
