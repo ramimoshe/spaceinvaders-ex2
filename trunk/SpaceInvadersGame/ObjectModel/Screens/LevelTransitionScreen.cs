@@ -50,8 +50,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
                                     getMessageText(r_SecondsMessageText, k_TransitionScreenTime));
 
             m_LevelMessage.TintColor = Color.White;
-            m_SecondsMessage.TintColor = Color.White;
-            // TODO: Change the parameter to a constant
+            m_SecondsMessage.TintColor = Color.White;            
 
             this.Add(m_LevelMessage);
             this.Add(m_SecondsMessage);
