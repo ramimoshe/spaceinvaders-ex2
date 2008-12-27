@@ -49,7 +49,11 @@ namespace SpaceInvadersGame.Service
             set 
             {
                 m_SoundFXVolume = MathHelper.Clamp(value, 0f, 1f);
-                changeCategoryVolume(k_FXCategoryName, m_SoundFXVolume);
+
+                if (m_FXEnabled)
+                {
+                    changeCategoryVolume(k_FXCategoryName, m_SoundFXVolume);
+                }
             }
         }
 
@@ -62,8 +66,11 @@ namespace SpaceInvadersGame.Service
             set 
             {
                 m_MusicVolume = MathHelper.Clamp(value , 0f, 1f);
-                
-                changeCategoryVolume(k_MusicCategoryName, m_MusicVolume);
+
+                if (m_MusicEnabled)
+                {
+                    changeCategoryVolume(k_MusicCategoryName, m_MusicVolume);
+                }
             }
         }
 
