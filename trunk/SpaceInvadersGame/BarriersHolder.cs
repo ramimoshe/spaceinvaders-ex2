@@ -88,6 +88,7 @@ namespace SpaceInvadersGame
 
                     currBarrier.PositionForDraw = currPosition;
                     currBarrier.DefaultPosition = currPosition;
+                    currBarrier.CalcBarrierBounds();
 
                     currPosition += new Vector2(
                         (firstBarrier.Texture.Width * 1.5f) +
