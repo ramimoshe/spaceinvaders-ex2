@@ -15,8 +15,6 @@ using XnaGamesInfrastructure.ObjectModel.Animations;
 
 namespace SpaceInvadersGame.ObjectModel
 {
-    // TODO: Change the class to inherit from composite component
-
     /// <summary>
     /// The class represents the player's component in the game (the 
     /// SpaceShip)
@@ -28,7 +26,9 @@ namespace SpaceInvadersGame.ObjectModel
         private const int k_Motion = 200;
         private const int k_BulletVelocity = 250;
         private const int k_LostLifeScoreDecrease = 2000;
-        private const int k_LivesNum = 3;        
+        private const int k_LivesNum = 3;  
+        private const int k_DefaultUpdateOrder = -1;
+        private const int k_DefaultDrawOrder = 0;
 
         // The initialized position. needed so that we'll know where to position
         // the ship in case of an hit
@@ -56,8 +56,6 @@ namespace SpaceInvadersGame.ObjectModel
 
         #region CTOR's     
 
-        // TODO: Change the draw and update to constants
-
         public SpaceShip(
             Game i_Game, 
             string i_AssetName,
@@ -66,8 +64,8 @@ namespace SpaceInvadersGame.ObjectModel
             : this(
             i_AssetName,
             i_Game,
-            -1,
-            0,
+            k_DefaultUpdateOrder,
+            k_DefaultDrawOrder,
             i_PlayerControls,
             i_PlayerNum)
         {
@@ -165,65 +163,6 @@ namespace SpaceInvadersGame.ObjectModel
             }
         }
 
-        /// <summary>
-        /// Read only property that gets a bullet for shooting. 
-        /// in case the players shot bullets number is as imposed by the
-        /// maximum value, we'll find an invisible bullet and return it, 
-        /// otherwise we'll create a new bullet.
-        /// Icase there isn't an invisible bullet and the player already shot
-        /// the allowed bullets number, we'll return null.
-        /// </summary>
-        /// <returns></returns>
-        private SpaceShipBullet     Bullet
-        {
-            get
-            {
-                SpaceShipBullet retVal = null;
-
-                if (m_Bullets.Count < k_AllowedBulletsNum)
-                {
-                    retVal = new SpaceShipBullet(this.Game);
-                    
-                    // TODO: Check if it's ok and remove the remarked code
-                    onReleasedShot(retVal);
-                    //retVal.Initialize();
-
-                    retVal.TintColor = Color.Red;
-                    retVal.PositionForDraw = new Vector2(
-                                        PositionForDraw.X + (Bounds.Width / 2),
-                                        PositionForDraw.Y - (retVal.Bounds.Height / 2));
-                    retVal.MotionVector = new Vector2(0, -k_BulletVelocity);
-                    retVal.BulletCollision += new BulletCollisionDelegate(spaceShipBullet_BulletCollision);
-                    retVal.Disposed += new EventHandler(spaceShipBullet_Disposed);
-
-                    m_Bullets.Add(retVal);                    
-                }
-                else
-                {
-                    // Search for an existing bullet that isn't active
-                    foreach (SpaceShipBullet bullet in m_Bullets)
-                    {
-                        if (!bullet.Visible)
-                        {
-                            retVal = bullet;
-                            retVal.PositionForDraw = new Vector2(
-                                        PositionForDraw.X + (Bounds.Width / 2),
-                                        PositionForDraw.Y - (bullet.Bounds.Height / 2));
-                            retVal.Visible = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (retVal != null)
-                {
-                    onPlayActionSound(eSoundActions.PlayerShoot);
-                }
-
-                return retVal;
-            }
-        }
-
         #region IShootable Members
 
         /// <summary>
@@ -232,14 +171,15 @@ namespace SpaceInvadersGame.ObjectModel
         /// </summary>
         public void     Shoot()
         {
-            // TODO: Remove the remark
+            bool shot = false;
 
-            // If we didn't reach the maximum bullets allowed, we'll create 
-            // a new one and add it to the game components
-           /* if (m_Bullets.Count < k_AllowedBulletsNum)
+            if (m_Bullets.Count < k_AllowedBulletsNum)
             {
                 SpaceShipBullet bullet = new SpaceShipBullet(this.Game);
-                bullet.Initialize();
+                shot = true;
+
+                onReleasedShot(bullet);
+
                 bullet.TintColor = Color.Red;
                 bullet.PositionForDraw = new Vector2(
                                     PositionForDraw.X + (Bounds.Width / 2),
@@ -249,12 +189,27 @@ namespace SpaceInvadersGame.ObjectModel
                 bullet.Disposed += new EventHandler(spaceShipBullet_Disposed);
 
                 m_Bullets.Add(bullet);
-            }*/
+            }
+            else
+            {
+                // Search for an existing bullet that isn't active
+                foreach (SpaceShipBullet bullet in m_Bullets)
+                {
+                    if (!bullet.Visible)
+                    {                        
+                        bullet.PositionForDraw = new Vector2(
+                                    PositionForDraw.X + (Bounds.Width / 2),
+                                    PositionForDraw.Y - (bullet.Bounds.Height / 2));
+                        bullet.Visible = true;
+                        break;
+                    }
+                }
+            }
 
-            // TODO: Move the Bullet property code in here
-
-            SpaceShipBullet b = Bullet;
-            
+            if (shot)
+            {
+                onPlayActionSound(eSoundActions.PlayerShoot);
+            }           
         }
 
         #endregion

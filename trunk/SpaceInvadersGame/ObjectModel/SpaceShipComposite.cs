@@ -30,9 +30,6 @@ namespace SpaceInvadersGame.ObjectModel
             m_SpaceShip = i_SpaceShip;
             m_SpaceShip.ReleasedShot += new AddGameComponentDelegate(spaceShip_ReleasedShot);
 
-            // TODO: Check the dispose
-            //m_Invader.Disposed += new EventHandler(invader_Disposed);
-
             this.Add(m_SpaceShip);
         }
 
@@ -55,18 +52,5 @@ namespace SpaceInvadersGame.ObjectModel
         {
             this.Add(i_Component);
         }
-
-        // TODO: Check the dispose
-
-        /// <summary>
-        /// Catch an space ship disposed event and disposes the current object
-        /// also
-        /// </summary>
-        /// <param name="i_Sender">The disposed space ship</param>
-        /// <param name="i_EventArgs">The event arguments</param>
-        /*private void    invader_Disposed(object i_Sender, EventArgs i_EventArgs)
-        {
-            Dispose();
-        }*/
     }
 }
