@@ -15,17 +15,23 @@ namespace SpaceInvadersGame
         private int m_InvadersColumnNum;
         private int m_MotherShipScore;
         private Dictionary<eInvadersType, int> m_InvadersScoreMap;
+        private TimeSpan m_TimeBetweenEnemiesShoots;
+        private int m_EnemiesShootNum;
 
         public GameLevelData(
             int i_BarrierSpeed,
             int i_InvadersColumnNum,
             int i_MotherShipScore,
-            Dictionary<eInvadersType, int> i_InvadersScoreMap)
+            Dictionary<eInvadersType, int> i_InvadersScoreMap,
+            TimeSpan i_TimeBetweenEnemiesShoots,
+            int i_EnemiesShootsNum)
         {
             m_BarrierSpeed = i_BarrierSpeed;
             m_InvadersColumnNum = i_InvadersColumnNum;
             m_MotherShipScore = i_MotherShipScore;
             m_InvadersScoreMap = i_InvadersScoreMap;
+            m_TimeBetweenEnemiesShoots = i_TimeBetweenEnemiesShoots;
+            m_EnemiesShootNum = i_EnemiesShootsNum;
         }
 
         /// <summary>
@@ -49,9 +55,25 @@ namespace SpaceInvadersGame
         /// Read only property that gets the mother ship score in a certain
         /// level
         /// </summary>
-        public int  MotherShipScore
+        public int      MotherShipScore
         {
             get { return m_MotherShipScore; }
+        }
+
+        /// <summary>
+        /// Gets the time between 2 enemies shoots
+        /// </summary>
+        public TimeSpan     TimeBetweenEnemiesShoots
+        {
+            get { return m_TimeBetweenEnemiesShoots; }
+        }
+
+        /// <summary>
+        /// Gets the number of shoots an enemy can fire
+        /// </summary>
+        public int      AllowedEnemiesShootsNum
+        {
+            get { return m_EnemiesShootNum; }
         }
 
         /// <summary>
