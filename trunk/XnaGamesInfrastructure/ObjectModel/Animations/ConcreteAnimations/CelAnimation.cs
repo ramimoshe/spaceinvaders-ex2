@@ -20,10 +20,12 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         private int m_NumOfCels = 1;        
 
         public CelAnimation(
+            string i_Name,
             TimeSpan i_FrameLength,
             int i_NumOfCels,
             TimeSpan i_AnimationLength)
             : this(
+                i_Name,
                 i_FrameLength, 
                 i_NumOfCels, 
                 i_AnimationLength,
@@ -32,11 +34,12 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         }
 
         public CelAnimation(
+            string i_Name,
             TimeSpan i_FrameLength, 
             int i_NumOfCels, 
             TimeSpan i_AnimationLength,
             int i_StartingCel)
-            : base("CelAnimation", i_AnimationLength)
+            : base(i_Name, i_AnimationLength)
         {
             this.m_FrameLength = i_FrameLength;
             this.m_TimeLeftForFrame = i_FrameLength;
