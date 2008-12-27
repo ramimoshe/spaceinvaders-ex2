@@ -17,6 +17,7 @@ namespace SpaceInvadersGame
 
         private readonly Color[] r_PlayersTintColor = new Color[] {
             Color.Blue, Color.Green };
+        private readonly Vector2 r_DefaultScale = new Vector2(.5f);
 
         private IPlayer m_Player;
         private string m_TextPrefix;
@@ -35,13 +36,11 @@ namespace SpaceInvadersGame
             Text = m_TextPrefix + m_Player.Score;
         }
 
-        // TODO: Check if it's ok the set the scale
-
         public override void    Initialize()
         {
             base.Initialize();
 
-            Scale = new Vector2(.5f);
+            Scale = r_DefaultScale;
         }
 
         /// <summary>
