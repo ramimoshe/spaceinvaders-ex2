@@ -8,6 +8,9 @@ using Microsoft.Xna.Framework;
 
 namespace SpaceInvadersGame
 {
+    /// <summary>
+    /// Manages all the level data objects
+    /// </summary>
     public class GameLevelDataManager : GameService, IGameLevelDataManager
     {
         private const int k_LevelsNum = 5;
@@ -33,6 +36,13 @@ namespace SpaceInvadersGame
             initLevelsData();
         }
 
+        /// <summary>
+        /// Creates a score map of all the invaders scores in the next level
+        /// according to the current level map
+        /// </summary>
+        /// <param name="i_CurrentLevelInvadersMap">A map of the current
+        /// level scores used to create the new scores map</param>
+        /// <returns>A map of the invaders score for the next level</returns>
         private Dictionary<eInvadersType, int>    createNextLevelScoreMap(
             Dictionary<eInvadersType, int> i_CurrentLevelInvadersMap)
         {
@@ -46,6 +56,11 @@ namespace SpaceInvadersGame
             return retVal;
         }
 
+        /// <summary>
+        /// Gets a map of the invaders score in the first level
+        /// </summary>
+        /// <returns>A map of the invaders type score in the first game 
+        /// level</returns>
         private Dictionary<eInvadersType, int>  getFirstLevelScoreMap()
         {
             Dictionary<eInvadersType, int> retVal = 
@@ -58,6 +73,9 @@ namespace SpaceInvadersGame
             return retVal;
         }
 
+        /// <summary>
+        /// Initialize the level data array
+        /// </summary>
         private void    initLevelsData()
         {
             Dictionary<eInvadersType, int> currLevelInvadersScore =
