@@ -263,7 +263,7 @@ namespace SpaceInvadersGame
                 if (m_PrevShotTime.TotalSeconds < 0)
                 {     
                     // TODO: Enable
-//                    shootThePlayer();
+                    //shootThePlayer();
                     m_PrevShotTime = r_DefaultTimeBetweenShots;
                 }
 
@@ -326,7 +326,7 @@ namespace SpaceInvadersGame
             // TODO: Enable
 
             // Increase the invaders moving speed
-//            changeInvadersMatrixPositions(0, false);
+            //changeInvadersMatrixPositions(0, false);
         }
 
         /// <summary>
@@ -463,7 +463,6 @@ namespace SpaceInvadersGame
                 currInvader.Visible = true;
                 currInvader.ResetInvader();
 
-                // TODO: check if i should put it in here
                 if (!m_EnabledInvaders.Contains(currInvader))
                 {
                     m_EnabledInvaders.Add(currInvader);
