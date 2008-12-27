@@ -35,8 +35,6 @@ namespace SpaceInvadersGame.ObjectModel
     /// <param name="i_Invader">The invader that reached the allowed screen bounds</param>
     public delegate void InvaderWasHitDelegate(Invader i_Invader);    
 
-    // TODO: Change the class to inherit from composite component
-
     /// <summary>
     /// An abstract class that all the small invaders in the invaders matrix 
     /// inherits from
@@ -112,9 +110,6 @@ namespace SpaceInvadersGame.ObjectModel
             m_TimeLeftToNextMove = m_TimeBetweenMove;
             m_InvaderRow = i_InvaderRow;
             m_StartingCel = i_InvaderRow % k_NumOfFrames;
-
-            // TODO: Remove the code
-            Game.Components.Remove(this);
         }
 
         /// <summary>
@@ -314,48 +309,35 @@ namespace SpaceInvadersGame.ObjectModel
         {
             bool moveEnemy = false;
 
-            // TODO: Remove the dispose code
+            m_TimeLeftToNextMove -= i_GameTime.ElapsedGameTime;
 
-            // If the enemy was hit (changed to unvisible), we need to 
-            // dispose it
-        /*    if (Visible == false)
+            // Check if enough time had passed since previous move
+            if (m_TimeLeftToNextMove.TotalSeconds < 0)
             {
-                Dispose();
+                MotionVector = m_CurrMotion;
+                m_TimeLeftToNextMove = m_TimeBetweenMove;
+
+                moveEnemy = true;
             }
             else
-            {*/
-                m_TimeLeftToNextMove -= i_GameTime.ElapsedGameTime;
+            {
+                MotionVector = new Vector2(0, MotionVector.Y);
+            }
 
-                // Check if enough time had passed since previous move
-                if (m_TimeLeftToNextMove.TotalSeconds < 0)
+            base.Update(i_GameTime);
+
+            // If we moved the enemy this time we'll also check if the 
+            // enemy is close to the screen bounds and raise an event
+            if (moveEnemy)
+            {
+                moveEnemy = false;
+
+                if ((Bounds.Left <= 0 || Bounds.Right >= Game.GraphicsDevice.Viewport.Width || 
+                     Bounds.Bottom >= m_EnemyMaxPositionYVal) && Visible)
                 {
-                    MotionVector = m_CurrMotion;
-                    m_TimeLeftToNextMove = m_TimeBetweenMove;
-
-                    moveEnemy = true;
+                    OnReachedScreenBounds();
                 }
-                else
-                {
-                    MotionVector = new Vector2(0, MotionVector.Y);
-                }
-
-                base.Update(i_GameTime);
-
-                // If we moved the enemy this time we'll also check if the 
-                // enemy is close to the screen bounds and raise an event
-                if (moveEnemy)
-                {
-                    moveEnemy = false;
-
-                    if ((Bounds.Left <= 0 || Bounds.Right >= Game.GraphicsDevice.Viewport.Width || 
-                         Bounds.Bottom >= m_EnemyMaxPositionYVal) && Visible)
-                    {
-                        OnReachedScreenBounds();
-                    }
-                }
-            // TODO: Remove the remark
-
-            //}
+            }
         }
 
         /// <summary>

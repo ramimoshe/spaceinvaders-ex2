@@ -20,9 +20,6 @@ namespace SpaceInvadersGame.ObjectModel
 
         private GameLevelData m_LevelData;
 
-        // TODO: Remove the code
-        //private const int k_Score = 500;
-
         private bool m_MotherShipScaled = false;
 
         public event PlayActionSoundDelegate PlayActionSoundEvent;
@@ -50,19 +47,6 @@ namespace SpaceInvadersGame.ObjectModel
                 onSettingLevelData();
             } 
         }
-
-        // TODO: Remove the code
-
-        /// <summary>
-        /// A property for the space ship score
-        /// </summary>
-        /*public override int     Score
-        {
-            get 
-            { 
-                return k_Score; 
-            }
-        }*/
 
         /// <summary>
         /// Initialize the ship position to be (Viewport.Width, ShipHeight), 
