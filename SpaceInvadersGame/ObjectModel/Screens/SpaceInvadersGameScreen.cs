@@ -30,8 +30,6 @@ namespace SpaceInvadersGame.ObjectModel.Screens
     {
         private readonly Keys r_PauseKey = Keys.P;
 
-        public event GameOverDelegate ExitGame;
-
         private IGameLevelDataManager m_GameLevelDataManager;     
         private int m_CurrLevelNum = 1;     
         private SpaceShipComposite[] m_Players;
@@ -76,14 +74,17 @@ namespace SpaceInvadersGame.ObjectModel.Screens
 
         private int m_PlayersNum;
 
-        public int PlayersNum
+        /// <summary>
+        /// Gets/sets the number of players
+        /// </summary>
+        public int  PlayersNum
         {
             get
             {
                 return m_PlayersNum;
             }
 
-            set
+            protected set
             {
                 m_PlayersNum = value;
             }
@@ -234,6 +235,10 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             this.Add(m_BarrierHolder);
         }
 
+        /// <summary>
+        /// Initialize the screen by initializing all the components and
+        /// the coponents level data
+        /// </summary>
         public override void    Initialize()
         {
             m_GameLevelDataManager = Game.Services.GetService(typeof(GameLevelDataManager)) as IGameLevelDataManager;            
@@ -261,6 +266,10 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             m_BarrierHolder.LevelData = newGameLevelData;
         }
 
+        /// <summary>
+        /// When we finish the level we'll update all the components with the
+        /// next level data and move to the TransitionLevel screen
+        /// </summary>
         private void    onLevelEnd()
         {
             m_CurrLevelNum++;
@@ -409,21 +418,21 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             GameEnded = true;
         }
 
-        private void    onExitGame()
-        {
-            if (ExitGame != null)
-            {
-                ExitGame();
-            }
-        }
-
-        protected override void Dispose(bool disposing)
+        /// <summary>
+        /// Disposes the current screen by disposing the screen components
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void     Dispose(bool disposing)
         {
             base.Dispose(disposing);
 
             m_CollisionManager.Dispose();
         }
 
+        /// <summary>
+        /// When we finish the game (the player/s are/is dead) we'll present 
+        /// the GameOver screen and dispose the current game screen
+        /// </summary>
         private void    onGameEnded()
         {
             PlayActionCue(eSoundActions.GameOver);
