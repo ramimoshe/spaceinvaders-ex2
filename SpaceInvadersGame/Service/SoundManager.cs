@@ -15,7 +15,7 @@ namespace SpaceInvadersGame.Service
 {    
 
     /// <summary>
-    /// The class manages all the games sound
+    /// The class manages all the games sounds
     /// </summary>
     public class SoundManager : GameService
     {
@@ -26,19 +26,39 @@ namespace SpaceInvadersGame.Service
         private const string k_WaveBankName = "SpaceInvaders.xwb";
         private const string k_ProjectName = "SpaceInvaders.xgs";
         private const string k_MusicCategoryName = "Music";
+        private const string k_FXCategoryName = "SoundFX";
         private const float k_DefaultMusicVolume = 1f;
         private const float k_DefaultSoundFXVolume = 1f;
-        private const bool k_DefaultToggleMute = true;
+        private const bool k_DefaultMuteFX = false;
 
         private float m_MusicVolume;
         private float m_SoundFXVolume;
         private bool m_MusicEnabled = true;
+        private bool m_FXEnabled = true;
 
         private AudioEngine m_AudioEngine;
         private WaveBank m_WaveBank;
         private SoundBank m_SoundBank;
 
         private Dictionary<string, Cue> m_Cues;
+
+        /// <summary>
+        /// Sets/gets the current sound fx category volume
+        /// </summary>
+        public float    SoundFXVolume
+        {
+            protected get { return m_SoundFXVolume; }
+            set { m_SoundFXVolume = value; }
+        }
+
+        /// <summary>
+        /// Sets/gets the current music category volume
+        /// </summary>
+        public float MusicVolume
+        {
+            protected get { return m_MusicVolume; }
+            set { m_MusicVolume = value; }
+        }
 
         public SoundManager(Game i_Game)
             : base(i_Game, Int32.MinValue)
@@ -96,19 +116,55 @@ namespace SpaceInvadersGame.Service
             }
         }
 
+        /// <summary>
+        /// Mute the sound category only
+        /// </summary>
         public void     ToggleMute()
         {
-            this.ToggleMute(k_DefaultToggleMute);
+            this.ToggleMute(k_DefaultMuteFX);
         }
 
-        public void     ToggleMute(bool i_EnableSound)
+        /// <summary>
+        /// Mute the sound category and the fx category if needed
+        /// </summary>
+        /// <param name="i_ToggleFXMute">Mark if we want to mute the sound
+        /// fx also</param>
+        public void     ToggleMute(bool i_ToggleFXMute)
         {
-            m_MusicEnabled = !m_MusicEnabled && i_EnableSound;
+            m_MusicEnabled = !m_MusicEnabled;
 
-            m_AudioEngine.GetCategory(k_MusicCategoryName).SetVolume(
+            changeCategoryVolume(
+                k_MusicCategoryName, 
                 !m_MusicEnabled ?  0 : m_MusicVolume);   
+
+            // Check if we need to mute the FX also
+            if (i_ToggleFXMute)
+            {
+                m_FXEnabled = !m_FXEnabled;
+
+                changeCategoryVolume(
+                    k_FXCategoryName,
+                    !m_FXEnabled ? 0 : m_SoundFXVolume);   
+            }
         }
 
+        /// <summary>
+        /// Change a given category volume
+        /// </summary>
+        /// <param name="i_CategoryName">The name of the category that we want
+        /// to change</param>
+        /// <param name="i_Volume">The new category volume we want to set</param>
+        private void    changeCategoryVolume(
+            string i_CategoryName, 
+            float i_Volume)
+        {
+            m_AudioEngine.GetCategory(i_CategoryName).SetVolume(i_Volume);   
+        }
+
+        /// <summary>
+        /// Stops a playing cue
+        /// </summary>
+        /// <param name="i_CueName">The name of the cue that we want to stop</param>
         public void     StopCue(string i_CueName)
         {
             Cue cue;
@@ -118,18 +174,6 @@ namespace SpaceInvadersGame.Service
                 cue.Stop(AudioStopOptions.Immediate);
                 m_Cues.Remove(i_CueName);
             }
-        }
-
-
-        // TODO: Remove the code
-        /*public void     StopMusic()
-        {
-            m_AudioEngine.GetCategory(k_MusicCategoryName).Pause();
-        }
-
-        public void     EnableMusic()
-        {
-            m_AudioEngine.GetCategory(k_MusicCategoryName).Resume();
-        }*/
+        }   
     }
 }
