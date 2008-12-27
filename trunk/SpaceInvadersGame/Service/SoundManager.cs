@@ -47,8 +47,12 @@ namespace SpaceInvadersGame.Service
         /// </summary>
         public float    SoundFXVolume
         {
-            protected get { return m_SoundFXVolume; }
-            set { m_SoundFXVolume = value; }
+            get { return m_SoundFXVolume; }
+            set 
+            { 
+                m_SoundFXVolume = value;
+                changeCategoryVolume(k_FXCategoryName, m_SoundFXVolume);
+            }
         }
 
         /// <summary>
@@ -56,8 +60,12 @@ namespace SpaceInvadersGame.Service
         /// </summary>
         public float MusicVolume
         {
-            protected get { return m_MusicVolume; }
-            set { m_MusicVolume = value; }
+            get { return m_MusicVolume; }
+            set 
+            { 
+                m_MusicVolume = value;
+                changeCategoryVolume(k_MusicCategoryName, m_MusicVolume);
+            }
         }
 
         public SoundManager(Game i_Game)
@@ -100,7 +108,7 @@ namespace SpaceInvadersGame.Service
         {
             Cue cue;
 
-            // TODO: Check the if
+            // TODO: Check the if                      
 
             if (!(m_Cues.TryGetValue(i_CueName, out cue)))
             {
