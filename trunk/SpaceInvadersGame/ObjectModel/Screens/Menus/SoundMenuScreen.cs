@@ -69,7 +69,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
 
         void m_ToggleSoundItem_Modified(int i_Dummy)
         {
-            m_SoundManager.ToggleMute(true);
+            m_SoundManager.ToggleMute();
         }
 
         private List<string> generateTexts(string i_Prefix)
