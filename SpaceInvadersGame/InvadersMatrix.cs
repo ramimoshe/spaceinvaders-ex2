@@ -32,6 +32,7 @@ namespace SpaceInvadersGame
         private TimeSpan m_Sleep = TimeSpan.FromSeconds(1.5f);
 
         private const int k_NumOfEnemiesLines = 5;
+        private const int k_DefaultNumOfEnemiesInLine = 9;
 
         private const int k_EnemyWidth = 32;
         private const int k_EnemyHeight = 32;
@@ -86,6 +87,7 @@ namespace SpaceInvadersGame
         {
             m_PrevShotTime = r_DefaultTimeBetweenShots;
             m_LastInvadersInLine = new Invader[k_NumOfEnemiesLines];
+            m_EnemiesInLineNum = k_DefaultNumOfEnemiesInLine;
         }
 
         /// <summary>
@@ -251,21 +253,21 @@ namespace SpaceInvadersGame
             base.Update(i_GameTime);
 
             // TODO: Remove the sleep decrease and if. for debug only.
-            /*m_Sleep -= i_GameTime.ElapsedGameTime;
+            m_Sleep -= i_GameTime.ElapsedGameTime;
 
             if (m_Sleep.TotalSeconds <= 0)
             {
-                m_Sleep = TimeSpan.FromSeconds(10.5f);
+                m_Sleep = TimeSpan.FromSeconds(1.5f);
                 onAllEnemiesEliminated();
             }
             else
-            {*/
+            {
 
                 m_PrevShotTime -= i_GameTime.ElapsedGameTime;
 
                 if (m_PrevShotTime.TotalSeconds < 0)
                 {                    
-                    shootThePlayer();
+                    //shootThePlayer();
                     m_PrevShotTime = r_DefaultTimeBetweenShots;
                 }
 
@@ -277,7 +279,7 @@ namespace SpaceInvadersGame
                     changeInvadersMatrixPositions(k_EnemyMotionYVal, true);
                     m_ChangeInvadersDirection = false;
                 }
-          //  }
+            }
         }             
 
         /// <summary>
@@ -418,7 +420,16 @@ namespace SpaceInvadersGame
         {
             if (m_EnemiesInLineNum != 0)
             {
-                addColumnsToMatrix(LevelData.InvadersColumnNum - m_EnemiesInLineNum);
+                if (LevelData.InvadersColumnNum > m_EnemiesInLineNum)
+                {
+                    addColumnsToMatrix(
+                        LevelData.InvadersColumnNum - m_EnemiesInLineNum);
+                }
+                else
+                {
+                    removeColumnsFromMatrix(
+                        m_EnemiesInLineNum - LevelData.InvadersColumnNum);
+                }
             }
 
             m_EnemiesInLineNum = LevelData.InvadersColumnNum;
@@ -458,11 +469,98 @@ namespace SpaceInvadersGame
         }
 
         /// <summary>
+        /// Removes columns from the invaders matrix
+        /// </summary>
+        /// <param name="i_ColumnsNum">The number of columns that we want to 
+        /// remove from the matrix</param>
+        private void removeColumnsFromMatrix(int i_ColumnsNum)
+        {
+            if (i_ColumnsNum > 0)
+            {
+                int lastIndex = (this.Count - 1) - 
+                    (i_ColumnsNum * k_NumOfEnemiesLines);
+
+                // Remove invaders from the end of the list
+                for (int i = this.Count - 1; i > lastIndex; i--)
+                {
+                    InvaderComposite invader = this[i];
+
+                    if (invader != null)
+                    {                        
+                        invader.Dispose();
+                    }
+                }
+
+                m_EnemiesInLineNum -= i_ColumnsNum;
+                onRemovingInvadersFromMatrix();
+            }
+        }
+
+        /// <summary>
+        /// Called after we removed invaders from the matrix
+        /// </summary>
+        private void    onRemovingInvadersFromMatrix()
+        {
+            updateLastInvadersInLine();
+        }
+
+        /// <summary>
+        /// Updates the last invaders in line list according to the current 
+        /// invaders matrix
+        /// </summary>
+        private void    updateLastInvadersInLine()
+        {
+            int counter = 0;
+            int startingIndex = 0;
+            int changeIndexFactor = 0;
+            int lastInvadersIndex = 0;
+            int lastInvadersChangeFactor = 0;
+
+            // When adding invaders to the matrix we add an entire
+            // column to the matrix end, but before we add columns the invaders
+            // are held according to the lines order so that the invaders in 
+            // the last line are from position 0 to k_DefaultNumOfEnemiesInLine - 1, 
+            // the invaders in the line before thr last line are from position 
+            // k_DefaultNumOfEnemiesInLine - 1 to (2 * k_DefaultNumOfEnemiesInLine) - 1
+            // and so on
+            if (m_EnemiesInLineNum <= k_DefaultNumOfEnemiesInLine)
+            {
+                startingIndex = m_EnemiesInLineNum - 1;
+                changeIndexFactor = m_EnemiesInLineNum;                
+                lastInvadersIndex = m_LastInvadersInLine.Length - 1;
+                lastInvadersChangeFactor = -1;
+            }
+            else
+            {
+                startingIndex = this.Count - 1 - m_EnemiesInLineNum;
+                changeIndexFactor = 1;
+                lastInvadersIndex = 0;
+                lastInvadersChangeFactor = 1;
+            }
+
+            // Move on the matrix according to the calculated indexes
+            // and put the invaders in the last invader array
+            for (int i = startingIndex; i < this.Count;
+                     i += changeIndexFactor)
+            {
+                InvaderComposite invader = this[i];
+
+                if (invader != null)
+                {
+                    m_LastInvadersInLine[lastInvadersIndex] = 
+                        invader.Invader;
+
+                    lastInvadersIndex += lastInvadersChangeFactor;
+                }
+            }                    
+        }
+
+        /// <summary>
         /// Adds columns to the invaders matrix
         /// </summary>
         /// <param name="i_ColumnsNum">The number of columns that we want to 
         /// add to the matrix</param>
-        private void    addColumnsToMatrix(int i_ColumnsNum)
+        private void addColumnsToMatrix(int i_ColumnsNum)
         {
             if (i_ColumnsNum > 0)
             {
