@@ -67,12 +67,11 @@ namespace SpaceInvadersGame
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
 
-            InputManager inputManager = new InputManager(this, 1);
-            CollisionManager collisionManager = new CollisionManager(this, 10000);
+            InputManager inputManager = new InputManager(this, 1);            
             GameLevelDataManager gameLevelDataManager = new GameLevelDataManager(this);
 
-            LevelTransitionScreen levelTransitionScreen =
-                new LevelTransitionScreen(this);
+/*            LevelTransitionScreen levelTransitionScreen =
+                new LevelTransitionScreen(this);*/
 
             // TODO: Change the creation
             /*
@@ -236,33 +235,7 @@ namespace SpaceInvadersGame
         /// </summary>
         protected override void UnloadContent()
         {
-        }
-
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="i_GameTime">Provides a snapshot of timing values.</param>
-        protected override void Update(GameTime i_GameTime)
-        {
-            if (GameOver)
-            {
-                // TODO: Remove the code
-
-                /*string winningMsg = getWinningPlayerMsg();
-
-                MessageBox.Show(
-                    "Game Over. \nPlayer1 Score Is: " + m_Player1Score +
-                    "\nPlayer2 Score Is: " + m_Player2Score + winningMsg,
-                    "Game Over",
-                    MessageBoxButtons.OK,
-                    System.Windows.Forms.MessageBoxIcon.Information);*/
-
-                this.Exit();
-            }
-
-            base.Update(i_GameTime);
-        }
+        }    
 
         /// <summary>
         /// Return a string that states the wining player
@@ -317,11 +290,6 @@ namespace SpaceInvadersGame
         {
             m_Player2IsDead = true;
         }*/
-
-        private void    spaceInvadersGameScreen_GameOver()
-        {
-            GameOver = true;
-        }
 
         /// <summary>
         /// Catch an AllEnemiesEliminated event raised by the EnemiesMatrix
