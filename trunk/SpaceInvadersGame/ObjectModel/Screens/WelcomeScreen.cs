@@ -28,8 +28,6 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             m_WelcomeMessage.TintColor = Color.White;
             m_HitEnterMessage.TintColor = Color.PowderBlue;
 
-            // TODO: Change the parameter to a constant
-
             this.Add(m_WelcomeMessage);
             this.Add(m_HitEnterMessage);
             this.HasFocus = true;
