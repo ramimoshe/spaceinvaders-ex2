@@ -12,7 +12,6 @@ namespace SpaceInvadersGame
     /// A drawable game component that is responsible to draw a
     /// player lives on the screen
     /// </summary>
-    // TODO: change base class to CompositeDrawableComponent
     public class PlayerLivesDrawer : DrawableGameComponent
     {        
         private const int k_SpaceBetweenLives = 25;
