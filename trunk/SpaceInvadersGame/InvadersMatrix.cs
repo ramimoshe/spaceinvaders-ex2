@@ -215,18 +215,10 @@ namespace SpaceInvadersGame
             float i_YMotionFactor,
             bool i_ChangePosition)
         {
-            // TODO: Remove the remarks
-
-            //IEnumerator<InvaderComposite> invadersEnumeration = m_EnabledInvaders. this.GetEnumerator();
-
-            // Move on the entire enemies matrix and change the enemy position
-            // by the given factor
-            //while (invadersEnumeration.MoveNext())
-
+            // Move on all the visible enemies in the matrix and change the 
+            // enemy position by the given factor
             foreach (Invader enemy in m_EnabledInvaders) 
             {
-                //Invader enemy = invadersEnumeration.Current.Invader;
-
                 // Increase the number of times the enemy moves in a second
                 // (by that we increase the invaders speed)
                 TimeSpan moveTime = TimeSpan.FromSeconds(enemy.TimeBetweenMoves.TotalSeconds * 
@@ -271,7 +263,7 @@ namespace SpaceInvadersGame
                 if (m_PrevShotTime.TotalSeconds < 0)
                 {     
                     // TODO: Enable
-                    shootThePlayer();
+//                    shootThePlayer();
                     m_PrevShotTime = r_DefaultTimeBetweenShots;
                 }
 
@@ -331,8 +323,10 @@ namespace SpaceInvadersGame
         {
             removeInvaderFromEnabledList(i_Invader);
 
+            // TODO: Enable
+
             // Increase the invaders moving speed
-            changeInvadersMatrixPositions(0, false);
+//            changeInvadersMatrixPositions(0, false);
         }
 
         /// <summary>
@@ -588,14 +582,13 @@ namespace SpaceInvadersGame
                         // TODO: Move the creation code to a method and replace the initialize
                         // also
 
-                        // TODO: Add invader row in the builder call and check 
-                        // what to put in the update order
+                        // TODO: check what to put in the update order
 
                         currEnemy = invadersBuilder.CreateInvader(
                             m_LastInvadersInLine[i].InvaderType,
                             Game,
                             k_InvadersUpdateOrder,
-                            1);
+                            m_LastInvadersInLine[i].InvaderRow);
 
                         currEnemy.Score =
                             m_GameLevelData.GetInvaderScore(currEnemy.InvaderType);
