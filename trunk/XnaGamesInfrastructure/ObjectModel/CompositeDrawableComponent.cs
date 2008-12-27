@@ -352,6 +352,27 @@ namespace XnaGamesInfrastructure.ObjectModel
             return removed;
         }
 
+        /// <summary>
+        /// Read only indexer that gets a component in a given index
+        /// </summary>
+        /// <param name="i_Index">The index of the component that we want</param>
+        /// <returns>null if the index if out of the coponents array range or
+        /// the component in the given index if the index is in the range</returns>
+        public ComponentType    this[int i_Index]
+        {
+            get
+            {
+                ComponentType retVal = null;
+
+                if (this.Count > i_Index && i_Index > 0)
+                {
+                    retVal = m_Components[i_Index];
+                }
+
+                return retVal;
+            }
+        }
+
         public IEnumerator<ComponentType> GetEnumerator()
         {
             return m_Components.GetEnumerator();
