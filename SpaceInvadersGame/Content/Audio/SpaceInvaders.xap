@@ -251,8 +251,8 @@ Wave Bank
     Windows Bank Path Edited = 0;
     Seek Tables = 1;
     Compression Preset Name = <none>;
-    Bank Last Revised Low = 148407434;
-    Bank Last Revised High = 29976746;
+    Bank Last Revised Low = 1061986622;
+    Bank Last Revised High = 29976693;
 
     Wave
     {
@@ -510,9 +510,9 @@ Wave Bank
     Wave
     {
         Name = GameMusic;
-        File = ..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Sounds\GameMusic.wav;
-        Build Settings Last Modified Low = 2261310776;
-        Build Settings Last Modified High = 29976744;
+        File = c:\temp\XNA_Assets\Ex04\Sounds\GameMusic.wav;
+        Build Settings Last Modified Low = 2429232260;
+        Build Settings Last Modified High = 29976690;
 
         Cache
         {
@@ -525,17 +525,17 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 3883153072;
-            Last Modified High = 29976743;
+            Last Modified Low = 1394076010;
+            Last Modified High = 29976690;
         }
     }
 
     Wave
     {
         Name = LevelTrans;
-        File = ..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Sounds\LevelTrans.wav;
-        Build Settings Last Modified Low = 86063684;
-        Build Settings Last Modified High = 29976746;
+        File = c:\temp\XNA_Assets\Ex04\Sounds\LevelTrans.wav;
+        Build Settings Last Modified Low = 2548138510;
+        Build Settings Last Modified High = 29976690;
 
         Cache
         {
@@ -548,8 +548,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 3250249730;
-            Last Modified High = 29976745;
+            Last Modified Low = 835951010;
+            Last Modified High = 29976690;
         }
     }
 }
@@ -807,7 +807,7 @@ Sound Bank
 
         Category Entry
         {
-            Name = SoundFX;
+            Name = Music;
         }
 
         Track
@@ -893,7 +893,7 @@ Sound Bank
     Sound
     {
         Name = clearEnemies;
-        Volume = -1200;
+        Volume = 300;
         Pitch = 0;
         Priority = 0;
 
@@ -1123,7 +1123,7 @@ Sound Bank
     Sound
     {
         Name = GameMusic;
-        Volume = -1200;
+        Volume = -400;
         Pitch = 0;
         Priority = 0;
 
@@ -1170,7 +1170,7 @@ Sound Bank
     Sound
     {
         Name = LevelTrans;
-        Volume = -1200;
+        Volume = -400;
         Pitch = 0;
         Priority = 0;
 
@@ -1395,26 +1395,6 @@ Sound Bank
 
     Cue
     {
-        Name = ClearEnemies;
-
-        Variation
-        {
-            Variation Type = 3;
-            Variation Table Type = 1;
-            New Variation on Loop = 0;
-        }
-
-        Sound Entry
-        {
-            Name = clearEnemies;
-            Index = 7;
-            Weight Min = 0;
-            Weight Max = 255;
-        }
-    }
-
-    Cue
-    {
         Name = YInvaderHit;
 
         Variation
@@ -1508,6 +1488,26 @@ Sound Bank
         {
             Name = LevelTrans;
             Index = 13;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+    }
+
+    Cue
+    {
+        Name = ClearEnemies;
+
+        Variation
+        {
+            Variation Type = 3;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = clearEnemies;
+            Index = 7;
             Weight Min = 0;
             Weight Max = 255;
         }
