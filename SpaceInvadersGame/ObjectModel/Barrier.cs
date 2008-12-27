@@ -39,9 +39,6 @@ namespace SpaceInvadersGame.ObjectModel
             MotionVector = new Vector2(k_XMotionSpeed, 0);
             m_CollisionCheckType = eCollidableCheckType.PixelCollision;
             m_LoadFreshTextureCopy = true;
-
-            // TODO: Remove the code
-            this.Game.Components.Remove(this);
         }
 
         private Vector2 m_DefaultPosition;
@@ -228,14 +225,11 @@ namespace SpaceInvadersGame.ObjectModel
         /// </summary>
         public void     ResetBarrier()
         {
-            // TODO: move the check to the barrier holder
-
             if (m_DefaultColorData != null)
             {
                 this.Texture.SetData<Color>(m_DefaultColorData);
                 this.PositionForDraw = DefaultPosition;
 
-                // TODO: Check if i need this set
                 m_FirstUpdate = true;
             }
         }

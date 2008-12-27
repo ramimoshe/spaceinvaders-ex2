@@ -65,13 +65,11 @@ namespace SpaceInvadersGame.ObjectModel
         {
             base.Update(i_GameTime);
 
-            // TODO: Remove the proc (we should't dispose bullets)
-
             // If the bullet is out of the screen, or collided with another 
             // component (not visible), we need to dispose it
-            if (!Bounds.Intersects(m_ViewPortBounds) || (!Visible && !(this is SpaceShipBullet)))            
-            {                
-                Dispose();             
+            if (!Bounds.Intersects(m_ViewPortBounds))            
+            {
+                Visible = false;
             }
         }
 
