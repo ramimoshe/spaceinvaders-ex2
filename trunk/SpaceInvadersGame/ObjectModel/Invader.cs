@@ -47,7 +47,8 @@ namespace SpaceInvadersGame.ObjectModel
             TimeSpan.FromSeconds(0.5f);
 
         private const string k_AssetName = @"Sprites\allInvaders";
-        private const int k_AllowedBulletsNum = 3;        
+        private const int k_AllowedBulletsNum = 3;
+        private readonly Vector2 r_DefaultMotionVector = new Vector2(500, 0);
 
         public event PlayActionSoundDelegate PlayActionSoundEvent;
 
@@ -430,7 +431,9 @@ namespace SpaceInvadersGame.ObjectModel
         public void     ResetInvader()
         {
             this.PositionForDraw = DefaultPosition;
+            m_CurrMotion = r_DefaultMotionVector;
             m_TimeBetweenMove = r_DefaultTimeBetweenMoves;
+            m_TimeLeftToNextMove = m_TimeBetweenMove;
             Animations[k_ScaleAnimationName].Reset();
             Animations[k_ScaleAnimationName].Pause();
 

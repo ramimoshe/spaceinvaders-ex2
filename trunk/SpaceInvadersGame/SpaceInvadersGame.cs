@@ -31,8 +31,7 @@ namespace SpaceInvadersGame
     /// </summary>
     public class SpaceInvadersGame : Microsoft.Xna.Framework.Game
     {
-        private const int k_SpaceBetweenLivesDraw = 30;
-        private const string k_MusicFileName = "GameMusic";
+        private const int k_SpaceBetweenLivesDraw = 30;        
         //private const string k_Player1ScorePrefix = "P1 Score: ";
         //private const string k_Player2ScorePrefix = "P2 Score: ";
 
@@ -194,7 +193,7 @@ namespace SpaceInvadersGame
 
             // TODO: Return the music play
 
-            m_SoundManager.Play(k_MusicFileName);
+            m_SoundManager.Play(Constants.k_MusicCueName, true);
 
             // TODO: Remove the code
 //            initComponentsPosition();

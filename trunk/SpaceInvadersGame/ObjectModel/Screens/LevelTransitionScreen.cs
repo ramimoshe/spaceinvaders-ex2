@@ -144,7 +144,12 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         {
             m_TimeRemainingForScreen = k_TransitionScreenTime;
             m_CurrLevelNum++;
-            initMessagesText();
+            initMessagesText();            
+        }      
+
+        protected override void     OnDeactivated()
+        {
+            m_SoundManager.Play(Constants.k_MusicCueName, true);
         }
     }
 }

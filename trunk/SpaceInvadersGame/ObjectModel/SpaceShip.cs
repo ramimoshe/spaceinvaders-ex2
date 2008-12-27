@@ -23,7 +23,8 @@ namespace SpaceInvadersGame.ObjectModel
     /// </summary>
     public class SpaceShip : CollidableSprite, IShoot, IPlayer, ISoundableGameComponent
     {                
-        private const int k_AllowedBulletsNum = 3;
+        // TODO: Return to 3
+        private const int k_AllowedBulletsNum = 30;
         private const int k_Motion = 200;
         private const int k_BulletVelocity = 250;
         private const int k_LostLifeScoreDecrease = 2000;

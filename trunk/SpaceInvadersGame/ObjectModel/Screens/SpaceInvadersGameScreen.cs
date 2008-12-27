@@ -305,6 +305,10 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             {
                 spaceShipComp.SpaceShip.ResetSpaceShip();
             }
+            
+            m_SoundManager.StopCue(Constants.k_MusicCueName);
+
+            PlayActionCue(eSoundActions.KillAllEnemies);
         }
 
         // TODO: Remove the proc
@@ -476,6 +480,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
 
         private void    onGameEnded()
         {
+            PlayActionCue(eSoundActions.GameOver);
             ScreensManager.SetCurrentScreen(m_GameOverScreen);
         }
 

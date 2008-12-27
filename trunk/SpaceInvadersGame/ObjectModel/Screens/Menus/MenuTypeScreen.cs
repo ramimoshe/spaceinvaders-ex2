@@ -12,7 +12,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
     /// <summary>
     /// A parent to all the menu screens in the game
     /// </summary>
-    public abstract class MenuTypeScreen : GameScreen
+    public abstract class MenuTypeScreen : SpaceInvadersScreenAbstract
     {
         protected List<MenuItem> m_MenuItems = new List<MenuItem>();
         protected SpriteFontComponent m_Title;
@@ -135,6 +135,9 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
                 m_MenuItems[m_CurrentMenuItem].IsSelected = false;
                 m_MenuItems[newCurrentItem].IsSelected = true;
                 m_CurrentMenuItem = newCurrentItem;
+
+                // Play the change menu item cue
+                PlayActionCue(eSoundActions.MenuItemChanged);
             }
         }
     }

@@ -216,13 +216,17 @@ namespace SpaceInvadersGame
             float i_YMotionFactor,
             bool i_ChangePosition)
         {
-            IEnumerator<InvaderComposite> invadersEnumeration = this.GetEnumerator();
+            // TODO: Remove the remarks
+
+            //IEnumerator<InvaderComposite> invadersEnumeration = m_EnabledInvaders. this.GetEnumerator();
 
             // Move on the entire enemies matrix and change the enemy position
             // by the given factor
-            while (invadersEnumeration.MoveNext())
+            //while (invadersEnumeration.MoveNext())
+
+            foreach (Invader enemy in m_EnabledInvaders) 
             {
-                Invader enemy = invadersEnumeration.Current.Invader;
+                //Invader enemy = invadersEnumeration.Current.Invader;
 
                 // Increase the number of times the enemy moves in a second
                 // (by that we increase the invaders speed)
@@ -255,18 +259,19 @@ namespace SpaceInvadersGame
             // TODO: Remove the sleep decrease and if. for debug only.
             m_Sleep -= i_GameTime.ElapsedGameTime;
 
-            if (m_Sleep.TotalSeconds <= 0)
+            /*if (m_Sleep.TotalSeconds <= 0)
             {
                 m_Sleep = TimeSpan.FromSeconds(1.5f);
                 onAllEnemiesEliminated();
             }
             else
-            {
+            {*/
 
                 m_PrevShotTime -= i_GameTime.ElapsedGameTime;
 
                 if (m_PrevShotTime.TotalSeconds < 0)
-                {                    
+                {     
+                    // TODO: Enable
                     //shootThePlayer();
                     m_PrevShotTime = r_DefaultTimeBetweenShots;
                 }
@@ -279,7 +284,7 @@ namespace SpaceInvadersGame
                     changeInvadersMatrixPositions(k_EnemyMotionYVal, true);
                     m_ChangeInvadersDirection = false;
                 }
-            }
+           // }
         }             
 
         /// <summary>
@@ -431,7 +436,7 @@ namespace SpaceInvadersGame
                         m_EnemiesInLineNum - LevelData.InvadersColumnNum);
                 }
             }
-
+            m_ChangeInvadersDirection = false;
             m_EnemiesInLineNum = LevelData.InvadersColumnNum;
 
             // TODO: Delete the remarks
@@ -510,7 +515,6 @@ namespace SpaceInvadersGame
         /// </summary>
         private void    updateLastInvadersInLine()
         {
-            int counter = 0;
             int startingIndex = 0;
             int changeIndexFactor = 0;
             int lastInvadersIndex = 0;

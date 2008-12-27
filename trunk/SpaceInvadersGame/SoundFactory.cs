@@ -18,7 +18,9 @@ namespace SpaceInvadersGame
         BlueInvaderHit,
         PinkInvaderHit,
         BarrierHit,
-        MenuItemChanged
+        MenuItemChanged,
+        GameOver,
+        KillAllEnemies
     }
 
     /// <summary>
@@ -37,10 +39,9 @@ namespace SpaceInvadersGame
         private const string k_BInvaderHitCue = "BInvaderHit";
         private const string k_PInvaderHitCue = "PInvaderHit";
         private const string k_BarrierHitCue = "BarrierHit";
-
-        // TODO: Remove the menuitemchanged cue (in the xact also)
-
         private const string k_MenuItemChangedCue = "MenuItemChanged";
+        private const string k_GameOverCue = "GameOver";
+        private const string k_KillAllEnemiesCue = "ClearEnemies";
 
         static SoundFactory()
         {
@@ -57,6 +58,8 @@ namespace SpaceInvadersGame
             s_ActionCues.Add(eSoundActions.PinkInvaderHit, k_PInvaderHitCue);
             s_ActionCues.Add(eSoundActions.BarrierHit, k_BarrierHitCue);
             s_ActionCues.Add(eSoundActions.MenuItemChanged, k_MenuItemChangedCue);
+            s_ActionCues.Add(eSoundActions.GameOver, k_GameOverCue);
+            s_ActionCues.Add(eSoundActions.KillAllEnemies, k_KillAllEnemiesCue);
         }
 
         /// <summary>

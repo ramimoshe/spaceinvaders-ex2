@@ -77,7 +77,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             string cue = SoundFactory.GetActionCue(i_Action);
             if (!cue.Equals(String.Empty))
             {
-                m_SoundManager.Play(cue);
+                m_SoundManager.Play(cue, false);
             }
         }
     }
