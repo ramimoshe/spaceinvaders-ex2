@@ -19,8 +19,6 @@ namespace SpaceInvadersGame.Service
     /// </summary>
     public class SoundManager : GameService
     {
-        // TODO: Change the wave bank and sound bank names
-
         private const string k_ContentFolder = @"Content\Audio\";
         private const string k_SoundBankName = "SpaceInvaders.xsb";
         private const string k_WaveBankName = "SpaceInvaders.xwb";
@@ -107,8 +105,6 @@ namespace SpaceInvadersGame.Service
         public void     Play(string i_CueName, bool i_SaveCue)
         {
             Cue cue;
-
-            // TODO: Check the if                      
 
             if (!(m_Cues.TryGetValue(i_CueName, out cue)))
             {
