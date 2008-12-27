@@ -30,8 +30,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             m_PlayersMenuItem = new OptionsMenuItem(
                                     Game, 
                                     new List<string>(m_PlayersText), 
-                                    m_PlayersItem_Decreased, 
-                                    m_PlayersItem_Increased);
+                                    m_PlayersItem_Modified);
 
             m_DisplayOptionsItem = new MenuItem(Game, "Screen Options", displayOptionsItem_Executed);
             m_SoundOptionsItem = new MenuItem(Game, "Sound Options", soundOptionsItem_Executed);
@@ -45,19 +44,9 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             Add(m_QuitItem);
         }
 
-        private void m_PlayersItem_Increased()
+        private void m_PlayersItem_Modified(int i_PlayersNum)
         {
-            changeNumberOfPlayers(-1);
-        }
-
-        private void m_PlayersItem_Decreased()
-        {
-            changeNumberOfPlayers(1);
-        }
-
-        private void changeNumberOfPlayers(int numDelta)
-        {
-            m_PlayersNum = (int) MathHelper.Clamp(m_PlayersNum + numDelta, k_PlayersNumMin, k_PlayersNumMax);
+            m_PlayersNum = i_PlayersNum + 1;
         }
 
         private void displayOptionsItem_Executed()
@@ -80,17 +69,12 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
 
         private void quitItem_Executed()
         {
-            // TODO: verify Code
             Game.Exit();
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-        }
-
-        public void playersMenuItemModified()
-        {
         }
     }
 }

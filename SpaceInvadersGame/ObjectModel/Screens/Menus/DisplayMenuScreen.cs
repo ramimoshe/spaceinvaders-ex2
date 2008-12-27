@@ -25,18 +25,15 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             m_FullScreenItem = new OptionsMenuItem(
                                     Game,
                                     new List<string>(m_FullScreenText),
-                                    m_FullScreenItem_Changed,
-                                    m_FullScreenItem_Changed);
+                                    m_FullScreenItem_Modified);
             m_ResizeItem = new OptionsMenuItem(
                                     Game,
                                     new List<string>(m_ResizeText),
-                                    m_ResizeItem_Changed,
-                                    m_ResizeItem_Changed);
+                                    m_ResizeItem_Modified);
             m_MouseItem = new OptionsMenuItem(
                         Game,
                         new List<string>(m_MouseText),
-                        m_MouseItem_Changed,
-                        m_MouseItem_Changed);
+                        m_MouseItem_Modified);
             m_DoneItem = new MenuItem(Game, "Done", m_DoneItem_Executed);
 
             Add(m_FullScreenItem);
@@ -45,17 +42,17 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             Add(m_DoneItem);
         }
 
-        private void m_FullScreenItem_Changed()
+        private void m_FullScreenItem_Modified(int i_Dummy)
         {
             ((GraphicsDeviceManager)Game.Services.GetService(typeof(GraphicsDeviceManager))).ToggleFullScreen();
         }
 
-        private void m_ResizeItem_Changed()
+        private void m_ResizeItem_Modified(int i_Dummy)
         {
             Game.Window.AllowUserResizing = !Game.Window.AllowUserResizing;
         }
 
-        private void m_MouseItem_Changed()
+        private void m_MouseItem_Modified(int i_Dummy)
         {
             Game.IsMouseVisible = !Game.IsMouseVisible;
         }
