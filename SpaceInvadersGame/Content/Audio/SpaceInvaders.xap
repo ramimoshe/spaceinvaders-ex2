@@ -360,8 +360,6 @@ Sound Bank
     Windows File = Win\SpaceInvaders.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
-    Header Last Modified High = 0;
-    Header Last Modified Low = 0;
 
     Sound
     {
@@ -789,6 +787,26 @@ Sound Bank
         {
             Name = enemyLaser;
             Index = 4;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+    }
+
+    Cue
+    {
+        Name = MenuItemChanged;
+
+        Variation
+        {
+            Variation Type = 3;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = bwoop;
+            Index = 1;
             Weight Min = 0;
             Weight Max = 255;
         }
