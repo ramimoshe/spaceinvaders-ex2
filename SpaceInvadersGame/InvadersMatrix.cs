@@ -87,7 +87,6 @@ namespace SpaceInvadersGame
         {
             m_PrevShotTime = r_DefaultTimeBetweenShots;
             m_LastInvadersInLine = new Invader[k_NumOfEnemiesLines];
-            m_EnemiesInLineNum = k_DefaultNumOfEnemiesInLine;
         }
 
         /// <summary>
@@ -272,7 +271,7 @@ namespace SpaceInvadersGame
                 if (m_PrevShotTime.TotalSeconds < 0)
                 {     
                     // TODO: Enable
-                    //shootThePlayer();
+                    shootThePlayer();
                     m_PrevShotTime = r_DefaultTimeBetweenShots;
                 }
 
@@ -364,6 +363,11 @@ namespace SpaceInvadersGame
                 m_EnabledInvaders[invaderIndex].Shoot();
             }
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+        }
        
         /// <summary>
         /// Catch an invader disposed event, remove it from the matrix and in
@@ -372,7 +376,7 @@ namespace SpaceInvadersGame
         /// <param name="i_Sender">The disposed enemy</param>
         /// <param name="i_EventArgs">The event arguments</param>
         private void    invader_Disposed(object i_Sender, EventArgs i_EventArgs)
-        {
+        {            
             InvaderComposite enemy = i_Sender as InvaderComposite;
 
             removeInvaderFromMatrix(enemy);
