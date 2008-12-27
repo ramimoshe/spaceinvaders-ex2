@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SpaceInvadersGame.ObjectModel.Screens.Menus
 {
+    /// <summary>
+    /// A parent to all the menu screens in the game
+    /// </summary>
     public abstract class MenuTypeScreen : GameScreen
     {
         protected List<MenuItem> m_MenuItems = new List<MenuItem>();
@@ -23,7 +26,13 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             Add(m_Title);
         }
 
-        public override void Add(IGameComponent i_Component)
+        /// <summary>
+        /// Adds a new component to the screen. 
+        /// In case it's a MenuItem, we'll save it in a dedicated list in
+        /// addition to the parent list
+        /// </summary>
+        /// <param name="i_Component">The component we want to add to the screen</param>
+        public override void    Add(IGameComponent i_Component)
         {
             base.Add(i_Component);
 
@@ -40,7 +49,11 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             }
         }
 
-        public override void Initialize()
+        /// <summary>
+        /// Initialize the menu by setting the position of all the menu items
+        /// in the screen
+        /// </summary>
+        public override void    Initialize()
         {
             base.Initialize();
 
@@ -53,7 +66,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             }
         }
 
-        private void SetItemPosition(int i_ItemIndex)
+        private void    SetItemPosition(int i_ItemIndex)
         {
             Vector2 position;
 
@@ -74,24 +87,48 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             m_MenuItems[i_ItemIndex].PositionOrigin = item.SpriteCenter;
         }
 
-        public override void Update(GameTime gameTime)
+        /// <summary>
+        /// Updates the current selected menu item according to the player input
+        /// </summary>
+        /// <param name="i_GameTime">A snapshot of the current game time</param>
+        public override void    Update(GameTime i_GameTime)
         {
-            base.Update(gameTime);
+            base.Update(i_GameTime);
 
-            if (InputManager.KeyPressed(Keys.Down))
+            if (InputManager.KeyPressed(Keys.Down) || 
+                InputManager.ScrollWheelDelta < 0)
             {
                 ChangeCurrentItem(true);
             }
-            else if (InputManager.KeyPressed(Keys.Up))
+            else if (InputManager.KeyPressed(Keys.Up) ||
+                     InputManager.ScrollWheelDelta > 0)
             {
                 ChangeCurrentItem(false);
             }
         }
 
-        private void ChangeCurrentItem(bool i_MoveDown)
+        /// <summary>
+        /// Changes the current menu item according to the player input
+        /// </summary>
+        /// <param name="i_MoveDown">Mark if we want to get the next item
+        /// or the previous one (true - get the next menu item, false - get
+        /// the previous menu item)</param>
+        private void    changeCurrentItem(bool i_MoveDown)
         {
             int itemsToMove = i_MoveDown ? 1 : -1;
-            int newCurrentItem = (int) MathHelper.Clamp(m_CurrentMenuItem + itemsToMove, 0, m_MenuItems.Count - 1);
+            int newCurrentItem = m_CurrentMenuItem + itemsToMove;
+
+            // If we moved up from the first menu item, or if we moved down 
+            // from the last menu item, we'll move the current item to the 
+            // last/first item
+            if (newCurrentItem < 0)
+            {
+                newCurrentItem = m_MenuItems.Count + newCurrentItem;
+            }
+            else if (newCurrentItem > (m_MenuItems.Count - 1))
+            {
+                newCurrentItem = newCurrentItem - (m_MenuItems.Count - 1) - 1;
+            }
 
             if (newCurrentItem != m_CurrentMenuItem)
             {
