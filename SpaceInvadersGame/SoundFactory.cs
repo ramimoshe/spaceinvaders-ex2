@@ -17,7 +17,8 @@ namespace SpaceInvadersGame
         YellowInvaderHit,
         BlueInvaderHit,
         PinkInvaderHit,
-        BarrierHit
+        BarrierHit,
+        MenuItemChanged
     }
 
     /// <summary>
@@ -37,6 +38,10 @@ namespace SpaceInvadersGame
         private const string k_PInvaderHitCue = "PInvaderHit";
         private const string k_BarrierHitCue = "BarrierHit";
 
+        // TODO: Remove the menuitemchanged cue (in the xact also)
+
+        private const string k_MenuItemChangedCue = "MenuItemChanged";
+
         static SoundFactory()
         {
             s_ActionCues = new Dictionary<eSoundActions, string>();
@@ -51,6 +56,7 @@ namespace SpaceInvadersGame
             s_ActionCues.Add(eSoundActions.BlueInvaderHit, k_BInvaderHitCue);
             s_ActionCues.Add(eSoundActions.PinkInvaderHit, k_PInvaderHitCue);
             s_ActionCues.Add(eSoundActions.BarrierHit, k_BarrierHitCue);
+            s_ActionCues.Add(eSoundActions.MenuItemChanged, k_MenuItemChangedCue);
         }
 
         /// <summary>
@@ -59,7 +65,7 @@ namespace SpaceInvadersGame
         /// <param name="i_Action">The action we want to get a cue for</param>
         /// <returns>The name of the cue that matches the given action or String.Empty
         /// if no such cue exists</returns>
-        public static string GetActionCue(eSoundActions i_Action)
+        public static string    GetActionCue(eSoundActions i_Action)
         {
             string retVal = String.Empty;
 
