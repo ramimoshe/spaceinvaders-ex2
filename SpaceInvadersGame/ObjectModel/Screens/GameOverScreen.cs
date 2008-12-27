@@ -14,6 +14,8 @@ using SpaceInvadersGame.ObjectModel.Screens.Menus;
 
 namespace SpaceInvadersGame.ObjectModel.Screens
 {
+    // TODO: Fix the class presentation
+
     /// <summary>
     /// The class implements the games GameOver screen
     /// </summary>
@@ -22,6 +24,8 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         private readonly Keys r_EndGameKey = Keys.Escape;
         private readonly Keys r_NewGameKey = Keys.R;
         private readonly Keys r_MainMenuKey = Keys.O;
+
+        private readonly Vector2 r_WiningMsgScale = new Vector2(.75f, .75f);
 
         private readonly string r_GameOverText = "Game Over";
         private readonly string r_KeysText = 
@@ -35,8 +39,6 @@ O to go to the Main Menu";
         private SpriteFontComponent m_GameOverMessage;
         private SpriteFontComponent m_KeysMessage;
         private SpriteFontComponent m_WinningPlayerMessage;
-
-        private bool m_EndGame = false;
 
         public GameOverScreen(Game i_Game, IPlayer[] i_Players)
             : base(i_Game)
@@ -61,7 +63,6 @@ O to go to the Main Menu";
 
             m_GameOverMessage.TintColor = Color.White;
             m_KeysMessage.TintColor = Color.White;            
-            // TODO: Change the parameter to a constant
 
             this.Add(m_GameOverMessage);
             this.Add(m_KeysMessage);
@@ -128,8 +129,8 @@ O to go to the Main Menu";
                 m_GameOverMessage.HeightAfterScale * 2);
             m_WinningPlayerMessage.PositionOrigin =
                 m_GameOverMessage.SpriteCenter;
-            // TODO: Change to constant
-            m_WinningPlayerMessage.Scale = new Vector2(.75f, .75f);
+            
+            m_WinningPlayerMessage.Scale = r_WiningMsgScale;
 
             m_KeysMessage.Text = m_KeysMessage.Text;
             m_KeysMessage.PositionOfOrigin = 

@@ -39,7 +39,6 @@ namespace SpaceInvadersGame.ObjectModel.Screens
 
             m_PauseMessage.TintColor = Color.White;
             m_ContinuePlayMessage.TintColor = Color.White;
-            // TODO: Change the parameter to a constant
 
             this.Add(m_PauseMessage);
             this.Add(m_ContinuePlayMessage);
