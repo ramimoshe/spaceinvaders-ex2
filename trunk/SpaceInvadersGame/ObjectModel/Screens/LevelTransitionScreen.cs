@@ -56,7 +56,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             this.Add(m_LevelMessage);
             this.Add(m_SecondsMessage);
             this.HasFocus = true;
-            
+
             m_PrevTime = r_TimeBetweenUpdate;
         }
 
@@ -130,23 +130,26 @@ namespace SpaceInvadersGame.ObjectModel.Screens
                 }
                 else
                 {
-                    beforeExitScreen();
                     ExitScreen();
                 }
             }
         }
 
+        // TODO: Remove
+
         /// <summary>
         /// Update and initialize the screen data for the next screen 
         /// appearance
         /// </summary>
-        private void    beforeExitScreen()
+        /*private void    beforeExitScreen()
         {
-            m_TimeRemainingForScreen = k_TransitionScreenTime;
-            m_CurrLevelNum++;
-            initMessagesText();            
-        }
+                   
+        }*/
 
+        /// <summary>
+        /// Called when screen is in the activating state and plays the 
+        /// transition music instead of the regular background music
+        /// </summary>
         protected override void     OnActivating()
         {
             m_SoundManager.StopCue(Constants.k_MusicCueName);
@@ -155,8 +158,16 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             base.OnActivating();
         }
 
+        /// <summary>
+        /// Called when screen is in the diactivated state and plays the 
+        /// regular background music and initialize the screen ui 
+        /// by replacing the level number
+        /// </summary>
         protected override void     OnDeactivated()
         {
+            m_TimeRemainingForScreen = k_TransitionScreenTime;
+            m_CurrLevelNum++;
+            initMessagesText();     
             m_SoundManager.Play(Constants.k_MusicCueName, true);
         }
     }
