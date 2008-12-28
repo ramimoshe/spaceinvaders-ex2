@@ -49,11 +49,11 @@ namespace SpaceInvadersGame.ObjectModel
         {
             base.Initialize();
             ScaleAnimation scaleAnimation =
-                new ScaleAnimation(k_ScaleAnimationName, Vector2.Zero, TimeSpan.FromSeconds(.2f), false);
+                new ScaleAnimation(k_ScaleAnimationName, Vector2.Zero, TimeSpan.FromSeconds(.2f), true);
             scaleAnimation.Finished += new AnimationFinishedEventHandler(ScaleAnimation_Finished);
             Animations.Add(scaleAnimation);
             Animations.Enabled = false;
-            Animations.ResetAfterFinish = false;
+            Animations.ResetAfterFinish = false;    
         }
 
         /// <summary>

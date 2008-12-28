@@ -10,8 +10,9 @@ using XnaGamesInfrastructure.Services;
 namespace XnaGamesInfrastructure.ObjectModel
 {
     /// <summary>
-    /// This class implements a 2Dimensional sprite, which generalize the use of
-    /// 2D texture and implements the required methods for collision detection.
+    /// This class implements a 2Dimensional sprite (including spriteFonts), 
+    /// which generalize the use of  2D texture and implements the 
+    /// required methods for collision detection.
     /// </summary>
     public abstract class SpriteBase : DrawableLoadableComponent
     {          
@@ -71,6 +72,7 @@ namespace XnaGamesInfrastructure.ObjectModel
                 return m_UseSharedBatch;
             }
         }
+
         /// <summary>
         /// Component's SpriteBatch (responsible for drawing the sprite)
         /// </summary>
@@ -548,12 +550,12 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// <summary>
         /// Performs actual load of content
         /// </summary>
-        abstract protected void DoLoadContent();
+        protected abstract void DoLoadContent();
 
         /// <summary>
         /// Gets the width of the texture
         /// </summary>
-        abstract protected int TextureWidth
+        protected abstract int TextureWidth
         {
             get;
         }
@@ -561,7 +563,7 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// <summary>
         /// Gets the height of the texture
         /// </summary>
-        abstract protected int TextureHeight
+        protected abstract int TextureHeight
         {
             get;
         }
@@ -647,6 +649,6 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// Creates a memberwise clone of sprite
         /// </summary>
         /// <returns>A copy of this sprite</returns>
-        abstract public SpriteBase   ShallowClone();
+        public abstract SpriteBase   ShallowClone();
     }
 }

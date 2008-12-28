@@ -41,11 +41,7 @@ namespace SpaceInvadersGame.ObjectModel
     /// </summary>
     public abstract class Invader : Enemy, IShoot, ISoundableGameComponent
     {
-        private readonly TimeSpan r_DefaultTimeBetweenMoves = 
-            TimeSpan.FromSeconds(0.5f);
-
         private const string k_AssetName = @"Sprites\allInvaders";
-        private readonly Vector2 r_DefaultMotionVector = new Vector2(500, 0);
 
         private int m_AllowedBulletsNum;
 
@@ -73,7 +69,6 @@ namespace SpaceInvadersGame.ObjectModel
         
         protected Vector2 m_CurrMotion = new Vector2(500, 0);
 
-        private float m_EnemyMaxPositionYVal;
         private Vector2 m_DefaultPosition;
         private int m_InvaderRow;
 
@@ -107,7 +102,6 @@ namespace SpaceInvadersGame.ObjectModel
             int i_InvaderRow)
             : base(k_AssetName, i_Game, i_UpdateOrder, i_DrawOrder)
         {
-            m_TimeBetweenMove = r_DefaultTimeBetweenMoves;
             m_TimeLeftToNextMove = m_TimeBetweenMove;
             m_InvaderRow = i_InvaderRow;
             m_StartingCel = i_InvaderRow % k_NumOfFrames;
@@ -122,23 +116,6 @@ namespace SpaceInvadersGame.ObjectModel
             get { return m_DefaultPosition; }
 
             set { m_DefaultPosition = value; }
-        }
-
-        /// <summary>
-        /// A property for the maximum value the enemy is allowed to reach
-        /// on the Y axis
-        /// </summary>
-        public float    InvaderMaxPositionY
-        {
-            get
-            {
-                return m_EnemyMaxPositionYVal;
-            }
-
-            set
-            {
-                m_EnemyMaxPositionYVal = value;
-            }
         }
 
         /// <summary>
@@ -445,14 +422,10 @@ namespace SpaceInvadersGame.ObjectModel
         /// </summary>
         public void     ResetInvader()
         {
-            this.PositionForDraw = DefaultPosition;
-            m_CurrMotion = r_DefaultMotionVector;
-            m_TimeBetweenMove = r_DefaultTimeBetweenMoves;
-            m_TimeLeftToNextMove = m_TimeBetweenMove;
+            this.PositionOfOrigin = DefaultPosition;
+            PositionOrigin = Vector2.Zero;
             Animations.Reset();
             Animations[k_ScaleAnimationName].Pause();
-
-            // TODO: Remove the code
             Animations[k_CellAnimationName].Pause();
 
             if (m_Bullets != null)

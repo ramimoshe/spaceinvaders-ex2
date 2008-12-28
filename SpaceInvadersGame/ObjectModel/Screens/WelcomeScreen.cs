@@ -12,11 +12,18 @@ using XnaGamesInfrastructure.Services;
 
 namespace SpaceInvadersGame.ObjectModel.Screens
 {
+    /// <summary>
+    /// Implements the game welcome screen
+    /// </summary>
     public class WelcomeScreen : SpaceInvadersScreenAbstract
     {
         private SpriteFontComponent m_WelcomeMessage;
         private SpriteFontComponent m_HitEnterMessage;
 
+        /// <summary>
+        /// Initializes the screen
+        /// </summary>
+        /// <param name="i_Game">the hosting game</param>
         public  WelcomeScreen(Game i_Game)
             : base(i_Game)
         {
@@ -33,7 +40,10 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             this.HasFocus = true;
         }
 
-        public override void Initialize()
+        /// <summary>
+        /// Setting screen message positions 
+        /// </summary>
+        public override void    Initialize()
         {
             base.Initialize();
 
@@ -45,7 +55,11 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             m_HitEnterMessage.PositionOrigin = m_HitEnterMessage.SpriteCenter;
         }
 
-        public override void Update(GameTime gameTime)
+        /// <summary>
+        /// Exiting the screen when key is pressed
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public override void    Update(GameTime gameTime)
         {
             base.Update(gameTime);
 

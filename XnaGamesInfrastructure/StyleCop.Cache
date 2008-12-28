@@ -206,24 +206,6 @@
     <milliseconds>359</milliseconds>
     <violations />
   </sourcecode>
-  <sourcecode name="SpriteFontComponent.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>12/10/2008 10:20:55</timestamp>
-      <milliseconds>250</milliseconds>
-    </settings>
-    <timestamp>12/10/2008 12:44:57</timestamp>
-    <milliseconds>593</milliseconds>
-    <violations />
-  </sourcecode>
-  <sourcecode name="Sprite.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>12/10/2008 10:20:55</timestamp>
-      <milliseconds>250</milliseconds>
-    </settings>
-    <timestamp>12/10/2008 12:47:20</timestamp>
-    <milliseconds>765</milliseconds>
-    <violations />
-  </sourcecode>
   <sourcecode name="DummyInputManager.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
       <timestamp>12/15/2008 21:33:08</timestamp>
@@ -288,6 +270,36 @@
     </settings>
     <timestamp>12/25/2008 20:38:25</timestamp>
     <milliseconds>343</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="Sprite.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/28/2008 02:16:14</timestamp>
+      <milliseconds>218</milliseconds>
+    </settings>
+    <timestamp>12/28/2008 03:51:37</timestamp>
+    <milliseconds>968</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="SpriteBase.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/28/2008 02:16:14</timestamp>
+      <milliseconds>218</milliseconds>
+    </settings>
+    <timestamp>12/28/2008 03:53:22</timestamp>
+    <milliseconds>328</milliseconds>
+    <violations />
+  </sourcecode>
+  <project key="607340003">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+  <sourcecode name="SpriteFontComponent.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>12/28/2008 02:16:14</timestamp>
+      <milliseconds>218</milliseconds>
+    </settings>
+    <timestamp>12/28/2008 03:54:05</timestamp>
+    <milliseconds>78</milliseconds>
     <violations />
   </sourcecode>
 </stylecopresultscache>

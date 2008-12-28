@@ -50,7 +50,6 @@ namespace SpaceInvadersGame
 
         public event PlayActionSoundDelegate PlayActionSoundEvent;
 
-        private bool m_ChangeInvadersDirection = false;
         private int m_EnemiesInLineNum;
 
         private TimeSpan m_TimeBetweenInvadersShots;
@@ -103,8 +102,6 @@ namespace SpaceInvadersGame
             set
             {
                 m_MaxInvadersYPositionYVal = value;
-
-                updateInvadersMaxYValue(); 
             }
         }
 
@@ -181,10 +178,8 @@ namespace SpaceInvadersGame
 
                     currEnemy.Score = 
                         m_GameLevelData.GetInvaderScore(currEnemy.InvaderType);
-                    currEnemy.PositionForDraw = currPosition;
+                    currEnemy.PositionOfOrigin = currPosition;
                     currEnemy.DefaultPosition = currPosition;
-                    currEnemy.InvaderMaxPositionY = m_MaxInvadersYPositionYVal;
-                    currEnemy.ReachedScreenBounds += new InvaderReachedScreenBoundsDelegate(invader_ReachedScreenBounds);
                     currEnemy.InvaderWasHit += new InvaderWasHitDelegate(invader_InvaderWasHit);
                     currEnemy.PlayActionSoundEvent += new PlayActionSoundDelegate(invader_PlayActionSoundEvent);
 
@@ -269,10 +264,13 @@ namespace SpaceInvadersGame
 
                 foreach (Invader invader in m_EnabledInvaders)
                 {
-                    Rectangle bounds = invader.ScreenBoundsAfterScale;
-                    minX = Math.Min(minX, bounds.Left);
-                    maxX = Math.Max(maxX, bounds.Right);
-                    maxY = Math.Max(maxY, bounds.Bottom);
+                    if (!invader.Dying)
+                    {
+                        Rectangle bounds = invader.ScreenBoundsAfterScale;
+                        minX = Math.Min(minX, bounds.Left);
+                        maxX = Math.Max(maxX, bounds.Right);
+                        maxY = Math.Max(maxY, bounds.Bottom);
+                    }
                 }
 
                 int xDiff = (int) ((double)m_MotionVectorForInvaders.X * i_GameTime.ElapsedGameTime.TotalSeconds);
@@ -320,27 +318,6 @@ namespace SpaceInvadersGame
                 // TODO: Check if i should put it in here
 
                 AllInvaderssEliminated();
-            }
-        }
-
-        /// <summary>
-        /// Catch the ReachedScreenBounds event raised by an invader.
-        /// The method changes the enemies movement direction in the X axis, 
-        /// change the enemies position in the Y axis by moving them down in 
-        /// the screen and increases the invaders moving speed
-        /// </summary>
-        /// <param name="i_Invader">The invader that raised the event</param>
-        public void     invader_ReachedScreenBounds(Invader i_Invader)
-        {            
-            // If the invader reached the maximum allowed Y position, than
-            // we need to raise an InvaderReachedScreenEnd event
-            if (!(i_Invader.Bounds.Bottom >= m_MaxInvadersYPositionYVal))
-            {
-                m_ChangeInvadersDirection = true;
-            }
-            else
-            { 
-                onInvaderReachedScreenEnd();
             }
         }
 
@@ -434,21 +411,6 @@ namespace SpaceInvadersGame
         }
 
         /// <summary>
-        /// Update the invaders max Y position for all the invaders in the 
-        /// matrix
-        /// </summary>
-        private void    updateInvadersMaxYValue()
-        {
-            IEnumerator<InvaderComposite> invadersEnumeration = this.GetEnumerator();
-
-            while (invadersEnumeration.MoveNext())
-            {
-                invadersEnumeration.Current.Invader.InvaderMaxPositionY = 
-                    m_MaxInvadersYPositionYVal;
-            }     
-        }
-
-        /// <summary>
         /// Change the mother ship score according to the level data
         /// </summary>
         private void    onSettingLevelData()
@@ -466,7 +428,7 @@ namespace SpaceInvadersGame
                         m_EnemiesInLineNum - LevelData.InvadersColumnNum);
                 }
             }
-            m_ChangeInvadersDirection = false;
+
             m_EnemiesInLineNum = LevelData.InvadersColumnNum;
             m_TimeBetweenInvadersShots = LevelData.TimeBetweenEnemiesShoots;
             m_PrevShotTime = m_TimeBetweenInvadersShots;
@@ -631,8 +593,6 @@ namespace SpaceInvadersGame
                             m_GameLevelData.GetInvaderScore(currEnemy.InvaderType);
                         currEnemy.PositionForDraw = currPosition;
                         currEnemy.DefaultPosition = currPosition;
-                        currEnemy.InvaderMaxPositionY = m_MaxInvadersYPositionYVal;
-                        currEnemy.ReachedScreenBounds += new InvaderReachedScreenBoundsDelegate(invader_ReachedScreenBounds);
                         currEnemy.InvaderWasHit += new InvaderWasHitDelegate(invader_InvaderWasHit);
                         currEnemy.PlayActionSoundEvent += new PlayActionSoundDelegate(invader_PlayActionSoundEvent);
 
