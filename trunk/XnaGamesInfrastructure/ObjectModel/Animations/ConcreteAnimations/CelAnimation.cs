@@ -82,9 +82,6 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
 
             m_CurrCell = m_StartCell;
             calcSourceRectangle();
-
-            // TODO: Remove
-            //this.BoundSprite.SourceRectangle = m_OriginalSpriteInfo.SourceRectangle;            
         }        
 
         /// <summary>
@@ -108,13 +105,6 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
             if (this.BoundSprite.SourceRectangle != null)
             {
                 calcSourceRectangle();
-                // TODO: Remove
-                /*Rectangle r = (Rectangle)this.BoundSprite.SourceRectangle;
-                this.BoundSprite.SourceRectangle = new Rectangle(
-                    m_CurrCell * r.Width,
-                    r.Top,
-                    r.Width,
-                    r.Height);*/
             }
         }
 
