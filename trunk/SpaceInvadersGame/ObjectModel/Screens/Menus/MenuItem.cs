@@ -46,9 +46,9 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         /// <param name="i_Text">Text displayed in the item</param>
         /// <param name="executedHandler">Delegate to be invoked when item executes</param>
         public  MenuItem(
-                            Game i_Game, 
-                            string i_Text, 
-                            MenuItemExecuteEventHandler executedHandler)
+            Game i_Game, 
+            string i_Text, 
+            MenuItemExecuteEventHandler executedHandler)
             : base(i_Game, k_DefaultAssetName, i_Text)
         {
             TintColor = r_TintWhenDeSelected;
@@ -127,7 +127,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         /// <summary>
         /// Actions performed when item is de-selected
         /// </summary>
-        public void OnMenuItemDeSelected()
+        public void     OnMenuItemDeSelected()
         {
             TintColor = r_TintWhenDeSelected;
 
@@ -142,7 +142,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         /// Handles default behaviour for mouse and keyboard actions
         /// </summary>
         /// <param name="i_GameTime">Hosting game elapsed time</param>
-        public override void Update(GameTime i_GameTime)
+        public override void    Update(GameTime i_GameTime)
         {
             base.Update(i_GameTime);
 
@@ -171,7 +171,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         /// <summary>
         /// Notifies observer of execution
         /// </summary>
-        protected void Execute()
+        protected void      Execute()
         {
             if (Executed != null)
             {
