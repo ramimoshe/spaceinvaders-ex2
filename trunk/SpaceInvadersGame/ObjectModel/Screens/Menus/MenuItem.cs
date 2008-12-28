@@ -31,6 +31,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         private readonly Color r_TintWhenSelected = Color.OrangeRed;
         private readonly Color r_TintWhenDeSelected = Color.Silver;
         private const string k_DefaultAssetName = @"Fonts\Tahoma28";
+        private const string k_PulseAnimationName = "MenuItem_selected";
 
         private bool m_Selected = false;
         protected IInputManager m_InputManager;
@@ -68,7 +69,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             m_InputManager = Game.Services.GetService(typeof(InputManager)) as IInputManager;
 
             Animations.Add(new PulseAnimation(
-                    "MenuItem_selected",
+                    k_PulseAnimationName,
                     Vector2.One * 0.97f,
                     Vector2.One * 1.03f,
                     TimeSpan.Zero,

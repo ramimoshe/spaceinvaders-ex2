@@ -102,7 +102,7 @@ namespace SpaceInvadersGame
                     TimeSpan.FromSeconds(k_TimeBetweenInvadersShootsFactor);
 
                 m_LevelsData[i] = new GameLevelData(
-                    k_Barrier2LevelSpeed + (int)(k_IncreaseBarrierSpeed * (i-1)),
+                    k_Barrier2LevelSpeed + (int)(k_IncreaseBarrierSpeed * (i - 1)),
                     k_InvadersColumnNum + i,
                     k_MotherShipScore + (i * k_IncreaseLevelScoreVal),
                     currLevelInvadersScore,

@@ -64,7 +64,7 @@ namespace SpaceInvadersGame.Service
             get { return m_MusicVolume; }
             set 
             {
-                m_MusicVolume = MathHelper.Clamp(value , 0f, 1f);
+                m_MusicVolume = MathHelper.Clamp(value, 0f, 1f);
 
                 if (m_MusicEnabled)
                 {
@@ -111,9 +111,8 @@ namespace SpaceInvadersGame.Service
         {
             Cue cue;
 
-            if (!(m_Cues.TryGetValue(i_CueName, out cue)))
+            if (!m_Cues.TryGetValue(i_CueName, out cue))
             {
-
                 cue = m_SoundBank.GetCue(i_CueName);
 
                 if (i_SaveCue)
@@ -130,7 +129,7 @@ namespace SpaceInvadersGame.Service
         /// </summary>
         /// <param name="i_ToggleFXMute">Mark if we want to mute the sound
         /// fx also</param>
-        public void     ToggleMute(/*bool i_ForceMute*/)
+        public void     ToggleMute()
         {
             m_MusicEnabled = !m_MusicEnabled;
 

@@ -25,20 +25,19 @@ namespace SpaceInvadersGame.ObjectModel.Screens
     /// The main screen of the space invaders game
     /// </summary>
     public class SpaceInvadersGameScreen : SpaceInvadersScreenAbstract
-    {
+    {        
+        private const int k_SpaceBetweenLivesDraw = 30;
+        private const string k_Player1ScorePrefix = "P1 Score: ";
+        private const string k_Player2ScorePrefix = "P2 Score: ";
+
         private readonly Keys r_PauseKey = Keys.P;
+        private readonly Vector2 r_Player1ScorePosition = new Vector2(5, 10);
+        private readonly Vector2 r_Player2ScorePosition = new Vector2(5, 30);
 
         private IGameLevelDataManager m_GameLevelDataManager;     
         private int m_CurrLevelNum = 1;     
         private SpaceShipComposite[] m_Players;
         private bool[] m_PlayersAliveMark;
-
-        private const int k_SpaceBetweenLivesDraw = 30;
-        private const string k_Player1ScorePrefix = "P1 Score: ";
-        private const string k_Player2ScorePrefix = "P2 Score: ";
-
-        private readonly Vector2 r_Player1ScorePosition = new Vector2(5, 10);
-        private readonly Vector2 r_Player2ScorePosition = new Vector2(5, 30);
         
         private InvadersMatrix m_EnemiesMatrix;
         private MotherShip m_MotherShip;
@@ -257,7 +256,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             GameLevelData newGameLevelData = 
                 m_GameLevelDataManager[m_CurrLevelNum];
 
-            m_MotherShip.LevelData = newGameLevelData ;
+            m_MotherShip.LevelData = newGameLevelData;
             m_EnemiesMatrix.LevelData = newGameLevelData;
             m_BarrierHolder.LevelData = newGameLevelData;
         }
@@ -306,20 +305,24 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         /// </summary>
         private void    initSpaceShipsPosition()
         {
+            float playerPositionYVal = 
+                this.GraphicsDevice.Viewport.Height -
+                m_Players[0].SpaceShip.Texture.Height;
             Vector2 player1Position = new Vector2(
                 m_Players[0].SpaceShip.Texture.Width * 2,
-                this.GraphicsDevice.Viewport.Height -
-                m_Players[0].SpaceShip.Texture.Height);
+                playerPositionYVal);
 
             m_Players[0].SpaceShip.PositionForDraw = player1Position;
             m_Players[0].SpaceShip.DefaultPosition = player1Position;
 
             if (m_Players.Length == 2)
             {
+                playerPositionYVal = 
+                    this.GraphicsDevice.Viewport.Height -
+                    m_Players[0].SpaceShip.Texture.Height;
                 Vector2 player2Position = new Vector2(
                     m_Players[0].SpaceShip.Texture.Width,
-                    this.GraphicsDevice.Viewport.Height -
-                    m_Players[0].SpaceShip.Texture.Height);
+                    playerPositionYVal);
 
                 m_Players[1].SpaceShip.PositionForDraw = player2Position;
                 m_Players[1].SpaceShip.DefaultPosition = player2Position;
@@ -344,12 +347,15 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         /// </summary>
         private void    initLivesDrawersPosition()
         {
-            Vector2 livesDrawPosition = new Vector2(
+            float xPosition = 
                 Game.GraphicsDevice.Viewport.Width -
                 (m_Players[0].SpaceShip.PlayerTexture.Width *
-                 Constants.k_LivesDrawScaleValue),
-                m_Players[0].SpaceShip.PlayerTexture.Height *
                  Constants.k_LivesDrawScaleValue);
+            float yPostion =
+                m_Players[0].SpaceShip.PlayerTexture.Height *
+                 Constants.k_LivesDrawScaleValue;
+
+            Vector2 livesDrawPosition = new Vector2(xPosition, yPostion);
 
             foreach (PlayerLivesDrawer lifeDraw in m_PlayersLiveDrawer)
             {
@@ -357,7 +363,6 @@ namespace SpaceInvadersGame.ObjectModel.Screens
                 livesDrawPosition.Y += k_SpaceBetweenLivesDraw;
             }
         }
-
 
         /// <summary>
         /// Updates the screen state by checking if the game ended, if so

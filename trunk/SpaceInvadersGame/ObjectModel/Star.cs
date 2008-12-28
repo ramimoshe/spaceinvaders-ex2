@@ -14,7 +14,6 @@ namespace SpaceInvadersGame.ObjectModel
     public class Star : Sprite
     {
         private const string k_AssetName = @"Sprites\Star";
-        //private const int k_WidthBitsNum = 2;
         private const int k_DefaultLayerDepth = 1;
         private const int k_DefaultStarSize = 1;
 
@@ -38,7 +37,7 @@ namespace SpaceInvadersGame.ObjectModel
             LayerDepth = k_DefaultLayerDepth;
         }
 
-        static private Random m_Random = new Random();
+        private static Random m_Random = new Random();
 
         /// <summary>
         /// Initialize the star component by setting the desire animation and 

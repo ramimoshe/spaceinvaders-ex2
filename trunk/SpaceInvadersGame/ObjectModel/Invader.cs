@@ -26,13 +26,6 @@ namespace SpaceInvadersGame.ObjectModel
     /// invaders allowed screen bounds
     /// </summary>
     /// <param name="i_Invader">The invader that reached the allowed screen bounds</param>
-    public delegate void InvaderReachedScreenBoundsDelegate(Invader i_Invader);
-
-    /// <summary>
-    /// Used by Invader in order to inform that the he reached the 
-    /// invaders allowed screen bounds
-    /// </summary>
-    /// <param name="i_Invader">The invader that reached the allowed screen bounds</param>
     public delegate void InvaderWasHitDelegate(Invader i_Invader);    
 
     /// <summary>
@@ -43,19 +36,6 @@ namespace SpaceInvadersGame.ObjectModel
     {
         private const string k_AssetName = @"Sprites\allInvaders";
 
-        private int m_AllowedBulletsNum;
-
-        public event PlayActionSoundDelegate PlayActionSoundEvent;
-
-        // Raised when an invader reaches one of the allowed screen bounderies
-        public event InvaderReachedScreenBoundsDelegate ReachedScreenBounds;
-
-        // Raised when an invader was hit by a player bullet
-        public event InvaderWasHitDelegate InvaderWasHit;
-
-        public event AddGameComponentDelegate ReleasedShot;
-
-        private List<Bullet> m_Bullets = new List<Bullet>();
         private const int k_BulletVelocity = 200;
         private const int k_InvaderSizeWidth = 32;
         private const int k_InvaderSizeHeight = 32;
@@ -63,6 +43,17 @@ namespace SpaceInvadersGame.ObjectModel
         private const int k_NumOfFrames = 2;
 
         private const string k_CellAnimationName = "CelAnimation";
+
+        private int m_AllowedBulletsNum;
+
+        public event PlayActionSoundDelegate PlayActionSoundEvent;
+
+        // Raised when an invader was hit by a player bullet
+        public event InvaderWasHitDelegate InvaderWasHit;
+
+        public event AddGameComponentDelegate ReleasedShot;
+
+        private List<Bullet> m_Bullets = new List<Bullet>();        
 
         private TimeSpan m_TimeBetweenMove;
         protected TimeSpan m_TimeLeftToNextMove;
@@ -272,10 +263,6 @@ namespace SpaceInvadersGame.ObjectModel
             Animations.Add(cellAnimation);
             Animations.Enabled = true;
             Animations[k_ScaleAnimationName].Enabled = false;
-
-            // TODO: Remove the code
-
-            //Animations[k_CellAnimationName].Enabled = false;
         }
 
         /// <summary>
@@ -293,52 +280,6 @@ namespace SpaceInvadersGame.ObjectModel
                 m_Bullets.Remove(bullet);
             }
         }        
-
-        /// <summary>
-        /// Move the invader in the screen in case enough time had passed 
-        /// since last move
-        /// </summary>
-        /// <param name="i_GameTime">Provides a snapshot of timing values.</param>
-        public override void    Update(GameTime i_GameTime)
-        {
-            base.Update(i_GameTime);
-
-            // TODO: Remove
-
-            /*
-            bool moveEnemy = false;
-
-            m_TimeLeftToNextMove -= i_GameTime.ElapsedGameTime;
-
-            // Check if enough time had passed since previous move
-            if (m_TimeLeftToNextMove.TotalSeconds < 0)
-            {
-                MotionVector = m_CurrMotion;
-                m_TimeLeftToNextMove = m_TimeBetweenMove;
-
-                moveEnemy = true;
-            }
-            else
-            {
-                MotionVector = new Vector2(0, MotionVector.Y);
-            }
-
-            base.Update(i_GameTime);
-
-            // If we moved the enemy this time we'll also check if the 
-            // enemy is close to the screen bounds and raise an event
-            if (moveEnemy)
-            {
-                moveEnemy = false;
-
-                if ((Bounds.Left <= 0 || Bounds.Right >= Game.GraphicsDevice.Viewport.Width || 
-                     Bounds.Bottom >= m_EnemyMaxPositionYVal) && Visible)
-                {
-                    OnReachedScreenBounds();
-                }
-            }
-            */
-        }
 
         /// <summary>
         /// Catch a AnimationFinished event and make the component invisible
@@ -380,27 +321,6 @@ namespace SpaceInvadersGame.ObjectModel
         }
 
         /// <summary>
-        /// Change the enemy moving direction, so that in the next move the 
-        /// enemy will move to the other screen side on the X axis
-        /// </summary>
-        public void     SwitchPosition()
-        {
-            m_CurrMotion *= -1;         
-        }
-
-        /// <summary>
-        /// Raising the ReachedScreenBounds event that marks that the enemy
-        /// reached the allowed bounds in the screen
-        /// </summary>
-        protected void     OnReachedScreenBounds()
-        {
-            if (ReachedScreenBounds != null)
-            {
-                ReachedScreenBounds(this);
-            }
-        }
-
-        /// <summary>
         /// Raising the InvaderWsasHit event that marks the invader was hit 
         /// by a players bullet
         /// </summary>
@@ -434,7 +354,6 @@ namespace SpaceInvadersGame.ObjectModel
             PositionOrigin = Vector2.Zero;
             Animations.Reset();
             Animations[k_ScaleAnimationName].Pause();
-            //Animations[k_CellAnimationName].Pause();
 
             if (m_Bullets != null)
             {

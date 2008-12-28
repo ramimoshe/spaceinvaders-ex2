@@ -47,7 +47,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             if (item != null)
             {
                 m_MenuItems.Add(item);
-                SetItemPosition(m_MenuItems.Count - 1);
+                setItemPosition(m_MenuItems.Count - 1);
                 item.Selected += new MenuItemSelectedEventHandler(item_Selected);
 
                 if (m_MenuItems.Count == 1)
@@ -85,7 +85,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
 
             for (int i = 0; i < m_MenuItems.Count; ++i )
             {
-                SetItemPosition(i);
+                setItemPosition(i);
             }
         }
 
@@ -93,7 +93,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         /// Setting item position on screen according to it's index
         /// </summary>
         /// <param name="i_ItemIndex">Item's index in menu items list</param>
-        private void    SetItemPosition(int i_ItemIndex)
+        private void    setItemPosition(int i_ItemIndex)
         {
             Vector2 position;
 
@@ -147,6 +147,11 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             setCurrentItem(newCurrentItem);
         }
 
+        /// <summary>
+        /// Sets the new active menu item
+        /// </summary>
+        /// <param name="i_NewItemIndex">The index of the new chosen menu item 
+        /// </param>
         private void    setCurrentItem(int i_NewItemIndex)
         {
             if (i_NewItemIndex != m_CurrentMenuItem && m_CurrentMenuItem != -1)
