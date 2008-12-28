@@ -251,8 +251,8 @@ Wave Bank
     Windows Bank Path Edited = 0;
     Seek Tables = 1;
     Compression Preset Name = <none>;
-    Bank Last Revised Low = 1061986622;
-    Bank Last Revised High = 29976693;
+    Bank Last Revised Low = 958676358;
+    Bank Last Revised High = 29976802;
 
     Wave
     {
@@ -325,33 +325,10 @@ Wave Bank
 
     Wave
     {
-        Name = tear_it_down;
-        File = c:\temp\XNA_Assets\Ex04\Sounds\tear_it_down.wav;
-        Build Settings Last Modified Low = 3415129676;
-        Build Settings Last Modified High = 29976469;
-
-        Cache
-        {
-            Format Tag = 0;
-            Channels = 2;
-            Sampling Rate = 44100;
-            Bits Per Sample = 0;
-            Play Region Offset = 44;
-            Play Region Length = 15379200;
-            Loop Region Offset = 0;
-            Loop Region Length = 0;
-            File Type = 1;
-            Last Modified Low = 1130882304;
-            Last Modified High = 29920526;
-        }
-    }
-
-    Wave
-    {
         Name = gameOver;
-        File = ..\..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Sounds\gameOver.wav;
-        Build Settings Last Modified Low = 3964312142;
-        Build Settings Last Modified High = 29976573;
+        File = c:\temp\XNA_Assets\Ex04\Sounds\gameOver.wav;
+        Build Settings Last Modified Low = 3153331154;
+        Build Settings Last Modified High = 29976801;
 
         Cache
         {
@@ -364,40 +341,17 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 2235772928;
-            Last Modified High = 29976632;
-        }
-    }
-
-    Wave
-    {
-        Name = levelFinished;
-        File = ..\..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Sounds\levelFinished.wav;
-        Build Settings Last Modified Low = 1844442958;
-        Build Settings Last Modified High = 29976577;
-
-        Cache
-        {
-            Format Tag = 0;
-            Channels = 2;
-            Sampling Rate = 44100;
-            Bits Per Sample = 1;
-            Play Region Offset = 44;
-            Play Region Length = 1172924;
-            Loop Region Offset = 0;
-            Loop Region Length = 0;
-            File Type = 1;
-            Last Modified Low = 275903744;
-            Last Modified High = 29976636;
+            Last Modified Low = 3628530892;
+            Last Modified High = 29976573;
         }
     }
 
     Wave
     {
         Name = clearEnemies;
-        File = ..\..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Sounds\clearEnemies.wav;
-        Build Settings Last Modified Low = 666506912;
-        Build Settings Last Modified High = 29976578;
+        File = c:\temp\XNA_Assets\Ex04\Sounds\clearEnemies.wav;
+        Build Settings Last Modified Low = 212582608;
+        Build Settings Last Modified High = 29976802;
 
         Cache
         {
@@ -410,17 +364,17 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 77998592;
-            Last Modified High = 29653498;
+            Last Modified Low = 1481069056;
+            Last Modified High = 29653439;
         }
     }
 
     Wave
     {
         Name = BInvaderExplode;
-        File = ..\..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Sounds\BInvaderExplode.wav;
-        Build Settings Last Modified Low = 3304210428;
-        Build Settings Last Modified High = 29976632;
+        File = c:\temp\XNA_Assets\Ex04\Sounds\BInvaderExplode.wav;
+        Build Settings Last Modified Low = 687270108;
+        Build Settings Last Modified High = 29976802;
 
         Cache
         {
@@ -433,17 +387,17 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 592702464;
-            Last Modified High = 29976691;
+            Last Modified Low = 1990147928;
+            Last Modified High = 29976632;
         }
     }
 
     Wave
     {
         Name = PInvaderExplode;
-        File = ..\..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Sounds\PInvaderExplode.wav;
-        Build Settings Last Modified Low = 3304366678;
-        Build Settings Last Modified High = 29976632;
+        File = c:\temp\XNA_Assets\Ex04\Sounds\PInvaderExplode.wav;
+        Build Settings Last Modified Low = 777270108;
+        Build Settings Last Modified High = 29976802;
 
         Cache
         {
@@ -456,17 +410,17 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 452702464;
-            Last Modified High = 29976691;
+            Last Modified Low = 1839210428;
+            Last Modified High = 29976632;
         }
     }
 
     Wave
     {
         Name = motherShipExplode;
-        File = ..\..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Sounds\motherShipExplode.wav;
-        Build Settings Last Modified Low = 3304366678;
-        Build Settings Last Modified High = 29976632;
+        File = c:\temp\XNA_Assets\Ex04\Sounds\motherShipExplode.wav;
+        Build Settings Last Modified Low = 886645108;
+        Build Settings Last Modified High = 29976802;
 
         Cache
         {
@@ -479,17 +433,17 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 952702464;
-            Last Modified High = 29976691;
+            Last Modified Low = 2350929178;
+            Last Modified High = 29976632;
         }
     }
 
     Wave
     {
         Name = YInvaderExplode;
-        File = ..\..\..\..\..\..\..\..\..\..\..\temp\XNA_Assets\Ex04\Sounds\YInvaderExplode.wav;
-        Build Settings Last Modified Low = 3304366678;
-        Build Settings Last Modified High = 29976632;
+        File = c:\temp\XNA_Assets\Ex04\Sounds\YInvaderExplode.wav;
+        Build Settings Last Modified Low = 958676358;
+        Build Settings Last Modified High = 29976802;
 
         Cache
         {
@@ -502,8 +456,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 832702464;
-            Last Modified High = 29976691;
+            Last Modified Low = 2224210428;
+            Last Modified High = 29976632;
         }
     }
 
@@ -561,53 +515,8 @@ Sound Bank
     Windows File = Win\SpaceInvaders.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
-
-    Sound
-    {
-        Name = tear_it_down;
-        Volume = -300;
-        Pitch = 0;
-        Priority = 0;
-
-        Category Entry
-        {
-            Name = Music;
-        }
-
-        Track
-        {
-            Volume = 0;
-
-            Play Wave Event
-            {
-                Loop Count = 255;
-                Break Loop = 0;
-                Use Speaker Position = 0;
-                Use Center Speaker = 1;
-                New Speaker Position On Loop = 1;
-                Speaker Position Angle = 0.000000;
-                Speaer Position Arc = 0.000000;
-
-                Event Header
-                {
-                    Timestamp = 0;
-                    Relative = 0;
-                    Random Recurrence = 0;
-                    Random Offset = 0;
-                }
-
-                Wave Entry
-                {
-                    Bank Name = SpaceInvaders;
-                    Bank Index = 0;
-                    Entry Name = tear_it_down;
-                    Entry Index = 3;
-                    Weight = 255;
-                    Weight Min = 0;
-                }
-            }
-        }
-    }
+    Header Last Modified High = 0;
+    Header Last Modified Low = 0;
 
     Sound
     {
@@ -836,53 +745,7 @@ Sound Bank
                     Bank Name = SpaceInvaders;
                     Bank Index = 0;
                     Entry Name = gameOver;
-                    Entry Index = 4;
-                    Weight = 255;
-                    Weight Min = 0;
-                }
-            }
-        }
-    }
-
-    Sound
-    {
-        Name = levelFinished;
-        Volume = 0;
-        Pitch = 0;
-        Priority = 0;
-
-        Category Entry
-        {
-            Name = SoundFX;
-        }
-
-        Track
-        {
-            Volume = 0;
-
-            Play Wave Event
-            {
-                Break Loop = 0;
-                Use Speaker Position = 0;
-                Use Center Speaker = 1;
-                New Speaker Position On Loop = 1;
-                Speaker Position Angle = 0.000000;
-                Speaer Position Arc = 0.000000;
-
-                Event Header
-                {
-                    Timestamp = 0;
-                    Relative = 0;
-                    Random Recurrence = 0;
-                    Random Offset = 0;
-                }
-
-                Wave Entry
-                {
-                    Bank Name = SpaceInvaders;
-                    Bank Index = 0;
-                    Entry Name = levelFinished;
-                    Entry Index = 5;
+                    Entry Index = 3;
                     Weight = 255;
                     Weight Min = 0;
                 }
@@ -928,7 +791,7 @@ Sound Bank
                     Bank Name = SpaceInvaders;
                     Bank Index = 0;
                     Entry Name = clearEnemies;
-                    Entry Index = 6;
+                    Entry Index = 4;
                     Weight = 255;
                     Weight Min = 0;
                 }
@@ -974,7 +837,7 @@ Sound Bank
                     Bank Name = SpaceInvaders;
                     Bank Index = 0;
                     Entry Name = YInvaderExplode;
-                    Entry Index = 10;
+                    Entry Index = 8;
                     Weight = 255;
                     Weight Min = 0;
                 }
@@ -1020,7 +883,7 @@ Sound Bank
                     Bank Name = SpaceInvaders;
                     Bank Index = 0;
                     Entry Name = BInvaderExplode;
-                    Entry Index = 7;
+                    Entry Index = 5;
                     Weight = 255;
                     Weight Min = 0;
                 }
@@ -1066,7 +929,7 @@ Sound Bank
                     Bank Name = SpaceInvaders;
                     Bank Index = 0;
                     Entry Name = PInvaderExplode;
-                    Entry Index = 8;
+                    Entry Index = 6;
                     Weight = 255;
                     Weight Min = 0;
                 }
@@ -1112,7 +975,7 @@ Sound Bank
                     Bank Name = SpaceInvaders;
                     Bank Index = 0;
                     Entry Name = motherShipExplode;
-                    Entry Index = 9;
+                    Entry Index = 7;
                     Weight = 255;
                     Weight Min = 0;
                 }
@@ -1159,7 +1022,7 @@ Sound Bank
                     Bank Name = SpaceInvaders;
                     Bank Index = 0;
                     Entry Name = GameMusic;
-                    Entry Index = 11;
+                    Entry Index = 9;
                     Weight = 255;
                     Weight Min = 0;
                 }
@@ -1205,7 +1068,7 @@ Sound Bank
                     Bank Name = SpaceInvaders;
                     Bank Index = 0;
                     Entry Name = LevelTrans;
-                    Entry Index = 12;
+                    Entry Index = 10;
                     Weight = 255;
                     Weight Min = 0;
                 }
@@ -1227,7 +1090,7 @@ Sound Bank
         Sound Entry
         {
             Name = bwoop;
-            Index = 1;
+            Index = 0;
             Weight Min = 0;
             Weight Max = 255;
         }
@@ -1247,7 +1110,7 @@ Sound Bank
         Sound Entry
         {
             Name = laser;
-            Index = 3;
+            Index = 2;
             Weight Min = 0;
             Weight Max = 255;
         }
@@ -1267,7 +1130,7 @@ Sound Bank
         Sound Entry
         {
             Name = GameMusic;
-            Index = 12;
+            Index = 10;
             Weight Min = 0;
             Weight Max = 255;
         }
@@ -1287,7 +1150,7 @@ Sound Bank
         Sound Entry
         {
             Name = explode;
-            Index = 2;
+            Index = 1;
             Weight Min = 0;
             Weight Max = 255;
         }
@@ -1307,7 +1170,7 @@ Sound Bank
         Sound Entry
         {
             Name = bwoop;
-            Index = 1;
+            Index = 0;
             Weight Min = 0;
             Weight Max = 255;
         }
@@ -1327,7 +1190,7 @@ Sound Bank
         Sound Entry
         {
             Name = enemyLaser;
-            Index = 4;
+            Index = 3;
             Weight Min = 0;
             Weight Max = 255;
         }
@@ -1347,7 +1210,7 @@ Sound Bank
         Sound Entry
         {
             Name = bwoop;
-            Index = 1;
+            Index = 0;
             Weight Min = 0;
             Weight Max = 255;
         }
@@ -1367,27 +1230,7 @@ Sound Bank
         Sound Entry
         {
             Name = gameOver;
-            Index = 5;
-            Weight Min = 0;
-            Weight Max = 255;
-        }
-    }
-
-    Cue
-    {
-        Name = LevelFinished;
-
-        Variation
-        {
-            Variation Type = 3;
-            Variation Table Type = 1;
-            New Variation on Loop = 0;
-        }
-
-        Sound Entry
-        {
-            Name = levelFinished;
-            Index = 6;
+            Index = 4;
             Weight Min = 0;
             Weight Max = 255;
         }
@@ -1407,7 +1250,7 @@ Sound Bank
         Sound Entry
         {
             Name = YInvaderExplode;
-            Index = 8;
+            Index = 6;
             Weight Min = 0;
             Weight Max = 255;
         }
@@ -1427,7 +1270,7 @@ Sound Bank
         Sound Entry
         {
             Name = BInvaderExplode;
-            Index = 9;
+            Index = 7;
             Weight Min = 0;
             Weight Max = 255;
         }
@@ -1447,7 +1290,7 @@ Sound Bank
         Sound Entry
         {
             Name = PInvaderExplode;
-            Index = 10;
+            Index = 8;
             Weight Min = 0;
             Weight Max = 255;
         }
@@ -1467,7 +1310,7 @@ Sound Bank
         Sound Entry
         {
             Name = motherShipExplode;
-            Index = 11;
+            Index = 9;
             Weight Min = 0;
             Weight Max = 255;
         }
@@ -1487,7 +1330,7 @@ Sound Bank
         Sound Entry
         {
             Name = LevelTrans;
-            Index = 13;
+            Index = 11;
             Weight Min = 0;
             Weight Max = 255;
         }
@@ -1507,7 +1350,7 @@ Sound Bank
         Sound Entry
         {
             Name = clearEnemies;
-            Index = 7;
+            Index = 5;
             Weight Min = 0;
             Weight Max = 255;
         }
