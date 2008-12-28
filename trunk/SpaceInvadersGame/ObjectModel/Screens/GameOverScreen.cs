@@ -116,36 +116,63 @@ O to go to the Main Menu";
             set { m_Players = value; }
         }
 
-        // TODO: Split the method. to long
-
         /// <summary>
         /// Initialize the screen by setting the messages positions
         /// </summary>
         public override void    Initialize()
         {
-            base.Initialize();
+            base.Initialize();            
 
+            initGameOverMsg();
+            initWinningMsg();
+            initKeysMsg();                     
+        }
+
+        /// <summary>
+        /// Initialize the game over message sprite font component by setting 
+        /// it's position and text
+        /// </summary>
+        private void    initGameOverMsg()
+        {
             Vector2 center = m_GameOverMessage.ViewPortCenter;
 
             m_GameOverMessage.TintColor = Color.Red;
-            m_GameOverMessage.PositionOfOrigin = 
+            m_GameOverMessage.PositionOfOrigin =
                 new Vector2(center.X, m_GameOverMessage.HeightAfterScale * 3);
             m_GameOverMessage.PositionOrigin = m_GameOverMessage.SpriteCenter;
+        }
+
+        /// <summary>
+        /// Initialize the winning message sprite font component by setting 
+        /// it's position and text
+        /// </summary>
+        private void    initWinningMsg()
+        {
+            Vector2 center = m_GameOverMessage.ViewPortCenter;
 
             m_WinningPlayerMessage.Text = WinningPlayerMsg;
             m_WinningPlayerMessage.PositionOfOrigin =
                 new Vector2(
                 center.X,
-                m_GameOverMessage.PositionOfOrigin.Y + 
-                m_GameOverMessage.HeightAfterScale + 
+                m_GameOverMessage.PositionOfOrigin.Y +
+                m_GameOverMessage.HeightAfterScale +
                 m_WinningPlayerMessage.HeightAfterScale);
             m_WinningPlayerMessage.PositionOrigin =
                 new Vector2(
-                (m_WinningPlayerMessage.SpriteCenter.X - 
+                (m_WinningPlayerMessage.SpriteCenter.X -
                 (m_WinningPlayerMessage.SpriteCenter.X / 8)),
                 m_WinningPlayerMessage.SpriteCenter.Y);
-            
+
             m_WinningPlayerMessage.Scale = r_WiningMsgScale;
+        }
+
+        /// <summary>
+        /// Initialize the keys message sprite font component by setting 
+        /// it's position and text
+        /// </summary>
+        private void    initKeysMsg()
+        {
+            Vector2 center = m_GameOverMessage.ViewPortCenter;
 
             m_KeysMessage.Text = m_KeysMessage.Text;
             m_KeysMessage.PositionOfOrigin =
@@ -153,7 +180,7 @@ O to go to the Main Menu";
                 center.X,
                 (m_GameOverMessage.PositionOfOrigin.Y +
                 (m_GameOverMessage.HeightAfterScale * 6)));
-            m_KeysMessage.PositionOrigin = m_KeysMessage.SpriteCenter;            
+            m_KeysMessage.PositionOrigin = m_KeysMessage.SpriteCenter;   
         }
 
         /// <summary>
