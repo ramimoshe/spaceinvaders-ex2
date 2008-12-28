@@ -22,6 +22,8 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         private readonly string r_GameContinueText = 
             "Press R To Continue Playing";
 
+        private const string k_DefaultFontAssetName = @"Fonts\David28";
+
         private SpriteFontComponent m_PauseMessage;
         private SpriteFontComponent m_ContinuePlayMessage;
 
@@ -30,11 +32,11 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         {
             m_PauseMessage = new SpriteFontComponent(
                 i_Game, 
-                @"Fonts\David28", 
+                k_DefaultFontAssetName, 
                 r_PauseText);            
             m_ContinuePlayMessage = new SpriteFontComponent(
-                i_Game, 
-                @"Fonts\David28", 
+                i_Game,
+                k_DefaultFontAssetName, 
                 r_GameContinueText);
 
             m_PauseMessage.TintColor = Color.White;

@@ -48,7 +48,6 @@ namespace SpaceInvadersGame.ObjectModel
             set { m_DefaultPosition = value; }
         }
 
-
         /// <summary>
         /// Move the barrier in the screen 
         /// </summary>

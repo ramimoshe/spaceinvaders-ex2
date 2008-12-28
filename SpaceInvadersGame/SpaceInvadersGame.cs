@@ -32,8 +32,6 @@ namespace SpaceInvadersGame
     public class SpaceInvadersGame : Microsoft.Xna.Framework.Game
     {
         private const int k_SpaceBetweenLivesDraw = 30;        
-        //private const string k_Player1ScorePrefix = "P1 Score: ";
-        //private const string k_Player2ScorePrefix = "P2 Score: ";
 
         private readonly Vector2 r_Player1ScorePosition = new Vector2(5, 10);
         private readonly Vector2 r_Player2ScorePosition = new Vector2(5, 30);

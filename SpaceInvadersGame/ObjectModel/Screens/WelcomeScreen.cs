@@ -27,7 +27,10 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         public  WelcomeScreen(Game i_Game)
             : base(i_Game)
         {
-            m_WelcomeMessage = new SpriteFontComponent(i_Game, @"Fonts\David28", "Welcome");
+            m_WelcomeMessage = new SpriteFontComponent(
+                i_Game, 
+                @"Fonts\David28", 
+                "Welcome");
             m_HitEnterMessage = new SpriteFontComponent(
                                     i_Game, 
                                     @"Fonts\David", 

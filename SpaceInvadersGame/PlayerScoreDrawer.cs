@@ -15,8 +15,12 @@ namespace SpaceInvadersGame
     {
         private const string k_FontAssetName = @"Fonts\David";
 
-        private readonly Color[] r_PlayersTintColor = new Color[] {
-            Color.Blue, Color.Green };
+        private readonly Color[] r_PlayersTintColor = new Color[] 
+            { 
+                Color.Blue, 
+                Color.Green 
+            };
+
         private readonly Vector2 r_DefaultScale = new Vector2(.5f);
 
         private IPlayer m_Player;

@@ -101,7 +101,10 @@ O to go to the Main Menu";
                 for (int i = 0; i < m_Players.Length; i++)
                 {
                     retVal += "\n" + 
-                        String.Format(r_PlayerScoreText, (i+1), m_Players[i].Score);
+                        String.Format(
+                          r_PlayerScoreText, 
+                          (i + 1), 
+                          m_Players[i].Score);
                 }
 
                 return retVal;
@@ -150,18 +153,24 @@ O to go to the Main Menu";
         {
             Vector2 center = m_GameOverMessage.ViewPortCenter;
 
-            m_WinningPlayerMessage.Text = WinningPlayerMsg;
-            m_WinningPlayerMessage.PositionOfOrigin =
-                new Vector2(
-                center.X,
+            float positionOfOriginYVal = 
                 m_GameOverMessage.PositionOfOrigin.Y +
                 m_GameOverMessage.HeightAfterScale +
-                m_WinningPlayerMessage.HeightAfterScale);
-            m_WinningPlayerMessage.PositionOrigin =
-                new Vector2(
+                m_WinningPlayerMessage.HeightAfterScale;
+            float positionOriginXVal =
                 (m_WinningPlayerMessage.SpriteCenter.X -
-                (m_WinningPlayerMessage.SpriteCenter.X / 8)),
+                (m_WinningPlayerMessage.SpriteCenter.X / 8));
+
+            Vector2 positionOfOrigin = new Vector2(
+                center.X, 
+                positionOfOriginYVal);
+            Vector2 positionOrigin = new Vector2(
+                positionOriginXVal,
                 m_WinningPlayerMessage.SpriteCenter.Y);
+
+            m_WinningPlayerMessage.Text = WinningPlayerMsg;
+            m_WinningPlayerMessage.PositionOfOrigin = positionOfOrigin;                
+            m_WinningPlayerMessage.PositionOrigin = positionOrigin;
 
             m_WinningPlayerMessage.Scale = r_WiningMsgScale;
         }
@@ -173,13 +182,15 @@ O to go to the Main Menu";
         private void    initKeysMsg()
         {
             Vector2 center = m_GameOverMessage.ViewPortCenter;
+            float positionOfOriginYVal = 
+                (m_GameOverMessage.PositionOfOrigin.Y +
+                (m_GameOverMessage.HeightAfterScale * 6));
+            Vector2 positionOfOrigin = new Vector2(
+                center.X,
+                positionOfOriginYVal);
 
             m_KeysMessage.Text = m_KeysMessage.Text;
-            m_KeysMessage.PositionOfOrigin =
-                new Vector2(
-                center.X,
-                (m_GameOverMessage.PositionOfOrigin.Y +
-                (m_GameOverMessage.HeightAfterScale * 6)));
+            m_KeysMessage.PositionOfOrigin = positionOfOrigin;
             m_KeysMessage.PositionOrigin = m_KeysMessage.SpriteCenter;   
         }
 

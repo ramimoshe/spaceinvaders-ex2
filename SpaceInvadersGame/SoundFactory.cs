@@ -24,13 +24,11 @@ namespace SpaceInvadersGame
     }
 
     /// <summary>
-    /// A fectory class that is responsible to get the name of a cue that matches
-    /// a certain action in the game
+    /// A fectory class that is responsible for getting the name of a cue 
+    /// that matches a certain action in the game
     /// </summary>
     public sealed class SoundFactory
-    {
-        private static Dictionary<eSoundActions, string> s_ActionCues;
-
+    {       
         private const string k_PlayerShootCue = "PlayerShoot";
         private const string k_EnemyShootCue = "EnemyShoot";
         private const string k_SpaceShipHitCue = "PlayerHit";
@@ -43,6 +41,12 @@ namespace SpaceInvadersGame
         private const string k_GameOverCue = "GameOver";
         private const string k_KillAllEnemiesCue = "ClearEnemies";
 
+        private static Dictionary<eSoundActions, string> s_ActionCues;
+
+        /// <summary>
+        /// Static constructor that creates the dictionary that mapes 
+        /// between an action and a cue
+        /// </summary>
         static SoundFactory()
         {
             s_ActionCues = new Dictionary<eSoundActions, string>();

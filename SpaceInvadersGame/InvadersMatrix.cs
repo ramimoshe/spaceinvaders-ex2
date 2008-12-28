@@ -27,10 +27,6 @@ namespace SpaceInvadersGame
     /// </summary>
     public class InvadersMatrix : CompositeDrawableComponent<InvaderComposite>
     {        
-
-        // TODO: Remove  the variable
-        private TimeSpan m_Sleep = TimeSpan.FromSeconds(5.5f);
-
         private const int k_NumOfEnemiesLines = 5;
         private const int k_DefaultNumOfEnemiesInLine = 9;
 
@@ -147,7 +143,6 @@ namespace SpaceInvadersGame
             Invader currEnemy = null;
             eInvadersType? prevRowType = null;
             int currInvaderRow = 1;
-            InvadersBuilder invadersBuilder = InvadersBuilder.GetInstance();
 
             // Creates all the enemies according to the enemies two dimentional 
             // array            
@@ -173,29 +168,7 @@ namespace SpaceInvadersGame
                     currEnemy = createInvader(
                             r_EnemiesLines[i],
                             currInvaderRow,
-                            currPosition);
-
-                    // TODO: Remove the code
-
-                    /*currEnemy = invadersBuilder.CreateInvader(
-                        r_EnemiesLines[i],
-                        Game,
-                        k_InvadersUpdateOrder,
-                        currInvaderRow);
-
-                    currEnemy.TimeBetweenMoves = m_TimeBetweenMoves;
-                    currEnemy.Score = 
-                        m_GameLevelData.GetInvaderScore(currEnemy.InvaderType);
-                    currEnemy.PositionOfOrigin = currPosition;
-                    currEnemy.DefaultPosition = currPosition;
-                    currEnemy.InvaderWasHit += new InvaderWasHitDelegate(invader_InvaderWasHit);
-                    currEnemy.PlayActionSoundEvent += new PlayActionSoundDelegate(invader_PlayActionSoundEvent);
-
-                    InvaderComposite invaderHolder = new InvaderComposite(Game, currEnemy);
-                    invaderHolder.Disposed += invader_Disposed;
-
-                    this.Add(invaderHolder);
-                    m_EnabledInvaders.Add(currEnemy);*/
+                            currPosition);                    
 
                     currPosition.X += k_EnemyWidth * 2;
                     prevRowType = r_EnemiesLines[i];
@@ -220,40 +193,6 @@ namespace SpaceInvadersGame
                 TimeSpan.FromSeconds(
                 m_TimeBetweenMoves.TotalSeconds * 
                 k_IncreaseEnemiesSpeedFactor);
-        }
-        /// <summary>
-        /// Change the invaders matrix by changing their Y position, increase
-        /// their moving speed, and change their moving direction on the X axis
-        /// </summary>
-        /// <param name="i_YMotionFactor">The factor that we want to move the 
-        /// enemies in the Y axis by</param>
-        /// <param name="i_ChangePosition">Mark if we want to change the
-        /// invaders position or only the invaders moving speed</param>
-        private void    changeInvadersMatrixPositions(
-            float i_YMotionFactor,
-            bool i_ChangePosition)
-        {
-            // Move on all the visible enemies in the matrix and change the 
-            // enemy position by the given factor
-            foreach (Invader enemy in m_EnabledInvaders) 
-            {
-                // Increase the number of times the enemy moves in a second
-                // (by that we increase the invaders speed)
-                TimeSpan moveTime = TimeSpan.FromSeconds(enemy.TimeBetweenMoves.TotalSeconds * 
-                                                         k_IncreaseEnemiesSpeedFactor);
-                enemy.TimeBetweenMoves = moveTime;
-
-                if (i_ChangePosition)
-                {
-                    // Change the Y position so that the enemy will go down                                                            
-                    Vector2 position = enemy.PositionForDraw;
-                    position.Y += i_YMotionFactor;
-                    enemy.PositionForDraw = position;
-
-                    // Change the enemy direction
-                    enemy.SwitchPosition();
-                }
-            }  
         }
 
         /// <summary>
@@ -286,7 +225,7 @@ namespace SpaceInvadersGame
                     }
                 }
 
-                int xDiff = (int) ((double)m_MotionVectorForInvaders.X * i_GameTime.ElapsedGameTime.TotalSeconds);
+                int xDiff = (int)((double)m_MotionVectorForInvaders.X * i_GameTime.ElapsedGameTime.TotalSeconds);
 
                 if (minX +  xDiff < 0 ||
                     maxX + xDiff > GraphicsDevice.Viewport.Width)
@@ -315,7 +254,6 @@ namespace SpaceInvadersGame
 
             if (m_PrevShotTime.TotalSeconds < 0)
             {     
-                // TODO: Enable
                 shootThePlayer();
                 m_PrevShotTime = m_TimeBetweenInvadersShots;
             }
@@ -329,8 +267,6 @@ namespace SpaceInvadersGame
         {
             if (AllInvaderssEliminated != null)
             {
-                // TODO: Check if i should put it in here
-
                 AllInvaderssEliminated();
             }
         }
@@ -345,11 +281,6 @@ namespace SpaceInvadersGame
         {
             removeInvaderFromEnabledList(i_Invader);
             speedUpInvaders();
-
-            // TODO: Enable
-
-            // Increase the invaders moving speed
-            //changeInvadersMatrixPositions(0, false);
         }
 
         /// <summary>
@@ -381,11 +312,6 @@ namespace SpaceInvadersGame
             }
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-        }
-       
         /// <summary>
         /// Catch an invader disposed event, remove it from the matrix and in
         /// case there are no enemies left raise an event
@@ -445,7 +371,6 @@ namespace SpaceInvadersGame
                 }
             }
 
-            
             m_EnemiesInLineNum = LevelData.InvadersColumnNum;
             m_TimeBetweenInvadersShots = LevelData.TimeBetweenEnemiesShoots;
             m_PrevShotTime = m_TimeBetweenInvadersShots;            
@@ -570,7 +495,7 @@ namespace SpaceInvadersGame
         /// </summary>
         /// <param name="i_ColumnsNum">The number of columns that we want to 
         /// add to the matrix</param>
-        private void addColumnsToMatrix(int i_ColumnsNum)
+        private void    addColumnsToMatrix(int i_ColumnsNum)
         {
             if (i_ColumnsNum > 0)
             {

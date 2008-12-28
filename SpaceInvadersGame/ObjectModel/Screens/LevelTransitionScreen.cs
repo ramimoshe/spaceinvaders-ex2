@@ -21,14 +21,13 @@ namespace SpaceInvadersGame.ObjectModel.Screens
         private const int k_StartingLevelNum = 1;
         private const string k_LevelTransitionCueName = "LevelTrans";
 
+        private readonly TimeSpan r_TimeBetweenUpdate = TimeSpan.FromSeconds(1f);        
         private readonly string r_EndingSecondStr = "1";
         private readonly string r_LevelMessageText = "Level {0}";
         private readonly string r_SecondsMessageText = "Level will start in {0} seconds";
 
         private SpriteFontComponent m_LevelMessage;
         private SpriteFontComponent m_SecondsMessage;
-
-        private readonly TimeSpan r_TimeBetweenUpdate = TimeSpan.FromSeconds(1f);        
 
         private int m_TimeRemainingForScreen = k_TransitionScreenTime;
 
@@ -134,17 +133,6 @@ namespace SpaceInvadersGame.ObjectModel.Screens
                 }
             }
         }
-
-        // TODO: Remove
-
-        /// <summary>
-        /// Update and initialize the screen data for the next screen 
-        /// appearance
-        /// </summary>
-        /*private void    beforeExitScreen()
-        {
-                   
-        }*/
 
         /// <summary>
         /// Called when screen is in the activating state and plays the 

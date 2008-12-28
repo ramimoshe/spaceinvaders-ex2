@@ -33,6 +33,11 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             m_SoundManager = Game.Services.GetService(typeof(SoundManager)) as SoundManager;
         }
 
+        /// <summary>
+        /// Check if the player pressed the mute button and toggle mute 
+        /// accordingly
+        /// </summary>
+        /// <param name="i_GameTime">A snapshot of the current game time</param>
         public override void    Update(GameTime i_GameTime)
         {
             base.Update(i_GameTime);
