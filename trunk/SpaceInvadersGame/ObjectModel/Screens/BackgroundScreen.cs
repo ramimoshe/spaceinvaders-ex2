@@ -12,12 +12,21 @@ using XnaGamesInfrastructure.Services;
 
 namespace SpaceInvadersGame.ObjectModel.Screens
 {
+    /// <summary>
+    /// Implements the backgorund screen.
+    /// This screen always rests at the bottom of the screen stack in the ScreensManager
+    /// </summary>
     public class BackgroundScreen : GameScreen
     {
         private BackGround m_Background;
         private int m_StarsNum;
 
-        public BackgroundScreen(Game i_Game, int i_StarsNum)
+        /// <summary>
+        /// Initializes the background
+        /// </summary>
+        /// <param name="i_Game">The Hosting Game</param>
+        /// <param name="i_StarsNum">The number of stars to be shown on background</param>
+        public  BackgroundScreen(Game i_Game, int i_StarsNum)
             : base(i_Game)
         {
             m_Background = new BackGround(i_Game);
@@ -28,16 +37,17 @@ namespace SpaceInvadersGame.ObjectModel.Screens
             m_StarsNum = i_StarsNum;
         }
 
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-        }
-
+        /// <summary>
+        /// Screen Deactivation is prevented to maintain background in tha background
+        /// </summary>
         protected override void Deactivate()
         {
         }
 
-        public override void Initialize()
+        /// <summary>
+        /// Create all stars on background
+        /// </summary>
+        public override void    Initialize()
         {
             base.Initialize();
 

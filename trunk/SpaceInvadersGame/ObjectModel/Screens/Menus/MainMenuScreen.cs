@@ -5,6 +5,9 @@ using Microsoft.Xna.Framework;
 
 namespace SpaceInvadersGame.ObjectModel.Screens.Menus
 {
+    /// <summary>
+    /// Implements main menu
+    /// </summary>
     public class MainMenuScreen : MenuTypeScreen
     {
         private const string k_MainMenuName = "Main Menu";
@@ -19,12 +22,19 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         private MenuItem m_PlayItem;
         private MenuItem m_QuitItem;
 
-        public MainMenuScreen(Game i_Game)
+        /// <summary>
+        /// Inits the menu
+        /// </summary>
+        /// <param name="i_Game"></param>
+        public  MainMenuScreen(Game i_Game)
             : base(i_Game, k_MainMenuName)
         {
         }
 
-        public override void Initialize()
+        /// <summary>
+        /// Adds all items to menu
+        /// </summary>
+        public override void    Initialize()
         {
             base.Initialize();
             m_PlayersMenuItem = new OptionsMenuItem(
@@ -44,22 +54,35 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             Add(m_QuitItem);
         }
 
-        private void m_PlayersItem_Modified(int i_PlayersNum)
+        /// <summary>
+        /// Mdifies number of players
+        /// </summary>
+        /// <param name="i_PlayersNum">The number of players according to item</param>
+        private void    m_PlayersItem_Modified(int i_PlayersNum)
         {
             m_PlayersNum = i_PlayersNum + 1;
         }
 
-        private void displayOptionsItem_Executed()
+        /// <summary>
+        /// Invokes Display Options screen
+        /// </summary>
+        private void    displayOptionsItem_Executed()
         {
             ScreensManager.SetCurrentScreen(new DisplayMenuScreen(Game));
         }
 
-        private void soundOptionsItem_Executed()
+        /// <summary>
+        /// Invokes Sound Options screen
+        /// </summary>
+        private void    soundOptionsItem_Executed()
         {
             ScreensManager.SetCurrentScreen(new SoundMenuScreen(Game));
         }
 
-        private void playItem_Executed()
+        /// <summary>
+        /// Starts the gane
+        /// </summary>
+        private void    playItem_Executed()
         {
             ExitScreen();
             ScreensManager.SetCurrentScreen(new SpaceInvadersGameScreen(
@@ -67,14 +90,12 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
                                                 m_PlayersNum));
         }
 
-        private void quitItem_Executed()
+        /// <summary>
+        /// Quits the game
+        /// </summary>
+        private void    quitItem_Executed()
         {
             Game.Exit();
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
         }
     }
 }

@@ -6,6 +6,9 @@ using XnaGamesInfrastructure.ServiceInterfaces;
 
 namespace SpaceInvadersGame.ObjectModel.Screens.Menus
 {
+    /// <summary>
+    /// Implements the sound options menu screen
+    /// </summary>
     public class SoundMenuScreen : MenuTypeScreen
     {
         private const string k_SoundMenuName = "Sound Options";
@@ -22,14 +25,22 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         private OptionsMenuItem m_ToggleSoundItem;
         private MenuItem m_DoneItem;
 
-        public SoundMenuScreen(Game i_Game)
+        /// <summary>
+        /// Initializes the sound menu
+        /// </summary>
+        /// <param name="i_Game">Hosting game</param>
+        public  SoundMenuScreen(Game i_Game)
             : base(i_Game, k_SoundMenuName)
         {
+            // Generating 2 volume string list 
             m_EffectVolumeTexts = generateTexts("Set Sound Effects Volume");
             m_MusicVolumeTexts = generateTexts("Set Music Volume");
         }
 
-        public override void Initialize()
+        /// <summary>
+        /// Initializing the screen (adding all items, and registering as observer)
+        /// </summary>
+        public override void    Initialize()
         {
             base.Initialize();
             int currentSoundFXVolume = (int)(m_SoundManager.SoundFXVolume * k_VolumeChangeValue);
@@ -57,22 +68,39 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             Add(m_DoneItem);
         }
 
-        void m_SoundEffetsVolumeItem_Modified(int i_CurrentVolume)
+        /// <summary>
+        /// Sets the current volume according to menu item
+        /// </summary>
+        /// <param name="i_CurrentVolume">Current Volume</param>
+        private void    m_SoundEffetsVolumeItem_Modified(int i_CurrentVolume)
         {
             m_SoundManager.SoundFXVolume = (float)i_CurrentVolume * (float)k_VolumeChangeValue / (float)k_VolumeMax;
         }
 
-        void m_MusicVolumeItem_Modified(int i_CurrentVolume)
+        /// <summary>
+        /// Sets the current volume according to menu item
+        /// </summary>
+        /// <param name="i_CurrentVolume">Current Volume</param>
+        private void    m_MusicVolumeItem_Modified(int i_CurrentVolume)
         {
             m_SoundManager.MusicVolume = (float)i_CurrentVolume * (float)k_VolumeChangeValue / (float)k_VolumeMax;
         }
 
-        void m_ToggleSoundItem_Modified(int i_Dummy)
+        /// <summary>
+        /// Toggling Sound mute
+        /// </summary>
+        /// <param name="i_Dummy">Text id</param>
+        private void    m_ToggleSoundItem_Modified(int i_Dummy)
         {
             m_SoundManager.ToggleMute();
         }
 
-        private List<string> generateTexts(string i_Prefix)
+        /// <summary>
+        /// Generating text list according to default volume settings
+        /// </summary>
+        /// <param name="i_Prefix">Prefix for all volumns</param>
+        /// <returns>A list containing all generated texts</returns>
+        private List<string>    generateTexts(string i_Prefix)
         {
             List<string> textList = new List<string>();
 
@@ -84,7 +112,10 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             return textList;
         }
 
-        private void m_DoneItem_Executed()
+        /// <summary>
+        /// Exiting screen
+        /// </summary>
+        private void    m_DoneItem_Executed()
         {
             ExitScreen();
         }

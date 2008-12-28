@@ -18,15 +18,18 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         protected SpriteFontComponent m_Title;
         private int m_CurrentMenuItem = -1;
 
-        public MenuTypeScreen(Game i_Game, String i_Title)
+        /// <summary>
+        /// Inits the menu
+        /// </summary>
+        /// <param name="i_Game">Hosting game</param>
+        /// <param name="i_Title">Menu Title</param>
+        public  MenuTypeScreen(Game i_Game, string i_Title)
             : base(i_Game)
         {
             m_Title = new SpriteFontComponent(i_Game, @"Fonts\David40", i_Title);
             m_Title.TintColor = Color.SlateBlue;
             Add(m_Title);
         }
-
-
 
         /// <summary>
         /// Adds a new component to the screen. 
@@ -40,6 +43,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
 
             MenuItem item = i_Component as MenuItem;
 
+            // Adding item and registering item selected event
             if (item != null)
             {
                 m_MenuItems.Add(item);
@@ -54,7 +58,11 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             }
         }
 
-        void item_Selected(MenuItem i_Item)
+        /// <summary>
+        /// Setting current item according to selected item
+        /// </summary>
+        /// <param name="i_Item"></param>
+        private void item_Selected(MenuItem i_Item)
         {
             int newSelectedItem = m_MenuItems.IndexOf(i_Item);
 
@@ -81,6 +89,10 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             }
         }
 
+        /// <summary>
+        /// Setting item position on screen according to it's index
+        /// </summary>
+        /// <param name="i_ItemIndex">Item's index in menu items list</param>
         private void    SetItemPosition(int i_ItemIndex)
         {
             Vector2 position;

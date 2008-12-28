@@ -57,6 +57,9 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
         }
         
+        /// <summary>
+        /// Returns the Texture's width
+        /// </summary>
         protected override int TextureWidth
         {
             get
@@ -65,6 +68,9 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
         }
 
+        /// <summary>
+        /// Returns the Texture's height
+        /// </summary>
         protected override int TextureHeight
         {
             get
@@ -94,6 +100,9 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
         }
 
+        /// <summary>
+        /// Performs the content load
+        /// </summary>
         protected override void DoLoadContent()
         {
             m_Texture = m_ContentManager.Load<Texture2D>(m_AssetName);
@@ -101,6 +110,9 @@ namespace XnaGamesInfrastructure.ObjectModel
             Game.GraphicsDevice.Textures[0] = null;
         }
 
+        /// <summary>
+        /// Performs draw of loaded content
+        /// </summary>
         public override void  DoDraw()
         {
  	        SpriteBatch.Draw(
@@ -119,10 +131,9 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// Creates a memberwise clone of sprite
         /// </summary>
         /// <returns>A copy of this sprite</returns>
-        override public SpriteBase   ShallowClone()
+        public override SpriteBase   ShallowClone()
         {
             return this.MemberwiseClone() as Sprite;
         }      
-
     }
 }

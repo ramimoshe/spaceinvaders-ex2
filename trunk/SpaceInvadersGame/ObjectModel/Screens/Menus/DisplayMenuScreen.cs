@@ -6,6 +6,9 @@ using SpaceInvadersGame;
 
 namespace SpaceInvadersGame.ObjectModel.Screens.Menus
 {
+    /// <summary>
+    /// Menu for display settings
+    /// </summary>
     public class DisplayMenuScreen : MenuTypeScreen
     {
         private const string k_DisplayMenuName = "Display Options";
@@ -19,7 +22,11 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         private OptionsMenuItem m_MouseItem;
         private MenuItem m_DoneItem;
 
-        public DisplayMenuScreen(Game i_Game)
+        /// <summary>
+        /// Initializes all menu items
+        /// </summary>
+        /// <param name="i_Game">Hosting game</param>
+        public  DisplayMenuScreen(Game i_Game)
             : base(i_Game, k_DisplayMenuName)
         {
             m_FullScreenItem = new OptionsMenuItem(
@@ -42,22 +49,37 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             Add(m_DoneItem);
         }
 
-        private void m_FullScreenItem_Modified(int i_Dummy)
+        /// <summary>
+        /// Toggles full screen mode
+        /// </summary>
+        /// <param name="i_Dummy">Text of menu item</param>
+        private void    m_FullScreenItem_Modified(int i_Dummy)
         {
             ((GraphicsDeviceManager)Game.Services.GetService(typeof(GraphicsDeviceManager))).ToggleFullScreen();
         }
 
-        private void m_ResizeItem_Modified(int i_Dummy)
+        /// <summary>
+        /// Toggles window resize mode
+        /// </summary>
+        /// <param name="i_Dummy">Text of menu item</param>
+        private void    m_ResizeItem_Modified(int i_Dummy)
         {
             Game.Window.AllowUserResizing = !Game.Window.AllowUserResizing;
         }
 
-        private void m_MouseItem_Modified(int i_Dummy)
+        /// <summary>
+        /// Toggles mouse visibility
+        /// </summary>
+        /// <param name="i_Dummy">Text of menu item</param>
+        private void    m_MouseItem_Modified(int i_Dummy)
         {
             Game.IsMouseVisible = !Game.IsMouseVisible;
         }
 
-        private void m_DoneItem_Executed()
+        /// <summary>
+        /// Exits screen
+        /// </summary>
+        private void    m_DoneItem_Executed()
         {
             ExitScreen();
         }   

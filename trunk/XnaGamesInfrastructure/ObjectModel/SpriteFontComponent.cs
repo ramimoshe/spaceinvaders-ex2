@@ -16,7 +16,13 @@ namespace XnaGamesInfrastructure.ObjectModel
 
         private SpriteFont m_Font;
 
-        public SpriteFontComponent(
+        /// <summary>
+        /// Initializes the SpriteFont
+        /// </summary>
+        /// <param name="i_Game">ths hosing game</param>
+        /// <param name="i_FontAssetName">Asset name</param>
+        /// <param name="i_Text"></param>
+        public  SpriteFontComponent(
             Game i_Game,
             string i_FontAssetName, 
             string i_Text)
@@ -25,13 +31,19 @@ namespace XnaGamesInfrastructure.ObjectModel
             m_Text = i_Text;
         }
 
+        /// <summary>
+        /// Invokes calculation of Font sizes 
+        /// </summary>
         protected override void LoadContent()
         {
             base.LoadContent();
             OnTextureModified();
         }
 
-        protected override int TextureHeight
+        /// <summary>
+        /// Returns the height
+        /// </summary>
+        protected override int  TextureHeight
         {
             get
             {
@@ -46,7 +58,10 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
         }
 
-        protected override int TextureWidth
+        /// <summary>
+        /// Returns texture's width
+        /// </summary>
+        protected override int  TextureWidth
         {
             get
             {
@@ -61,7 +76,10 @@ namespace XnaGamesInfrastructure.ObjectModel
             }
         }
 
-        public string Text
+        /// <summary>
+        /// Gets / Sets text
+        /// </summary>
+        public string   Text
         {
             get
             {
@@ -75,21 +93,29 @@ namespace XnaGamesInfrastructure.ObjectModel
                     m_Text = value;
                     OnTextureModified();
                 }
-
             }
         }
 
+        /// <summary>
+        /// Loads the font asset
+        /// </summary>
         protected override void DoLoadContent()
         {
             m_Font = m_ContentManager.Load<SpriteFont>(m_AssetName);
         }
 
-        private void OnTextureModified()
+        /// <summary>
+        /// Calculates sizes when text is modified
+        /// </summary>
+        private void    OnTextureModified()
         {
             m_HeightBeforeScale = TextureHeight;
             m_WidthBeforeScale = TextureWidth;
         }
 
+        /// <summary>
+        /// Performs the actual draw
+        /// </summary>
         public override void  DoDraw()
         {
             SpriteBatch.DrawString(
@@ -108,10 +134,9 @@ namespace XnaGamesInfrastructure.ObjectModel
         /// Creates a memberwise clone of sprite
         /// </summary>
         /// <returns>A copy of this sprite</returns>
-        override public SpriteBase   ShallowClone()
+        public override SpriteBase ShallowClone()
         {
             return this.MemberwiseClone() as SpriteFontComponent;
-        }      
-
+        }
     }
 }
