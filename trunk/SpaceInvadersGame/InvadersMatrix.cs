@@ -29,7 +29,7 @@ namespace SpaceInvadersGame
     {        
 
         // TODO: Remove  the variable
-        private TimeSpan m_Sleep = TimeSpan.FromSeconds(1.5f);
+        private TimeSpan m_Sleep = TimeSpan.FromSeconds(5.5f);
 
         private const int k_NumOfEnemiesLines = 5;
         private const int k_DefaultNumOfEnemiesInLine = 9;
@@ -170,12 +170,20 @@ namespace SpaceInvadersGame
                         }
                     }
 
-                    currEnemy = invadersBuilder.CreateInvader(
+                    currEnemy = createInvader(
+                            r_EnemiesLines[i],
+                            currInvaderRow,
+                            currPosition);
+
+                    // TODO: Remove the code
+
+                    /*currEnemy = invadersBuilder.CreateInvader(
                         r_EnemiesLines[i],
                         Game,
                         k_InvadersUpdateOrder,
                         currInvaderRow);
 
+                    currEnemy.TimeBetweenMoves = m_TimeBetweenMoves;
                     currEnemy.Score = 
                         m_GameLevelData.GetInvaderScore(currEnemy.InvaderType);
                     currEnemy.PositionOfOrigin = currPosition;
@@ -187,7 +195,7 @@ namespace SpaceInvadersGame
                     invaderHolder.Disposed += invader_Disposed;
 
                     this.Add(invaderHolder);
-                    m_EnabledInvaders.Add(currEnemy);
+                    m_EnabledInvaders.Add(currEnemy);*/
 
                     currPosition.X += k_EnemyWidth * 2;
                     prevRowType = r_EnemiesLines[i];
@@ -203,10 +211,15 @@ namespace SpaceInvadersGame
             }
         }
 
-
-        private void speedUpInvaders()
+        /// <summary>
+        /// Decrease the time between the invaders move
+        /// </summary>
+        private void    speedUpInvaders()
         {
-            m_TimeBetweenMoves = TimeSpan.FromSeconds(m_TimeBetweenMoves.TotalSeconds * k_IncreaseEnemiesSpeedFactor);
+            m_TimeBetweenMoves = 
+                TimeSpan.FromSeconds(
+                m_TimeBetweenMoves.TotalSeconds * 
+                k_IncreaseEnemiesSpeedFactor);
         }
         /// <summary>
         /// Change the invaders matrix by changing their Y position, increase
@@ -293,6 +306,7 @@ namespace SpaceInvadersGame
             foreach (Invader invader in m_EnabledInvaders)
             {
                 invader.MotionVector = enemiesMotionVector;
+                invader.TimeBetweenMoves = m_TimeBetweenMoves;
             }
 
             base.Update(i_GameTime);
@@ -415,6 +429,8 @@ namespace SpaceInvadersGame
         /// </summary>
         private void    onSettingLevelData()
         {
+            m_TimeBetweenMoves = r_TimeBetweenMoves;
+
             if (m_EnemiesInLineNum != 0)
             {
                 if (LevelData.InvadersColumnNum > m_EnemiesInLineNum)
@@ -429,20 +445,13 @@ namespace SpaceInvadersGame
                 }
             }
 
+            
             m_EnemiesInLineNum = LevelData.InvadersColumnNum;
             m_TimeBetweenInvadersShots = LevelData.TimeBetweenEnemiesShoots;
-            m_PrevShotTime = m_TimeBetweenInvadersShots;
-            m_TimeBetweenMoves = r_TimeBetweenMoves;
+            m_PrevShotTime = m_TimeBetweenInvadersShots;            
             m_TimeLeftForNextMove = m_TimeBetweenMoves;
-
-            // TODO: Delete the remarks
-
-            // If all the invaders are eliminated (end of the level), we need
-            // to make them all visible
-            /*if (m_EnabledInvaders.Count == 0)
-            {*/
+  
             enableAndUpdateInvadersScore();
-            //}            
         }
 
         /// <summary>
@@ -566,7 +575,6 @@ namespace SpaceInvadersGame
             if (i_ColumnsNum > 0)
             {
                 Invader currEnemy = null;
-                InvadersBuilder invadersBuilder = InvadersBuilder.GetInstance();
                 Vector2 currPosition = Vector2.Zero;
 
                 // Move on the invaders lines and adds new invaders at the end
@@ -578,29 +586,10 @@ namespace SpaceInvadersGame
 
                     for (int j = i_ColumnsNum; j > 0; j--)
                     {
-                        // TODO: Move the creation code to a method and replace the initialize
-                        // also
-
-                        // TODO: check what to put in the update order
-
-                        currEnemy = invadersBuilder.CreateInvader(
+                        currEnemy = createInvader(
                             m_LastInvadersInLine[i].InvaderType,
-                            Game,
-                            k_InvadersUpdateOrder,
-                            m_LastInvadersInLine[i].InvaderRow);
-
-                        currEnemy.Score =
-                            m_GameLevelData.GetInvaderScore(currEnemy.InvaderType);
-                        currEnemy.PositionForDraw = currPosition;
-                        currEnemy.DefaultPosition = currPosition;
-                        currEnemy.InvaderWasHit += new InvaderWasHitDelegate(invader_InvaderWasHit);
-                        currEnemy.PlayActionSoundEvent += new PlayActionSoundDelegate(invader_PlayActionSoundEvent);
-
-                        InvaderComposite invaderHolder = new InvaderComposite(Game, currEnemy);
-                        invaderHolder.Disposed += invader_Disposed;
-
-                        this.Add(invaderHolder);
-                        m_EnabledInvaders.Add(currEnemy);
+                            m_LastInvadersInLine[i].InvaderRow,
+                            currPosition);
 
                         currPosition.X += k_EnemyWidth * 2;
                     }
@@ -608,6 +597,41 @@ namespace SpaceInvadersGame
                     m_LastInvadersInLine[i] = currEnemy;
                 }
             }
+        }
+
+        /// <summary>
+        /// Creates a new invader and adds it to the matrix
+        /// </summary>
+        /// <param name="i_InvaderType">The new invader type</param>
+        /// <param name="i_InvaderRowLine">The new invader row num</param>
+        /// <param name="i_CurrPosition">The new invader position</param>
+        /// <returns>The newely created invader</returns>
+        private Invader    createInvader(
+            eInvadersType i_InvaderType,
+            int i_InvaderRowLine, 
+            Vector2 i_CurrPosition)
+        {
+            Invader currEnemy = InvadersBuilder.GetInstance().CreateInvader(
+                i_InvaderType,
+                Game,
+                k_InvadersUpdateOrder,
+                i_InvaderRowLine);
+
+            currEnemy.TimeBetweenMoves = m_TimeBetweenMoves;
+            currEnemy.Score =
+                m_GameLevelData.GetInvaderScore(currEnemy.InvaderType);
+            currEnemy.PositionForDraw = i_CurrPosition;
+            currEnemy.DefaultPosition = i_CurrPosition;
+            currEnemy.InvaderWasHit += new InvaderWasHitDelegate(invader_InvaderWasHit);
+            currEnemy.PlayActionSoundEvent += new PlayActionSoundDelegate(invader_PlayActionSoundEvent);
+
+            InvaderComposite invaderHolder = new InvaderComposite(Game, currEnemy);
+            invaderHolder.Disposed += invader_Disposed;
+
+            this.Add(invaderHolder);
+            m_EnabledInvaders.Add(currEnemy);
+
+            return currEnemy;
         }
 
         /// <summary>
