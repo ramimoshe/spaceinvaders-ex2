@@ -295,6 +295,10 @@ namespace SpaceInvadersGame.ObjectModel
             Animations.Add(cellAnimation);
             Animations.Enabled = true;
             Animations[k_ScaleAnimationName].Enabled = false;
+
+            // TODO: Remove the code
+
+            Animations[k_CellAnimationName].Enabled = false;
         }
 
         /// <summary>
@@ -447,6 +451,9 @@ namespace SpaceInvadersGame.ObjectModel
             m_TimeLeftToNextMove = m_TimeBetweenMove;
             Animations.Reset();
             Animations[k_ScaleAnimationName].Pause();
+
+            // TODO: Remove the code
+            Animations[k_CellAnimationName].Pause();
 
             if (m_Bullets != null)
             {
