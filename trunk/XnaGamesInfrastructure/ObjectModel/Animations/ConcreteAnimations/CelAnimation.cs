@@ -17,6 +17,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         private TimeSpan m_TimeLeftForFrame;
         private bool m_Loop = true;
         private int m_CurrCell = 0;
+        private int m_StartCell = 0;
         private int m_NumOfCels = 1;        
 
         public CelAnimation(
@@ -45,6 +46,7 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
             this.m_TimeLeftForFrame = i_FrameLength;
             this.m_NumOfCels = i_NumOfCels;
             this.m_CurrCell = i_StartingCel;
+            this.m_StartCell = i_StartingCel;
 
             m_Loop = i_AnimationLength == TimeSpan.Zero;
         }
@@ -78,8 +80,12 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
         {
             base.Reset(i_AnimationLength);
 
-            this.BoundSprite.SourceRectangle = m_OriginalSpriteInfo.SourceRectangle;
-        }
+            m_CurrCell = m_StartCell;
+            calcSourceRectangle();
+
+            // TODO: Remove
+            //this.BoundSprite.SourceRectangle = m_OriginalSpriteInfo.SourceRectangle;            
+        }        
 
         /// <summary>
         /// Implments the animation logic
@@ -101,13 +107,29 @@ namespace XnaGamesInfrastructure.ObjectModel.Animations.ConcreteAnimations
 
             if (this.BoundSprite.SourceRectangle != null)
             {
-                Rectangle r = (Rectangle)this.BoundSprite.SourceRectangle;
+                calcSourceRectangle();
+                // TODO: Remove
+                /*Rectangle r = (Rectangle)this.BoundSprite.SourceRectangle;
                 this.BoundSprite.SourceRectangle = new Rectangle(
                     m_CurrCell * r.Width,
                     r.Top,
                     r.Width,
-                    r.Height);
+                    r.Height);*/
             }
+        }
+
+        /// <summary>
+        /// Calculte the new sprite source rectangle according to the 
+        /// current cell
+        /// </summary>
+        private void    calcSourceRectangle()
+        {
+            Rectangle r = (Rectangle)this.BoundSprite.SourceRectangle;
+            this.BoundSprite.SourceRectangle = new Rectangle(
+                m_CurrCell * r.Width,
+                r.Top,
+                r.Width,
+                r.Height);
         }
     }
 }
