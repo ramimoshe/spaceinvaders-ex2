@@ -320,6 +320,8 @@ namespace SpaceInvadersGame.ObjectModel
         /// <param name="i_GameTime">Provides a snapshot of timing values.</param>
         public override void    Update(GameTime i_GameTime)
         {
+            base.Update(i_GameTime);
+            /*
             bool moveEnemy = false;
 
             m_TimeLeftToNextMove -= i_GameTime.ElapsedGameTime;
@@ -351,6 +353,7 @@ namespace SpaceInvadersGame.ObjectModel
                     OnReachedScreenBounds();
                 }
             }
+            */
         }
 
         /// <summary>
@@ -442,8 +445,7 @@ namespace SpaceInvadersGame.ObjectModel
             m_CurrMotion = r_DefaultMotionVector;
             m_TimeBetweenMove = r_DefaultTimeBetweenMoves;
             m_TimeLeftToNextMove = m_TimeBetweenMove;
-            Animations[k_ScaleAnimationName].Reset();
-            Animations[k_CellAnimationName].Reset();
+            Animations.Reset();
             Animations[k_ScaleAnimationName].Pause();
 
             if (m_Bullets != null)
