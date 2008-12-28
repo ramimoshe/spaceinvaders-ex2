@@ -38,7 +38,7 @@ namespace SpaceInvadersGame
         private const int k_EnemyHeight = 32;
         private const int k_InvadersUpdateOrder = 1;
 
-        private const int k_EnemyMotionYVal = 16;
+        private const int k_EnemyMotionYVal = 500;
 
         // The percent will decrease in the time it takes the enemies 
         // to move. used to increase the enemies speed
@@ -54,6 +54,11 @@ namespace SpaceInvadersGame
         private int m_EnemiesInLineNum;
 
         private TimeSpan m_TimeBetweenInvadersShots;
+
+        private readonly TimeSpan r_TimeBetweenMoves = TimeSpan.FromSeconds(0.5f);
+        private TimeSpan m_TimeBetweenMoves;
+        private TimeSpan m_TimeLeftForNextMove;
+        private Vector2 m_MotionVectorForInvaders = new Vector2(500, 0);
 
         // A time counter that contains a random seconds for the time space between
         // the enemies shoots
@@ -84,6 +89,8 @@ namespace SpaceInvadersGame
         public InvadersMatrix(Game i_Game) 
             : base(i_Game)
         {
+            m_TimeBetweenMoves = r_TimeBetweenMoves;
+            m_TimeLeftForNextMove = m_TimeBetweenMoves;
             m_LastInvadersInLine = new Invader[k_NumOfEnemiesLines];
         }
 
@@ -201,6 +208,11 @@ namespace SpaceInvadersGame
             }
         }
 
+
+        private void speedUpInvaders()
+        {
+            m_TimeBetweenMoves = TimeSpan.FromSeconds(m_TimeBetweenMoves.TotalSeconds * k_IncreaseEnemiesSpeedFactor);
+        }
         /// <summary>
         /// Change the invaders matrix by changing their Y position, increase
         /// their moving speed, and change their moving direction on the X axis
@@ -243,37 +255,58 @@ namespace SpaceInvadersGame
         /// <param name="i_GameTime">Provides a snapshot of timing values.</param>
         public override void    Update(GameTime i_GameTime)
         {
+            m_TimeLeftForNextMove -= i_GameTime.ElapsedGameTime;
+            Vector2 enemiesMotionVector = Vector2.Zero;
+
+            if (m_TimeLeftForNextMove <= TimeSpan.Zero)
+            {
+                enemiesMotionVector = m_MotionVectorForInvaders;
+                m_TimeLeftForNextMove = m_TimeBetweenMoves;
+
+                int minX = GraphicsDevice.Viewport.Width;
+                int maxX = 0;
+                int maxY = 0;
+
+                foreach (Invader invader in m_EnabledInvaders)
+                {
+                    Rectangle bounds = invader.ScreenBoundsAfterScale;
+                    minX = Math.Min(minX, bounds.Left);
+                    maxX = Math.Max(maxX, bounds.Right);
+                    maxY = Math.Max(maxY, bounds.Bottom);
+                }
+
+                int xDiff = (int) ((double)m_MotionVectorForInvaders.X * i_GameTime.ElapsedGameTime.TotalSeconds);
+
+                if (minX +  xDiff < 0 ||
+                    maxX + xDiff > GraphicsDevice.Viewport.Width)
+                {
+                    enemiesMotionVector *= -1;
+                    enemiesMotionVector.Y = k_EnemyMotionYVal;
+                    m_MotionVectorForInvaders *= -1;
+                    speedUpInvaders();
+                }
+
+                if (maxY >= m_MaxInvadersYPositionYVal)
+                {
+                    onInvaderReachedScreenEnd();
+                }
+            }
+
+            foreach (Invader invader in m_EnabledInvaders)
+            {
+                invader.MotionVector = enemiesMotionVector;
+            }
+
             base.Update(i_GameTime);
 
-            // TODO: Remove the sleep decrease and if. for debug only.
-            m_Sleep -= i_GameTime.ElapsedGameTime;
+            m_PrevShotTime -= i_GameTime.ElapsedGameTime;
 
-            /*if (m_Sleep.TotalSeconds <= 0)
-            {
-                m_Sleep = TimeSpan.FromSeconds(1.5f);
-                onAllEnemiesEliminated();
+            if (m_PrevShotTime.TotalSeconds < 0)
+            {     
+                // TODO: Enable
+                shootThePlayer();
+                m_PrevShotTime = m_TimeBetweenInvadersShots;
             }
-            else
-            {*/
-
-                m_PrevShotTime -= i_GameTime.ElapsedGameTime;
-
-                if (m_PrevShotTime.TotalSeconds < 0)
-                {     
-                    // TODO: Enable
-                    shootThePlayer();
-                    m_PrevShotTime = m_TimeBetweenInvadersShots;
-                }
-
-                // In case an enemy reached the end of the screen width, we
-                // need to change the invaders Y position, change their
-                // X motion, and increase their moving speed
-                if (m_ChangeInvadersDirection)
-                {
-                    changeInvadersMatrixPositions(k_EnemyMotionYVal, true);
-                    m_ChangeInvadersDirection = false;
-                }
-           // }
         }             
 
         /// <summary>
@@ -320,6 +353,7 @@ namespace SpaceInvadersGame
         public void     invader_InvaderWasHit(Invader i_Invader)
         {
             removeInvaderFromEnabledList(i_Invader);
+            speedUpInvaders();
 
             // TODO: Enable
 
@@ -436,6 +470,8 @@ namespace SpaceInvadersGame
             m_EnemiesInLineNum = LevelData.InvadersColumnNum;
             m_TimeBetweenInvadersShots = LevelData.TimeBetweenEnemiesShoots;
             m_PrevShotTime = m_TimeBetweenInvadersShots;
+            m_TimeBetweenMoves = r_TimeBetweenMoves;
+            m_TimeLeftForNextMove = m_TimeBetweenMoves;
 
             // TODO: Delete the remarks
 
@@ -443,7 +479,7 @@ namespace SpaceInvadersGame
             // to make them all visible
             /*if (m_EnabledInvaders.Count == 0)
             {*/
-                enableAndUpdateInvadersScore();
+            enableAndUpdateInvadersScore();
             //}            
         }
 
