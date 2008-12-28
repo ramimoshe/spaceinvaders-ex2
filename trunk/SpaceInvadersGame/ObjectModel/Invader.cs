@@ -275,7 +275,7 @@ namespace SpaceInvadersGame.ObjectModel
 
             // TODO: Remove the code
 
-            Animations[k_CellAnimationName].Enabled = false;
+            //Animations[k_CellAnimationName].Enabled = false;
         }
 
         /// <summary>
@@ -302,6 +302,9 @@ namespace SpaceInvadersGame.ObjectModel
         public override void    Update(GameTime i_GameTime)
         {
             base.Update(i_GameTime);
+
+            // TODO: Remove
+
             /*
             bool moveEnemy = false;
 
@@ -409,6 +412,11 @@ namespace SpaceInvadersGame.ObjectModel
             }
         }
 
+        /// <summary>
+        /// Raise a ReleaseShot event when the invader releases a new shot
+        /// (he didn't reached the number of allowed bullets)
+        /// </summary>
+        /// <param name="i_Bullet">The new bullet that the invader shot</param>
         private void    onReleasedShot(Bullet i_Bullet)
         {
             if (ReleasedShot != null)
@@ -426,7 +434,7 @@ namespace SpaceInvadersGame.ObjectModel
             PositionOrigin = Vector2.Zero;
             Animations.Reset();
             Animations[k_ScaleAnimationName].Pause();
-            Animations[k_CellAnimationName].Pause();
+            //Animations[k_CellAnimationName].Pause();
 
             if (m_Bullets != null)
             {
