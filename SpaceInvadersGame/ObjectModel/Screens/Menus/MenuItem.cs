@@ -22,17 +22,33 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
     /// <param name="i_Item">Selected item</param>
     public delegate void MenuItemSelectedEventHandler(MenuItem i_Item);
 
+    /// <summary>
+    /// Implements an items which apears in menu screens, and enables execution.
+    /// Execution behaviour should be implmented by instantiating menu.
+    /// </summary>
     public class MenuItem : SpriteFontComponent
     {
-        private bool m_Selected = false;
-        readonly private Color r_TintWhenSelected = Color.OrangeRed;
-        readonly private Color r_TintWhenDeSelected = Color.Silver;
-        public event MenuItemExecuteEventHandler Executed;
-        public event MenuItemSelectedEventHandler Selected;
+        private readonly Color r_TintWhenSelected = Color.OrangeRed;
+        private readonly Color r_TintWhenDeSelected = Color.Silver;
         private const string k_DefaultAssetName = @"Fonts\Tahoma28";
+
+        private bool m_Selected = false;
         protected IInputManager m_InputManager;
 
-        public MenuItem(Game i_Game, string i_Text, MenuItemExecuteEventHandler executedHandler)
+        public event MenuItemExecuteEventHandler Executed;
+
+        public event MenuItemSelectedEventHandler Selected;
+
+        /// <summary>
+        /// Initialize the item
+        /// </summary>
+        /// <param name="i_Game">The hosting Game</param>
+        /// <param name="i_Text">Text displayed in the item</param>
+        /// <param name="executedHandler">Delegate to be invoked when item executes</param>
+        public  MenuItem(
+                            Game i_Game, 
+                            string i_Text, 
+                            MenuItemExecuteEventHandler executedHandler)
             : base(i_Game, k_DefaultAssetName, i_Text)
         {
             TintColor = r_TintWhenDeSelected;
@@ -43,7 +59,10 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             }
         }
 
-        public override void Initialize()
+        /// <summary>
+        /// Initialize input manager and pulse animation
+        /// </summary>
+        public override void    Initialize()
         {
             base.Initialize();
             m_InputManager = Game.Services.GetService(typeof(InputManager)) as IInputManager;
@@ -57,7 +76,10 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
                     TimeSpan.FromSeconds(0.35f)));
         }
 
-        public bool IsSelected
+        /// <summary>
+        /// Gets / Sets whether item is currently selected
+        /// </summary>
+        public bool     IsSelected
         {
             get
             {
@@ -66,9 +88,11 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
 
             set
             {
+                // If value is changed then proper actions are taken
                 if (value != m_Selected)
                 {
                     m_Selected = value;
+
                     if (m_Selected)
                     {
                         OnMenuItemSelected();
@@ -81,7 +105,11 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             }
         }
 
-        public void OnMenuItemSelected()
+        /// <summary>
+        /// Actions performed when item is selected
+        /// Tint color is set and pulse animation restarts
+        /// </summary>
+        public void     OnMenuItemSelected()
         {
             TintColor = r_TintWhenSelected;
             
@@ -96,6 +124,9 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             }
         }
 
+        /// <summary>
+        /// Actions performed when item is de-selected
+        /// </summary>
         public void OnMenuItemDeSelected()
         {
             TintColor = r_TintWhenDeSelected;
@@ -107,6 +138,10 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             }
         }
 
+        /// <summary>
+        /// Handles default behaviour for mouse and keyboard actions
+        /// </summary>
+        /// <param name="i_GameTime">Hosting game elapsed time</param>
         public override void Update(GameTime i_GameTime)
         {
             base.Update(i_GameTime);
@@ -118,11 +153,13 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
                                             1, 
                                             1));
 
+            // Checking if mouse is inside item bounds (makes is selected)
             if (!IsSelected && mouseOnItem)
             {
                 IsSelected = true;
             }
 
+            // Checking if button is pressed to execute item
             if ((m_InputManager.KeyPressed(Keys.Enter) ||
                  (m_InputManager.ButtonPressed(eInputButtons.Left) && mouseOnItem))
                 && IsSelected)
@@ -131,6 +168,9 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             }
         }
 
+        /// <summary>
+        /// Notifies observer of execution
+        /// </summary>
         protected void Execute()
         {
             if (Executed != null)
