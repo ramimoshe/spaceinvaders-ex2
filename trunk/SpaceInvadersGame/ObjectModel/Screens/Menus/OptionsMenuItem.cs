@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using XnaGamesInfrastructure.Services;
 using Microsoft.Xna.Framework.Input;
+using XnaGamesInfrastructure.ServiceInterfaces;
 
 namespace SpaceInvadersGame.ObjectModel.Screens.Menus
 {
@@ -64,11 +65,14 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
 
             if (IsSelected)
             {                
-                if (m_InputManager.KeyPressed(Keys.PageDown))
+                if (m_InputManager.KeyPressed(Keys.PageDown) || 
+                    m_InputManager.ScrollWheelDelta < 0)
                 {
                     changeIndex = -1;
                 }
-                else if (m_InputManager.KeyPressed(Keys.PageUp))
+                else if (   m_InputManager.KeyPressed(Keys.PageUp) ||
+                            m_InputManager.ScrollWheelDelta > 0 ||
+                            m_InputManager.ButtonPressed(eInputButtons.Right))
                 {
                     changeIndex = 1;
                 }
