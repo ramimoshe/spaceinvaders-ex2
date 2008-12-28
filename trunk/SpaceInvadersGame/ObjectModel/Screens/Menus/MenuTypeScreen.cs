@@ -62,7 +62,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         /// Setting current item according to selected item
         /// </summary>
         /// <param name="i_Item"></param>
-        private void item_Selected(MenuItem i_Item)
+        private void    item_Selected(MenuItem i_Item)
         {
             int newSelectedItem = m_MenuItems.IndexOf(i_Item);
 
@@ -122,13 +122,11 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
         {
             base.Update(i_GameTime);
 
-            if (InputManager.KeyPressed(Keys.Down) || 
-                InputManager.ScrollWheelDelta < 0)
+            if (InputManager.KeyPressed(Keys.Down))
             {
                 changeCurrentItem(true);
             }
-            else if (InputManager.KeyPressed(Keys.Up) ||
-                     InputManager.ScrollWheelDelta > 0)
+            else if (InputManager.KeyPressed(Keys.Up))
             {
                 changeCurrentItem(false);
             }
@@ -149,7 +147,7 @@ namespace SpaceInvadersGame.ObjectModel.Screens.Menus
             setCurrentItem(newCurrentItem);
         }
 
-        private void setCurrentItem(int i_NewItemIndex)
+        private void    setCurrentItem(int i_NewItemIndex)
         {
             if (i_NewItemIndex != m_CurrentMenuItem && m_CurrentMenuItem != -1)
             {
