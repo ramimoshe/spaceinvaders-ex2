@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dreidel
+namespace DreidelGame
 {
     static class Program
     {
