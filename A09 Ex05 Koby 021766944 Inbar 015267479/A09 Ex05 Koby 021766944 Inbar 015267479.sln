@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dreidel", "Dreidel\Dreidel.csproj", "{BF6681A2-2156-401B-9F67-30D94D6D41DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreidelGame", "Dreidel\DreidelGame.csproj", "{BF6681A2-2156-401B-9F67-30D94D6D41DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
