@@ -13,15 +13,24 @@ using Microsoft.Xna.Framework;
 
 namespace DreidelGame.ObjectModel
 {
-    public class Cube : DrawableGameComponent
+    public class Cube// : DrawableGameComponent
     {
         private const int k_ZFactor = 8;
 
+        private Vector3 m_Position = new Vector3(0, 0, 0);
+        private Vector3 m_Rotations = Vector3.Zero;
+        private Vector3 m_Scales = Vector3.One;
+        private Matrix m_WorldMatrix = Matrix.Identity;
+
+        private const float k_ZFactorWidth = 7;
+        private const float k_ZFactorCoordinate = 3.5f;
+
+        private readonly Color r_BoxColor = Color.BurlyWood;
         private readonly Color r_FrontColor = Color.Yellow;
         private readonly Color r_BackColor = Color.Red;
         private readonly Color r_LeftColor = Color.Green;
         private readonly Color r_RightColor = Color.Blue;
-        private readonly Color r_UpDownColor = Color.Purple;
+        private readonly Color r_UpDownColor = Color.BurlyWood;
 
         private BasicEffect m_BasicEffect;
         private VertexDeclaration m_VertDeclaration;
@@ -34,16 +43,25 @@ namespace DreidelGame.ObjectModel
         private VertexPositionColor[] m_UpVertices;
         private VertexPositionColor[] m_DownVertices;
         private VertexPositionColor[] m_Vertices;
-        private Vector3[] m_VerticesCoordinates;
+        private Vector3[] m_VerticesCoordinates;        
 
-        public Cube(Game i_Game) : base(i_Game)
+        private GraphicsDevice device;
+
+        public GraphicsDevice GraphicDevice
+        {
+            set { device = value; }
+        }
+
+        public Cube(GraphicsDevice i_Device)// : base(i_Game)
         {
             // TODO: Enable
             //i_Game.Components.Add(this);
+            device = i_Device;
         }
 
         // TODO: Remove
-       /* public override void Initialize()
+        //public override void    Initialize()
+        private void     createEffectData()
         {
             float k_NearPlaneDistance = 0.5f;
             float k_FarPlaneDistance = 1000.0f;
@@ -52,7 +70,7 @@ namespace DreidelGame.ObjectModel
             // we are storing the field-of-view data in a matrix:
             m_ProjectionFieldOfView = Matrix.CreatePerspectiveFieldOfView(
                 k_ViewAngle,
-                GraphicsDevice.Viewport.AspectRatio,
+                (float)device.Viewport.Width / device.Viewport.Height,
                 k_NearPlaneDistance,
                 k_FarPlaneDistance);
 
@@ -65,41 +83,92 @@ namespace DreidelGame.ObjectModel
 
             // we are storing the point-of-view data in a matrix:
             m_PointOfView = Matrix.CreateLookAt(
-                pointOfViewPosition, targetPosition, pointOfViewUpDirection);
-            base.Initialize();
-        }*/
+                pointOfViewPosition, targetPosition, pointOfViewUpDirection);            
+        }
+
+        private void createCubeVertices()
+        {
+            m_FrontVertices = new VertexPositionColor[4];
+            m_BackVertices = new VertexPositionColor[4];
+            m_LeftSideVertices = new VertexPositionColor[4];
+            m_RightSideVertices = new VertexPositionColor[4];
+            m_UpVertices = new VertexPositionColor[4];
+            m_DownVertices = new VertexPositionColor[4];
+
+            createCubeCoordinates();
+
+
+            m_Vertices = new VertexPositionColor[8];
+            int count = 0;
+
+            foreach (Vector3 vertix in m_VerticesCoordinates)
+            {
+                m_Vertices[count] = new VertexPositionColor(vertix, Color.Black);
+                count++;
+            }
+
+            m_FrontVertices[0] = new VertexPositionColor(m_VerticesCoordinates[0], r_FrontColor);
+            m_FrontVertices[1] = new VertexPositionColor(m_VerticesCoordinates[1], r_FrontColor);
+            m_FrontVertices[2] = new VertexPositionColor(m_VerticesCoordinates[2], r_FrontColor);
+            m_FrontVertices[3] = new VertexPositionColor(m_VerticesCoordinates[3], r_FrontColor);
+
+            m_BackVertices[0] = new VertexPositionColor(m_VerticesCoordinates[4], r_BackColor);
+            m_BackVertices[1] = new VertexPositionColor(m_VerticesCoordinates[5], r_BackColor);
+            m_BackVertices[2] = new VertexPositionColor(m_VerticesCoordinates[6], r_BackColor);
+            m_BackVertices[3] = new VertexPositionColor(m_VerticesCoordinates[7], r_BackColor);
+
+            m_RightSideVertices[0] = new VertexPositionColor(m_VerticesCoordinates[3], r_RightColor);
+            m_RightSideVertices[1] = new VertexPositionColor(m_VerticesCoordinates[2], r_RightColor);
+            m_RightSideVertices[2] = new VertexPositionColor(m_VerticesCoordinates[5], r_RightColor);
+            m_RightSideVertices[3] = new VertexPositionColor(m_VerticesCoordinates[4], r_RightColor);
+
+            m_LeftSideVertices[0] = new VertexPositionColor(m_VerticesCoordinates[7], r_LeftColor);
+            m_LeftSideVertices[1] = new VertexPositionColor(m_VerticesCoordinates[6], r_LeftColor);
+            m_LeftSideVertices[2] = new VertexPositionColor(m_VerticesCoordinates[1], r_LeftColor);
+            m_LeftSideVertices[3] = new VertexPositionColor(m_VerticesCoordinates[0], r_LeftColor);
+        }
+
+        private void createCubeCoordinates()
+        {
+            m_VerticesCoordinates = new Vector3[8];
+
+            m_VerticesCoordinates[0] = new Vector3(-3, -3, k_ZFactorCoordinate);
+            m_VerticesCoordinates[1] = new Vector3(-3, 3, k_ZFactorCoordinate);
+            m_VerticesCoordinates[2] = new Vector3(3, 3, k_ZFactorCoordinate);
+            m_VerticesCoordinates[3] = new Vector3(3, -3, k_ZFactorCoordinate);
+            m_VerticesCoordinates[4] = new Vector3(3, -3, k_ZFactorCoordinate - k_ZFactorWidth);
+            m_VerticesCoordinates[5] = new Vector3(3, 3, k_ZFactorCoordinate - k_ZFactorWidth);
+            m_VerticesCoordinates[6] = new Vector3(-3, 3, k_ZFactorCoordinate - k_ZFactorWidth);
+            m_VerticesCoordinates[7] = new Vector3(-3, -3, k_ZFactorCoordinate - k_ZFactorWidth);
+        }
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
         /// </summary>
-        protected override void LoadContent()
+        public void    LoadGraphicContent()
         {
-            m_BasicEffect = new BasicEffect(this.GraphicsDevice, null);
+            createEffectData();
+
+            m_BasicEffect = new BasicEffect(device, null);
             m_BasicEffect.View = m_PointOfView;
             m_BasicEffect.Projection = m_ProjectionFieldOfView;
             m_BasicEffect.VertexColorEnabled = true;
 
-            // TODO: Remove
-
             // we are working with colored vertices
-            /*this.GraphicsDevice.VertexDeclaration = new VertexDeclaration(
+    /*        this.GraphicsDevice.VertexDeclaration = new VertexDeclaration(
                 this.GraphicsDevice, VertexPositionColor.VertexElements);
 
             // we did not use certain clockwise ordering in our vertex buffer
             // and we don't want antthing to be culled away..
-            this.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;*/
+            this.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace; */
 
-            // lets create our 6 colored vertices:
-            /*m_Vertices = new VertexPositionColor[6];
-            m_Vertices[0] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Red);
-            m_Vertices[1] = new VertexPositionColor(new Vector3(-11, 7, 0), Color.Red);
-            m_Vertices[2] = new VertexPositionColor(new Vector3(0, 14, 0), Color.Blue);
-            m_Vertices[3] = new VertexPositionColor(new Vector3(10, 10, -14), Color.Blue);
-            m_Vertices[4] = new VertexPositionColor(new Vector3(16, 2, -2), Color.Green);
-            m_Vertices[5] = new VertexPositionColor(new Vector3(15, -8, 2), Color.Green);*/
+            createCubeCoordinates();
+            createCubeVertices();
 
-            m_FrontVertices = new VertexPositionColor[4];
+            // TODO: Remove
+
+           /* m_FrontVertices = new VertexPositionColor[4];
             m_BackVertices = new VertexPositionColor[4];
             m_LeftSideVertices = new VertexPositionColor[4];
             m_RightSideVertices = new VertexPositionColor[4];
@@ -153,14 +222,18 @@ namespace DreidelGame.ObjectModel
             m_DownVertices[0] = new VertexPositionColor(m_VerticesCoordinates[3], r_UpDownColor);
             m_DownVertices[1] = new VertexPositionColor(m_VerticesCoordinates[4], r_UpDownColor);
             m_DownVertices[2] = new VertexPositionColor(m_VerticesCoordinates[7], r_UpDownColor);
-            m_DownVertices[3] = new VertexPositionColor(m_VerticesCoordinates[0], r_UpDownColor);
+            m_DownVertices[3] = new VertexPositionColor(m_VerticesCoordinates[0], r_UpDownColor);*/
+
+            // TODO: Remove
+//            base.LoadContent();
         }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
         /// </summary>
-        protected override void UnloadContent()
+        //protected override void UnloadContent()
+        public void     UnloadContent()
         {
             if (m_BasicEffect != null)
             {
@@ -169,45 +242,76 @@ namespace DreidelGame.ObjectModel
             }
         }
 
+        private void BuildWorldMatrix()
+        {
+            m_WorldMatrix =
+                /*I*/ Matrix.Identity *
+                /*S*/ Matrix.CreateScale(m_Scales) *
+                /*R*/ Matrix.CreateRotationX(m_Rotations.X) *
+                        Matrix.CreateRotationY(m_Rotations.Y) *
+                        Matrix.CreateRotationZ(m_Rotations.Z) *
+                /* No Orbit */
+                /*T*/ Matrix.CreateTranslation(m_Position);
+        }   
+
+        //public override void    Update(GameTime gameTime)
+        public void    Update(GameTime gameTime)
+        {                 
+            m_Rotations.Y += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            
+            BuildWorldMatrix();
+        }
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public override void Draw(GameTime gameTime)
+        //public override void    Draw(GameTime gameTime)
+        public void    Draw(GameTime gameTime)
         {
-            //graphics.GraphicsDevice.Clear(Color.White);
+            device.VertexDeclaration = new VertexDeclaration(device,
+                VertexPositionColor.VertexElements);
+            m_BasicEffect.World = m_WorldMatrix;
+
+            //graphics.GraphicsDevice.Clear(Color.White);            
 
             m_BasicEffect.Begin();
             foreach (EffectPass pass in m_BasicEffect.CurrentTechnique.Passes)
             {
                 pass.Begin();
-                this.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                    PrimitiveType.TriangleFan, m_FrontVertices, 0, 2);
-                //pass.Begin();                
-                /*this.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                    PrimitiveType.TriangleFan, m_LeftSideVertices, 0, 2);*/
-                this.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                                    PrimitiveType.TriangleFan, m_RightSideVertices, 0, 2);
 
-                this.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                                    PrimitiveType.TriangleFan, m_LeftSideVertices, 0, 2);
+                drawCube();
 
-                this.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                                    PrimitiveType.TriangleFan, m_UpVertices, 0, 2);
-
-                this.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                                    PrimitiveType.TriangleFan, m_DownVertices, 0, 2);
-
-                this.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                    PrimitiveType.TriangleFan, m_BackVertices, 0, 2);
-
-                this.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                                    PrimitiveType.PointList, m_Vertices, 0, 8);
                 pass.End();
             }
             m_BasicEffect.End();
 
-            base.Draw(gameTime);
+            // TODO: Remove
+            //base.Draw(gameTime);
+        }
+
+        private void    drawCube()
+        {
+            device.DrawUserPrimitives<VertexPositionColor>(
+                    PrimitiveType.TriangleFan, m_FrontVertices, 0, 2);
+
+            device.DrawUserPrimitives<VertexPositionColor>(
+                                PrimitiveType.TriangleFan, m_RightSideVertices, 0, 2);
+
+            device.DrawUserPrimitives<VertexPositionColor>(
+                                PrimitiveType.TriangleFan, m_LeftSideVertices, 0, 2);
+
+            device.DrawUserPrimitives<VertexPositionColor>(
+                                PrimitiveType.TriangleFan, m_UpVertices, 0, 2);
+
+            device.DrawUserPrimitives<VertexPositionColor>(
+                                PrimitiveType.TriangleFan, m_DownVertices, 0, 2);
+
+            device.DrawUserPrimitives<VertexPositionColor>(
+                PrimitiveType.TriangleFan, m_BackVertices, 0, 2);
+
+            /*device.DrawUserPrimitives<VertexPositionColor>(
+                                PrimitiveType.PointList, m_Vertices, 0, 8);*/
         }
 
     }
