@@ -7,8 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace DreidelGame.ObjectModel
 {
     public class Cube : CompositeGameComponent
-    {
-        List<Side<VertexPositionColor>> m_Sides = new List<Side<VertexPositionColor>>();
+    {        
         private Vector3[] m_VerticesCoordinates = new Vector3[8];
         private const float k_ZFactorWidth = 7;
         private const float k_ZFactorCoordinate = 3.5f;
@@ -104,6 +103,20 @@ namespace DreidelGame.ObjectModel
                         Matrix.CreateRotationZ(m_Rotations.Z) *
                 /* No Orbit */
                 /*T*/ Matrix.CreateTranslation(m_Position);
+        }
+
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// The component change the GraphicsDevice so that it can draw VertexPositionColor.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        public override void Draw(GameTime gameTime)
+        {
+            // we are working with textured vertices
+            GraphicsDevice.VertexDeclaration = new VertexDeclaration(
+                GraphicsDevice, VertexPositionColor.VertexElements);
+
+            base.Draw(gameTime);
         }
     }
 }
