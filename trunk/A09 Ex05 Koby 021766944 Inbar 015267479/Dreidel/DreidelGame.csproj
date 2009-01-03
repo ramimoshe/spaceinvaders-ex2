@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dreidel</RootNamespace>
-    <AssemblyName>Dreidel</AssemblyName>
+    <RootNamespace>DreidelGame</RootNamespace>
+    <AssemblyName>DreidelGame</AssemblyName>
     <XnaFrameworkVersion>v2.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
     <XnaCrossPlatformGroupID>112fa363-c1bf-4cb5-98a2-230e4566863b</XnaCrossPlatformGroupID>
@@ -56,8 +56,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ObjectModel\CubeTexture.cs" />
+    <Compile Include="ObjectModel\CompositeGameComponent.cs" />
     <Compile Include="ObjectModel\Cube.cs" />
+    <Compile Include="ObjectModel\CubeTexture.cs" />
+    <Compile Include="ObjectModel\Side.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />

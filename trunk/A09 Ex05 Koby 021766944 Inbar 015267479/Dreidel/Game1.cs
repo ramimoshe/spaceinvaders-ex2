@@ -20,7 +20,7 @@ namespace DreidelGame
     {
         GraphicsDeviceManager graphics;
         InputManager m_InputManager;
-        private Cube m_Cube;
+        private Cube m_Cube; 
         private CubeTexture m_CubeTexture;
 
         // TODO: Remove
@@ -92,7 +92,7 @@ namespace DreidelGame
 
             this.Components.Add(m_InputManager);
 
-            //m_Cube = new Cube(this);
+            m_Cube = new Cube(this);
         }
 
         // TODO: Remove
@@ -130,9 +130,10 @@ namespace DreidelGame
 
             graphics.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
 
-            m_Cube = new Cube(graphics.GraphicsDevice);
-            m_CubeTexture = new CubeTexture(graphics.GraphicsDevice);
+            m_Cube = new Cube(this);
+            //m_CubeTexture = new CubeTexture(graphics.GraphicsDevice);
             base.Initialize();
+
         }
 
         private void    vertexColorCreate()
@@ -175,8 +176,10 @@ namespace DreidelGame
         /// </summary>
         protected override void LoadContent()
         {
-            m_Cube.LoadGraphicContent();
-            m_CubeTexture.LoadGraphicContent(Content);
+            this.GraphicsDevice.VertexDeclaration = new VertexDeclaration(
+    this.GraphicsDevice, VertexPositionColor.VertexElements);
+            //m_Cube.LoadGraphicContent();
+            //m_CubeTexture.LoadGraphicContent(Content);
             //vertexTextureCreate();
             //vertexColorCreate();
             
@@ -189,7 +192,7 @@ namespace DreidelGame
             /*createCubeVerticesTexture();
             createBoxVertices();
             createPiramid();*/
-           // base.LoadContent();
+            base.LoadContent();
 
             //m_Cube.GraphicDevice = graphics.GraphicsDevice;
         }
@@ -374,8 +377,8 @@ namespace DreidelGame
         /// </summary>
         protected override void UnloadContent()
         {
-            m_Cube.UnloadContent();
-            m_CubeTexture.UnloadContent();
+            //m_Cube.UnloadContent();
+            //m_CubeTexture.UnloadContent();
         }
 
         // TODO: Remove
@@ -419,8 +422,8 @@ namespace DreidelGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            m_Cube.Update(gameTime);
-            m_CubeTexture.Update(gameTime);
+            //m_Cube.Update(gameTime);
+            //m_CubeTexture.Update(gameTime);
             base.Update(gameTime);
         }
      /*   protected override void Update(GameTime gameTime)
@@ -475,7 +478,7 @@ namespace DreidelGame
             graphics.GraphicsDevice.Clear(Color.White);
 
             //m_Cube.Draw(gameTime);
-            m_CubeTexture.Draw(gameTime);
+            //m_CubeTexture.Draw(gameTime);
             base.Draw(gameTime);
         }
 
