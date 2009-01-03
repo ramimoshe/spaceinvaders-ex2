@@ -43,6 +43,7 @@ namespace DreidelGame
         private readonly Color r_RightColor = Color.Blue;
         private readonly Color r_UpDownColor = Color.BurlyWood;
 
+        private Texture2D m_Texture;
         private BasicEffect m_BasicEffect;        
         private VertexDeclaration m_VertDeclaration;
         private Matrix m_ProjectionFieldOfView;
@@ -55,6 +56,13 @@ namespace DreidelGame
         private VertexPositionColor[] m_DownVertices;
         private VertexPositionColor[] m_Vertices;
         private Vector3[] m_VerticesCoordinates;
+
+        private VertexPositionTexture[] m_FrontVerticesTexture;
+        private VertexPositionTexture[] m_BackVerticesTexture;
+        private VertexPositionTexture[] m_LeftSideVerticesTexture;
+        private VertexPositionTexture[] m_RightSideVerticesTexture;
+        private VertexPositionTexture[] m_UpVerticesTexture;
+        private VertexPositionTexture[] m_DownVerticesTexture;
 
         private Vector3 m_PiramidHead;
         private VertexPositionColor[] m_PiramidVertices;
@@ -126,22 +134,111 @@ namespace DreidelGame
         protected override void LoadContent()
         {
             // we are working with the out-of-the box shader that comes with XNA:
-            m_BasicEffect = new BasicEffect(this.GraphicsDevice, null);
+            /*m_BasicEffect = new BasicEffect(this.GraphicsDevice, null);
             m_BasicEffect.View = m_PointOfView;
             m_BasicEffect.Projection = m_ProjectionFieldOfView;
             m_BasicEffect.VertexColorEnabled = true;
 
             // we are working with colored vertices
             this.GraphicsDevice.VertexDeclaration = new VertexDeclaration(
-                this.GraphicsDevice, VertexPositionColor.VertexElements);
+                this.GraphicsDevice, VertexPositionColor.VertexElements);*/
+
+            m_Texture = Content.Load<Texture2D>(@"Sprites\Dreidel");
+
+            // we are working with the out-of-the box shader that comes with XNA:
+            m_BasicEffect = new BasicEffect(this.GraphicsDevice, null);
+            m_BasicEffect.View = m_PointOfView;
+            m_BasicEffect.Projection = m_ProjectionFieldOfView;
+
+            // we pass the texture to the shader, so it can sample it to paint the triangle 
+            m_BasicEffect.Texture = m_Texture;
+            m_BasicEffect.TextureEnabled = true;
+
+            this.GraphicsDevice.SamplerStates[0].AddressU = TextureAddressMode.Clamp;
+            this.GraphicsDevice.SamplerStates[0].AddressV = TextureAddressMode.Clamp;
+
+            // we are working with textured vertices
+            this.GraphicsDevice.VertexDeclaration = new VertexDeclaration(
+                this.GraphicsDevice, VertexPositionTexture.VertexElements);
 
             // we did not use certain clockwise ordering in our vertex buffer
             // and we don't want antthing to be culled away..
             this.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
-
-            createCubeVertices();
+            
+            createCubeVerticesTexture();
             createBoxVertices();
             createPiramid();
+        }
+
+        private void    createCubeVerticesTexture()
+        {           
+            createCubeCoordinates();
+
+            m_FrontVerticesTexture = new VertexPositionTexture[4];
+            m_BackVerticesTexture = new VertexPositionTexture[4];
+            m_LeftSideVerticesTexture = new VertexPositionTexture[4];
+            m_RightSideVerticesTexture = new VertexPositionTexture[4];
+            m_UpVertices = new VertexPositionColor[4];
+            m_DownVertices = new VertexPositionColor[4];            
+
+            m_FrontVerticesTexture[0] = new VertexPositionTexture(m_VerticesCoordinates[0], new Vector2(0, .5f));
+            m_FrontVerticesTexture[1] = new VertexPositionTexture(m_VerticesCoordinates[1], new Vector2(0, 0));
+            m_FrontVerticesTexture[2] = new VertexPositionTexture(m_VerticesCoordinates[2], new Vector2(.5f, 0));
+            m_FrontVerticesTexture[3] = new VertexPositionTexture(m_VerticesCoordinates[3], new Vector2(.5f, .5f));
+
+            m_BackVerticesTexture[0] = new VertexPositionTexture(m_VerticesCoordinates[4], new Vector2(0, 1));
+            m_BackVerticesTexture[1] = new VertexPositionTexture(m_VerticesCoordinates[5], new Vector2(0, .5f));
+            m_BackVerticesTexture[2] = new VertexPositionTexture(m_VerticesCoordinates[6], new Vector2(.5f, .5f));
+            m_BackVerticesTexture[3] = new VertexPositionTexture(m_VerticesCoordinates[7], new Vector2(.5f, 1));
+
+            m_RightSideVerticesTexture[0] = new VertexPositionTexture(m_VerticesCoordinates[3], new Vector2(.5f, 1));
+            m_RightSideVerticesTexture[1] = new VertexPositionTexture(m_VerticesCoordinates[2], new Vector2(.5f, .5f));
+            m_RightSideVerticesTexture[2] = new VertexPositionTexture(m_VerticesCoordinates[5], new Vector2(1, .5f));
+            m_RightSideVerticesTexture[3] = new VertexPositionTexture(m_VerticesCoordinates[4], new Vector2(1, 1));
+
+            m_LeftSideVerticesTexture[0] = new VertexPositionTexture(m_VerticesCoordinates[7], new Vector2(.5f, .5f));
+            m_LeftSideVerticesTexture[1] = new VertexPositionTexture(m_VerticesCoordinates[6], new Vector2(.5f, 0));
+            m_LeftSideVerticesTexture[2] = new VertexPositionTexture(m_VerticesCoordinates[1], new Vector2(1, 0));
+            m_LeftSideVerticesTexture[3] = new VertexPositionTexture(m_VerticesCoordinates[0], new Vector2(1, .5f));
+
+            /*m_BackVerticesTexture[0] = new VertexPositionTexture(m_VerticesCoordinates[4], new Vector2(0, 1));
+            m_BackVerticesTexture[1] = new VertexPositionTexture(m_VerticesCoordinates[5], new Vector2(0, 0));
+            m_BackVerticesTexture[2] = new VertexPositionTexture(m_VerticesCoordinates[6], new Vector2(1, 0));
+            m_BackVerticesTexture[3] = new VertexPositionTexture(m_VerticesCoordinates[7], new Vector2(1, 1));
+
+            m_RightSideVerticesTexture[0] = new VertexPositionTexture(m_VerticesCoordinates[3], new Vector2(0, 1));
+            m_RightSideVerticesTexture[1] = new VertexPositionTexture(m_VerticesCoordinates[2], new Vector2(0, 0));
+            m_RightSideVerticesTexture[2] = new VertexPositionTexture(m_VerticesCoordinates[5], new Vector2(1, 0));
+            m_RightSideVerticesTexture[3] = new VertexPositionTexture(m_VerticesCoordinates[4], new Vector2(1, 1));
+
+            m_LeftSideVerticesTexture[0] = new VertexPositionTexture(m_VerticesCoordinates[7], new Vector2(0, 1));
+            m_LeftSideVerticesTexture[1] = new VertexPositionTexture(m_VerticesCoordinates[6], new Vector2(0, 0));
+            m_LeftSideVerticesTexture[2] = new VertexPositionTexture(m_VerticesCoordinates[1], new Vector2(1, 0));
+            m_LeftSideVerticesTexture[3] = new VertexPositionTexture(m_VerticesCoordinates[0], new Vector2(1, 1));*/
+
+            m_UpVertices[0] = new VertexPositionColor(m_VerticesCoordinates[1], r_UpDownColor);
+            m_UpVertices[1] = new VertexPositionColor(m_VerticesCoordinates[6], r_UpDownColor);
+            m_UpVertices[2] = new VertexPositionColor(m_VerticesCoordinates[5], r_UpDownColor);
+            m_UpVertices[3] = new VertexPositionColor(m_VerticesCoordinates[2], r_UpDownColor);
+
+            m_DownVertices[0] = new VertexPositionColor(m_VerticesCoordinates[3], r_UpDownColor);
+            m_DownVertices[1] = new VertexPositionColor(m_VerticesCoordinates[4], r_UpDownColor);
+            m_DownVertices[2] = new VertexPositionColor(m_VerticesCoordinates[7], r_UpDownColor);
+            m_DownVertices[3] = new VertexPositionColor(m_VerticesCoordinates[0], r_UpDownColor);
+        }
+
+        private void    createCubeCoordinates()
+        {
+            m_VerticesCoordinates = new Vector3[8];
+
+            m_VerticesCoordinates[0] = new Vector3(-3, -3, k_ZFactorCoordinate);
+            m_VerticesCoordinates[1] = new Vector3(-3, 3, k_ZFactorCoordinate);
+            m_VerticesCoordinates[2] = new Vector3(3, 3, k_ZFactorCoordinate);
+            m_VerticesCoordinates[3] = new Vector3(3, -3, k_ZFactorCoordinate);
+            m_VerticesCoordinates[4] = new Vector3(3, -3, k_ZFactorCoordinate - k_ZFactorWidth);
+            m_VerticesCoordinates[5] = new Vector3(3, 3, k_ZFactorCoordinate - k_ZFactorWidth);
+            m_VerticesCoordinates[6] = new Vector3(-3, 3, k_ZFactorCoordinate - k_ZFactorWidth);
+            m_VerticesCoordinates[7] = new Vector3(-3, -3, k_ZFactorCoordinate - k_ZFactorWidth);            
         }
 
         private void    createBoxVertices()
@@ -203,8 +300,7 @@ namespace DreidelGame
             m_LeftSideVertices = new VertexPositionColor[4];
             m_RightSideVertices = new VertexPositionColor[4];
             m_UpVertices = new VertexPositionColor[4];
-            m_DownVertices = new VertexPositionColor[4];
-            m_VerticesCoordinates = new Vector3[8];
+            m_DownVertices = new VertexPositionColor[4];            
 
             /*m_VerticesCoordinates[0] = new Vector3(0, 0, 0);
             m_VerticesCoordinates[1] = new Vector3(0, 7, 0);
@@ -215,17 +311,9 @@ namespace DreidelGame
             m_VerticesCoordinates[6] = new Vector3(0, 7, k_ZFactor);
             m_VerticesCoordinates[7] = new Vector3(0, 0, k_ZFactor);*/
 
-            // TODO: Change to constants
+            createCubeCoordinates();
 
-            m_VerticesCoordinates[0] = new Vector3(-3, -3, k_ZFactorCoordinate);
-            m_VerticesCoordinates[1] = new Vector3(-3, 3, k_ZFactorCoordinate);
-            m_VerticesCoordinates[2] = new Vector3(3, 3, k_ZFactorCoordinate);
-            m_VerticesCoordinates[3] = new Vector3(3, -3, k_ZFactorCoordinate);
-            m_VerticesCoordinates[4] = new Vector3(3, -3, k_ZFactorCoordinate - k_ZFactorWidth);
-            m_VerticesCoordinates[5] = new Vector3(3, 3, k_ZFactorCoordinate - k_ZFactorWidth);
-            m_VerticesCoordinates[6] = new Vector3(-3, 3, k_ZFactorCoordinate - k_ZFactorWidth);
-            m_VerticesCoordinates[7] = new Vector3(-3, -3, k_ZFactorCoordinate - k_ZFactorWidth);
-
+            
             m_Vertices = new VertexPositionColor[8];
             int count = 0;
 
@@ -255,7 +343,7 @@ namespace DreidelGame
             m_LeftSideVertices[2] = new VertexPositionColor(m_VerticesCoordinates[1], r_LeftColor);
             m_LeftSideVertices[3] = new VertexPositionColor(m_VerticesCoordinates[0], r_LeftColor);
 
-            m_UpVertices[0] = new VertexPositionColor(m_VerticesCoordinates[1], r_UpDownColor);
+          /*  m_UpVertices[0] = new VertexPositionColor(m_VerticesCoordinates[1], r_UpDownColor);
             m_UpVertices[1] = new VertexPositionColor(m_VerticesCoordinates[6], r_UpDownColor);
             m_UpVertices[2] = new VertexPositionColor(m_VerticesCoordinates[5], r_UpDownColor);
             m_UpVertices[3] = new VertexPositionColor(m_VerticesCoordinates[2], r_UpDownColor);
@@ -263,7 +351,7 @@ namespace DreidelGame
             m_DownVertices[0] = new VertexPositionColor(m_VerticesCoordinates[3], r_UpDownColor);
             m_DownVertices[1] = new VertexPositionColor(m_VerticesCoordinates[4], r_UpDownColor);
             m_DownVertices[2] = new VertexPositionColor(m_VerticesCoordinates[7], r_UpDownColor);
-            m_DownVertices[3] = new VertexPositionColor(m_VerticesCoordinates[0], r_UpDownColor);
+            m_DownVertices[3] = new VertexPositionColor(m_VerticesCoordinates[0], r_UpDownColor);*/
         }
 
         private void    createPiramid()
@@ -401,15 +489,37 @@ namespace DreidelGame
                 pass.Begin();
 
                 // Draws all the dreidel elements
-                drawCube();
-                drawBox();
-                drawPiramid();
+                //drawCube();
+                drawCubeTexture();
+                //drawBox();
+                //drawPiramid();
                 
                 pass.End();
             }
             m_BasicEffect.End();
 
             base.Draw(gameTime);
+        }
+
+        private void    drawCubeTexture()
+        {
+            this.GraphicsDevice.DrawUserPrimitives<VertexPositionTexture>(
+                    PrimitiveType.TriangleFan, m_FrontVerticesTexture, 0, 2);
+
+            this.GraphicsDevice.DrawUserPrimitives<VertexPositionTexture>(
+                                PrimitiveType.TriangleFan, m_RightSideVerticesTexture, 0, 2);
+
+            this.GraphicsDevice.DrawUserPrimitives<VertexPositionTexture>(
+                                PrimitiveType.TriangleFan, m_LeftSideVerticesTexture, 0, 2);
+
+            this.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
+                                PrimitiveType.TriangleFan, m_UpVertices, 0, 2);
+
+            this.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
+                                PrimitiveType.TriangleFan, m_DownVertices, 0, 2);
+
+            this.GraphicsDevice.DrawUserPrimitives<VertexPositionTexture>(
+                PrimitiveType.TriangleFan, m_BackVerticesTexture, 0, 2);            
         }
 
         private void    drawCube()
