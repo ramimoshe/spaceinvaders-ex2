@@ -31,13 +31,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\DreidelFront.png">
-      <Name>DreidelFront</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Sprites\Dreidel.png">
       <Name>Dreidel</Name>
       <Importer>TextureImporter</Importer>
