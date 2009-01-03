@@ -33,7 +33,8 @@ namespace DreidelGame
 
         // TODO: Remove
 
-        private const int k_ZFactor = 7;
+        private const float k_ZFactorWidth = 7;
+        private const float k_ZFactorCoordinate = 3.5f;
 
         private readonly Color r_BoxColor = Color.BurlyWood;
         private readonly Color r_FrontColor = Color.Yellow;
@@ -153,14 +154,16 @@ namespace DreidelGame
             m_BoxDownVertices = new VertexPositionColor[4];
             m_BoxVerticesCoordinates = new Vector3[8];
 
-            m_BoxVerticesCoordinates[0] = new Vector3(-.5f, 3, 3.5f);
-            m_BoxVerticesCoordinates[1] = new Vector3(-.5f, 7, 3.5f);
-            m_BoxVerticesCoordinates[2] = new Vector3(.5f, 7, 3.5f);
-            m_BoxVerticesCoordinates[3] = new Vector3(.5f, 3, 3.5f);
-            m_BoxVerticesCoordinates[4] = new Vector3(.5f, 3, 4.5f);
-            m_BoxVerticesCoordinates[5] = new Vector3(.5f, 7, 4.5f);
-            m_BoxVerticesCoordinates[6] = new Vector3(-.5f, 7, 4.5f);
-            m_BoxVerticesCoordinates[7] = new Vector3(-.5f, 3, 4.5f);
+            // TODO: Change to constants
+
+            m_BoxVerticesCoordinates[0] = new Vector3(-.5f, 3, 0);
+            m_BoxVerticesCoordinates[1] = new Vector3(-.5f, 7, 0);
+            m_BoxVerticesCoordinates[2] = new Vector3(.5f, 7, 0);
+            m_BoxVerticesCoordinates[3] = new Vector3(.5f, 3, 0);
+            m_BoxVerticesCoordinates[4] = new Vector3(.5f, 3, 1);
+            m_BoxVerticesCoordinates[5] = new Vector3(.5f, 7, 1);
+            m_BoxVerticesCoordinates[6] = new Vector3(-.5f, 7, 1);
+            m_BoxVerticesCoordinates[7] = new Vector3(-.5f, 3, 1);
 
             m_BoxFrontVertices[0] = new VertexPositionColor(m_BoxVerticesCoordinates[0], r_BoxColor);
             m_BoxFrontVertices[1] = new VertexPositionColor(m_BoxVerticesCoordinates[1], r_BoxColor);
@@ -212,14 +215,16 @@ namespace DreidelGame
             m_VerticesCoordinates[6] = new Vector3(0, 7, k_ZFactor);
             m_VerticesCoordinates[7] = new Vector3(0, 0, k_ZFactor);*/
 
-            m_VerticesCoordinates[0] = new Vector3(-3, -3, 0);
-            m_VerticesCoordinates[1] = new Vector3(-3, 3, 0);
-            m_VerticesCoordinates[2] = new Vector3(3, 3, 0);
-            m_VerticesCoordinates[3] = new Vector3(3, -3, 0);
-            m_VerticesCoordinates[4] = new Vector3(3, -3, k_ZFactor);
-            m_VerticesCoordinates[5] = new Vector3(3, 3, k_ZFactor);
-            m_VerticesCoordinates[6] = new Vector3(-3, 3, k_ZFactor);
-            m_VerticesCoordinates[7] = new Vector3(-3, -3, k_ZFactor);
+            // TODO: Change to constants
+
+            m_VerticesCoordinates[0] = new Vector3(-3, -3, k_ZFactorCoordinate);
+            m_VerticesCoordinates[1] = new Vector3(-3, 3, k_ZFactorCoordinate);
+            m_VerticesCoordinates[2] = new Vector3(3, 3, k_ZFactorCoordinate);
+            m_VerticesCoordinates[3] = new Vector3(3, -3, k_ZFactorCoordinate);
+            m_VerticesCoordinates[4] = new Vector3(3, -3, k_ZFactorCoordinate - k_ZFactorWidth);
+            m_VerticesCoordinates[5] = new Vector3(3, 3, k_ZFactorCoordinate - k_ZFactorWidth);
+            m_VerticesCoordinates[6] = new Vector3(-3, 3, k_ZFactorCoordinate - k_ZFactorWidth);
+            m_VerticesCoordinates[7] = new Vector3(-3, -3, k_ZFactorCoordinate - k_ZFactorWidth);
 
             m_Vertices = new VertexPositionColor[8];
             int count = 0;
@@ -263,7 +268,9 @@ namespace DreidelGame
 
         private void    createPiramid()
         {
-            m_PiramidHead = new Vector3(0, -6, k_ZFactor / 2);
+            // TODO: Change to constants
+
+            m_PiramidHead = new Vector3(0, -6, 0);
             m_PiramidVertices = new VertexPositionColor[12];
 
             m_PiramidVertices[0] = new VertexPositionColor(m_VerticesCoordinates[0], r_BoxColor);
