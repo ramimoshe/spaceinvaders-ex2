@@ -20,6 +20,8 @@ namespace DreidelGame
     {
         GraphicsDeviceManager graphics;
         InputManager m_InputManager;
+        private Cube m_Cube;
+        private CubeTexture m_CubeTexture;
 
         // TODO: Remove
 
@@ -32,7 +34,7 @@ namespace DreidelGame
         //SpriteBatch spriteBatch;
 
         // TODO: Remove
-
+        
         private const float k_ZFactorWidth = 7;
         private const float k_ZFactorCoordinate = 3.5f;
 
@@ -90,7 +92,7 @@ namespace DreidelGame
 
             this.Components.Add(m_InputManager);
 
-            //Cube c = new Cube(this);
+            //m_Cube = new Cube(this);
         }
 
         // TODO: Remove
@@ -103,7 +105,7 @@ namespace DreidelGame
         /// </summary>
         protected override void Initialize()
         {
-            float k_NearPlaneDistance = 0.5f;
+        /*    float k_NearPlaneDistance = 0.5f;
             float k_FarPlaneDistance = 1000.0f;
             float k_ViewAngle = MathHelper.PiOver4;
 
@@ -123,26 +125,31 @@ namespace DreidelGame
 
             // we are storing the point-of-view data in a matrix:
             m_PointOfView = Matrix.CreateLookAt(
-                pointOfViewPosition, targetPosition, pointOfViewUpDirection);
+                pointOfViewPosition, targetPosition, pointOfViewUpDirection);*/
+            // TODO: Check if it's ok in here
+
+            graphics.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
+
+            m_Cube = new Cube(graphics.GraphicsDevice);
+            m_CubeTexture = new CubeTexture(graphics.GraphicsDevice);
             base.Initialize();
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
-        protected override void LoadContent()
+        private void    vertexColorCreate()
         {
             // we are working with the out-of-the box shader that comes with XNA:
-            /*m_BasicEffect = new BasicEffect(this.GraphicsDevice, null);
+            m_BasicEffect = new BasicEffect(this.GraphicsDevice, null);
             m_BasicEffect.View = m_PointOfView;
             m_BasicEffect.Projection = m_ProjectionFieldOfView;
             m_BasicEffect.VertexColorEnabled = true;
 
             // we are working with colored vertices
             this.GraphicsDevice.VertexDeclaration = new VertexDeclaration(
-                this.GraphicsDevice, VertexPositionColor.VertexElements);*/
+                this.GraphicsDevice, VertexPositionColor.VertexElements);
+        }
 
+        private void    vertexTextureCreate()
+        {
             m_Texture = Content.Load<Texture2D>(@"Sprites\Dreidel");
 
             // we are working with the out-of-the box shader that comes with XNA:
@@ -160,17 +167,34 @@ namespace DreidelGame
             // we are working with textured vertices
             this.GraphicsDevice.VertexDeclaration = new VertexDeclaration(
                 this.GraphicsDevice, VertexPositionTexture.VertexElements);
+        }
+
+        /// <summary>
+        /// LoadContent will be called once per game and is the place to load
+        /// all of your content.
+        /// </summary>
+        protected override void LoadContent()
+        {
+            m_Cube.LoadGraphicContent();
+            m_CubeTexture.LoadGraphicContent(Content);
+            //vertexTextureCreate();
+            //vertexColorCreate();
+            
+            // TODO: Check where to put the cull mode
 
             // we did not use certain clockwise ordering in our vertex buffer
             // and we don't want antthing to be culled away..
-            this.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
+            //this.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
             
-            createCubeVerticesTexture();
+            /*createCubeVerticesTexture();
             createBoxVertices();
-            createPiramid();
+            createPiramid();*/
+           // base.LoadContent();
+
+            //m_Cube.GraphicDevice = graphics.GraphicsDevice;
         }
 
-        private void    createCubeVerticesTexture()
+     /*   private void    createCubeVerticesTexture()
         {           
             createCubeCoordinates();
 
@@ -199,22 +223,7 @@ namespace DreidelGame
             m_LeftSideVerticesTexture[0] = new VertexPositionTexture(m_VerticesCoordinates[7], new Vector2(.5f, .5f));
             m_LeftSideVerticesTexture[1] = new VertexPositionTexture(m_VerticesCoordinates[6], new Vector2(.5f, 0));
             m_LeftSideVerticesTexture[2] = new VertexPositionTexture(m_VerticesCoordinates[1], new Vector2(1, 0));
-            m_LeftSideVerticesTexture[3] = new VertexPositionTexture(m_VerticesCoordinates[0], new Vector2(1, .5f));
-
-            /*m_BackVerticesTexture[0] = new VertexPositionTexture(m_VerticesCoordinates[4], new Vector2(0, 1));
-            m_BackVerticesTexture[1] = new VertexPositionTexture(m_VerticesCoordinates[5], new Vector2(0, 0));
-            m_BackVerticesTexture[2] = new VertexPositionTexture(m_VerticesCoordinates[6], new Vector2(1, 0));
-            m_BackVerticesTexture[3] = new VertexPositionTexture(m_VerticesCoordinates[7], new Vector2(1, 1));
-
-            m_RightSideVerticesTexture[0] = new VertexPositionTexture(m_VerticesCoordinates[3], new Vector2(0, 1));
-            m_RightSideVerticesTexture[1] = new VertexPositionTexture(m_VerticesCoordinates[2], new Vector2(0, 0));
-            m_RightSideVerticesTexture[2] = new VertexPositionTexture(m_VerticesCoordinates[5], new Vector2(1, 0));
-            m_RightSideVerticesTexture[3] = new VertexPositionTexture(m_VerticesCoordinates[4], new Vector2(1, 1));
-
-            m_LeftSideVerticesTexture[0] = new VertexPositionTexture(m_VerticesCoordinates[7], new Vector2(0, 1));
-            m_LeftSideVerticesTexture[1] = new VertexPositionTexture(m_VerticesCoordinates[6], new Vector2(0, 0));
-            m_LeftSideVerticesTexture[2] = new VertexPositionTexture(m_VerticesCoordinates[1], new Vector2(1, 0));
-            m_LeftSideVerticesTexture[3] = new VertexPositionTexture(m_VerticesCoordinates[0], new Vector2(1, 1));*/
+            m_LeftSideVerticesTexture[3] = new VertexPositionTexture(m_VerticesCoordinates[0], new Vector2(1, .5f));       
 
             m_UpVertices[0] = new VertexPositionColor(m_VerticesCoordinates[1], r_UpDownColor);
             m_UpVertices[1] = new VertexPositionColor(m_VerticesCoordinates[6], r_UpDownColor);
@@ -300,16 +309,7 @@ namespace DreidelGame
             m_LeftSideVertices = new VertexPositionColor[4];
             m_RightSideVertices = new VertexPositionColor[4];
             m_UpVertices = new VertexPositionColor[4];
-            m_DownVertices = new VertexPositionColor[4];            
-
-            /*m_VerticesCoordinates[0] = new Vector3(0, 0, 0);
-            m_VerticesCoordinates[1] = new Vector3(0, 7, 0);
-            m_VerticesCoordinates[2] = new Vector3(7, 7, 0);
-            m_VerticesCoordinates[3] = new Vector3(7, 0, 0);
-            m_VerticesCoordinates[4] = new Vector3(7, 0, k_ZFactor);
-            m_VerticesCoordinates[5] = new Vector3(7, 7, k_ZFactor);
-            m_VerticesCoordinates[6] = new Vector3(0, 7, k_ZFactor);
-            m_VerticesCoordinates[7] = new Vector3(0, 0, k_ZFactor);*/
+            m_DownVertices = new VertexPositionColor[4];                    
 
             createCubeCoordinates();
 
@@ -341,17 +341,7 @@ namespace DreidelGame
             m_LeftSideVertices[0] = new VertexPositionColor(m_VerticesCoordinates[7], r_LeftColor);
             m_LeftSideVertices[1] = new VertexPositionColor(m_VerticesCoordinates[6], r_LeftColor);
             m_LeftSideVertices[2] = new VertexPositionColor(m_VerticesCoordinates[1], r_LeftColor);
-            m_LeftSideVertices[3] = new VertexPositionColor(m_VerticesCoordinates[0], r_LeftColor);
-
-          /*  m_UpVertices[0] = new VertexPositionColor(m_VerticesCoordinates[1], r_UpDownColor);
-            m_UpVertices[1] = new VertexPositionColor(m_VerticesCoordinates[6], r_UpDownColor);
-            m_UpVertices[2] = new VertexPositionColor(m_VerticesCoordinates[5], r_UpDownColor);
-            m_UpVertices[3] = new VertexPositionColor(m_VerticesCoordinates[2], r_UpDownColor);
-
-            m_DownVertices[0] = new VertexPositionColor(m_VerticesCoordinates[3], r_UpDownColor);
-            m_DownVertices[1] = new VertexPositionColor(m_VerticesCoordinates[4], r_UpDownColor);
-            m_DownVertices[2] = new VertexPositionColor(m_VerticesCoordinates[7], r_UpDownColor);
-            m_DownVertices[3] = new VertexPositionColor(m_VerticesCoordinates[0], r_UpDownColor);*/
+            m_LeftSideVertices[3] = new VertexPositionColor(m_VerticesCoordinates[0], r_LeftColor);          
         }
 
         private void    createPiramid()
@@ -376,24 +366,21 @@ namespace DreidelGame
             m_PiramidVertices[9] = new VertexPositionColor(m_VerticesCoordinates[7], r_BoxColor);
             m_PiramidVertices[10] = new VertexPositionColor(m_VerticesCoordinates[0], r_BoxColor);
             m_PiramidVertices[11] = new VertexPositionColor(m_PiramidHead, r_BoxColor);
-        }
+        }*/
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
         /// </summary>
-     /*   protected override void UnloadContent()
+        protected override void UnloadContent()
         {
-            if (m_BasicEffect != null)
-            {
-                m_BasicEffect.Dispose();
-                m_BasicEffect = null;
-            }
-        }*/
+            m_Cube.UnloadContent();
+            m_CubeTexture.UnloadContent();
+        }
 
         // TODO: Remove
 
-        private void    checkMoveDirection()
+     /*   private void    checkMoveDirection()
         {
             if (m_InputManager.KeyPressed(Keys.Right))
             {
@@ -423,7 +410,7 @@ namespace DreidelGame
                 m_UpPressed = false;
                 m_DownPressed = true;
             }            
-        }
+        }*/
 
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -431,6 +418,12 @@ namespace DreidelGame
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
+        {
+            m_Cube.Update(gameTime);
+            m_CubeTexture.Update(gameTime);
+            base.Update(gameTime);
+        }
+     /*   protected override void Update(GameTime gameTime)
         {
 
             checkMoveDirection();
@@ -457,19 +450,19 @@ namespace DreidelGame
             BuildWorldMatrix();
 
             base.Update(gameTime);
-        }
+        }*/
 
-        private void BuildWorldMatrix()
-        {
-            m_WorldMatrix =
-                /*I*/ Matrix.Identity *
-                /*S*/ Matrix.CreateScale(m_Scales) *
-                /*R*/ Matrix.CreateRotationX(m_Rotations.X) *
-                        Matrix.CreateRotationY(m_Rotations.Y) *
-                        Matrix.CreateRotationZ(m_Rotations.Z) *                        
+//        private void BuildWorldMatrix()
+//        {
+//            m_WorldMatrix =
+//                /*I*/ Matrix.Identity *
+//                /*S*/ Matrix.CreateScale(m_Scales) *
+//                /*R*/ Matrix.CreateRotationX(m_Rotations.X) *
+//                        Matrix.CreateRotationY(m_Rotations.Y) *
+//                        Matrix.CreateRotationZ(m_Rotations.Z) *                        
                 /* No Orbit */
-                /*T*/ Matrix.CreateTranslation(m_Position);
-        }      
+//                /*T*/ Matrix.CreateTranslation(m_Position);
+//        }      
 
         // TODO: Remove
 
@@ -478,6 +471,15 @@ namespace DreidelGame
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
+        {
+            graphics.GraphicsDevice.Clear(Color.White);
+
+            //m_Cube.Draw(gameTime);
+            m_CubeTexture.Draw(gameTime);
+            base.Draw(gameTime);
+        }
+
+       /* protected override void Draw(GameTime gameTime)
         {
             graphics.GraphicsDevice.Clear(Color.White);
 
@@ -499,9 +501,9 @@ namespace DreidelGame
             m_BasicEffect.End();
 
             base.Draw(gameTime);
-        }
+        }*/
 
-        private void    drawCubeTexture()
+   /*     private void    drawCubeTexture()
         {
             this.GraphicsDevice.DrawUserPrimitives<VertexPositionTexture>(
                     PrimitiveType.TriangleFan, m_FrontVerticesTexture, 0, 2);
@@ -571,6 +573,6 @@ namespace DreidelGame
         {
             this.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
                 PrimitiveType.TriangleList, m_PiramidVertices, 0, 4);
-        }
+        }*/
     }
 }
