@@ -15,8 +15,8 @@ namespace DreidelGame.ObjectModel
     public class CubeTexture : CompositeGameComponent
     {
         private Vector3[] m_VerticesCoordinates = new Vector3[8];
-        private const float k_ZFactorWidth = 7;
-        private const float k_ZFactorCoordinate = 3.5f;     
+        private const float k_ZFactorWidth = 6;
+        private const float k_ZFactorCoordinate = 3f;     
         private readonly Color r_UpDownColor = Color.BurlyWood;
 
         private const int k_ZFactor = 8;

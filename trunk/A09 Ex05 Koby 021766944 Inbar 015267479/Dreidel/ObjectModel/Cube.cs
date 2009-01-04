@@ -9,8 +9,8 @@ namespace DreidelGame.ObjectModel
     public class Cube : CompositeGameComponent
     {        
         private Vector3[] m_VerticesCoordinates = new Vector3[8];
-        private const float k_ZFactorWidth = 7;
-        private const float k_ZFactorCoordinate = 3.5f;
+        private const float k_ZFactorWidth = 6;
+        private const float k_ZFactorCoordinate = 3f;
         private readonly Color r_BoxColor = Color.BurlyWood;
         private readonly Color r_FrontColor = Color.Yellow;
         private readonly Color r_BackColor = Color.Red;
