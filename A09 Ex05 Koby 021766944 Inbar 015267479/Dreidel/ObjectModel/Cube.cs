@@ -18,6 +18,12 @@ namespace DreidelGame.ObjectModel
         private readonly Color r_RightColor = Color.Blue;
         private readonly Color r_UpDownColor = Color.BurlyWood;
 
+        private Vector3[] m_NLetterCoordinates;
+        private VertexPositionColor[] m_NLetterCoordinates1;
+        private VertexPositionColor[] m_NLetterCoordinates2;
+        private VertexPositionColor[] m_NLetterCoordinates3;
+        private VertexPositionColor[] m_NLetterCoordinates4;
+
         public Cube(Game i_Game)
             : base (i_Game)
         {
@@ -33,6 +39,10 @@ namespace DreidelGame.ObjectModel
             m_VerticesCoordinates[5] = new Vector3(3, 3, k_ZFactorCoordinate - k_ZFactorWidth);
             m_VerticesCoordinates[6] = new Vector3(-3, 3, k_ZFactorCoordinate - k_ZFactorWidth);
             m_VerticesCoordinates[7] = new Vector3(-3, -3, k_ZFactorCoordinate - k_ZFactorWidth);
+
+            // TODO: Change
+            initLettersCoordinates();
+            
 
             Add(new Side<VertexPositionColor>(
                             Game, 
@@ -91,6 +101,46 @@ namespace DreidelGame.ObjectModel
             base.Initialize();
         }
 
+        private void initLettersCoordinates()
+        {
+            m_NLetterCoordinates = new Vector3[10];
+            m_NLetterCoordinates1 = new VertexPositionColor[5];
+            m_NLetterCoordinates2 = new VertexPositionColor[4];
+            m_NLetterCoordinates3 = new VertexPositionColor[3];
+            m_NLetterCoordinates4 = new VertexPositionColor[4];
+
+            m_NLetterCoordinates[0] = new Vector3(-2, -2.5f, k_ZFactorCoordinate + .01f);
+            m_NLetterCoordinates[1] = new Vector3(-2, -1.5f, k_ZFactorCoordinate + .01f);
+            m_NLetterCoordinates[2] = new Vector3(1, -1.5f, k_ZFactorCoordinate + .01f);
+            m_NLetterCoordinates[3] = new Vector3(2, -1.5f, k_ZFactorCoordinate + .01f);
+            m_NLetterCoordinates[4] = new Vector3(2, -2.5f, k_ZFactorCoordinate + .01f);
+            m_NLetterCoordinates[5] = new Vector3(1, 1.5f, k_ZFactorCoordinate + .01f);
+            m_NLetterCoordinates[6] = new Vector3(1, 2.5f, k_ZFactorCoordinate + .01f);
+            m_NLetterCoordinates[7] = new Vector3(2, 2.5f, k_ZFactorCoordinate + .01f);
+            m_NLetterCoordinates[8] = new Vector3(0, 2.5f, k_ZFactorCoordinate + .01f);
+            m_NLetterCoordinates[9] = new Vector3(0, 1.5f, k_ZFactorCoordinate + .01f);
+
+            m_NLetterCoordinates1[0] = new VertexPositionColor(m_NLetterCoordinates[0], Color.Black);
+            m_NLetterCoordinates1[1] = new VertexPositionColor(m_NLetterCoordinates[1], Color.Black);
+            m_NLetterCoordinates1[2] = new VertexPositionColor(m_NLetterCoordinates[2], Color.Black);
+            m_NLetterCoordinates1[3] = new VertexPositionColor(m_NLetterCoordinates[3], Color.Black);
+            m_NLetterCoordinates1[4] = new VertexPositionColor(m_NLetterCoordinates[4], Color.Black);
+
+            m_NLetterCoordinates2[0] = new VertexPositionColor(m_NLetterCoordinates[2], Color.Black);
+            m_NLetterCoordinates2[1] = new VertexPositionColor(m_NLetterCoordinates[5], Color.Black);
+            m_NLetterCoordinates2[2] = new VertexPositionColor(m_NLetterCoordinates[7], Color.Black);
+            m_NLetterCoordinates2[3] = new VertexPositionColor(m_NLetterCoordinates[4], Color.Black);
+
+            m_NLetterCoordinates3[0] = new VertexPositionColor(m_NLetterCoordinates[5], Color.Black);
+            m_NLetterCoordinates3[1] = new VertexPositionColor(m_NLetterCoordinates[6], Color.Black);
+            m_NLetterCoordinates3[2] = new VertexPositionColor(m_NLetterCoordinates[7], Color.Black);
+
+            m_NLetterCoordinates4[0] = new VertexPositionColor(m_NLetterCoordinates[9], Color.Black);
+            m_NLetterCoordinates4[1] = new VertexPositionColor(m_NLetterCoordinates[8], Color.Black);
+            m_NLetterCoordinates4[2] = new VertexPositionColor(m_NLetterCoordinates[6], Color.Black);
+            m_NLetterCoordinates4[3] = new VertexPositionColor(m_NLetterCoordinates[5], Color.Black);
+        }
+
         public override void Update(GameTime gameTime)
         {
             m_Rotations.Y += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -117,6 +167,18 @@ namespace DreidelGame.ObjectModel
                 GraphicsDevice, VertexPositionColor.VertexElements);
 
             base.Draw(gameTime);
+
+            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
+                  PrimitiveType.TriangleFan, m_NLetterCoordinates1, 0, 3);
+
+            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
+                  PrimitiveType.TriangleFan, m_NLetterCoordinates2, 0, 2);
+
+            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
+                  PrimitiveType.TriangleFan, m_NLetterCoordinates3, 0, 1);
+
+            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
+                  PrimitiveType.TriangleFan, m_NLetterCoordinates4, 0, 2);
         }
     }
 }
