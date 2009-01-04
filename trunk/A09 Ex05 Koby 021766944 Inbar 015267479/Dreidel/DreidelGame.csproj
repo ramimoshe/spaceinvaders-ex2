@@ -56,6 +56,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ObjectModel\BaseDrawableComponent.cs" />
+    <Compile Include="ObjectModel\Box.cs" />
+    <Compile Include="ObjectModel\Dreidel.cs" />
+    <Compile Include="ObjectModel\Pyramid.cs" />
     <Compile Include="ObjectModel\CompositeGameComponent.cs" />
     <Compile Include="ObjectModel\Cube.cs" />
     <Compile Include="ObjectModel\CubeTexture.cs" />
