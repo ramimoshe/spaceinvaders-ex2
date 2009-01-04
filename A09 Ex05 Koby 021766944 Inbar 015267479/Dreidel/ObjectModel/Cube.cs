@@ -42,10 +42,10 @@ namespace DreidelGame.ObjectModel
 
             // TODO: Change
             initLettersCoordinates();
-            
 
             Add(new Side<VertexPositionColor>(
-                            Game, 
+                            Game,
+                            VertexPositionColor.VertexElements,
                             2, 
                             new VertexPositionColor(m_VerticesCoordinates[0], r_FrontColor),
                             new VertexPositionColor(m_VerticesCoordinates[1], r_FrontColor),
@@ -54,7 +54,8 @@ namespace DreidelGame.ObjectModel
                             ));
 
             Add(new Side<VertexPositionColor>(
-                            Game, 
+                            Game,
+                            VertexPositionColor.VertexElements,
                             2, 
                             new VertexPositionColor(m_VerticesCoordinates[4], r_BackColor),
                             new VertexPositionColor(m_VerticesCoordinates[5], r_BackColor),
@@ -63,8 +64,9 @@ namespace DreidelGame.ObjectModel
                             ));
 
             Add(new Side<VertexPositionColor>(
-                            Game, 
-                            2,                             
+                            Game,
+                            VertexPositionColor.VertexElements,
+                            2, 
                             new VertexPositionColor(m_VerticesCoordinates[3], r_RightColor),
                             new VertexPositionColor(m_VerticesCoordinates[2], r_RightColor),
                             new VertexPositionColor(m_VerticesCoordinates[5], r_RightColor),
@@ -72,8 +74,9 @@ namespace DreidelGame.ObjectModel
                             ));
 
             Add(new Side<VertexPositionColor>(
-                            Game, 
-                            2,   
+                            Game,
+                            VertexPositionColor.VertexElements,
+                            2,
                             new VertexPositionColor(m_VerticesCoordinates[7], r_LeftColor),
                             new VertexPositionColor(m_VerticesCoordinates[6], r_LeftColor),
                             new VertexPositionColor(m_VerticesCoordinates[1], r_LeftColor),
@@ -82,6 +85,7 @@ namespace DreidelGame.ObjectModel
 
             Add(new Side<VertexPositionColor>(
                             Game,
+                            VertexPositionColor.VertexElements,
                             2,
                             new VertexPositionColor(m_VerticesCoordinates[1], r_UpDownColor),
                             new VertexPositionColor(m_VerticesCoordinates[6], r_UpDownColor),
@@ -91,6 +95,7 @@ namespace DreidelGame.ObjectModel
 
             Add(new Side<VertexPositionColor>(
                             Game,
+                            VertexPositionColor.VertexElements,
                             2,
                             new VertexPositionColor(m_VerticesCoordinates[3], r_UpDownColor),
                             new VertexPositionColor(m_VerticesCoordinates[4], r_UpDownColor),
@@ -141,20 +146,6 @@ namespace DreidelGame.ObjectModel
             m_NLetterCoordinates4[3] = new VertexPositionColor(m_NLetterCoordinates[5], Color.Black);
         }
 
-        public override void Update(GameTime gameTime)
-        {
-            m_Rotations.Y += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            m_WorldMatrix =
-                /*I*/ Matrix.Identity *
-                /*S*/ Matrix.CreateScale(m_Scales) *
-                /*R*/ Matrix.CreateRotationX(m_Rotations.X) *
-                        Matrix.CreateRotationY(m_Rotations.Y) *
-                        Matrix.CreateRotationZ(m_Rotations.Z) *
-                /* No Orbit */
-                /*T*/ Matrix.CreateTranslation(m_Position);
-        }
-
         /// <summary>
         /// This is called when the game should draw itself.
         /// The component change the GraphicsDevice so that it can draw VertexPositionColor.
@@ -162,10 +153,6 @@ namespace DreidelGame.ObjectModel
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Draw(GameTime gameTime)
         {
-            // we are working with textured vertices
-            GraphicsDevice.VertexDeclaration = new VertexDeclaration(
-                GraphicsDevice, VertexPositionColor.VertexElements);
-
             base.Draw(gameTime);
 
             GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(

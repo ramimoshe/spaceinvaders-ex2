@@ -95,7 +95,7 @@ namespace DreidelGame
 
             this.Components.Add(m_InputManager);
 
-            m_Cube = new Cube(this);
+            Dreidel d = new Dreidel(this);
             //m_CubeTexture = new CubeTexture(this);
         }
 
