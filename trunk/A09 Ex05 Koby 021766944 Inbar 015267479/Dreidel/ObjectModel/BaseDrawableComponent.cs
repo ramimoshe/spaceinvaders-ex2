@@ -13,6 +13,46 @@ namespace DreidelGame.ObjectModel
         protected Vector3 m_Scales = Vector3.One;
         protected Matrix m_WorldMatrix = Matrix.Identity;
         protected VertexElement[] m_VertexElements = null;
+
+        protected float m_RotationsPerSecond = 0;
+
+        public float RotationsPerSecond
+        {
+            get
+            {
+                return m_RotationsPerSecond;
+            }
+
+            set
+            {
+                m_RotationsPerSecond = value;
+            }
+        }
+
+        public Vector3 Position
+        {
+            get
+            {
+                return m_Position;
+            }
+            set
+            {
+                m_Position= value;
+            }
+        }
+
+        public Vector3 Scales
+        {
+            get
+            {
+                return m_Scales;
+            }
+
+            set
+            {
+                m_Scales = value;
+            }
+        }
         
         private bool m_SharedGraphicsDevice = false;
 
@@ -20,7 +60,7 @@ namespace DreidelGame.ObjectModel
         private Matrix m_ProjectionFieldOfView;
         private Matrix m_PointOfView;
 
-        public BasicEffect Effect
+        public BasicEffect BasicEffect
         {
             get
             {
@@ -62,7 +102,7 @@ namespace DreidelGame.ObjectModel
             // we want to shoot the center of the world:
             Vector3 targetPosition = Vector3.Zero;
             // we are standing 50 units in front of our target:
-            Vector3 pointOfViewPosition = new Vector3(0, 0, 50);
+            Vector3 pointOfViewPosition = new Vector3(0, 0, 70);
             // we are not standing on our head:
             Vector3 pointOfViewUpDirection = new Vector3(0, 1, 0);
 
@@ -85,7 +125,7 @@ namespace DreidelGame.ObjectModel
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            m_Rotations.Y += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            m_Rotations.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * m_RotationsPerSecond;
 
             m_WorldMatrix =
                 /*I*/ Matrix.Identity *
