@@ -26,6 +26,11 @@ namespace DreidelGame.ObjectModel
             {
                 m_Drawables.Add(i_Drawable);
                 i_Drawable.SharedGraphicsDevice = true;
+
+                if (Game.Components.IndexOf(i_Drawable) >= 0)
+                {
+                    Game.Components.Remove(i_Drawable);
+                }
             }
         }
 

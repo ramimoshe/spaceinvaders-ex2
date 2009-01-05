@@ -112,7 +112,7 @@ namespace DreidelGame.ObjectModel
         {           
             m_Texture = Game.Content.Load<Texture2D>(@"Sprites\Dreidel");
 
-            BasicEffect effect = this.Effect;
+            BasicEffect effect = this.BasicEffect;
 
             effect.Texture = m_Texture;
             effect.TextureEnabled = true;
@@ -120,7 +120,7 @@ namespace DreidelGame.ObjectModel
             // TODO: Check if needed
             effect.VertexColorEnabled = false;
 
-            this.Effect = effect;
+            this.BasicEffect = effect;
         }
     }
 }

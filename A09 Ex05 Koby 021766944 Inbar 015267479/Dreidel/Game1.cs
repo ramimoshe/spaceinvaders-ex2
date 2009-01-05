@@ -93,10 +93,14 @@ namespace DreidelGame
             Content.RootDirectory = "Content";
             m_InputManager = new InputManager(this);
 
-            this.Components.Add(m_InputManager);
+            this.Services.AddService(typeof(InputManager), m_InputManager);
+            Random r = new Random();
 
-            Dreidel d = new Dreidel(this);
-            //m_CubeTexture = new CubeTexture(this);
+            for (int i = 1; i <= 5; ++i)
+            {
+                double spinTime = 3 + r.NextDouble() + r.Next(6);
+                Dreidel d = new Dreidel(this, TimeSpan.FromSeconds(spinTime));
+            }
         }
 
         // TODO: Remove
