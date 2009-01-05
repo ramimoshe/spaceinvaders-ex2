@@ -260,7 +260,7 @@ namespace DreidelGame.ObjectModel
 
             m_PLetterCoordinates[0] = new Vector3(3 + .01f, -2.5f, k_ZFactorCoordinate - 1);
             m_PLetterCoordinates[1] = new Vector3(3 + .01f, -1.5f, k_ZFactorCoordinate - 1);
-            m_PLetterCoordinates[2] = new Vector3(3 + .01f, -1.5f, k_ZFactorCoordinate - 1);
+            m_PLetterCoordinates[2] = new Vector3(3 + .01f, -1.5f, k_ZFactorCoordinate - 2);
             m_PLetterCoordinates[3] = new Vector3(3 + .01f, -2.5f, k_ZFactorCoordinate - 2);
             m_PLetterCoordinates[4] = new Vector3(3 + .01f, -1.5f, -k_ZFactorCoordinate + 2);
             m_PLetterCoordinates[5] = new Vector3(3 + .01f, -1.5f, -k_ZFactorCoordinate + 1);
