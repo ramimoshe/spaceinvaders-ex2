@@ -61,7 +61,7 @@ namespace DreidelGame.ObjectModel
             Scales = Vector3.One * (float)(0.5 + m_Rand.Next(12) + m_Rand.NextDouble());
             SpinComponent = false;
             m_CurrSide = k_DefaultDreidelSide;
-            Reset();
+            reset();
         }
 
         /// <summary>
