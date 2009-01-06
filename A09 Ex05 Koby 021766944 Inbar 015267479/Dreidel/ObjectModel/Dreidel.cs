@@ -21,9 +21,9 @@ namespace DreidelGame.ObjectModel
             Add(new Cube(i_Game));
             Add(new Pyramid(i_Game));
 
-            RotationsPerSecond = (float)m_Rand.NextDouble() + m_Rand.Next(5, 20);
+            RotationsPerSecond = MathHelper.TwoPi * (float)m_Rand.NextDouble() + m_Rand.Next(1, 8);
             m_StartRotationsPerSecond = RotationsPerSecond;
-            Scales = Vector3.One * (float)(0.5 + m_Rand.NextDouble());
+            Scales = Vector3.One * (float)(m_Rand.Next(20) + m_Rand.NextDouble());
             m_SpinTime = i_SpinTime;
         }
 
@@ -31,9 +31,9 @@ namespace DreidelGame.ObjectModel
         {
             base.AfterLoadContent();
             Position = new Vector3(
-                ((-1) + (m_Rand.Next(2)) * 2) * (float)m_Rand.Next(1, 15),
-                ((-1) + (m_Rand.Next(2)) * 2) * (float)m_Rand.Next(1, 15),
-                ((-1) + (m_Rand.Next(2)) * 2) * (float)m_Rand.Next(1, 10));
+                ((-1) + (m_Rand.Next(2)) * 2) * (float)m_Rand.Next(1, 300),
+                ((-1) + (m_Rand.Next(2)) * 2) * (float)m_Rand.Next(1, 200),
+                ((-1) + (m_Rand.Next(2)) * 2) * (float)m_Rand.Next(1, 20));
         }
 
         private float rotationDegregationPerSecond
@@ -44,16 +44,38 @@ namespace DreidelGame.ObjectModel
             }
         }
 
+        private bool m_IsAlligning = false;
+        private bool m_IsFinished = false;
+        private float m_TargetRotation = -1;
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            RotationsPerSecond -= rotationDegregationPerSecond * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (RotationsPerSecond <= 0)
+            if (!m_IsAlligning && !m_IsFinished)
+            {
+                RotationsPerSecond -= rotationDegregationPerSecond * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+
+            int lastSide;
+
+            if (RotationsPerSecond <= 0 && !m_IsAlligning && !m_IsFinished)
             {
                 OnDreidelFinished();
-                m_StartRotationsPerSecond = 0;
-                Dispose();
+                m_TargetRotation = (float)Math.Ceiling(m_Rotations.Y / MathHelper.PiOver2);
+                lastSide = (int)m_TargetRotation % 4;
+                m_TargetRotation *= MathHelper.PiOver2;
+                m_IsAlligning = true;
+                RotationsPerSecond = (m_TargetRotation - m_Rotations.Y);
+
+            }
+
+            if (m_IsAlligning && m_Rotations.Y >= m_TargetRotation && !m_IsFinished)
+            {
+                m_IsFinished = true;
+                m_IsAlligning = false;
+                m_Rotations.Y = m_TargetRotation;
+                RotationsPerSecond = 0;
             }
         }
 

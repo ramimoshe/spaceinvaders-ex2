@@ -13,6 +13,7 @@ namespace DreidelGame.ObjectModel
         protected Vector3 m_Scales = Vector3.One;
         protected Matrix m_WorldMatrix = Matrix.Identity;
         protected VertexElement[] m_VertexElements = null;
+        private VertexDeclaration m_VertexDeclaration = null;
 
         protected float m_RotationsPerSecond = 0;
 
@@ -88,7 +89,14 @@ namespace DreidelGame.ObjectModel
         {
             base.LoadContent();
 
-            float k_NearPlaneDistance = 0.5f;
+            if (m_VertexElements != null)
+            {
+                m_VertexDeclaration = new VertexDeclaration(GraphicsDevice, m_VertexElements);
+            }
+
+            m_BasicEffect = (BasicEffect) Game.Services.GetService(typeof(BasicEffect));
+
+/*            float k_NearPlaneDistance = 0.5f;
             float k_FarPlaneDistance = 1000.0f;
             float k_ViewAngle = MathHelper.PiOver4;
 
@@ -114,7 +122,7 @@ namespace DreidelGame.ObjectModel
             m_BasicEffect.View = m_PointOfView;
             m_BasicEffect.Projection = m_ProjectionFieldOfView;
             m_BasicEffect.VertexColorEnabled = true;
-
+*/
             AfterLoadContent();
         }
 
@@ -158,7 +166,7 @@ namespace DreidelGame.ObjectModel
 
             if (m_VertexElements != null)
             {
-                GraphicsDevice.VertexDeclaration = new VertexDeclaration(GraphicsDevice, m_VertexElements);
+                GraphicsDevice.VertexDeclaration = m_VertexDeclaration;
             }
 
             if (SharedGraphicsDevice)
@@ -167,6 +175,8 @@ namespace DreidelGame.ObjectModel
             }
             else
             {
+                m_BasicEffect = (BasicEffect) Game.Services.GetService(typeof(BasicEffect));
+
                 m_BasicEffect.World = m_WorldMatrix;
 
                 m_BasicEffect.Begin();
