@@ -7,12 +7,52 @@ using Microsoft.Xna.Framework.Graphics;
 namespace DreidelGame.ObjectModel
 {
     public delegate void DreidelEventHandler(Dreidel i_Dreidel);
+
+    /// <summary>
+    /// An enum containing the available dreidel letters
+    /// </summary>
+    public enum eDreidelLetters
+    {
+        NLetter,
+        HLetter,
+        PLetter,
+        GLetter,
+        None
+    }
+
+    /// <summary>
+    /// Represents a dreidel in the game
+    /// </summary>
     public class Dreidel : CompositeGameComponent
     {
+        private const int k_DreidelSidesNum = 4;
+        private const int k_DefaultDreidelSide = 0;
+        private static eDreidelLetters[] s_DreidelLetters;
+
         public event DreidelEventHandler FinishedSpinning;
-        TimeSpan m_SpinTime;
-        float m_StartRotationsPerSecond;
-        static Random m_Rand = new Random();
+        private TimeSpan m_SpinTime;
+        private float m_StartRotationsPerSecond;
+        private bool m_IsAlligning = false;
+        private bool m_IsFinished = false;
+        private float m_TargetRotation = -1;
+        private int m_CurrSide;
+
+        private static Random m_Rand = new Random();
+
+        /// <summary>
+        /// Static ctor that creates the dreidel sides array
+        /// </summary>
+        static Dreidel()
+        {
+            s_DreidelLetters = new eDreidelLetters[k_DreidelSidesNum];
+
+            s_DreidelLetters[0] = eDreidelLetters.NLetter;
+            s_DreidelLetters[1] = eDreidelLetters.GLetter;
+            s_DreidelLetters[2] = eDreidelLetters.HLetter;
+            s_DreidelLetters[3] = eDreidelLetters.PLetter;
+        }
+
+        // TODO: Remove the spin parameter
 
         public Dreidel(Game i_Game, TimeSpan i_SpinTime)
             : base(i_Game)
@@ -25,6 +65,13 @@ namespace DreidelGame.ObjectModel
             m_StartRotationsPerSecond = RotationsPerSecond;
             Scales = Vector3.One * (float)(m_Rand.Next(20) + m_Rand.NextDouble());
             m_SpinTime = i_SpinTime;
+            SpinComponent = false;
+            m_CurrSide = k_DefaultDreidelSide;
+        }
+
+        public eDreidelLetters      DreidelFrontLetter
+        {
+            get { return s_DreidelLetters[m_CurrSide]; }
         }
 
         protected override void AfterLoadContent()
@@ -44,42 +91,47 @@ namespace DreidelGame.ObjectModel
             }
         }
 
-        private bool m_IsAlligning = false;
-        private bool m_IsFinished = false;
-        private float m_TargetRotation = -1;
-
-        public override void Update(GameTime gameTime)
+        /// <summary>
+        /// Start spinning the dreidel
+        /// </summary>
+        public void     SpinDreidel()
         {
+            SpinComponent = true;
+        }
+
+        public override void    Update(GameTime gameTime)
+        {            
             base.Update(gameTime);
 
-            if (!m_IsAlligning && !m_IsFinished)
+            if (SpinComponent)
             {
-                RotationsPerSecond -= rotationDegregationPerSecond * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
+                if (!m_IsAlligning && !m_IsFinished)
+                {
+                    RotationsPerSecond -= rotationDegregationPerSecond * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
 
-            int lastSide;
+                if (RotationsPerSecond <= 0 && !m_IsAlligning && !m_IsFinished)
+                {
+                    OnDreidelFinished();
+                    m_TargetRotation = (float)Math.Ceiling(m_Rotations.Y / MathHelper.PiOver2);
+                    m_CurrSide = (int)m_TargetRotation % 4;
+                    m_TargetRotation *= MathHelper.PiOver2;
+                    m_IsAlligning = true;
+                    RotationsPerSecond = (m_TargetRotation - m_Rotations.Y);
 
-            if (RotationsPerSecond <= 0 && !m_IsAlligning && !m_IsFinished)
-            {
-                OnDreidelFinished();
-                m_TargetRotation = (float)Math.Ceiling(m_Rotations.Y / MathHelper.PiOver2);
-                lastSide = (int)m_TargetRotation % 4;
-                m_TargetRotation *= MathHelper.PiOver2;
-                m_IsAlligning = true;
-                RotationsPerSecond = (m_TargetRotation - m_Rotations.Y);
+                }
 
-            }
-
-            if (m_IsAlligning && m_Rotations.Y >= m_TargetRotation && !m_IsFinished)
-            {
-                m_IsFinished = true;
-                m_IsAlligning = false;
-                m_Rotations.Y = m_TargetRotation;
-                RotationsPerSecond = 0;
+                if (m_IsAlligning && m_Rotations.Y >= m_TargetRotation && !m_IsFinished)
+                {
+                    m_IsFinished = true;
+                    m_IsAlligning = false;
+                    m_Rotations.Y = m_TargetRotation;
+                    RotationsPerSecond = 0;
+                }
             }
         }
 
-        public void OnDreidelFinished()
+        public void     OnDreidelFinished()
         {
             if (FinishedSpinning != null)
             {
