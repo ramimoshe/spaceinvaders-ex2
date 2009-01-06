@@ -55,7 +55,6 @@ namespace DreidelGame
             
             m_InputManager = new InputManager(this);           
             this.Services.AddService(typeof(InputManager), m_InputManager);
-            Random r = new Random();
 
             m_Dreidels = new Dreidel[k_DreidelsNum];
 
@@ -63,8 +62,7 @@ namespace DreidelGame
 
             for (int i = 1; i <= k_DreidelsNum; ++i)
             {
-                double spinTime = 3 + r.NextDouble() + r.Next(6);
-                m_Dreidels[i - 1] = new Dreidel(this, TimeSpan.FromSeconds(spinTime));
+                m_Dreidels[i - 1] = new Dreidel(this);
                 m_Dreidels[i - 1].FinishedSpinning += new DreidelEventHandler(dreidel_FinishedSpinning);
             }
 

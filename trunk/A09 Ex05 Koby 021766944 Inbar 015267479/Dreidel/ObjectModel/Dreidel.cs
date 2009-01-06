@@ -53,15 +53,14 @@ namespace DreidelGame.ObjectModel
 
         // TODO: Remove the spin parameter
 
-        public Dreidel(Game i_Game, TimeSpan i_SpinTime)
+        public Dreidel(Game i_Game)
             : base(i_Game)
         {
             Add(new Box(i_Game));
             Add(new Cube(i_Game));
             Add(new Pyramid(i_Game));
 
-            Scales = Vector3.One * (float)(m_Rand.Next(20) + m_Rand.NextDouble());
-            m_SpinTime = i_SpinTime;
+            Scales = Vector3.One * (float)(0.5 + m_Rand.Next(12) + m_Rand.NextDouble());
             SpinComponent = false;
             m_CurrSide = k_DefaultDreidelSide;
             Reset();
@@ -100,6 +99,7 @@ namespace DreidelGame.ObjectModel
 
         private void Reset()
         {
+            m_SpinTime = TimeSpan.FromSeconds(3 + m_Rand.NextDouble() + m_Rand.Next(6));
             m_IsAlligning = false;
             RotationsPerSecond = MathHelper.TwoPi * (float)m_Rand.NextDouble() + m_Rand.Next(1, 8);
             m_StartRotationsPerSecond = RotationsPerSecond;
