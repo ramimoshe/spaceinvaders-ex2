@@ -21,8 +21,6 @@ namespace DreidelGame.ObjectModel
 
         private const int k_ZFactor = 8;
 
-        private Texture2D m_Texture;
-
         public CubeTexture(Game i_Game) : base(i_Game)
         {
         }
@@ -108,19 +106,9 @@ namespace DreidelGame.ObjectModel
             base.Initialize();
         }
 
-        protected override void  AfterLoadContent()
+        protected override void  LoadContent()
         {           
-            m_Texture = Game.Content.Load<Texture2D>(@"Sprites\Dreidel");
-
-            BasicEffect effect = this.BasicEffect;
-
-            effect.Texture = m_Texture;
-            effect.TextureEnabled = true;
-
-            // TODO: Check if needed
-            effect.VertexColorEnabled = false;
-
-            this.BasicEffect = effect;
+            Texture = Game.Content.Load<Texture2D>(@"Sprites\Dreidel");
         }
     }
 }

@@ -3,33 +3,53 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using DreidelGame.Interfaces;
 
 namespace DreidelGame.ObjectModel
 {
     public abstract class BaseDrawableComponent : DrawableGameComponent
     {
         protected Vector3 m_Position = Vector3.Zero;
-        protected Vector3 m_Rotations = Vector3.Zero;
+        private Vector3 m_Rotations = Vector3.Zero;
         protected Vector3 m_Scales = Vector3.One;
         protected Matrix m_WorldMatrix = Matrix.Identity;
         protected VertexElement[] m_VertexElements = null;
         private VertexDeclaration m_VertexDeclaration = null;
+        private Texture2D m_Texture = null;
 
         protected float m_RotationsPerSecond = 0;
 
         private bool m_SpinComponent;
 
+        public virtual Vector3 Rotations
+        {
+            get
+            {
+                return m_Rotations;
+            }
+            set
+            {
+                m_Rotations = value;
+            }
+        }
+
         /// <summary>
         /// Mark if we want to spin the current component
         /// </summary>
-        protected bool      SpinComponent
+        public virtual bool SpinComponent
         {
-            get { return m_SpinComponent; }
+            get
+            {
+                return m_SpinComponent;
+            }
 
-            set { m_SpinComponent = value; }
+            set
+            {
+                m_SpinComponent = value;
+            }
         }
 
-        public float RotationsPerSecond
+        public virtual float RotationsPerSecond
         {
             get
             {
@@ -42,7 +62,7 @@ namespace DreidelGame.ObjectModel
             }
         }
 
-        public Vector3 Position
+        public virtual Vector3 Position
         {
             get
             {
@@ -50,11 +70,11 @@ namespace DreidelGame.ObjectModel
             }
             set
             {
-                m_Position= value;
+                m_Position = value;
             }
         }
 
-        public Vector3 Scales
+        public virtual Vector3 Scales
         {
             get
             {
@@ -66,21 +86,16 @@ namespace DreidelGame.ObjectModel
                 m_Scales = value;
             }
         }
-        
-        private bool m_SharedGraphicsDevice = false;
 
-        private BasicEffect m_BasicEffect;
-
-        public BasicEffect BasicEffect
+        public virtual Texture2D Texture
         {
             get
             {
-                return m_BasicEffect;
+                return m_Texture;
             }
-
             set
             {
-                m_BasicEffect = value;
+                m_Texture = value;
             }
         }
 
@@ -103,41 +118,6 @@ namespace DreidelGame.ObjectModel
             {
                 m_VertexDeclaration = new VertexDeclaration(GraphicsDevice, m_VertexElements);
             }
-
-            m_BasicEffect = (BasicEffect) Game.Services.GetService(typeof(BasicEffect));
-
-/*            float k_NearPlaneDistance = 0.5f;
-            float k_FarPlaneDistance = 1000.0f;
-            float k_ViewAngle = MathHelper.PiOver4;
-
-            // we are storing the field-of-view data in a matrix:
-            m_ProjectionFieldOfView = Matrix.CreatePerspectiveFieldOfView(
-                k_ViewAngle,
-                (float)GraphicsDevice.Viewport.Width / GraphicsDevice.Viewport.Height,
-                k_NearPlaneDistance,
-                k_FarPlaneDistance);
-
-            // we want to shoot the center of the world:
-            Vector3 targetPosition = Vector3.Zero;
-            // we are standing 50 units in front of our target:
-            Vector3 pointOfViewPosition = new Vector3(0, 0, 70);
-            // we are not standing on our head:
-            Vector3 pointOfViewUpDirection = new Vector3(0, 1, 0);
-
-            // we are storing the point-of-view data in a matrix:
-            m_PointOfView = Matrix.CreateLookAt(
-                pointOfViewPosition, targetPosition, pointOfViewUpDirection);
-
-            m_BasicEffect = new BasicEffect(GraphicsDevice, null);
-            m_BasicEffect.View = m_PointOfView;
-            m_BasicEffect.Projection = m_ProjectionFieldOfView;
-            m_BasicEffect.VertexColorEnabled = true;
-*/
-            AfterLoadContent();
-        }
-
-        protected virtual void AfterLoadContent()
-        {
         }
 
         public override void Update(GameTime gameTime)
@@ -159,19 +139,6 @@ namespace DreidelGame.ObjectModel
                 /*T*/ Matrix.CreateTranslation(m_Position);
         }
 
-        public bool SharedGraphicsDevice
-        {
-            get
-            {
-                return m_SharedGraphicsDevice;
-            }
-
-            set
-            {
-                m_SharedGraphicsDevice = value;
-            }
-        }
-
         public abstract void DoDraw(GameTime i_GameTime);
 
         public override void Draw(GameTime gameTime)
@@ -183,26 +150,36 @@ namespace DreidelGame.ObjectModel
                 GraphicsDevice.VertexDeclaration = m_VertexDeclaration;
             }
 
-            if (SharedGraphicsDevice)
+            BasicEffect effect = Game.Services.GetService(typeof(BasicEffect)) as BasicEffect;
+
+            if (effect == null)
             {
-                DoDraw(gameTime);
+                effect = new BasicEffect(GraphicsDevice, null);
+            }
+
+            effect.World = m_WorldMatrix;
+
+            if (Texture != null)
+            {
+                effect.Texture = Texture;
+                effect.TextureEnabled = true;
+                effect.VertexColorEnabled = false;
             }
             else
             {
-                m_BasicEffect = (BasicEffect) Game.Services.GetService(typeof(BasicEffect));
-
-                m_BasicEffect.World = m_WorldMatrix;
-
-                m_BasicEffect.Begin();
-                foreach (EffectPass pass in m_BasicEffect.CurrentTechnique.Passes)
-                {
-                    pass.Begin();
-                    DoDraw(gameTime);
-                    pass.End();
-                }
-
-                m_BasicEffect.End();
+                effect.TextureEnabled = false;
+                effect.VertexColorEnabled = true;
             }
+            
+            effect.Begin();
+            foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+            {
+                pass.Begin();
+                DoDraw(gameTime);
+                pass.End();
+            }
+
+            effect.End();
         }
     }
 }
