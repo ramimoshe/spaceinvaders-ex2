@@ -51,8 +51,6 @@ namespace DreidelGame.ObjectModel
             s_DreidelLetters[3] = eDreidelLetters.PLetter;
         }
 
-        // TODO: Remove the spin parameter
-
         public Dreidel(Game i_Game)
             : base(i_Game)
         {
@@ -66,12 +64,15 @@ namespace DreidelGame.ObjectModel
             Reset();
         }
 
+        /// <summary>
+        /// Gets the current letter that faces to the player position
+        /// </summary>
         public eDreidelLetters      DreidelFrontLetter
         {
             get { return s_DreidelLetters[m_CurrSide]; }
         }
 
-        protected override void AfterLoadContent()
+        protected override void     AfterLoadContent()
         {
             base.AfterLoadContent();
             Position = new Vector3(
@@ -80,7 +81,7 @@ namespace DreidelGame.ObjectModel
                 ((-1) + (m_Rand.Next(2)) * 2) * (float)m_Rand.Next(1, 20));
         }
 
-        private float rotationDiffPerSecond
+        private float   rotationDiffPerSecond
         {
             get
             {
@@ -97,7 +98,10 @@ namespace DreidelGame.ObjectModel
             SpinComponent = true;
         }
 
-        private void Reset()
+        /// <summary>
+        /// Resets the dreidel spin values
+        /// </summary>
+        private void    reset()
         {
             m_SpinTime = TimeSpan.FromSeconds(3 + m_Rand.NextDouble() + m_Rand.Next(6));
             m_IsAlligning = false;
@@ -105,6 +109,10 @@ namespace DreidelGame.ObjectModel
             m_StartRotationsPerSecond = RotationsPerSecond;
         }
 
+        /// <summary>
+        /// Updates the dreidel status
+        /// </summary>
+        /// <param name="gameTime">A snapshoit to the current game time</param>
         public override void    Update(GameTime gameTime)
         {            
             base.Update(gameTime);
@@ -132,6 +140,9 @@ namespace DreidelGame.ObjectModel
             }
         }
 
+        /// <summary>
+        /// Raise an event that states the dreidel finished spinning
+        /// </summary>
         public void     OnDreidelFinished()
         {
             m_IsAlligning = false;
