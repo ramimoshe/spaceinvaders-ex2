@@ -17,6 +17,18 @@ namespace DreidelGame.ObjectModel
 
         protected float m_RotationsPerSecond = 0;
 
+        private bool m_SpinComponent;
+
+        /// <summary>
+        /// Mark if we want to spin the current component
+        /// </summary>
+        protected bool      SpinComponent
+        {
+            get { return m_SpinComponent; }
+
+            set { m_SpinComponent = value; }
+        }
+
         public float RotationsPerSecond
         {
             get
@@ -58,8 +70,6 @@ namespace DreidelGame.ObjectModel
         private bool m_SharedGraphicsDevice = false;
 
         private BasicEffect m_BasicEffect;
-        private Matrix m_ProjectionFieldOfView;
-        private Matrix m_PointOfView;
 
         public BasicEffect BasicEffect
         {
@@ -133,7 +143,11 @@ namespace DreidelGame.ObjectModel
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            m_Rotations.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * m_RotationsPerSecond;
+
+            if (SpinComponent)
+            {
+                m_Rotations.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * m_RotationsPerSecond;
+            }
 
             m_WorldMatrix =
                 /*I*/ Matrix.Identity *

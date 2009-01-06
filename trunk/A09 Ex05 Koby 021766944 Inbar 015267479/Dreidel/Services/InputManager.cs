@@ -36,6 +36,9 @@ namespace DreidelGame.Services
             : base(i_Game)
         {
             this.UpdateOrder = i_UpdateOrder;
+
+            // TODO: Check if it's ok
+            Game.Components.Add(this);
         }
 
         #region  internalMethods

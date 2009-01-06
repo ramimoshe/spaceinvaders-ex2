@@ -20,16 +20,13 @@ namespace DreidelGame
     {
         GraphicsDeviceManager graphics;
         InputManager m_InputManager;
-        
+
+        private const int k_DefaultSpinningDreidelsNum = 0;
+        private const int k_DreidelsNum = 10;
         private const float k_ZFactorWidth = 7;
         private const float k_ZFactorCoordinate = 3.5f;
 
-        private readonly Color r_BoxColor = Color.BurlyWood;
-        private readonly Color r_FrontColor = Color.Yellow;
-        private readonly Color r_BackColor = Color.Red;
-        private readonly Color r_LeftColor = Color.Green;
-        private readonly Color r_RightColor = Color.Blue;
-        private readonly Color r_UpDownColor = Color.BurlyWood;
+        private readonly Keys r_StartGameKey = Keys.Space;
 
         private Vector3 m_Position = new Vector3(0, 0, 0);
         private Vector3 m_Rotations = Vector3.Zero;
@@ -39,21 +36,39 @@ namespace DreidelGame
         private BasicEffect m_BasicEffect;
         private Matrix m_ProjectionFieldOfView;
         private Matrix m_PointOfView;
+        private int m_SpinningDreidels;
+
+        private Dreidel[] m_Dreidels;
+
+        /// <summary>
+        /// Read only property that marks if we can get an input from the user
+        /// </summary>
+        private bool    CanGetInput
+        {
+            get { return m_SpinningDreidels == k_DefaultSpinningDreidelsNum; }
+        }        
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            m_InputManager = new InputManager(this);
-
+            
+            m_InputManager = new InputManager(this);           
             this.Services.AddService(typeof(InputManager), m_InputManager);
             Random r = new Random();
 
-            for (int i = 1; i <= 10; ++i)
+            m_Dreidels = new Dreidel[k_DreidelsNum];
+
+            // TODO: Add texture dreidel creation
+
+            for (int i = 1; i <= k_DreidelsNum; ++i)
             {
                 double spinTime = 3 + r.NextDouble() + r.Next(6);
-                Dreidel d = new Dreidel(this, TimeSpan.FromSeconds(spinTime));
+                m_Dreidels[i - 1] = new Dreidel(this, TimeSpan.FromSeconds(spinTime));
+                m_Dreidels[i - 1].FinishedSpinning += new DreidelEventHandler(dreidel_FinishedSpinning);
             }
+
+            m_SpinningDreidels = k_DefaultSpinningDreidelsNum;
         }
 
         /// <summary>
@@ -62,7 +77,7 @@ namespace DreidelGame
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         /// </summary>
-        protected override void Initialize()
+        protected override void     Initialize()
         {
             graphics.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
             base.Initialize();
@@ -97,17 +112,47 @@ namespace DreidelGame
             Services.AddService(typeof(BasicEffect), m_BasicEffect);
         }
 
+        protected override void     Update(GameTime i_GameTime)
+        {
+            base.Update(i_GameTime);
+
+            if (CanGetInput)
+            {
+                if (m_InputManager.KeyPressed(r_StartGameKey))
+                {                
+                    spinDreidels();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Spin all the game dreidels
+        /// </summary>
+        private void    spinDreidels()
+        {
+            foreach (Dreidel d in m_Dreidels)
+            {
+                d.SpinDreidel();
+                m_SpinningDreidels++;
+            }
+        }
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
+        protected override void     Draw(GameTime gameTime)
         {
             graphics.GraphicsDevice.Clear(Color.White);
 
             //m_Cube.Draw(gameTime);
             //m_CubeTexture.Draw(gameTime);
             base.Draw(gameTime);
+        }
+
+        private void dreidel_FinishedSpinning(Dreidel i_Dreidel)
+        {
+            m_SpinningDreidels--;            
         }
     }
 }
