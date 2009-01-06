@@ -55,7 +55,7 @@ namespace DreidelGame.ObjectModel
             : base(i_Game)
         {
             Add(new Box(i_Game));
-            Add(new Cube(i_Game));
+            Add(new CubeTexture(i_Game));
             Add(new Pyramid(i_Game));
 
             Scales = Vector3.One * (float)(0.5 + m_Rand.Next(12) + m_Rand.NextDouble());
@@ -72,9 +72,9 @@ namespace DreidelGame.ObjectModel
             get { return s_DreidelLetters[m_CurrSide]; }
         }
 
-        protected override void     AfterLoadContent()
+        protected override void     LoadContent()
         {
-            base.AfterLoadContent();
+            base.LoadContent();
             Position = new Vector3(
                 ((-1) + (m_Rand.Next(2)) * 2) * (float)m_Rand.Next(1, 300),
                 ((-1) + (m_Rand.Next(2)) * 2) * (float)m_Rand.Next(1, 200),
@@ -126,14 +126,14 @@ namespace DreidelGame.ObjectModel
 
                 if (RotationsPerSecond <= 0 && !m_IsAlligning)
                 {
-                    m_TargetRotation = (float)Math.Ceiling(m_Rotations.Y / MathHelper.PiOver2);
+                    m_TargetRotation = (float)Math.Ceiling(Rotations.Y / MathHelper.PiOver2);
                     m_CurrSide = (int)m_TargetRotation % 4;
                     m_TargetRotation *= MathHelper.PiOver2;
                     m_IsAlligning = true;
-                    RotationsPerSecond = (m_TargetRotation - m_Rotations.Y);
+                    RotationsPerSecond = (m_TargetRotation - Rotations.Y);
                 }
 
-                if (m_IsAlligning && m_Rotations.Y >= m_TargetRotation)
+                if (m_IsAlligning && Rotations.Y >= m_TargetRotation)
                 {
                     OnDreidelFinished();
                 }
@@ -146,7 +146,9 @@ namespace DreidelGame.ObjectModel
         public void     OnDreidelFinished()
         {
             m_IsAlligning = false;
-            m_Rotations.Y = m_TargetRotation;
+            Vector3 rotation = Rotations;
+            rotation.Y = m_TargetRotation;
+            Rotations = rotation;
             SpinComponent = false;
             if (FinishedSpinning != null)
             {
