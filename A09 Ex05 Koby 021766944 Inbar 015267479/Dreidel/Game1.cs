@@ -17,22 +17,22 @@ namespace DreidelGame
     /// This is the main type for your game
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
-    {
-        GraphicsDeviceManager graphics;
-        InputManager m_InputManager;
-
+    {        
         private const int k_DefaultSpinningDreidelsNum = 0;
         private const int k_DreidelsNum = 10;
         private const float k_ZFactorWidth = 7;
         private const float k_ZFactorCoordinate = 3.5f;
-
         private readonly Keys r_StartGameKey = Keys.Space;
 
+        private static Dictionary<Keys, eDreidelLetters> s_DreidelLettersKeys;
+
+        private GraphicsDeviceManager graphics;
+        private InputManager m_InputManager;
         private Vector3 m_Position = new Vector3(0, 0, 0);
         private Vector3 m_Rotations = Vector3.Zero;
         private Vector3 m_Scales = Vector3.One;
         private Matrix m_WorldMatrix = Matrix.Identity;
-
+        private ScoreManager m_ScoreManager;
         private BasicEffect m_BasicEffect;
         private Matrix m_ProjectionFieldOfView;
         private Matrix m_PointOfView;
@@ -46,7 +46,21 @@ namespace DreidelGame
         private bool    CanGetInput
         {
             get { return m_SpinningDreidels == k_DefaultSpinningDreidelsNum; }
-        }        
+        }
+
+        /// <summary>
+        /// Static ctor that creates the Dictionary that maps the keyboard keys to the dreidel
+        /// letters
+        /// </summary>
+        static Game1()
+        {
+            s_DreidelLettersKeys = new Dictionary<Keys, eDreidelLetters>();
+
+            s_DreidelLettersKeys.Add(Keys.B, eDreidelLetters.NLetter);
+            s_DreidelLettersKeys.Add(Keys.D, eDreidelLetters.GLetter);
+            s_DreidelLettersKeys.Add(Keys.V, eDreidelLetters.HLetter);
+            s_DreidelLettersKeys.Add(Keys.P, eDreidelLetters.PLetter);
+        }
 
         public Game1()
         {
@@ -57,6 +71,8 @@ namespace DreidelGame
             this.Services.AddService(typeof(InputManager), m_InputManager);
 
             m_Dreidels = new Dreidel[k_DreidelsNum];
+            m_ScoreManager = new ScoreManager(this);
+            this.Components.Add(m_ScoreManager);
 
             // TODO: Add texture dreidel creation
 
@@ -64,6 +80,8 @@ namespace DreidelGame
             {
                 m_Dreidels[i - 1] = new Dreidel(this);
                 m_Dreidels[i - 1].FinishedSpinning += new DreidelEventHandler(dreidel_FinishedSpinning);
+                m_Dreidels[i - 1].FinishedSpinning += new DreidelEventHandler(m_ScoreManager.Dreidel_FinishedSpinning);
+
             }
 
             m_SpinningDreidels = k_DefaultSpinningDreidelsNum;
@@ -116,9 +134,30 @@ namespace DreidelGame
 
             if (CanGetInput)
             {
+                eDreidelLetters chosenLetter;
+
                 if (m_InputManager.KeyPressed(r_StartGameKey))
-                {                
+                {
                     spinDreidels();
+                }
+                else
+                {
+                    checkIfDreidelLettersPressed();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Check if the player chose one of the dreidel letters and update the score
+        /// manager with the chosen letter
+        /// </summary>
+        private void    checkIfDreidelLettersPressed()
+        {
+            foreach (Keys key in s_DreidelLettersKeys.Keys)
+            {
+                if (m_InputManager.KeyPressed(key))
+                {
+                    m_ScoreManager.PlayerChosenLetter = s_DreidelLettersKeys[key];
                 }
             }
         }
@@ -148,7 +187,7 @@ namespace DreidelGame
             base.Draw(gameTime);
         }
 
-        private void dreidel_FinishedSpinning(Dreidel i_Dreidel)
+        private void    dreidel_FinishedSpinning(Dreidel i_Dreidel)
         {
             m_SpinningDreidels--;            
         }
