@@ -5,8 +5,6 @@ using System.Text;
 
 namespace DreidelGame.Services
 {
-    // TODO: Check the inherited class
-
     public class InputManager : GameComponent
     {
         // Data Members
@@ -35,10 +33,7 @@ namespace DreidelGame.Services
         public  InputManager(Game i_Game, int i_UpdateOrder)
             : base(i_Game)
         {
-            this.UpdateOrder = i_UpdateOrder;
-
-            // TODO: Check if it's ok
-            Game.Components.Add(this);
+            this.UpdateOrder = i_UpdateOrder;            
         }
 
         #region  internalMethods
@@ -298,8 +293,6 @@ ScrollWheelDelta:   {9}
 			return status;
         }
     }
-
-    // TODO: Check where to move the enum
 
     /// <summary>
     /// Declares all buttons to be supported by input manager.

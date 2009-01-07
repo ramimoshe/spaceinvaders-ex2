@@ -67,7 +67,8 @@ namespace DreidelGame
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             
-            m_InputManager = new InputManager(this);           
+            m_InputManager = new InputManager(this);
+            this.Components.Add(m_InputManager);
             this.Services.AddService(typeof(InputManager), m_InputManager);
 
             m_Dreidels = new Dreidel[k_DreidelsNum];
