@@ -23,7 +23,7 @@ namespace DreidelGame.ObjectModel
     /// <summary>
     /// Represents a dreidel in the game
     /// </summary>
-    public class Dreidel : CompositeGameComponent
+    public abstract class Dreidel : CompositeGameComponent
     {
         private const int k_DreidelSidesNum = 4;
         private const int k_DefaultDreidelSide = 0;
@@ -37,6 +37,14 @@ namespace DreidelGame.ObjectModel
         private int m_CurrSide;
 
         private static Random m_Rand = new Random();
+
+        /// <summary>
+        /// Gets the dreidels cube
+        /// </summary>
+        protected abstract Cube     DreidelCube
+        {
+            get;
+        }
 
         /// <summary>
         /// Static ctor that creates the dreidel sides array
@@ -54,15 +62,24 @@ namespace DreidelGame.ObjectModel
         public Dreidel(Game i_Game)
             : base(i_Game)
         {
-            Add(new Box(i_Game));
-            Add(new CubeTexture(i_Game));
-            Add(new Pyramid(i_Game));
+            addDreidelComponents(i_Game);
 
             Scales = Vector3.One * (float)(0.5 + m_Rand.Next(12) + m_Rand.NextDouble());
             SpinComponent = false;
             m_CurrSide = k_DefaultDreidelSide;
             reset();
         }
+
+        /// <summary>
+        /// Adds the components that construct the dreidel
+        /// </summary>
+        /// <param name="i_Game">The game component</param>
+        private void    addDreidelComponents(Game i_Game)
+        {
+            Add(new Box(i_Game));
+            Add(this.DreidelCube);
+            Add(new Pyramid(i_Game));
+        }        
 
         /// <summary>
         /// Gets the current letter that faces to the player position
