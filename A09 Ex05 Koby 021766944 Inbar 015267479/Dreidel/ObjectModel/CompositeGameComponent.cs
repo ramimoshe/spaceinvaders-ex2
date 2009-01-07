@@ -83,7 +83,10 @@ namespace DreidelGame.ObjectModel
 
                 foreach (BaseDrawableComponent comp in m_Drawables)
                 {
-                    comp.Texture = value;
+                    if (comp.NeedTexture)
+                    {
+                        comp.Texture = value;
+                    }
                 }
             }
         }
