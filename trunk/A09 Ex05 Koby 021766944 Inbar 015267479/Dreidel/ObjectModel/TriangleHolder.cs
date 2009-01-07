@@ -6,6 +6,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DreidelGame.ObjectModel
 {
+    /// <summary>
+    /// Holds an array of triangles and draw them
+    /// </summary>
+    /// <typeparam name="VectorPrimitiveType">Marks the Generic type that is sent to
+    /// GraphicsDevice.DrawUserPrimitives when drawing the triangles
+    /// </typeparam>
     public class TriangleHolder <VectorPrimitiveType> : BaseDrawableComponent
         where VectorPrimitiveType : struct
     {
@@ -35,7 +41,14 @@ namespace DreidelGame.ObjectModel
             m_PrimitivesNum = i_PrimitivesNum;
         }
 
-        public override void DoDraw(GameTime gameTime)
+        /// <summary>
+        /// Draws all the triangles that the component holds.
+        /// 
+        /// Notice that the triangles are drawn using the GraphicsDevice DrawUserPrimitives
+        /// method while drawing them as a TriangleFan
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public override void    DoDraw(GameTime gameTime)
         {
             GraphicsDevice.DrawUserPrimitives<VectorPrimitiveType>(
                             PrimitiveType.TriangleFan, m_VectorArray, 0, m_PrimitivesNum);
