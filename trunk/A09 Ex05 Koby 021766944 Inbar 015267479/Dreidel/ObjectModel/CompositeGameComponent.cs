@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DreidelGame.ObjectModel
 {
+    /// <summary>
+    /// A component that holds components and manages their activity
+    /// </summary>
     public abstract class CompositeGameComponent : BaseDrawableComponent
     {
         private List<BaseDrawableComponent> m_Drawables = new List<BaseDrawableComponent>();
@@ -97,10 +100,11 @@ namespace DreidelGame.ObjectModel
             i_Game.Components.Add(this);
         }
 
-
-        // TODO: Check if the proc is ok
-
-        public void Add(BaseDrawableComponent i_Drawable)
+        /// <summary>
+        /// Adds a new component to the components list
+        /// </summary>
+        /// <param name="i_Drawable">The new compoenent we want to add to the list</param>
+        public void     Add(BaseDrawableComponent i_Drawable)
         {
             if (m_Drawables.IndexOf(i_Drawable) < 0)
             {
@@ -117,7 +121,10 @@ namespace DreidelGame.ObjectModel
             }
         }
 
-        public override void Initialize()
+        /// <summary>
+        /// Initialize the component by initializing all the compponents we hold
+        /// </summary>
+        public override void    Initialize()
         {
             base.Initialize();
 
@@ -127,7 +134,10 @@ namespace DreidelGame.ObjectModel
             }
         }
 
-        public override void Update(GameTime gameTime)
+        /// <summary>
+        /// Update the component by updating all the compponents we hold
+        /// </summary>
+        public override void    Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
@@ -137,6 +147,9 @@ namespace DreidelGame.ObjectModel
             }
         }
 
+        /// <summary>
+        /// Draw all the components we hold
+        /// </summary>
         public override void Draw(GameTime gameTime)
         {
             foreach (BaseDrawableComponent drawable in m_Drawables)
@@ -145,6 +158,11 @@ namespace DreidelGame.ObjectModel
             }
         }
 
+        /// <summary>
+        /// An empty method cause the class doesn't have anything to draw, it simply draws all the
+        /// components he holds
+        /// </summary>
+        /// <param name="i_GameTime">A snapshot of the current game time</param>
         public override void DoDraw(GameTime i_GameTime)
         {
         }
