@@ -1,186 +1,221 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Net;
+using Microsoft.Xna.Framework.Storage;
+using DreidelGame.ObjectModel;
+using DreidelGame.Services;
 
-namespace DreidelGame.ObjectModel
+namespace DreidelGame
 {
-    public delegate void DreidelEventHandler(Dreidel i_Dreidel);
-
     /// <summary>
-    /// An enum containing the available dreidel letters
+    /// This is the main type for your game
     /// </summary>
-    public enum eDreidelLetters
-    {
-        NLetter,
-        HLetter,
-        PLetter,
-        GLetter,
-        None
-    }
+    public class DreidelGame : Microsoft.Xna.Framework.Game
+    {        
+        private const int k_DefaultSpinningDreidelsNum = 0;
+        private const int k_DreidelsNum = 10;
+        private const float k_ZFactorWidth = 7;
+        private const float k_ZFactorCoordinate = 3.5f;
+        private readonly Keys r_StartGameKey = Keys.Space;
 
-    /// <summary>
-    /// Represents a dreidel in the game
-    /// </summary>
-    public abstract class Dreidel : CompositeGameComponent
-    {
-        private const int k_DreidelSidesNum = 4;
-        private const int k_DefaultDreidelSide = 0; 
-        
-        private static Random m_Rand = new Random();
+        private static Dictionary<Keys, eDreidelLetters> s_DreidelLettersKeys;
 
-        private static eDreidelLetters[] s_DreidelLetters;
-        private TimeSpan m_SpinTime;
-        private float m_StartRotationsPerSecond;
-        private bool m_IsAlligning = false;
-        private float m_TargetRotation = -1;
-        private int m_CurrSide;
+        private GraphicsDeviceManager graphics;
+        private InputManager m_InputManager;
+        private Vector3 m_Position = new Vector3(0, 0, 0);
+        private Vector3 m_Rotations = Vector3.Zero;
+        private Vector3 m_Scales = Vector3.One;
+        private Matrix m_WorldMatrix = Matrix.Identity;
+        private ScoreManager m_ScoreManager;
+        private BasicEffect m_BasicEffect;
+        private Matrix m_ProjectionFieldOfView;
+        private Matrix m_PointOfView;
+        private int m_SpinningDreidels;
 
-        public event DreidelEventHandler FinishedSpinning;
-
-        // Initializing a random position for the dreidel
-        private Vector3 m_RandomPosition = new Vector3(
-                    ((-1) + (m_Rand.Next(2) * 2)) * (float)m_Rand.Next(1, 200),
-                    ((-1) + (m_Rand.Next(2) * 2)) * (float)m_Rand.Next(1, 150),
-                    ((-1) + (m_Rand.Next(2) * 2)) * (float)m_Rand.Next(1, 20));
+        private Dreidel[] m_Dreidels;
 
         /// <summary>
-        /// Gets the dreidels cube
+        /// Read only property that marks if we can get an input from the user
         /// </summary>
-        protected abstract Cube     DreidelCube
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Initializes the dreidel components and random factors 
-        /// (scale, position, rotation)
-        /// </summary>
-        /// <param name="i_Game"></param>
-        public  Dreidel(Game i_Game)
-            : base(i_Game)
-        {
-            addDreidelComponents(Game); 
-            Scales = Vector3.One * (float)(0.5 + m_Rand.Next(12) + m_Rand.NextDouble());
-            SpinComponent = false;
-            m_CurrSide = k_DefaultDreidelSide;
-            reset();
-        }
-
-        /// <summary>
-        /// Adds the components that construct the dreidel
-        /// </summary>
-        /// <param name="i_Game">The game component</param>
-        private void    addDreidelComponents(Game i_Game)
-        {            
-            Add(this.DreidelCube);
-            Add(new Box(Game));
-            Add(new Pyramid(Game));
-        }        
-
-        /// <summary>
-        /// Gets the current letter that faces to the player position
-        /// </summary>
-        public eDreidelLetters      DreidelFrontLetter
+        private bool CanGetInput
         {
             get 
             { 
-                return s_DreidelLetters[m_CurrSide]; 
+                return m_SpinningDreidels == k_DefaultSpinningDreidelsNum; 
             }
         }
 
         /// <summary>
-        /// Initialize the dreidel position transformation values
+        /// Static ctor that creates the Dictionary that maps the keyboard keys to the dreidel
+        /// letters
         /// </summary>
-        public override void    Initialize()
+        static DreidelGame()
         {
+            s_DreidelLettersKeys = new Dictionary<Keys, eDreidelLetters>();
+
+            s_DreidelLettersKeys.Add(Keys.B, eDreidelLetters.NLetter);
+            s_DreidelLettersKeys.Add(Keys.D, eDreidelLetters.GLetter);
+            s_DreidelLettersKeys.Add(Keys.V, eDreidelLetters.HLetter);
+            s_DreidelLettersKeys.Add(Keys.P, eDreidelLetters.PLetter);
+        }
+
+        /// <summary>
+        /// Default CTOR. Initializes all dreidels
+        /// </summary>
+        public DreidelGame()
+        {
+            graphics = new GraphicsDeviceManager(this);
+            
+            Content.RootDirectory = "Content";
+            
+            m_InputManager = new InputManager(this);
+            this.Components.Add(m_InputManager);
+            this.Services.AddService(typeof(InputManager), m_InputManager);
+
+            m_Dreidels = new Dreidel[k_DreidelsNum];
+            m_ScoreManager = new ScoreManager(this);
+            this.Components.Add(m_ScoreManager);
+
+            // Initialing dreidels
+            for (int i = 1; i <= k_DreidelsNum; ++i)
+            {
+                Dreidel newDreidel;
+
+                // Every second dreidel will be Texture\Position dreidel
+                if ((i % 2) == 0)
+                {
+                    newDreidel = new PositionDreidel(this);
+                }
+                else
+                {
+                    newDreidel = new TextureDreidel(this);
+                }
+
+                newDreidel.FinishedSpinning += new DreidelEventHandler(dreidel_FinishedSpinning);
+                newDreidel.FinishedSpinning += new DreidelEventHandler(m_ScoreManager.Dreidel_FinishedSpinning);
+                m_Dreidels[i - 1] = newDreidel;                
+            }
+
+            m_SpinningDreidels = k_DefaultSpinningDreidelsNum;
+        }
+
+        /// <summary>
+        /// Allows the game to perform any initialization it needs to before starting to run.
+        /// This is where it can query for any required services and load any non-graphic
+        /// related content.  Calling base.Initialize will enumerate through any components
+        /// and initialize them as well.
+        /// </summary>
+        protected override void Initialize()
+        {
+            GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
             base.Initialize();
 
-            Position = m_RandomPosition;
+            float k_NearPlaneDistance = 0.5f;
+            float k_FarPlaneDistance = 1000.0f;
+            float k_ViewAngle = MathHelper.PiOver4;
+
+            // we are storing the field-of-view data in a matrix:
+            m_ProjectionFieldOfView = Matrix.CreatePerspectiveFieldOfView(
+                k_ViewAngle,
+                (float)GraphicsDevice.Viewport.Width / GraphicsDevice.Viewport.Height,
+                k_NearPlaneDistance,
+                k_FarPlaneDistance);
+
+            // we want to shoot the center of the world:
+            Vector3 targetPosition = Vector3.Zero;
+
+            // we are standing 50 units in front of our target:
+            Vector3 pointOfViewPosition = new Vector3(0, 0, 500);
+
+            // we are not standing on our head:
+            Vector3 pointOfViewUpDirection = new Vector3(0, 1, 0);
+
+            // we are storing the point-of-view data in a matrix:
+            m_PointOfView = Matrix.CreateLookAt(
+                pointOfViewPosition, targetPosition, pointOfViewUpDirection);
+
+            m_BasicEffect = new BasicEffect(GraphicsDevice, null);
+            m_BasicEffect.View = m_PointOfView;
+            m_BasicEffect.Projection = m_ProjectionFieldOfView;
+
+            Services.AddService(typeof(BasicEffect), m_BasicEffect);
         }
 
         /// <summary>
-        /// Gets the change per second in rotation speed
+        /// Updates the game state by getting an input from the player 
+        /// (only if CanGetInput is true)
         /// </summary>
-        private float   rotationDiffPerSecond
+        /// <param name="i_GameTime">A snapshot of the current game time</param>
+        protected override void Update(GameTime i_GameTime)
         {
-            get
+            base.Update(i_GameTime);
+
+            if (CanGetInput)
             {
-                return m_StartRotationsPerSecond / (float)m_SpinTime.TotalSeconds;
-            }
-        }
-
-        /// <summary>
-        /// Start spinning the dreidel
-        /// </summary>
-        public void     SpinDreidel()
-        {
-            RotationsPerSecond = m_StartRotationsPerSecond;
-            SpinComponent = true;
-        }
-
-        /// <summary>
-        /// Resets the dreidel spin values
-        /// </summary>
-        private void    reset()
-        {
-            m_SpinTime = TimeSpan.FromSeconds(3 + m_Rand.NextDouble() + m_Rand.Next(6));
-            m_IsAlligning = false;
-            RotationsPerSecond = (MathHelper.TwoPi * (float)m_Rand.NextDouble()) + m_Rand.Next(1, 8);
-            m_StartRotationsPerSecond = RotationsPerSecond;
-        }
-
-        /// <summary>
-        /// Updates the dreidel status
-        /// </summary>
-        /// <param name="gameTime">A snapshoit to the current game time</param>
-        public override void    Update(GameTime gameTime)
-        {            
-            base.Update(gameTime);
-
-            // All updates are done only when dreidel is spinning
-            if (SpinComponent)
-            {
-                // Changing rotation speed when dreidel has not finished spinning
-                if (!m_IsAlligning)
+                // Spining the dreidels when space is entered
+                if (m_InputManager.KeyPressed(r_StartGameKey))
                 {
-                    RotationsPerSecond -= rotationDiffPerSecond * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    spinDreidels();
                 }
-
-                // Checking if rotation finished in order to calculate the result dreidel
-                // side
-                if (RotationsPerSecond <= 0 && !m_IsAlligning)
+                else
                 {
-                    m_TargetRotation = (float)Math.Ceiling(Rotations.Y / MathHelper.PiOver2);
-                    m_CurrSide = (int)m_TargetRotation % 4;
-                    m_TargetRotation *= MathHelper.PiOver2;
-                    m_IsAlligning = true;
-                    RotationsPerSecond = (m_TargetRotation - Rotations.Y);
-                }
-
-                // Norifying observers uppon finish
-                if (m_IsAlligning && Rotations.Y >= m_TargetRotation)
-                {
-                    OnDreidelFinished();
+                    checkIfDreidelLettersPressed();
                 }
             }
         }
 
         /// <summary>
-        /// Raise an event that states the dreidel finished spinning
+        /// Check if the player chose one of the dreidel letters and update the score
+        /// manager with the chosen letter
         /// </summary>
-        public void     OnDreidelFinished()
+        private void    checkIfDreidelLettersPressed()
         {
-            m_IsAlligning = false;
-            Vector3 rotation = Rotations;
-            rotation.Y = m_TargetRotation;
-            Rotations = rotation;
-            SpinComponent = false;
-            if (FinishedSpinning != null)
+            foreach (Keys key in s_DreidelLettersKeys.Keys)
             {
-                FinishedSpinning(this);
+                if (m_InputManager.KeyPressed(key))
+                {
+                    m_ScoreManager.PlayerChosenLetter = s_DreidelLettersKeys[key];
+                }
             }
+        }
+
+        /// <summary>
+        /// Spin all the game dreidels
+        /// </summary>
+        private void    spinDreidels()
+        {
+            foreach (Dreidel d in m_Dreidels)
+            {
+                d.SpinDreidel();
+                m_SpinningDreidels++;
+            }
+        }
+
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void     Draw(GameTime gameTime)
+        {
+            graphics.GraphicsDevice.Clear(Color.White);
+            GraphicsDevice.RenderState.DepthBufferEnable = true;
+            base.Draw(gameTime);
+        }
+
+        /// <summary>
+        /// Catch the FinishedSpinning event raised by a dreidel and decrease the number of
+        /// spinning dreidels
+        /// </summary>
+        /// <param name="i_Dreidel">The dreidel the raised the event</param>
+        private void    dreidel_FinishedSpinning(Dreidel i_Dreidel)
+        {
+            m_SpinningDreidels--;            
         }
     }
 }
