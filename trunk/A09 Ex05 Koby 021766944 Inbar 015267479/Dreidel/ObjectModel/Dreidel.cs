@@ -75,7 +75,9 @@ namespace DreidelGame.ObjectModel
         /// </summary>
         /// <param name="i_Game">The game component</param>
         private void    addDreidelComponents(Game i_Game)
-        {
+        {            
+            // TODO: Change the components add acording to the viewport
+            
             Add(new Box(i_Game));
             Add(this.DreidelCube);
             Add(new Pyramid(i_Game));
@@ -89,9 +91,13 @@ namespace DreidelGame.ObjectModel
             get { return s_DreidelLetters[m_CurrSide]; }
         }
 
-        protected override void     LoadContent()
+        /// <summary>
+        /// Initialize the dreidel position transformation values
+        /// </summary>
+        public override void    Initialize()
         {
-            base.LoadContent();
+            base.Initialize();
+
             Position = new Vector3(
                 ((-1) + (m_Rand.Next(2)) * 2) * (float)m_Rand.Next(1, 300),
                 ((-1) + (m_Rand.Next(2)) * 2) * (float)m_Rand.Next(1, 200),
