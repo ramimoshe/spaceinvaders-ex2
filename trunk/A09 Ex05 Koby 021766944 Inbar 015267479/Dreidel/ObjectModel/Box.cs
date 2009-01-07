@@ -11,8 +11,15 @@ namespace DreidelGame.ObjectModel
     /// </summary>
     public class Box : CompositeGameComponent
     {
-        private Vector3[] m_VerticesCoordinates;
+        private const float k_MinXCoordinate = -.5f;
+        private const float k_MaxXCoordinate = .5f;
+        private const float k_MinYCoordinate = 3;
+        private const float k_MaxYCoordinate = 7;
+        private const float k_MinZCoordinate = -.5f;
+        private const float k_MaxZCoordinate = .5f;
         private readonly Color r_SideColor = Color.Brown;
+
+        private Vector3[] m_VerticesCoordinates;        
 
         public Box(Game i_Game)
             : base (i_Game)
@@ -96,16 +103,38 @@ namespace DreidelGame.ObjectModel
         {
             m_VerticesCoordinates = new Vector3[8];
 
-            // TODO: Move the coordinates to constants
-
-            m_VerticesCoordinates[7] = new Vector3(-.5f, 3, .5f);
-            m_VerticesCoordinates[6] = new Vector3(-.5f, 7, .5f);
-            m_VerticesCoordinates[5] = new Vector3(.5f, 7, .5f);
-            m_VerticesCoordinates[4] = new Vector3(.5f, 3, .5f);
-            m_VerticesCoordinates[3] = new Vector3(.5f, 3, -.5f);
-            m_VerticesCoordinates[2] = new Vector3(.5f, 7, -.5f);
-            m_VerticesCoordinates[1] = new Vector3(-.5f, 7, -.5f);
-            m_VerticesCoordinates[0] = new Vector3(-.5f, 3, -.5f);
+            m_VerticesCoordinates[7] = new Vector3(
+                k_MinXCoordinate, 
+                k_MinYCoordinate, 
+                k_MaxZCoordinate);
+            m_VerticesCoordinates[6] = new Vector3(
+                k_MinXCoordinate,
+                k_MaxYCoordinate, 
+                k_MaxZCoordinate);
+            m_VerticesCoordinates[5] = new Vector3(
+                k_MaxXCoordinate, 
+                k_MaxYCoordinate, 
+                k_MaxZCoordinate);
+            m_VerticesCoordinates[4] = new Vector3(
+                k_MaxXCoordinate, 
+                k_MinYCoordinate, 
+                k_MaxZCoordinate);
+            m_VerticesCoordinates[3] = new Vector3(
+                k_MaxXCoordinate, 
+                k_MinYCoordinate, 
+                k_MinZCoordinate);
+            m_VerticesCoordinates[2] = new Vector3(
+                k_MaxXCoordinate, 
+                k_MaxYCoordinate, 
+                k_MinZCoordinate);
+            m_VerticesCoordinates[1] = new Vector3(
+                k_MinXCoordinate, 
+                k_MaxYCoordinate, 
+                k_MinZCoordinate);
+            m_VerticesCoordinates[0] = new Vector3(
+                k_MinXCoordinate, 
+                k_MinYCoordinate, 
+                k_MinZCoordinate);
         }
     }
 }
