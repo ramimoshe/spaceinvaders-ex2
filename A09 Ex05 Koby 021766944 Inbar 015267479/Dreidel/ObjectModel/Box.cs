@@ -31,7 +31,7 @@ namespace DreidelGame.ObjectModel
             m_VerticesCoordinates[1] = new Vector3(-.5f, 7, -.5f);
             m_VerticesCoordinates[0] = new Vector3(-.5f, 3, -.5f);
                         
-            Add(new Side<VertexPositionColor>(
+            Add(new TriangleHolder<VertexPositionColor>(
                             Game,
                             VertexPositionColor.VertexElements,
                             2,
@@ -41,7 +41,7 @@ namespace DreidelGame.ObjectModel
                             new VertexPositionColor(m_VerticesCoordinates[3], r_SideColor)
                             ));
 
-            Add(new Side<VertexPositionColor>(
+            Add(new TriangleHolder<VertexPositionColor>(
                             Game,
                             VertexPositionColor.VertexElements,
                             2,
@@ -51,7 +51,7 @@ namespace DreidelGame.ObjectModel
                             new VertexPositionColor(m_VerticesCoordinates[7], r_SideColor)
                             ));
 
-            Add(new Side<VertexPositionColor>(
+            Add(new TriangleHolder<VertexPositionColor>(
                             Game,
                             VertexPositionColor.VertexElements,
                             2,
@@ -61,7 +61,7 @@ namespace DreidelGame.ObjectModel
                             new VertexPositionColor(m_VerticesCoordinates[4], r_SideColor)
                             ));
 
-            Add(new Side<VertexPositionColor>(
+            Add(new TriangleHolder<VertexPositionColor>(
                             Game,
                             VertexPositionColor.VertexElements,
                             2,
@@ -71,7 +71,7 @@ namespace DreidelGame.ObjectModel
                             new VertexPositionColor(m_VerticesCoordinates[0], r_SideColor)
                             ));
 
-            Add(new Side<VertexPositionColor>(
+            Add(new TriangleHolder<VertexPositionColor>(
                             Game,
                             VertexPositionColor.VertexElements,
                             2,
@@ -81,7 +81,7 @@ namespace DreidelGame.ObjectModel
                             new VertexPositionColor(m_VerticesCoordinates[2], r_SideColor)
                             ));
 
-            Add(new Side<VertexPositionColor>(
+            Add(new TriangleHolder<VertexPositionColor>(
                             Game,
                             VertexPositionColor.VertexElements,
                             2,

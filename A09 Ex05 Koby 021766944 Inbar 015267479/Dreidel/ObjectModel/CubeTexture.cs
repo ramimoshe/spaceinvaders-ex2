@@ -27,7 +27,7 @@ namespace DreidelGame.ObjectModel
         protected override void     CreateSides()
         {          
             // Creating the front side
-            Add(new Side<VertexPositionTexture>(
+            Add(new TriangleHolder<VertexPositionTexture>(
                             Game,
                             VertexPositionTexture.VertexElements, 
                             2,
@@ -38,7 +38,7 @@ namespace DreidelGame.ObjectModel
                             new VertexPositionTexture(m_VerticesCoordinates[3], new Vector2(.5f, .5f))));
 
             // Creating the back side
-            Add(new Side<VertexPositionTexture>(
+            Add(new TriangleHolder<VertexPositionTexture>(
                             Game,
                             VertexPositionTexture.VertexElements,
                             2,
@@ -49,7 +49,7 @@ namespace DreidelGame.ObjectModel
                             new VertexPositionTexture(m_VerticesCoordinates[7], new Vector2(.5f, 1))));
 
             // Creating the right side
-            Add(new Side<VertexPositionTexture>(
+            Add(new TriangleHolder<VertexPositionTexture>(
                             Game,
                             VertexPositionTexture.VertexElements,
                             2,
@@ -60,7 +60,7 @@ namespace DreidelGame.ObjectModel
                             new VertexPositionTexture(m_VerticesCoordinates[4], new Vector2(1, 1))));
 
             // Creating the left side
-            Add(new Side<VertexPositionTexture>(
+            Add(new TriangleHolder<VertexPositionTexture>(
                             Game,
                             VertexPositionTexture.VertexElements,
                             2,
@@ -71,7 +71,7 @@ namespace DreidelGame.ObjectModel
                             new VertexPositionTexture(m_VerticesCoordinates[0], new Vector2(1, .5f))));
 
             // Creating the top side
-            Add(new Side<VertexPositionColor>(
+            Add(new TriangleHolder<VertexPositionColor>(
                             Game,
                             VertexPositionColor.VertexElements,
                             2,
@@ -82,7 +82,7 @@ namespace DreidelGame.ObjectModel
                             new VertexPositionColor(m_VerticesCoordinates[2], r_UpDownColor)));
 
             // Creating the bottom side
-            Add(new Side<VertexPositionColor>(
+            Add(new TriangleHolder<VertexPositionColor>(
                             Game,
                             VertexPositionColor.VertexElements,
                             2,
