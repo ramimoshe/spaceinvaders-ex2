@@ -42,6 +42,7 @@ namespace DreidelGame.ObjectModel
                             Game,
                             VertexPositionTexture.VertexElements, 
                             2,
+                            true,
                             new VertexPositionTexture(m_VerticesCoordinates[0], new Vector2(0, .5f)),
                             new VertexPositionTexture(m_VerticesCoordinates[1], new Vector2(0, 0)),
                             new VertexPositionTexture(m_VerticesCoordinates[2], new Vector2(.5f, 0)),
@@ -53,6 +54,7 @@ namespace DreidelGame.ObjectModel
                             Game,
                             VertexPositionTexture.VertexElements,
                             2,
+                            true,
                             new VertexPositionTexture(m_VerticesCoordinates[4], new Vector2(0, 1)),
                             new VertexPositionTexture(m_VerticesCoordinates[5], new Vector2(0, .5f)),
                             new VertexPositionTexture(m_VerticesCoordinates[6], new Vector2(.5f, .5f)),
@@ -64,6 +66,7 @@ namespace DreidelGame.ObjectModel
                             Game,
                             VertexPositionTexture.VertexElements,
                             2,
+                            true,
                             new VertexPositionTexture(m_VerticesCoordinates[3], new Vector2(.5f, 1)),
                             new VertexPositionTexture(m_VerticesCoordinates[2], new Vector2(.5f, .5f)),
                             new VertexPositionTexture(m_VerticesCoordinates[5], new Vector2(1, .5f)),
@@ -75,6 +78,7 @@ namespace DreidelGame.ObjectModel
                             Game,
                             VertexPositionTexture.VertexElements,
                             2,
+                            true,
                             new VertexPositionTexture(m_VerticesCoordinates[7], new Vector2(.5f, .5f)),
                             new VertexPositionTexture(m_VerticesCoordinates[6], new Vector2(.5f, 0)),
                             new VertexPositionTexture(m_VerticesCoordinates[1], new Vector2(1, 0)),
@@ -84,8 +88,9 @@ namespace DreidelGame.ObjectModel
             // Creating the top side
             Add(new Side<VertexPositionColor>(
                             Game,
-                            VertexPositionTexture.VertexElements,
+                            VertexPositionColor.VertexElements,
                             2,
+                            false,
                             new VertexPositionColor(m_VerticesCoordinates[1], r_UpDownColor),
                             new VertexPositionColor(m_VerticesCoordinates[6], r_UpDownColor),
                             new VertexPositionColor(m_VerticesCoordinates[5], r_UpDownColor),
@@ -95,8 +100,9 @@ namespace DreidelGame.ObjectModel
             // Creating the bottom side
             Add(new Side<VertexPositionColor>(
                             Game,
-                            VertexPositionTexture.VertexElements,
+                            VertexPositionColor.VertexElements,
                             2,
+                            false,
                             new VertexPositionColor(m_VerticesCoordinates[3], r_UpDownColor),
                             new VertexPositionColor(m_VerticesCoordinates[4], r_UpDownColor),
                             new VertexPositionColor(m_VerticesCoordinates[7], r_UpDownColor),
@@ -109,6 +115,12 @@ namespace DreidelGame.ObjectModel
         protected override void  LoadContent()
         {           
             Texture = Game.Content.Load<Texture2D>(@"Sprites\Dreidel");
+        }
+
+        // TODO: Remove
+        public override void    Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
         }
     }
 }
