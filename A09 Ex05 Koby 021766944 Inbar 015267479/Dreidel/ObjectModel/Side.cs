@@ -11,20 +11,27 @@ namespace DreidelGame.ObjectModel
     {
         private VectorPrimitiveType[] m_VectorArray;
         private int m_PrimitivesNum;
+        
+        public Side(
+            Game i_Game,
+            VertexElement[] i_VertexElements,
+            int i_PrimitivesNum,
+            params VectorPrimitiveType[] i_Vectors)
+            : base(i_Game, i_VertexElements)
+        {
+            m_VectorArray = i_Vectors;
+            m_PrimitivesNum = i_PrimitivesNum;
+        }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="i_Game"></param>
-        /// <param name="i_VectorsNum"></param>
         public Side(
             Game i_Game,
             VertexElement[] i_VertexElements, 
             int i_PrimitivesNum,
-            params VectorPrimitiveType[] vectors)
-            : base(i_Game, i_VertexElements)
+            bool i_NeedTexture,
+            params VectorPrimitiveType[] i_Vectors)           
+            : base(i_Game, i_VertexElements, i_NeedTexture)
         {
-            m_VectorArray = vectors;
+            m_VectorArray = i_Vectors;
             m_PrimitivesNum = i_PrimitivesNum;
         }
 
