@@ -8,6 +8,7 @@ namespace DreidelGame.ObjectModel
 {
     public abstract class BaseDrawableComponent : DrawableGameComponent
     {
+        private const bool k_NeedTextureDefault = false;
         protected Vector3 m_Position = Vector3.Zero;
         private Vector3 m_Rotations = Vector3.Zero;
         protected Vector3 m_Scales = Vector3.One;
@@ -19,6 +20,19 @@ namespace DreidelGame.ObjectModel
         protected float m_RotationsPerSecond = 0;
 
         private bool m_SpinComponent;
+
+        private bool m_NeedTexture;
+
+        /// <summary>
+        /// Marks if the current component is a Texture primitive and needs a 
+        /// texture in draw
+        /// </summary>
+        public bool      NeedTexture
+        {
+            get { return m_NeedTexture; }
+            protected set { m_NeedTexture = value; }
+        }
+
 
         public virtual Vector3 Rotations
         {
@@ -99,14 +113,22 @@ namespace DreidelGame.ObjectModel
         }
 
         public BaseDrawableComponent(Game i_Game)
-            : this(i_Game, null)
+            : this(i_Game, null, k_NeedTextureDefault)
         {
         }
 
         public BaseDrawableComponent(Game i_Game, VertexElement[] i_VertexElements)
-            : base(i_Game)
+            : this(i_Game, i_VertexElements, k_NeedTextureDefault)
+        {            
+        }
+
+        public BaseDrawableComponent(
+            Game i_Game,
+            VertexElement[] i_VertexElements,
+            bool i_NeedTexture) : base(i_Game)
         {
             m_VertexElements = i_VertexElements;
+            NeedTexture = i_NeedTexture;
         }
 
         protected override void LoadContent()
