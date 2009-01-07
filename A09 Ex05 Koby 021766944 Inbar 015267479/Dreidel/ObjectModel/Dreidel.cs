@@ -54,6 +54,19 @@ namespace DreidelGame.ObjectModel
         }
 
         /// <summary>
+        /// Static ctor that creates the dreidel sides array
+        /// </summary>
+        static Dreidel()
+        {
+            s_DreidelLetters = new eDreidelLetters[k_DreidelSidesNum];
+
+            s_DreidelLetters[0] = eDreidelLetters.NLetter;
+            s_DreidelLetters[1] = eDreidelLetters.GLetter;
+            s_DreidelLetters[2] = eDreidelLetters.HLetter;
+            s_DreidelLetters[3] = eDreidelLetters.PLetter;
+        }
+
+        /// <summary>
         /// Initializes the dreidel components and random factors 
         /// (scale, position, rotation)
         /// </summary>
