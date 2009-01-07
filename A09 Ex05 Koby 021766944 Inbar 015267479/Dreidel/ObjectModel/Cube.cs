@@ -26,6 +26,9 @@ namespace DreidelGame.ObjectModel
         {
         }
         
+        /// <summary>
+        /// Initialize the cube by initializing the coordinates and create all the cube sides
+        /// </summary>
         public override void    Initialize()
         {
             initStartCoordinates();

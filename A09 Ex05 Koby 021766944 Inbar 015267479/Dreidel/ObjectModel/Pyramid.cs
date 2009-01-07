@@ -12,10 +12,15 @@ namespace DreidelGame.ObjectModel
     /// </summary>
     public class Pyramid : CompositeGameComponent
     {
-        private Vector3[] m_VerticesCoordinates = new Vector3[5];
+        private const float k_MinXCoordinate = -3;
+        private const float k_MaxXCoordinate = 3;
+        private const float k_YCoordinate = -3;
         private const float k_ZFactorWidth = 6;
         private const float k_ZFactorCoordinate = 3f;
         private readonly Color r_SideColor = Color.BurlyWood;
+        private readonly Vector3 r_PyramidHead = new Vector3(0, -6, 0);
+
+        private Vector3[] m_VerticesCoordinates = new Vector3[5];
 
         public Pyramid(Game i_Game)
             : base (i_Game)
@@ -80,13 +85,23 @@ namespace DreidelGame.ObjectModel
         {
             m_VerticesCoordinates = new Vector3[5];
 
-            // TODO: Move the values to constants
-
-            m_VerticesCoordinates[0] = new Vector3(-3, -3, k_ZFactorCoordinate);
-            m_VerticesCoordinates[1] = new Vector3(3, -3, k_ZFactorCoordinate);
-            m_VerticesCoordinates[2] = new Vector3(3, -3, k_ZFactorCoordinate - k_ZFactorWidth);
-            m_VerticesCoordinates[3] = new Vector3(-3, -3, k_ZFactorCoordinate - k_ZFactorWidth);
-            m_VerticesCoordinates[4] = new Vector3(0, -6, 0);
+            m_VerticesCoordinates[0] = new Vector3(
+                k_MinXCoordinate, 
+                k_YCoordinate, 
+                k_ZFactorCoordinate);
+            m_VerticesCoordinates[1] = new Vector3(
+                k_MaxXCoordinate, 
+                k_YCoordinate, 
+                k_ZFactorCoordinate);
+            m_VerticesCoordinates[2] = new Vector3(
+                k_MaxXCoordinate, 
+                k_YCoordinate, 
+                k_ZFactorCoordinate - k_ZFactorWidth);
+            m_VerticesCoordinates[3] = new Vector3(
+                k_MinXCoordinate, 
+                k_YCoordinate, 
+                k_ZFactorCoordinate - k_ZFactorWidth);
+            m_VerticesCoordinates[4] = r_PyramidHead;
         }
     }
 }

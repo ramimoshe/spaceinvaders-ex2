@@ -138,6 +138,11 @@ namespace DreidelGame
             Services.AddService(typeof(BasicEffect), m_BasicEffect);
         }
 
+        /// <summary>
+        /// Updates the game state by getting an input from the player 
+        /// (only if CanGetInput is true)
+        /// </summary>
+        /// <param name="i_GameTime">A snapshot of the current game time</param>
         protected override void     Update(GameTime i_GameTime)
         {
             base.Update(i_GameTime);
@@ -190,11 +195,14 @@ namespace DreidelGame
         {
             graphics.GraphicsDevice.Clear(Color.White);
 
-            //m_Cube.Draw(gameTime);
-            //m_CubeTexture.Draw(gameTime);
             base.Draw(gameTime);
         }
 
+        /// <summary>
+        /// Catch the FinishedSpinning event raised by a dreidel and decrease the number of
+        /// spinning dreidels
+        /// </summary>
+        /// <param name="i_Dreidel">The dreidel the raised the event</param>
         private void    dreidel_FinishedSpinning(Dreidel i_Dreidel)
         {
             m_SpinningDreidels--;            
