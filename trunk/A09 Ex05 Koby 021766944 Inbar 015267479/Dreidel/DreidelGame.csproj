@@ -56,7 +56,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DreidelGame.cs" />
     <Compile Include="ObjectModel\Box.cs" />
     <Compile Include="ObjectModel\CompositeGameComponent.cs" />
     <Compile Include="ObjectModel\BaseDrawableComponent.cs" />
@@ -72,6 +71,7 @@
     <Compile Include="ObjectModel\TextureDreidel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="DreidelGame.cs" />
     <Compile Include="ScoreManager.cs" />
     <Compile Include="Services\InputManager.cs" />
   </ItemGroup>
