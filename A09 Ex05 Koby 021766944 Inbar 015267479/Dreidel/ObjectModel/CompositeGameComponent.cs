@@ -13,7 +13,10 @@ namespace DreidelGame.ObjectModel
     {
         private List<BaseDrawableComponent> m_Drawables = new List<BaseDrawableComponent>();
 
-        public override Vector3 Rotations
+        /// <summary>
+        /// Sets the components rotation transformation values
+        /// </summary>
+        public override Vector3     Rotations
         {
             set
             {
@@ -26,7 +29,10 @@ namespace DreidelGame.ObjectModel
             }
         }
 
-        public override bool SpinComponent
+        /// <summary>
+        /// Sets the components SpinComponent property
+        /// </summary>
+        public override bool    SpinComponent
         {
             set
             {
@@ -39,7 +45,10 @@ namespace DreidelGame.ObjectModel
             }
         }
 
-        public override float RotationsPerSecond
+        /// <summary>
+        /// Sets the components RotationsPerSecond property
+        /// </summary>
+        public override float   RotationsPerSecond
         {
             set
             {
@@ -52,7 +61,10 @@ namespace DreidelGame.ObjectModel
             }
         }
 
-        public override Vector3 Position
+        /// <summary>
+        /// Sets the components Position property
+        /// </summary>
+        public override Vector3     Position
         {
             set
             {
@@ -65,7 +77,10 @@ namespace DreidelGame.ObjectModel
             }
         }
 
-        public override Vector3 Scales
+        /// <summary>
+        /// Sets the components Scales property
+        /// </summary>
+        public override Vector3     Scales
         {
             set
             {
@@ -78,7 +93,11 @@ namespace DreidelGame.ObjectModel
             }
         }
 
-        public override Texture2D Texture
+        /// <summary>
+        /// Sets the components Texture property.
+        /// The set occur only for components that their NeedTexture property is true
+        /// </summary>
+        public override Texture2D   Texture
         {
             set
             {
@@ -150,7 +169,7 @@ namespace DreidelGame.ObjectModel
         /// <summary>
         /// Draw all the components we hold
         /// </summary>
-        public override void Draw(GameTime gameTime)
+        public override void    Draw(GameTime gameTime)
         {
             foreach (BaseDrawableComponent drawable in m_Drawables)
             {
@@ -163,7 +182,7 @@ namespace DreidelGame.ObjectModel
         /// components he holds
         /// </summary>
         /// <param name="i_GameTime">A snapshot of the current game time</param>
-        public override void DoDraw(GameTime i_GameTime)
+        public override void    DoDraw(GameTime i_GameTime)
         {
         }
     }

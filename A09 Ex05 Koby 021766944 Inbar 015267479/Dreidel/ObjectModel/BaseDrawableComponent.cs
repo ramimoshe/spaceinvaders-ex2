@@ -165,7 +165,7 @@ namespace DreidelGame.ObjectModel
         /// Update the component by changing the rotation transformation (only if SpinComponent is
         /// true), and creates a new WorldMatrix represents the new state
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// <param name="i_GameTime">A snapshot of the current game time</param>
         public override void    Update(GameTime i_GameTime)
         {
             base.Update(i_GameTime);
