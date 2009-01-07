@@ -74,13 +74,22 @@ namespace DreidelGame
             m_ScoreManager = new ScoreManager(this);
             this.Components.Add(m_ScoreManager);
 
-            // TODO: Add texture dreidel creation
-
             for (int i = 1; i <= k_DreidelsNum; ++i)
             {
-                m_Dreidels[i - 1] = new Dreidel(this);
-                m_Dreidels[i - 1].FinishedSpinning += new DreidelEventHandler(dreidel_FinishedSpinning);
-                m_Dreidels[i - 1].FinishedSpinning += new DreidelEventHandler(m_ScoreManager.Dreidel_FinishedSpinning);
+                Dreidel newDreidel;
+
+                if ((i % 2) == 0)
+                {
+                    newDreidel = new PositionDreidel(this);
+                }
+                else
+                {
+                    newDreidel = new TextureDreidel(this);
+                }
+
+                newDreidel.FinishedSpinning += new DreidelEventHandler(dreidel_FinishedSpinning);
+                newDreidel.FinishedSpinning += new DreidelEventHandler(m_ScoreManager.Dreidel_FinishedSpinning);
+                m_Dreidels[i - 1] = newDreidel;                
 
             }
 
@@ -134,8 +143,6 @@ namespace DreidelGame
 
             if (CanGetInput)
             {
-                eDreidelLetters chosenLetter;
-
                 if (m_InputManager.KeyPressed(r_StartGameKey))
                 {
                     spinDreidels();
