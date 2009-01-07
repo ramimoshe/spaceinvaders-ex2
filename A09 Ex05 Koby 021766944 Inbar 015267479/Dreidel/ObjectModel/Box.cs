@@ -6,30 +6,25 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DreidelGame.ObjectModel
 {
+    /// <summary>
+    /// Represents the dreidel handle
+    /// </summary>
     public class Box : CompositeGameComponent
-    {        
-        private Vector3[] m_VerticesCoordinates = new Vector3[8];
-        private const float k_ZFactorWidth = 6;
-        private const float k_ZFactorCoordinate = 3f;
+    {
+        private Vector3[] m_VerticesCoordinates;
         private readonly Color r_SideColor = Color.Brown;
-
-
 
         public Box(Game i_Game)
             : base (i_Game)
         {
         }
 
-        public override void Initialize()
+        /// <summary>
+        /// Initialize the box coordinates and adds them to the components list
+        /// </summary>
+        public override void    Initialize()
         {
-            m_VerticesCoordinates[7] = new Vector3(-.5f, 3, .5f);
-            m_VerticesCoordinates[6] = new Vector3(-.5f, 7, .5f);
-            m_VerticesCoordinates[5] = new Vector3(.5f, 7, .5f);
-            m_VerticesCoordinates[4] = new Vector3(.5f, 3, .5f);
-            m_VerticesCoordinates[3] = new Vector3(.5f, 3, -.5f);
-            m_VerticesCoordinates[2] = new Vector3(.5f, 7, -.5f);
-            m_VerticesCoordinates[1] = new Vector3(-.5f, 7, -.5f);
-            m_VerticesCoordinates[0] = new Vector3(-.5f, 3, -.5f);
+            initCoordinates();
                         
             Add(new TriangleHolder<VertexPositionColor>(
                             Game,
@@ -92,6 +87,25 @@ namespace DreidelGame.ObjectModel
                             ));
 
             base.Initialize();
+        }
+
+        /// <summary>
+        /// Initialize the box coordinates
+        /// </summary>
+        private void    initCoordinates()
+        {
+            m_VerticesCoordinates = new Vector3[8];
+
+            // TODO: Move the coordinates to constants
+
+            m_VerticesCoordinates[7] = new Vector3(-.5f, 3, .5f);
+            m_VerticesCoordinates[6] = new Vector3(-.5f, 7, .5f);
+            m_VerticesCoordinates[5] = new Vector3(.5f, 7, .5f);
+            m_VerticesCoordinates[4] = new Vector3(.5f, 3, .5f);
+            m_VerticesCoordinates[3] = new Vector3(.5f, 3, -.5f);
+            m_VerticesCoordinates[2] = new Vector3(.5f, 7, -.5f);
+            m_VerticesCoordinates[1] = new Vector3(-.5f, 7, -.5f);
+            m_VerticesCoordinates[0] = new Vector3(-.5f, 3, -.5f);
         }
     }
 }

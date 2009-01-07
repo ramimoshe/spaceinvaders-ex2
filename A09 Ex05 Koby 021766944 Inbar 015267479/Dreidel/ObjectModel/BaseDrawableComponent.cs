@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DreidelGame.ObjectModel
 {
+    /// <summary>
+    /// A parent for all the drawable components in the game
+    /// </summary>
     public abstract class BaseDrawableComponent : DrawableGameComponent
     {
         private const bool k_NeedTextureDefault = false;
@@ -33,8 +36,10 @@ namespace DreidelGame.ObjectModel
             protected set { m_NeedTexture = value; }
         }
 
-
-        public virtual Vector3 Rotations
+        /// <summary>
+        /// Gets/sets the component rotation transformation values
+        /// </summary>
+        public virtual Vector3      Rotations
         {
             get
             {
@@ -49,7 +54,7 @@ namespace DreidelGame.ObjectModel
         /// <summary>
         /// Mark if we want to spin the current component
         /// </summary>
-        public virtual bool SpinComponent
+        public virtual bool     SpinComponent
         {
             get
             {
@@ -62,7 +67,10 @@ namespace DreidelGame.ObjectModel
             }
         }
 
-        public virtual float RotationsPerSecond
+        /// <summary>
+        /// Gets/sets the number of rotations the component make in a second
+        /// </summary>
+        public virtual float    RotationsPerSecond
         {
             get
             {
@@ -75,7 +83,10 @@ namespace DreidelGame.ObjectModel
             }
         }
 
-        public virtual Vector3 Position
+        /// <summary>
+        /// Gets/sets the components position transformation values
+        /// </summary>
+        public virtual Vector3      Position
         {
             get
             {
@@ -87,7 +98,10 @@ namespace DreidelGame.ObjectModel
             }
         }
 
-        public virtual Vector3 Scales
+        /// <summary>
+        /// Gets/sets the components scale transformation values
+        /// </summary>
+        public virtual Vector3      Scales
         {
             get
             {
@@ -100,7 +114,10 @@ namespace DreidelGame.ObjectModel
             }
         }
 
-        public virtual Texture2D Texture
+        /// <summary>
+        /// Gets/sets the components texture
+        /// </summary>
+        public virtual Texture2D    Texture
         {
             get
             {
@@ -131,7 +148,10 @@ namespace DreidelGame.ObjectModel
             NeedTexture = i_NeedTexture;
         }
 
-        protected override void LoadContent()
+        /// <summary>
+        /// Creates the components vertex decleration
+        /// </summary>
+        protected override void     LoadContent()
         {
             base.LoadContent();
 
@@ -141,30 +161,45 @@ namespace DreidelGame.ObjectModel
             }
         }
 
-        public override void Update(GameTime gameTime)
+        /// <summary>
+        /// Update the component by changing the rotation transformation (only if SpinComponent is
+        /// true), and creates a new WorldMatrix represents the new state
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public override void    Update(GameTime i_GameTime)
         {
-            base.Update(gameTime);
+            base.Update(i_GameTime);
 
             if (SpinComponent)
             {
-                m_Rotations.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * m_RotationsPerSecond;
+                m_Rotations.Y += (float)i_GameTime.ElapsedGameTime.TotalSeconds * m_RotationsPerSecond;
             }
 
             m_WorldMatrix =
-                /*I*/ Matrix.Identity *
-                /*S*/ Matrix.CreateScale(m_Scales) *
-                /*R*/ Matrix.CreateRotationX(m_Rotations.X) *
-                        Matrix.CreateRotationY(m_Rotations.Y) *
-                        Matrix.CreateRotationZ(m_Rotations.Z) *
-                /* No Orbit */
-                /*T*/ Matrix.CreateTranslation(m_Position);
+                Matrix.Identity *
+                Matrix.CreateScale(m_Scales) *
+                Matrix.CreateRotationX(m_Rotations.X) *
+                Matrix.CreateRotationY(m_Rotations.Y) *
+                Matrix.CreateRotationZ(m_Rotations.Z) *
+                Matrix.CreateTranslation(m_Position);
         }
 
-        public abstract void DoDraw(GameTime i_GameTime);
+        /// <summary>
+        /// Drawing the component
+        /// </summary>
+        /// <param name="i_GameTime">A snapshot of the game time</param>
+        public abstract void    DoDraw(GameTime i_GameTime);
 
-        public override void Draw(GameTime gameTime)
+        /// <summary>
+        /// Draws the component. 
+        /// first we'll search ffor a shared effect, creates if none exists, updates the effect
+        /// world matrix and draw parameters according to the component values, and than draws
+        /// the component
+        /// </summary>
+        /// <param name="i_GameTime">A snapshot of the game time</param>
+        public override void    Draw(GameTime i_GameTime)
         {
-            base.Draw(gameTime);
+            base.Draw(i_GameTime);
 
             if (m_VertexElements != null)
             {
@@ -196,7 +231,7 @@ namespace DreidelGame.ObjectModel
             foreach (EffectPass pass in effect.CurrentTechnique.Passes)
             {
                 pass.Begin();
-                DoDraw(gameTime);
+                DoDraw(i_GameTime);
                 pass.End();
             }
 
