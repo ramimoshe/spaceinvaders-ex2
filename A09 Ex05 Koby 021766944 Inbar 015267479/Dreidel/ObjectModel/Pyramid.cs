@@ -4,7 +4,6 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-
 namespace DreidelGame.ObjectModel
 {
     /// <summary>
@@ -22,8 +21,12 @@ namespace DreidelGame.ObjectModel
 
         private Vector3[] m_VerticesCoordinates = new Vector3[5];
 
+        /// <summary>
+        /// CTOR. creates a new instance
+        /// </summary>
+        /// <param name="i_Game">The hosting game</param>
         public Pyramid(Game i_Game)
-            : base (i_Game)
+            : base(i_Game)
         {
         }
 

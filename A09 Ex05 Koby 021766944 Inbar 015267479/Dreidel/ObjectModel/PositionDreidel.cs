@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace DreidelGame.ObjectModel
 {
     /// <summary>
-    /// A position color dreidel component
+    /// A position color dreidel component including manually generated letters
     /// </summary>
     public class PositionDreidel : Dreidel
     {

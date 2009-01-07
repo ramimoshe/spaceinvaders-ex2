@@ -12,7 +12,7 @@ namespace DreidelGame.ObjectModel
     public abstract class Cube : CompositeGameComponent
     {
         protected const float k_ZFactorWidth = 6;
-        protected const float k_ZFactorCoordinate = 3;
+        protected const float k_ZFactorCoordinate = 3f;
         protected const float k_MinXCoordinate = -3;
         protected const float k_MaxXCoordinate = 3;
         protected const float k_MinYCoordinate = -3;
@@ -21,8 +21,12 @@ namespace DreidelGame.ObjectModel
 
         protected Vector3[] m_VerticesCoordinates = new Vector3[8];
 
+        /// <summary>
+        /// CTOR. Inits a new instance
+        /// </summary>
+        /// <param name="i_Game">The hosting game</param>
         public Cube(Game i_Game)
-            : base (i_Game)
+            : base(i_Game)
         {
         }
         

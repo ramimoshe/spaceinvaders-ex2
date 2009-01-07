@@ -58,6 +58,10 @@ namespace DreidelGame
             }
         }
 
+        /// <summary>
+        /// CTOR. inits a new instance
+        /// </summary>
+        /// <param name="i_Game">The hosting game</param>
         public ScoreManager(Game i_Game)
             : base(i_Game)
         {
@@ -97,9 +101,7 @@ namespace DreidelGame
             base.Draw(i_GameTime);
 
             m_SpriteBatch.Begin();
-
             m_SpriteBatch.DrawString(m_Font, this.DrawString, m_ScorePosition, r_DrawColor);
-
             m_SpriteBatch.End();
         }
 

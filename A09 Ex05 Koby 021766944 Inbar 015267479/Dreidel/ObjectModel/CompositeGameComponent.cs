@@ -7,14 +7,14 @@ using Microsoft.Xna.Framework.Graphics;
 namespace DreidelGame.ObjectModel
 {
     /// <summary>
-    /// A component that holds components and manages their activity
+    /// A component that holds multiple components and manages their activity
     /// </summary>
     public abstract class CompositeGameComponent : BaseDrawableComponent
     {
         private List<BaseDrawableComponent> m_Drawables = new List<BaseDrawableComponent>();
 
         /// <summary>
-        /// Sets the components rotation transformation values
+        /// Sets the components rotation transformation values for all child components
         /// </summary>
         public override Vector3     Rotations
         {
@@ -30,7 +30,7 @@ namespace DreidelGame.ObjectModel
         }
 
         /// <summary>
-        /// Sets the components SpinComponent property
+        /// Sets the components SpinComponent property for all child components
         /// </summary>
         public override bool    SpinComponent
         {
@@ -46,7 +46,7 @@ namespace DreidelGame.ObjectModel
         }
 
         /// <summary>
-        /// Sets the components RotationsPerSecond property
+        /// Sets the components RotationsPerSecond property for all child components
         /// </summary>
         public override float   RotationsPerSecond
         {
@@ -62,7 +62,7 @@ namespace DreidelGame.ObjectModel
         }
 
         /// <summary>
-        /// Sets the components Position property
+        /// Sets the components Position property for all child components
         /// </summary>
         public override Vector3     Position
         {
@@ -78,7 +78,7 @@ namespace DreidelGame.ObjectModel
         }
 
         /// <summary>
-        /// Sets the components Scales property
+        /// Sets the components Scales property for all child components
         /// </summary>
         public override Vector3     Scales
         {
@@ -113,6 +113,10 @@ namespace DreidelGame.ObjectModel
             }
         }
 
+        /// <summary>
+        /// CTOR. Creates a new instance
+        /// </summary>
+        /// <param name="i_Game">The hosting game</param>
         public CompositeGameComponent(Game i_Game)
             : base(i_Game)
         {
@@ -125,6 +129,7 @@ namespace DreidelGame.ObjectModel
         /// <param name="i_Drawable">The new compoenent we want to add to the list</param>
         public void     Add(BaseDrawableComponent i_Drawable)
         {
+            // Validating component is not already a member of list
             if (m_Drawables.IndexOf(i_Drawable) < 0)
             {
                 m_Drawables.Add(i_Drawable);
@@ -133,6 +138,7 @@ namespace DreidelGame.ObjectModel
                 i_Drawable.Position = Position;
                 i_Drawable.SpinComponent = SpinComponent;
 
+                // validating component is registered in Game.Components
                 if (Game.Components.IndexOf(i_Drawable) >= 0)
                 {
                     Game.Components.Remove(i_Drawable);

@@ -45,6 +45,7 @@ namespace DreidelGame.ObjectModel
             {
                 return m_Rotations;
             }
+
             set
             {
                 m_Rotations = value;
@@ -92,6 +93,7 @@ namespace DreidelGame.ObjectModel
             {
                 return m_Position;
             }
+
             set
             {
                 m_Position = value;
@@ -123,22 +125,44 @@ namespace DreidelGame.ObjectModel
             {
                 return m_Texture;
             }
+
             set
             {
                 m_Texture = value;
             }
         }
 
+        /// <summary>
+        /// CTOR. Creates a new instance
+        /// </summary>
+        /// <param name="i_Game">hosting game</param>
         public BaseDrawableComponent(Game i_Game)
             : this(i_Game, null, k_NeedTextureDefault)
         {
         }
 
+        /// <summary>
+        /// CTOR. Creates a new instance
+        /// </summary>
+        /// <param name="i_Game">hosting game</param>
+        /// <param name="i_VertexElements">The vertex elements defining the component.
+        /// This is in order to load VertexDeclaration.
+        /// Valid values are: null, VertexPositionTexture.VertexElements,
+        /// VertexPositionColor</param>
         public BaseDrawableComponent(Game i_Game, VertexElement[] i_VertexElements)
             : this(i_Game, i_VertexElements, k_NeedTextureDefault)
-        {            
+        {
         }
 
+        /// <summary>
+        /// CTOR. Creates a new instance
+        /// </summary>
+        /// <param name="i_Game">hosting game</param>
+        /// <param name="i_VertexElements">The vertex elements defining the component.
+        /// This is in order to load VertexDeclaration.
+        /// Valid values are: null, VertexPositionTexture.VertexElements,
+        /// VertexPositionColor</param>
+        /// <param name="i_NeedTexture">Defines if a 2D texture is needed by the component</param>
         public BaseDrawableComponent(
             Game i_Game,
             VertexElement[] i_VertexElements,
@@ -201,13 +225,10 @@ namespace DreidelGame.ObjectModel
         {
             base.Draw(i_GameTime);
 
-            if (m_VertexElements != null)
-            {
-                GraphicsDevice.VertexDeclaration = m_VertexDeclaration;
-            }
-
+            // Getting effect from services
             BasicEffect effect = Game.Services.GetService(typeof(BasicEffect)) as BasicEffect;
 
+            // Validating effect is initialized
             if (effect == null)
             {
                 effect = new BasicEffect(GraphicsDevice, null);
@@ -215,6 +236,13 @@ namespace DreidelGame.ObjectModel
 
             effect.World = m_WorldMatrix;
 
+            // Setting vertex declaration for graphics device
+            if (m_VertexElements != null)
+            {
+                GraphicsDevice.VertexDeclaration = m_VertexDeclaration;
+            }
+
+            // Setting effects behaviour for Texture\Color
             if (Texture != null)
             {
                 effect.Texture = Texture;
@@ -228,6 +256,7 @@ namespace DreidelGame.ObjectModel
             }
             
             effect.Begin();
+
             foreach (EffectPass pass in effect.CurrentTechnique.Passes)
             {
                 pass.Begin();
