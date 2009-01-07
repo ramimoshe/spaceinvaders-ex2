@@ -65,7 +65,7 @@
     <Compile Include="ObjectModel\Pyramid.cs" />
     <Compile Include="ObjectModel\CubePosition.cs" />
     <Compile Include="ObjectModel\CubeTexture.cs" />
-    <Compile Include="ObjectModel\Side.cs">
+    <Compile Include="ObjectModel\TriangleHolder.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ObjectModel\TextureDreidel.cs" />

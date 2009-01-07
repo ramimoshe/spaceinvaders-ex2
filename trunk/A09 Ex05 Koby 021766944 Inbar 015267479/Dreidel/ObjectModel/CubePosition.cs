@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DreidelGame.ObjectModel
 {
+    /// <summary>
+    /// A cube that contains ColorPosition vertices
+    /// </summary>
     public class CubePosition : Cube
     {        
         private const float k_LetterSpace = 0.01f;
@@ -16,29 +19,9 @@ namespace DreidelGame.ObjectModel
         private readonly Color r_RightColor = Color.Blue;
 
         private Vector3[] m_NLetterCoordinates;
-        //private KeyValuePair<int, VertexPositionColor[]>[] m_NLetterPositions;
-        private VertexPositionColor[] m_NLetterCoordinates1;
-        private VertexPositionColor[] m_NLetterCoordinates2;
-        private VertexPositionColor[] m_NLetterCoordinates3;
-        private VertexPositionColor[] m_NLetterCoordinates4;
-
         private Vector3[] m_HLetterCoordinates;
-        private VertexPositionColor[] m_HLetterCoordinates1;
-        private VertexPositionColor[] m_HLetterCoordinates2;
-        private VertexPositionColor[] m_HLetterCoordinates3;
-
         private Vector3[] m_PLetterCoordinates;
-        private VertexPositionColor[] m_PLetterCoordinates1;
-        private VertexPositionColor[] m_PLetterCoordinates2;
-        private VertexPositionColor[] m_PLetterCoordinates3;
-        private VertexPositionColor[] m_PLetterCoordinates4;
-        private VertexPositionColor[] m_PLetterCoordinates5;
-
         private Vector3[] m_GLetterCoordinates;
-        private VertexPositionColor[] m_GLetterCoordinates1;
-        private VertexPositionColor[] m_GLetterCoordinates2;
-        private VertexPositionColor[] m_GLetterCoordinates3;
-        private VertexPositionColor[] m_GLetterCoordinates4;
 
         public CubePosition(Game i_Game)
             : base (i_Game)
@@ -50,12 +33,9 @@ namespace DreidelGame.ObjectModel
         /// that are presented in each cube side
         /// </summary>
         protected override void     CreateSides()
-        {            
-            // TODO: Change
-            initLettersCoordinates();
-
+        {                        
             // Creating the front side
-            Add(new Side<VertexPositionColor>(
+            Add(new TriangleHolder<VertexPositionColor>(
                             Game,
                             VertexPositionColor.VertexElements,
                             2,
@@ -65,7 +45,7 @@ namespace DreidelGame.ObjectModel
                             new VertexPositionColor(m_VerticesCoordinates[3], r_FrontColor)));
 
             // Creating the back side
-            Add(new Side<VertexPositionColor>(
+            Add(new TriangleHolder<VertexPositionColor>(
                             Game,
                             VertexPositionColor.VertexElements,
                             2, 
@@ -75,7 +55,7 @@ namespace DreidelGame.ObjectModel
                             new VertexPositionColor(m_VerticesCoordinates[7], r_BackColor)));
 
             // Creating the right side
-            Add(new Side<VertexPositionColor>(
+            Add(new TriangleHolder<VertexPositionColor>(
                             Game,
                             VertexPositionColor.VertexElements,
                             2, 
@@ -85,7 +65,7 @@ namespace DreidelGame.ObjectModel
                             new VertexPositionColor(m_VerticesCoordinates[4], r_RightColor)));
 
             // Creating the left side
-            Add(new Side<VertexPositionColor>(
+            Add(new TriangleHolder<VertexPositionColor>(
                             Game,
                             VertexPositionColor.VertexElements,
                             2,
@@ -95,7 +75,7 @@ namespace DreidelGame.ObjectModel
                             new VertexPositionColor(m_VerticesCoordinates[0], r_LeftColor)));
 
             // Creating the top side
-            Add(new Side<VertexPositionColor>(
+            Add(new TriangleHolder<VertexPositionColor>(
                             Game,
                             VertexPositionColor.VertexElements,
                             2,
@@ -105,7 +85,7 @@ namespace DreidelGame.ObjectModel
                             new VertexPositionColor(m_VerticesCoordinates[2], r_UpDownColor)));
 
             // Creating the bottom side
-            Add(new Side<VertexPositionColor>(
+            Add(new TriangleHolder<VertexPositionColor>(
                             Game,
                             VertexPositionColor.VertexElements,
                             2,
@@ -113,32 +93,71 @@ namespace DreidelGame.ObjectModel
                             new VertexPositionColor(m_VerticesCoordinates[4], r_UpDownColor),
                             new VertexPositionColor(m_VerticesCoordinates[7], r_UpDownColor),
                             new VertexPositionColor(m_VerticesCoordinates[0], r_UpDownColor)));
+
+            createLetters();
         }
 
         /// <summary>
         /// Initialize all the letters coordinates and adds them to the cube elements
         /// </summary>
-        private void    initLettersCoordinates()
+        private void    createLetters()
         {
-            initNLetter();
-            initHLetter();
-            initPLetter();
-            initGLetter();
+            createNLetter();
+            createHLetter();
+            createPLetter();
+            createGLetter();
         }
 
         /// <summary>
         /// Initialize the "ð" letter and adds it to the cube elements
         /// </summary>
-        private void    initNLetter()
+        private void    createNLetter()
+        {
+            initNLetterCoordinate();
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                Game,
+                VertexPositionColor.VertexElements,
+                3,
+                new VertexPositionColor(m_NLetterCoordinates[0], Color.Black),
+                new VertexPositionColor(m_NLetterCoordinates[1], Color.Black),
+                new VertexPositionColor(m_NLetterCoordinates[2], Color.Black),
+                new VertexPositionColor(m_NLetterCoordinates[3], Color.Black),
+                new VertexPositionColor(m_NLetterCoordinates[4], Color.Black)));
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                Game,
+                VertexPositionColor.VertexElements,
+                2,            
+                new VertexPositionColor(m_NLetterCoordinates[2], Color.Black),
+                new VertexPositionColor(m_NLetterCoordinates[5], Color.Black),
+                new VertexPositionColor(m_NLetterCoordinates[7], Color.Black),
+                new VertexPositionColor(m_NLetterCoordinates[4], Color.Black)));
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                Game,
+                VertexPositionColor.VertexElements,
+                1,                        
+                new VertexPositionColor(m_NLetterCoordinates[5], Color.Black),
+                new VertexPositionColor(m_NLetterCoordinates[6], Color.Black),
+                new VertexPositionColor(m_NLetterCoordinates[7], Color.Black)));
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                Game,
+                VertexPositionColor.VertexElements,
+                2,                        
+                new VertexPositionColor(m_NLetterCoordinates[9], Color.Black),
+                new VertexPositionColor(m_NLetterCoordinates[8], Color.Black),
+                new VertexPositionColor(m_NLetterCoordinates[6], Color.Black),
+                new VertexPositionColor(m_NLetterCoordinates[5], Color.Black)));         
+        }
+
+        /// <summary>
+        /// Initialize the "ð" letter coordinates
+        /// </summary>
+        private void    initNLetterCoordinate()
         {
             m_NLetterCoordinates = new Vector3[10];
-            //m_NLetterPositions = new KeyValuePair<int, VertexPositionColor[]>[4];
-            m_NLetterCoordinates1 = new VertexPositionColor[5];
-            m_NLetterCoordinates2 = new VertexPositionColor[4];
-            m_NLetterCoordinates3 = new VertexPositionColor[3];
-            m_NLetterCoordinates4 = new VertexPositionColor[4];
-            //VertexPositionColor[] currVertices = new VertexPositionColor[];
-
 
             m_NLetterCoordinates[0] = new Vector3(-2, -2.5f, k_ZFactorCoordinate + k_LetterSpace);
             m_NLetterCoordinates[1] = new Vector3(-2, -1.5f, k_ZFactorCoordinate + k_LetterSpace);
@@ -150,57 +169,49 @@ namespace DreidelGame.ObjectModel
             m_NLetterCoordinates[7] = new Vector3(2, 2.5f, k_ZFactorCoordinate + k_LetterSpace);
             m_NLetterCoordinates[8] = new Vector3(0, 2.5f, k_ZFactorCoordinate + k_LetterSpace);
             m_NLetterCoordinates[9] = new Vector3(0, 1.5f, k_ZFactorCoordinate + k_LetterSpace);
-
-            /*m_NLetterPositions[0] = new VertexPositionColor(m_NLetterCoordinates[0], Color.Black);
-            m_NLetterPositions[1] = new VertexPositionColor(m_NLetterCoordinates[1], Color.Black);
-            m_NLetterPositions[2] = new VertexPositionColor(m_NLetterCoordinates[2], Color.Black);
-            m_NLetterPositions[3] = new VertexPositionColor(m_NLetterCoordinates[3], Color.Black);
-            m_NLetterPositions[4] = new VertexPositionColor(m_NLetterCoordinates[4], Color.Black);
-
-            m_NLetterPositions[5] = new VertexPositionColor(m_NLetterCoordinates[2], Color.Black);
-            m_NLetterPositions[6] = new VertexPositionColor(m_NLetterCoordinates[5], Color.Black);
-            m_NLetterPositions[7] = new VertexPositionColor(m_NLetterCoordinates[7], Color.Black);
-            m_NLetterPositions[8] = new VertexPositionColor(m_NLetterCoordinates[4], Color.Black);
-
-            m_NLetterPositions[9] = new VertexPositionColor(m_NLetterCoordinates[5], Color.Black);
-            m_NLetterPositions[10] = new VertexPositionColor(m_NLetterCoordinates[6], Color.Black);
-            m_NLetterPositions[11] = new VertexPositionColor(m_NLetterCoordinates[7], Color.Black);
-
-            m_NLetterPositions[12] = new VertexPositionColor(m_NLetterCoordinates[9], Color.Black);
-            m_NLetterPositions[13] = new VertexPositionColor(m_NLetterCoordinates[8], Color.Black);
-            m_NLetterPositions[14] = new VertexPositionColor(m_NLetterCoordinates[6], Color.Black);
-            m_NLetterPositions[15] = new VertexPositionColor(m_NLetterCoordinates[5], Color.Black);*/
-
-            m_NLetterCoordinates1[0] = new VertexPositionColor(m_NLetterCoordinates[0], Color.Black);
-            m_NLetterCoordinates1[1] = new VertexPositionColor(m_NLetterCoordinates[1], Color.Black);
-            m_NLetterCoordinates1[2] = new VertexPositionColor(m_NLetterCoordinates[2], Color.Black);
-            m_NLetterCoordinates1[3] = new VertexPositionColor(m_NLetterCoordinates[3], Color.Black);
-            m_NLetterCoordinates1[4] = new VertexPositionColor(m_NLetterCoordinates[4], Color.Black);
-
-            m_NLetterCoordinates2[0] = new VertexPositionColor(m_NLetterCoordinates[2], Color.Black);
-            m_NLetterCoordinates2[1] = new VertexPositionColor(m_NLetterCoordinates[5], Color.Black);
-            m_NLetterCoordinates2[2] = new VertexPositionColor(m_NLetterCoordinates[7], Color.Black);
-            m_NLetterCoordinates2[3] = new VertexPositionColor(m_NLetterCoordinates[4], Color.Black);
-
-            m_NLetterCoordinates3[0] = new VertexPositionColor(m_NLetterCoordinates[5], Color.Black);
-            m_NLetterCoordinates3[1] = new VertexPositionColor(m_NLetterCoordinates[6], Color.Black);
-            m_NLetterCoordinates3[2] = new VertexPositionColor(m_NLetterCoordinates[7], Color.Black);
-
-            m_NLetterCoordinates4[0] = new VertexPositionColor(m_NLetterCoordinates[9], Color.Black);
-            m_NLetterCoordinates4[1] = new VertexPositionColor(m_NLetterCoordinates[8], Color.Black);
-            m_NLetterCoordinates4[2] = new VertexPositionColor(m_NLetterCoordinates[6], Color.Black);
-            m_NLetterCoordinates4[3] = new VertexPositionColor(m_NLetterCoordinates[5], Color.Black);
         }
 
         /// <summary>
         /// Initialize the "ä" letter and adds it to the cube elements
         /// </summary>
-        private void initHLetter()
+        private void    createHLetter()
+        {           
+            initHLetterCoordinate();
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                Game,
+                VertexPositionColor.VertexElements,
+                2,
+                new VertexPositionColor(m_HLetterCoordinates[1], Color.Black),
+                new VertexPositionColor(m_HLetterCoordinates[4], Color.Black),
+                new VertexPositionColor(m_HLetterCoordinates[2], Color.Black),
+                new VertexPositionColor(m_HLetterCoordinates[0], Color.Black)));
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                Game,
+                VertexPositionColor.VertexElements,
+                2,
+                new VertexPositionColor(m_HLetterCoordinates[6], Color.Black),
+                new VertexPositionColor(m_HLetterCoordinates[5], Color.Black),
+                new VertexPositionColor(m_HLetterCoordinates[4], Color.Black),
+                new VertexPositionColor(m_HLetterCoordinates[3], Color.Black)));
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                Game,
+                VertexPositionColor.VertexElements,
+                2,
+                new VertexPositionColor(m_HLetterCoordinates[10], Color.Black),
+                new VertexPositionColor(m_HLetterCoordinates[8], Color.Black),
+                new VertexPositionColor(m_HLetterCoordinates[7], Color.Black),
+                new VertexPositionColor(m_HLetterCoordinates[9], Color.Black)));         
+        }
+
+        /// <summary>
+        /// Initialize the "ä" letter coordinates
+        /// </summary>
+        private void initHLetterCoordinate()
         {
             m_HLetterCoordinates = new Vector3[11];
-            m_HLetterCoordinates1 = new VertexPositionColor[4];
-            m_HLetterCoordinates2 = new VertexPositionColor[4];
-            m_HLetterCoordinates3 = new VertexPositionColor[4];            
 
             m_HLetterCoordinates[0] = new Vector3(-2, -2.5f, -k_ZFactorCoordinate - .01f);
             m_HLetterCoordinates[1] = new Vector3(-1, -2.5f, -k_ZFactorCoordinate - .01f);
@@ -213,34 +224,58 @@ namespace DreidelGame.ObjectModel
             m_HLetterCoordinates[8] = new Vector3(2, 0, -k_ZFactorCoordinate - .01f);
             m_HLetterCoordinates[9] = new Vector3(1, -2.5f, -k_ZFactorCoordinate - .01f);
             m_HLetterCoordinates[10] = new Vector3(2, -2.5f, -k_ZFactorCoordinate - .01f);
-
-            m_HLetterCoordinates1[0] = new VertexPositionColor(m_HLetterCoordinates[1], Color.Black);
-            m_HLetterCoordinates1[1] = new VertexPositionColor(m_HLetterCoordinates[4], Color.Black);
-            m_HLetterCoordinates1[2] = new VertexPositionColor(m_HLetterCoordinates[2], Color.Black);
-            m_HLetterCoordinates1[3] = new VertexPositionColor(m_HLetterCoordinates[0], Color.Black);
-
-            m_HLetterCoordinates2[0] = new VertexPositionColor(m_HLetterCoordinates[6], Color.Black);
-            m_HLetterCoordinates2[1] = new VertexPositionColor(m_HLetterCoordinates[5], Color.Black);
-            m_HLetterCoordinates2[2] = new VertexPositionColor(m_HLetterCoordinates[4], Color.Black);
-            m_HLetterCoordinates2[3] = new VertexPositionColor(m_HLetterCoordinates[3], Color.Black);
-
-            m_HLetterCoordinates3[0] = new VertexPositionColor(m_HLetterCoordinates[10], Color.Black);
-            m_HLetterCoordinates3[1] = new VertexPositionColor(m_HLetterCoordinates[8], Color.Black);
-            m_HLetterCoordinates3[2] = new VertexPositionColor(m_HLetterCoordinates[7], Color.Black);
-            m_HLetterCoordinates3[3] = new VertexPositionColor(m_HLetterCoordinates[9], Color.Black);
         }
 
         /// <summary>
         /// Initialize the "â" letter and adds it to the cube elements
         /// </summary>
-        private void    initGLetter()
+        private void    createGLetter()
+        {            
+            initGLetterCoordinates();
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                Game,
+                VertexPositionColor.VertexElements,
+                2,
+                new VertexPositionColor(m_GLetterCoordinates[0], Color.Black),
+                new VertexPositionColor(m_GLetterCoordinates[1], Color.Black),
+                new VertexPositionColor(m_GLetterCoordinates[2], Color.Black),
+                new VertexPositionColor(m_GLetterCoordinates[4], Color.Black)));
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                Game,
+                VertexPositionColor.VertexElements,
+                2,
+                new VertexPositionColor(m_GLetterCoordinates[3], Color.Black),
+                new VertexPositionColor(m_GLetterCoordinates[2], Color.Black),
+                new VertexPositionColor(m_GLetterCoordinates[7], Color.Black),
+                new VertexPositionColor(m_GLetterCoordinates[6], Color.Black)));
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                Game,
+                VertexPositionColor.VertexElements,
+                2,
+                new VertexPositionColor(m_GLetterCoordinates[5], Color.Black),
+                new VertexPositionColor(m_GLetterCoordinates[11], Color.Black),
+                new VertexPositionColor(m_GLetterCoordinates[12], Color.Black),
+                new VertexPositionColor(m_GLetterCoordinates[13], Color.Black)));
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                Game,
+                VertexPositionColor.VertexElements,
+                2,
+                new VertexPositionColor(m_GLetterCoordinates[9], Color.Black),
+                new VertexPositionColor(m_GLetterCoordinates[10], Color.Black),
+                new VertexPositionColor(m_GLetterCoordinates[11], Color.Black),
+                new VertexPositionColor(m_GLetterCoordinates[8], Color.Black)));
+        }
+
+        /// <summary>
+        /// Initialize the "â" letter coordinates
+        /// </summary>
+        private void    initGLetterCoordinates()
         {
             m_GLetterCoordinates = new Vector3[14];
-
-            m_GLetterCoordinates1 = new VertexPositionColor[4];
-            m_GLetterCoordinates2 = new VertexPositionColor[4];
-            m_GLetterCoordinates3 = new VertexPositionColor[4];
-            m_GLetterCoordinates4 = new VertexPositionColor[4];
 
             m_GLetterCoordinates[0] = new Vector3(-3 - .01f, -2.5f, -2);
             m_GLetterCoordinates[1] = new Vector3(-3 - .01f, 0, -2);
@@ -256,40 +291,67 @@ namespace DreidelGame.ObjectModel
             m_GLetterCoordinates[11] = new Vector3(-3 - .01f, 2.5f, 1);
             m_GLetterCoordinates[12] = new Vector3(-3 - .01f, 2.5f, 2);
             m_GLetterCoordinates[13] = new Vector3(-3 - .01f, -2.5f, 2);
-
-            m_GLetterCoordinates1[0] = new VertexPositionColor(m_GLetterCoordinates[0], Color.Black);
-            m_GLetterCoordinates1[1] = new VertexPositionColor(m_GLetterCoordinates[1], Color.Black);
-            m_GLetterCoordinates1[2] = new VertexPositionColor(m_GLetterCoordinates[2], Color.Black);
-            m_GLetterCoordinates1[3] = new VertexPositionColor(m_GLetterCoordinates[4], Color.Black);
-
-            m_GLetterCoordinates2[0] = new VertexPositionColor(m_GLetterCoordinates[3], Color.Black);
-            m_GLetterCoordinates2[1] = new VertexPositionColor(m_GLetterCoordinates[2], Color.Black);
-            m_GLetterCoordinates2[2] = new VertexPositionColor(m_GLetterCoordinates[7], Color.Black);
-            m_GLetterCoordinates2[3] = new VertexPositionColor(m_GLetterCoordinates[6], Color.Black);
-
-            m_GLetterCoordinates3[0] = new VertexPositionColor(m_GLetterCoordinates[5], Color.Black);
-            m_GLetterCoordinates3[1] = new VertexPositionColor(m_GLetterCoordinates[11], Color.Black);
-            m_GLetterCoordinates3[2] = new VertexPositionColor(m_GLetterCoordinates[12], Color.Black);
-            m_GLetterCoordinates3[3] = new VertexPositionColor(m_GLetterCoordinates[13], Color.Black);
-
-            m_GLetterCoordinates4[0] = new VertexPositionColor(m_GLetterCoordinates[9], Color.Black);
-            m_GLetterCoordinates4[1] = new VertexPositionColor(m_GLetterCoordinates[10], Color.Black);
-            m_GLetterCoordinates4[2] = new VertexPositionColor(m_GLetterCoordinates[11], Color.Black);
-            m_GLetterCoordinates4[3] = new VertexPositionColor(m_GLetterCoordinates[8], Color.Black);
         }
 
         /// <summary>
         /// Initialize the "ô" letter and adds it to the cube elements
         /// </summary>
-        private void    initPLetter()
+        private void    createPLetter()
+        {            
+            initPLetterCoordinate();
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                Game,
+                VertexPositionColor.VertexElements,
+                2,
+                new VertexPositionColor(m_PLetterCoordinates[0], Color.Black),
+                new VertexPositionColor(m_PLetterCoordinates[1], Color.Black),
+                new VertexPositionColor(m_PLetterCoordinates[5], Color.Black),
+                new VertexPositionColor(m_PLetterCoordinates[6], Color.Black)));
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                Game,
+                VertexPositionColor.VertexElements,
+                2,
+                new VertexPositionColor(m_PLetterCoordinates[1], Color.Black),
+                new VertexPositionColor(m_PLetterCoordinates[7], Color.Black),
+                new VertexPositionColor(m_PLetterCoordinates[8], Color.Black),
+                new VertexPositionColor(m_PLetterCoordinates[2], Color.Black)));
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                Game,
+                VertexPositionColor.VertexElements,
+                2,
+                new VertexPositionColor(m_PLetterCoordinates[11], Color.Black),
+                new VertexPositionColor(m_PLetterCoordinates[8], Color.Black),
+                new VertexPositionColor(m_PLetterCoordinates[9], Color.Black),
+                new VertexPositionColor(m_PLetterCoordinates[10], Color.Black)));
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                Game,
+                VertexPositionColor.VertexElements,
+                2,
+                new VertexPositionColor(m_PLetterCoordinates[4], Color.Black),
+                new VertexPositionColor(m_PLetterCoordinates[16], Color.Black),
+                new VertexPositionColor(m_PLetterCoordinates[12], Color.Black),
+                new VertexPositionColor(m_PLetterCoordinates[5], Color.Black)));
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                Game,
+                VertexPositionColor.VertexElements,
+                2, 
+                new VertexPositionColor(m_PLetterCoordinates[14], Color.Black),
+                new VertexPositionColor(m_PLetterCoordinates[13], Color.Black),
+                new VertexPositionColor(m_PLetterCoordinates[16], Color.Black),
+                new VertexPositionColor(m_PLetterCoordinates[15], Color.Black)));        
+        }
+
+        /// <summary>
+        /// Initialize the "ô" letter coordinates
+        /// </summary>
+        private void    initPLetterCoordinate()
         {
             m_PLetterCoordinates = new Vector3[17];
-
-            m_PLetterCoordinates1 = new VertexPositionColor[4];
-            m_PLetterCoordinates2 = new VertexPositionColor[4];
-            m_PLetterCoordinates3 = new VertexPositionColor[4];
-            m_PLetterCoordinates4 = new VertexPositionColor[4];
-            m_PLetterCoordinates5 = new VertexPositionColor[4];
 
             m_PLetterCoordinates[0] = new Vector3(3 + .01f, -2.5f, k_ZFactorCoordinate - 1);
             m_PLetterCoordinates[1] = new Vector3(3 + .01f, -1.5f, k_ZFactorCoordinate - 1);
@@ -308,116 +370,6 @@ namespace DreidelGame.ObjectModel
             m_PLetterCoordinates[14] = new Vector3(3 + .01f, 1.5f, k_ZFactorCoordinate - 1);
             m_PLetterCoordinates[15] = new Vector3(3 + .01f, 1.5f, -k_ZFactorCoordinate + 2);
             m_PLetterCoordinates[16] = new Vector3(3 + .01f, 2.5f, -k_ZFactorCoordinate + 2);
-            
-
-            m_PLetterCoordinates1[0] = new VertexPositionColor(m_PLetterCoordinates[0], Color.Black);
-            m_PLetterCoordinates1[1] = new VertexPositionColor(m_PLetterCoordinates[1], Color.Black);
-            m_PLetterCoordinates1[2] = new VertexPositionColor(m_PLetterCoordinates[5], Color.Black);
-            m_PLetterCoordinates1[3] = new VertexPositionColor(m_PLetterCoordinates[6], Color.Black);
-
-            m_PLetterCoordinates2[0] = new VertexPositionColor(m_PLetterCoordinates[1], Color.Black);
-            m_PLetterCoordinates2[1] = new VertexPositionColor(m_PLetterCoordinates[7], Color.Black);
-            m_PLetterCoordinates2[2] = new VertexPositionColor(m_PLetterCoordinates[8], Color.Black);
-            m_PLetterCoordinates2[3] = new VertexPositionColor(m_PLetterCoordinates[2], Color.Black);
-
-            m_PLetterCoordinates3[0] = new VertexPositionColor(m_PLetterCoordinates[11], Color.Black);
-            m_PLetterCoordinates3[1] = new VertexPositionColor(m_PLetterCoordinates[8], Color.Black);
-            m_PLetterCoordinates3[2] = new VertexPositionColor(m_PLetterCoordinates[9], Color.Black);
-            m_PLetterCoordinates3[3] = new VertexPositionColor(m_PLetterCoordinates[10], Color.Black);
-
-            m_PLetterCoordinates4[0] = new VertexPositionColor(m_PLetterCoordinates[4], Color.Black);
-            m_PLetterCoordinates4[1] = new VertexPositionColor(m_PLetterCoordinates[16], Color.Black);
-            m_PLetterCoordinates4[2] = new VertexPositionColor(m_PLetterCoordinates[12], Color.Black);
-            m_PLetterCoordinates4[3] = new VertexPositionColor(m_PLetterCoordinates[5], Color.Black);
-
-            m_PLetterCoordinates5[0] = new VertexPositionColor(m_PLetterCoordinates[14], Color.Black);
-            m_PLetterCoordinates5[1] = new VertexPositionColor(m_PLetterCoordinates[13], Color.Black);
-            m_PLetterCoordinates5[2] = new VertexPositionColor(m_PLetterCoordinates[16], Color.Black);
-            m_PLetterCoordinates5[3] = new VertexPositionColor(m_PLetterCoordinates[15], Color.Black);
-        }
-
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// The component change the GraphicsDevice so that it can draw VertexPositionColor.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public override void    Draw(GameTime gameTime)
-        {
-            base.Draw(gameTime);
-
-            drawCubeLetters();
-
-        }
-
-        /// <summary>
-        /// Draws all the cube side letters
-        /// </summary>
-        private void    drawCubeLetters()
-        {
-            drawNLetter();
-            drawHLetter();
-            drawPLetter();
-            drawGLetter();
-        }
-
-        private void    drawNLetter()
-        {                      
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                  PrimitiveType.TriangleFan, m_NLetterCoordinates1, 0, 3);
-
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                  PrimitiveType.TriangleFan, m_NLetterCoordinates2, 0, 2);
-
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                  PrimitiveType.TriangleFan, m_NLetterCoordinates3, 0, 1);
-
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                  PrimitiveType.TriangleFan, m_NLetterCoordinates4, 0, 2);
-        }
-
-        private void    drawHLetter()
-        {
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                  PrimitiveType.TriangleFan, m_HLetterCoordinates1, 0, 2);
-
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                  PrimitiveType.TriangleFan, m_HLetterCoordinates2, 0, 2);
-
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                  PrimitiveType.TriangleFan, m_HLetterCoordinates3, 0, 2);
-        }
-
-        private void    drawPLetter()
-        {
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                  PrimitiveType.TriangleFan, m_PLetterCoordinates1, 0, 2);
-
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                  PrimitiveType.TriangleFan, m_PLetterCoordinates2, 0, 2);
-
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                  PrimitiveType.TriangleFan, m_PLetterCoordinates3, 0, 2);
-
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                  PrimitiveType.TriangleFan, m_PLetterCoordinates4, 0, 2);
-
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                  PrimitiveType.TriangleFan, m_PLetterCoordinates5, 0, 2);
-        }
-
-        private void    drawGLetter()
-        {
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                  PrimitiveType.TriangleFan, m_GLetterCoordinates1, 0, 2);
-
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                  PrimitiveType.TriangleFan, m_GLetterCoordinates2, 0, 2);
-
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                  PrimitiveType.TriangleFan, m_GLetterCoordinates3, 0, 2);
-
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                  PrimitiveType.TriangleFan, m_GLetterCoordinates4, 0, 2);
         }
     }
 }
