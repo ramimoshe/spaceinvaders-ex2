@@ -11,6 +11,8 @@ namespace DreidelGame.ObjectModel
     /// </summary>
     public class PositionDreidel : Dreidel
     {
+        // TODO: Remove all the letters constants
+
         private const float k_LetterSpace = .01f;
         protected const float k_ZFactorCoordinate = 3;
 
@@ -22,6 +24,7 @@ namespace DreidelGame.ObjectModel
         public PositionDreidel(Game i_Game)
             : base(i_Game)
         {
+            Add(new DreidelLetters(i_Game));
         }
 
         /// <summary>
@@ -36,8 +39,10 @@ namespace DreidelGame.ObjectModel
         /// Initialize the dreidel by creating the letters that appear on the cube sides
         /// </summary>
         public override void    Initialize()
-        {           
-            createLetters();
+        {     
+            // TODO: Activate
+
+            //createLetters();
 
             base.Initialize();
         }

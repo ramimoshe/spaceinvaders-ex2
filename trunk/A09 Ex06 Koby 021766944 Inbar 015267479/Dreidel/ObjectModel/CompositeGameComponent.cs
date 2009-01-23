@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DreidelGame.ObjectModel
 {
+
+    // TODO: Remove
+
     /// <summary>
     /// A component that holds multiple components and manages their activity
     /// </summary>
@@ -188,8 +191,8 @@ namespace DreidelGame.ObjectModel
         /// components he holds
         /// </summary>
         /// <param name="i_GameTime">A snapshot of the current game time</param>
-        public override void    DoDraw(GameTime i_GameTime)
+        /*public override void    DoDraw(GameTime i_GameTime)
         {
-        }
+        }*/
     }
 }

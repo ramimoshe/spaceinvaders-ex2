@@ -20,13 +20,16 @@ namespace DreidelGame.ObjectModel
         None
     }
 
+    // TODO: Change to inherit from Base
+
     /// <summary>
     /// Represents a dreidel in the game
     /// </summary>
     public abstract class Dreidel : CompositeGameComponent
     {
         private const int k_DreidelSidesNum = 4;
-        private const int k_DefaultDreidelSide = 0; 
+        private const int k_DefaultDreidelSide = 0;
+        private const int k_TrianglesNum = 0;
         
         private static Random m_Rand = new Random();
 
@@ -37,6 +40,8 @@ namespace DreidelGame.ObjectModel
         private float m_TargetRotation = -1;
         private int m_CurrSide;
 
+        //private List<BaseDrawableComponent> m_Components;
+
         public event DreidelEventHandler FinishedSpinning;
 
         // Initializing a random position for the dreidel
@@ -44,6 +49,14 @@ namespace DreidelGame.ObjectModel
                     ((-1) + (m_Rand.Next(2) * 2)) * (float)m_Rand.Next(1, 200),
                     ((-1) + (m_Rand.Next(2) * 2)) * (float)m_Rand.Next(1, 150),
                     ((-1) + (m_Rand.Next(2) * 2)) * (float)m_Rand.Next(1, 20));
+
+        /// <summary>
+        /// Gets the number of triangles the dreidel has
+        /// </summary>
+        public override int     TriangleNum
+        {
+            get { return k_TrianglesNum; }
+        }
 
         /// <summary>
         /// Gets the dreidels cube
@@ -194,6 +207,16 @@ namespace DreidelGame.ObjectModel
             {
                 FinishedSpinning(this);
             }
+        }
+
+        // tODO: Remove the proc
+
+        /// <summary>
+        /// Initialize the VertexBuffer and IndexBuffer components.
+        /// </summary>
+        public override void InitBuffers()
+        {
+            throw new Exception("The method or operation is not implemented.");
         }
     }
 }
