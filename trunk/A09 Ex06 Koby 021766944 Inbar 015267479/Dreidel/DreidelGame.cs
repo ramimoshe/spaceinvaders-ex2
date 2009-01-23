@@ -92,8 +92,12 @@ namespace DreidelGame
                 {
                     newDreidel = new PositionDreidel(this);
                 }
+
+                // TODO: Change to TextureDreidel
+
                 else
                 {
+                    //newDreidel = new PositionDreidel(this);
                     newDreidel = new TextureDreidel(this);
                 }
 
