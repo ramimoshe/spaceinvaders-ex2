@@ -61,6 +61,7 @@
     <Compile Include="ObjectModel\BaseDrawableComponent.cs" />
     <Compile Include="ObjectModel\Cube.cs" />
     <Compile Include="ObjectModel\Dreidel.cs" />
+    <Compile Include="ObjectModel\DreidelLetters.cs" />
     <Compile Include="ObjectModel\PositionDreidel.cs" />
     <Compile Include="ObjectModel\Pyramid.cs" />
     <Compile Include="ObjectModel\CubePosition.cs" />
