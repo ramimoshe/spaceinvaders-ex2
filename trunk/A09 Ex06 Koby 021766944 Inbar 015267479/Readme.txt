@@ -1,8 +1,8 @@
 ==========================Exercise Checking Report==========================
-Exercise No...........: 5
+Exercise No...........: 6
 First Student Details.: 021766944 - Koby Aharon
 Second Student Details: 015267479 - Inbar Yogev
-Delivery Date.........: 08 - January - 2008
+Delivery Date.........: 25 - January - 2008
 Delivered In Delay....: No
 Lecturer Confirmation.: No
 Delay Reason..........: Not Relevant.
