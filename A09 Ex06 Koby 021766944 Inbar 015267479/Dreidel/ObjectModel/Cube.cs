@@ -6,10 +6,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DreidelGame.ObjectModel
 {
+    // TODO: Remove remark
+
     /// <summary>
     /// A parent class for the different cube classes
     /// </summary>
-    public abstract class Cube : CompositeGameComponent
+    public abstract class Cube : BaseDrawableComponent//CompositeGameComponent
     {
         protected const float k_ZFactorWidth = 6;
         protected const float k_ZFactorCoordinate = 3f;
@@ -17,9 +19,9 @@ namespace DreidelGame.ObjectModel
         protected const float k_MaxXCoordinate = 3;
         protected const float k_MinYCoordinate = -3;
         protected const float k_MaxYCoordinate = 3;
-        protected readonly Color r_UpDownColor = Color.BurlyWood;
+        protected readonly Color r_UpDownColor = Color.BurlyWood;        
 
-        protected Vector3[] m_VerticesCoordinates = new Vector3[8];
+        protected Vector3[] m_VerticesCoordinates = new Vector3[8]; 
 
         /// <summary>
         /// CTOR. Inits a new instance
@@ -36,9 +38,18 @@ namespace DreidelGame.ObjectModel
         public override void    Initialize()
         {
             initStartCoordinates();
-            CreateSides();
 
             base.Initialize();
+        }
+
+        /// <summary>
+        /// Initialize the vertices and buffers
+        /// </summary>
+        protected override void     LoadContent()
+        {
+            base.LoadContent();
+
+            CreateSides();
         }
 
         /// <summary>

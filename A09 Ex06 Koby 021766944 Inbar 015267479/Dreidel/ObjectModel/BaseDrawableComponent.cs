@@ -19,6 +19,10 @@ namespace DreidelGame.ObjectModel
         protected VertexElement[] m_VertexElements = null;
         private VertexDeclaration m_VertexDeclaration = null;
         private Texture2D m_Texture = null;
+        private VertexBuffer m_VertexBuffer;
+        private IndexBuffer m_IndexBuffer;
+        private int m_VerticesNum;
+        private int[] m_BufferIndices;
 
         protected float m_RotationsPerSecond = 0;
 
@@ -133,6 +137,52 @@ namespace DreidelGame.ObjectModel
         }
 
         /// <summary>
+        /// Gets/sets the components VertexBuffer
+        /// </summary>
+        public VertexBuffer     ComponentVertexBuffer
+        {
+            get { return m_VertexBuffer; }
+
+            set { m_VertexBuffer = value; }
+        }
+
+        /// <summary>
+        /// Gets/sets the components VertexBuffer
+        /// </summary>
+        public IndexBuffer     ComponentIndexBuffer
+        {
+            get { return m_IndexBuffer; }
+
+            set { m_IndexBuffer = value; }
+        }        
+
+        /// <summary>
+        /// Gets/sets the number of vertices the component has
+        /// </summary>
+        public int      VerticesNum
+        {
+            get { return m_VerticesNum; }
+            set { m_VerticesNum = value; }
+        }        
+
+        /// <summary>
+        /// Gets/sets the indecies used for the IndexBuffer
+        /// </summary>
+        public int[]    BufferIndices
+        {
+            get { return m_BufferIndices; }
+            set { m_BufferIndices = value; }
+        }
+
+        /// <summary>
+        /// Gets the number of triangles the component has
+        /// </summary>
+        public abstract int     TriangleNum
+        {
+            get;
+        }
+
+        /// <summary>
         /// CTOR. Creates a new instance
         /// </summary>
         /// <param name="i_Game">hosting game</param>
@@ -209,10 +259,17 @@ namespace DreidelGame.ObjectModel
         }
 
         /// <summary>
+        /// Initialize the VertexBuffer and IndexBuffer components.
+        /// </summary>
+        public abstract void    InitBuffers();
+
+        // TODO: Remove the method
+
+        /// <summary>
         /// Drawing the component
         /// </summary>
         /// <param name="i_GameTime">A snapshot of the game time</param>
-        public abstract void    DoDraw(GameTime i_GameTime);
+        //public abstract void    DoDraw(GameTime i_GameTime);
 
         /// <summary>
         /// Draws the component. 
@@ -222,9 +279,7 @@ namespace DreidelGame.ObjectModel
         /// </summary>
         /// <param name="i_GameTime">A snapshot of the game time</param>
         public override void    Draw(GameTime i_GameTime)
-        {
-            base.Draw(i_GameTime);
-
+        {            
             // Getting effect from services
             BasicEffect effect = Game.Services.GetService(typeof(BasicEffect)) as BasicEffect;
 
@@ -248,11 +303,29 @@ namespace DreidelGame.ObjectModel
                 effect.Texture = Texture;
                 effect.TextureEnabled = true;
                 effect.VertexColorEnabled = false;
+
+                this.GraphicsDevice.VertexDeclaration = new VertexDeclaration(
+                    this.GraphicsDevice, 
+                    VertexPositionTexture.VertexElements);
+
+                this.GraphicsDevice.Vertices[0].SetSource(
+                    m_VertexBuffer, 
+                    0, 
+                    VertexPositionTexture.SizeInBytes);
             }
             else
             {
                 effect.TextureEnabled = false;
                 effect.VertexColorEnabled = true;
+
+                this.GraphicsDevice.VertexDeclaration = new VertexDeclaration(
+                    this.GraphicsDevice,
+                    VertexPositionColor.VertexElements);
+
+                this.GraphicsDevice.Vertices[0].SetSource(
+                    m_VertexBuffer, 
+                    0, 
+                    VertexPositionColor.SizeInBytes);
             }
             
             effect.Begin();
@@ -260,11 +333,34 @@ namespace DreidelGame.ObjectModel
             foreach (EffectPass pass in effect.CurrentTechnique.Passes)
             {
                 pass.Begin();
-                DoDraw(i_GameTime);
+
+                // TODO: Remove the remark
+                //DoDraw(i_GameTime);
+
+                /*if (Texture != null)
+                {
+                    this.GraphicsDevice.Vertices[0].SetSource(m_VertexBuffer, 0, VertexPositionTexture.SizeInBytes);
+                }
+                else
+                {
+                    this.GraphicsDevice.Vertices[0].SetSource(m_VertexBuffer, 0, VertexPositionColor.SizeInBytes);
+                }*/
+
+                this.GraphicsDevice.Indices = m_IndexBuffer;
+                this.GraphicsDevice.DrawIndexedPrimitives(
+                    PrimitiveType.TriangleList,
+                    0,
+                    0,
+                    this.VerticesNum,
+                    0,
+                    this.TriangleNum);
+
                 pass.End();
             }
 
             effect.End();
+
+            base.Draw(i_GameTime);
         }
     }
 }

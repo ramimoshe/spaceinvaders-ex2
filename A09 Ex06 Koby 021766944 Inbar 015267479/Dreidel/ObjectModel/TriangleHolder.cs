@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DreidelGame.ObjectModel
 {
+
+    // TODO: Remove the class
+
     /// <summary>
     /// Holds an array of triangles and draw them
     /// </summary>
@@ -36,7 +39,7 @@ namespace DreidelGame.ObjectModel
             : base(i_Game, i_VertexElements)
         {
             m_VectorArray = i_Vectors;
-            m_PrimitivesNum = i_PrimitivesNum;
+            m_PrimitivesNum = i_PrimitivesNum;            
         }
 
         /// <summary>
@@ -69,10 +72,23 @@ namespace DreidelGame.ObjectModel
         /// method while drawing them as a TriangleFan
         /// </summary>
         /// <param name="gameTime"></param>
-        public override void    DoDraw(GameTime gameTime)
+        /*public override void    DoDraw(GameTime gameTime)
         {
             GraphicsDevice.DrawUserPrimitives<VectorPrimitiveType>(
                             PrimitiveType.TriangleFan, m_VectorArray, 0, m_PrimitivesNum);
+        }*/
+
+        public override int TriangleNum
+        {
+            get { throw new Exception("The method or operation is not implemented."); }
+        }
+
+        /// <summary>
+        /// Initialize the VertexBuffer and IndexBuffer components.
+        /// </summary>
+        public override void InitBuffers()
+        {
+            throw new Exception("The method or operation is not implemented.");
         }
     }
 }
