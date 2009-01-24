@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using DreidelGame.Services;
 
 namespace DreidelGame.ObjectModel
 {
@@ -23,6 +24,7 @@ namespace DreidelGame.ObjectModel
         private IndexBuffer m_IndexBuffer;
         private int m_VerticesNum;
         private int[] m_BufferIndices;
+        private Camera m_Camera;
 
         protected float m_RotationsPerSecond = 0;
 
@@ -223,6 +225,16 @@ namespace DreidelGame.ObjectModel
         }
 
         /// <summary>
+        /// Initialize the camera member from the games services list
+        /// </summary>
+        public override void    Initialize()
+        {
+            base.Initialize();
+
+            m_Camera = Game.Services.GetService(typeof(Camera)) as Camera;
+        }
+
+        /// <summary>
         /// Creates the components vertex decleration
         /// </summary>
         protected override void     LoadContent()
@@ -290,6 +302,7 @@ namespace DreidelGame.ObjectModel
             }
 
             effect.World = m_WorldMatrix;
+            effect.View = m_Camera.ViewMatrix;
 
             // Setting vertex declaration for graphics device
             if (m_VertexElements != null)

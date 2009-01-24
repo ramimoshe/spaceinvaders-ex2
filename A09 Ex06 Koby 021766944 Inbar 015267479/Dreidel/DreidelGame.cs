@@ -35,7 +35,10 @@ namespace DreidelGame
         private ScoreManager m_ScoreManager;
         private BasicEffect m_BasicEffect;
         private Matrix m_ProjectionFieldOfView;
-        private Matrix m_PointOfView;
+
+        // TODO: Remove the remarked code
+        //private Matrix m_PointOfView;
+
         private int m_SpinningDreidels;
 
         private Dreidel[] m_Dreidels;
@@ -110,6 +113,13 @@ namespace DreidelGame
             }
 
             m_SpinningDreidels = k_DefaultSpinningDreidelsNum;
+
+            Camera camera = new Camera(this);
+
+            // TODO: Move inside camera
+
+            this.Services.AddService(typeof(Camera), camera);
+            this.Components.Add(camera);
         }
 
         /// <summary>
@@ -134,8 +144,10 @@ namespace DreidelGame
                 k_NearPlaneDistance,
                 k_FarPlaneDistance);
 
+            // TODO: Remove the remarked code
+
             // we want to shoot the center of the world:
-            Vector3 targetPosition = Vector3.Zero;
+            /*Vector3 targetPosition = Vector3.Zero;
 
             // we are standing 50 units in front of our target:
             Vector3 pointOfViewPosition = new Vector3(0, 0, 500);
@@ -145,10 +157,14 @@ namespace DreidelGame
 
             // we are storing the point-of-view data in a matrix:
             m_PointOfView = Matrix.CreateLookAt(
-                pointOfViewPosition, targetPosition, pointOfViewUpDirection);
+                pointOfViewPosition, targetPosition, pointOfViewUpDirection);*/
 
             m_BasicEffect = new BasicEffect(GraphicsDevice, null);
-            m_BasicEffect.View = m_PointOfView;
+
+            // TODO: Remove the code
+
+            //m_BasicEffect.View = m_PointOfView;
+
             m_BasicEffect.Projection = m_ProjectionFieldOfView;
 
             Services.AddService(typeof(BasicEffect), m_BasicEffect);

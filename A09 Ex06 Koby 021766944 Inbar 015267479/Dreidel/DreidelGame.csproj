@@ -58,7 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Camera.cs" />
+    <Compile Include="Services\Camera.cs" />
     <Compile Include="FormCameraProperties.cs">
       <SubType>Form</SubType>
     </Compile>
