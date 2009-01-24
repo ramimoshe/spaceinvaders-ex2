@@ -8,8 +8,18 @@ namespace DreidelGame.Services
 {
     // TODO: Create a Service class that automatically register the service
 
-    public class Camera : GameComponent
+    // TODO: Check if it should be a DrawableGameComponent
+
+    public class Camera : DrawableGameComponent
     {
+        private const int k_DefaultPointOfViewZFactor = 250;
+
+        private readonly Keys r_CameraMovementActivationKey = Keys.S;
+        private readonly Vector3 r_DefaultPosition = new Vector3(0, 0, k_DefaultPointOfViewZFactor);
+        private const float k_MoveSpeed = 20f;
+
+        private MouseState m_PrevMouseState;
+
         private bool m_ShouldUpdateViewMatrix = true;
 
         // TODO: Remove all the form references
@@ -31,8 +41,10 @@ namespace DreidelGame.Services
 
         public Camera(Game i_Game) : base(i_Game)
         {
-            m_FormCameraProperties.BoundObject = this;
-            m_FormCameraProperties.Show();
+            m_FormCameraProperties.BoundObject = Mouse.GetState();
+            m_FormCameraProperties.Show();            
+
+            m_Position = r_DefaultPosition;
         }
 
         protected Matrix m_ViewMatrix;
@@ -119,7 +131,7 @@ namespace DreidelGame.Services
 
         // TODO: Change the parameters to constants
 
-        protected Vector3 m_Position = new Vector3(0, 0, 500);
+        protected Vector3 m_Position = new Vector3(0, 0, k_DefaultPointOfViewZFactor);
 
         public Vector3 Position
         {
@@ -199,18 +211,121 @@ namespace DreidelGame.Services
         public override void  Initialize()
         {
             base.Initialize();
-
+            
             m_InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
         }
-
+        
         static readonly float sr_OneRadian = MathHelper.ToRadians(1);
+
+        protected override void     LoadContent()
+        {
+            base.LoadContent();
+
+            Mouse.SetPosition(
+                GraphicsDevice.Viewport.Width / 2, 
+                GraphicsDevice.Viewport.Height / 2);
+
+            m_PrevMouseState = Mouse.GetState();
+        }
 
         /// <summary>
         /// Updates the Camera according to the mouse position
         /// </summary>
         /// <param name="i_GameTime">a snapshot of the game time</param>
-        public override void    Update(GameTime i_GameTime)
-        {                        
+        public override void Update(GameTime i_GameTime)
+        {
+            base.Update(i_GameTime);           
+
+            if (m_InputManager.KeyboardState.IsKeyDown(r_CameraMovementActivationKey))
+            {
+                if (m_InputManager.MouseState.MiddleButton == ButtonState.Pressed)
+                {                    
+                    if (m_InputManager.MousePositionDelta.X < 0 ||
+                        m_InputManager.MousePositionDelta.Y < 0)
+                    {
+                        m_Position -= 
+                            k_MoveSpeed * 
+                            Vector3.Transform(Vector3.UnitZ, RotationMatrix);
+                        ShouldUpdateViewMatrix = true;
+                    }
+                    else if (m_InputManager.MousePositionDelta.X > 0 ||
+                             m_InputManager.MousePositionDelta.Y > 0)
+                    {
+                        m_Position += 
+                            k_MoveSpeed * 
+                            Vector3.Transform(Vector3.UnitZ, RotationMatrix);
+                        ShouldUpdateViewMatrix = true;
+                    }
+                }
+                else if (m_InputManager.MouseState.LeftButton == ButtonState.Pressed)
+                {
+                    if (m_InputManager.MousePositionDelta != Vector2.Zero)
+                    {
+                        if (m_InputManager.MousePositionDelta.X < 0)
+                        {
+                            m_Position -= 
+                                k_MoveSpeed * 
+                                Vector3.Transform(Vector3.UnitX, RotationMatrix);
+
+                            ShouldUpdateViewMatrix = true;
+                        }
+                        else if (m_InputManager.MousePositionDelta.X > 0)
+                        {
+                            m_Position +=
+                                k_MoveSpeed * 
+                                Vector3.Transform(Vector3.UnitX, RotationMatrix);
+                            ShouldUpdateViewMatrix = true;
+                        }
+
+                        if (m_InputManager.MousePositionDelta.Y < 0)
+                        {
+                            m_Position -=
+                                k_MoveSpeed *                                 
+                                Vector3.Transform(Vector3.UnitY, RotationMatrix);
+                            ShouldUpdateViewMatrix = true;
+                        }
+                        else if (m_InputManager.MousePositionDelta.Y > 0)
+                        {
+                            m_Position +=
+                                k_MoveSpeed * 
+                                Vector3.Transform(Vector3.UnitY, RotationMatrix);
+                            ShouldUpdateViewMatrix = true;
+                        }
+                    }
+                }
+                else if (m_InputManager.MouseState.RightButton == ButtonState.Pressed)
+                {
+                    if (m_InputManager.MousePositionDelta != Vector2.Zero)
+                    {
+                        if (m_InputManager.MousePositionDelta.X < 0)
+                        {
+                            //m_Position -= Vector3.Transform(Vector3.UnitX, RotationMatrix);
+                            Yaw -= sr_OneRadian;
+                            ShouldUpdateViewMatrix = true;
+                        }
+                        else if (m_InputManager.MousePositionDelta.X > 0)
+                        {
+                            //m_Position += Vector3.Transform(Vector3.UnitX, RotationMatrix);
+                            Yaw += sr_OneRadian;
+                            ShouldUpdateViewMatrix = true;
+                        }
+
+                        if (m_InputManager.MousePositionDelta.Y < 0)
+                        {
+                            m_Position += Vector3.Transform(Vector3.UnitY, RotationMatrix);
+                            Pitch += sr_OneRadian;
+                            ShouldUpdateViewMatrix = true;
+                        }
+                        else if (m_InputManager.MousePositionDelta.Y > 0)
+                        {
+                            m_Position -= Vector3.Transform(Vector3.UnitY, RotationMatrix);
+                            Pitch -= sr_OneRadian;
+                            ShouldUpdateViewMatrix = true;
+                        }
+                    }
+                }
+            }            
+
             // forward:
             if (m_InputManager.KeyboardState.IsKeyDown(Keys.Down))
             {
@@ -278,10 +393,180 @@ namespace DreidelGame.Services
 
             if (m_InputManager.KeyboardState.IsKeyDown(Keys.R))
             {
-                Position = new Vector3(0, 0, 20);
+                Position = r_DefaultPosition;
                 Rotations = Vector3.Zero;
             }
-        }     
+        }
+
+
+       /* public override void    Update(GameTime i_GameTime)
+        {
+            base.Update(i_GameTime);
+
+            MouseState currState = Mouse.GetState();
+
+            if (currState.X != m_PrevMouseState.X || currState.Y != m_PrevMouseState.Y)
+            {
+                float xDifference = currState.X - m_PrevMouseState.X;
+                float yDifference = currState.Y - m_PrevMouseState.Y;
+
+                if (m_InputManager.KeyboardState.IsKeyDown(r_CameraMovementActivationKey) &&
+                    (m_InputManager.MouseState.MiddleButton == ButtonState.Pressed ||
+                     m_InputManager.MouseState.LeftButton == ButtonState.Pressed ||
+                     m_InputManager.MouseState.RightButton == ButtonState.Pressed))
+                {                    
+                    if (m_InputManager.MouseState.MiddleButton == ButtonState.Pressed)
+                    {
+                        if (xDifference < 0 ||
+                            yDifference < 0)
+                        {
+                            m_Position -= Vector3.Transform(Vector3.UnitZ, RotationMatrix);
+                            ShouldUpdateViewMatrix = true;
+                        }
+                        else if (xDifference > 0 ||
+                                 yDifference > 0)
+                        {
+                            m_Position += Vector3.Transform(Vector3.UnitZ, RotationMatrix);
+                            ShouldUpdateViewMatrix = true;
+                        }
+                    }
+                    else if (m_InputManager.MouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        if (m_InputManager.MousePositionDelta != Vector2.Zero)
+                        {
+                            if (xDifference < 0)
+                            {
+                                m_Position -= Vector3.Transform(Vector3.UnitX, RotationMatrix);
+
+                                ShouldUpdateViewMatrix = true;
+                            }
+                            else if (xDifference > 0)
+                            {
+                                m_Position += Vector3.Transform(Vector3.UnitX, RotationMatrix);
+                                ShouldUpdateViewMatrix = true;
+                            }
+
+                            if (yDifference < 0)
+                            {
+                                m_Position -= Vector3.Transform(Vector3.UnitY, RotationMatrix);
+                                ShouldUpdateViewMatrix = true;
+                            }
+                            else if (yDifference > 0)
+                            {
+                                m_Position += Vector3.Transform(Vector3.UnitY, RotationMatrix);
+                                ShouldUpdateViewMatrix = true;
+                            }
+                        }
+                    }
+                    else if (m_InputManager.MouseState.RightButton == ButtonState.Pressed)
+                    {
+                        if (m_InputManager.MousePositionDelta != Vector2.Zero)
+                        {
+                            if (xDifference < 0)
+                            {
+                                //m_Position -= Vector3.Transform(Vector3.UnitX, RotationMatrix);
+                                Yaw -= sr_OneRadian;
+                                ShouldUpdateViewMatrix = true;
+                            }
+                            else if (xDifference > 0)
+                            {
+                                //m_Position += Vector3.Transform(Vector3.UnitX, RotationMatrix);
+                                Yaw += sr_OneRadian;
+                                ShouldUpdateViewMatrix = true;
+                            }
+
+                            if (yDifference < 0)
+                            {
+                                m_Position += Vector3.Transform(Vector3.UnitY, RotationMatrix);
+                                Pitch += sr_OneRadian;
+                                ShouldUpdateViewMatrix = true;
+                            }
+                            else if (yDifference > 0)
+                            {
+                                m_Position -= Vector3.Transform(Vector3.UnitY, RotationMatrix);
+                                Pitch -= sr_OneRadian;
+                                ShouldUpdateViewMatrix = true;
+                            }
+                        }                                              
+                    }
+                }
+
+                Mouse.SetPosition(
+                            this.GraphicsDevice.Viewport.X / 2,
+                            this.GraphicsDevice.Viewport.Y / 2);
+            }
+
+            // forward:
+            if (m_InputManager.KeyboardState.IsKeyDown(Keys.Down))
+            {
+                m_Position += Vector3.Transform(Vector3.UnitZ, RotationMatrix);
+                ShouldUpdateViewMatrix = true;
+            }
+            // backwords:
+            else if (m_InputManager.KeyboardState.IsKeyDown(Keys.Up))
+            {
+                m_Position -= Vector3.Transform(Vector3.UnitZ, RotationMatrix);
+                ShouldUpdateViewMatrix = true;
+            }
+
+            // left:
+            if (m_InputManager.KeyboardState.IsKeyDown(Keys.Left))
+            {
+                m_Position -= Vector3.Transform(Vector3.UnitX, RotationMatrix);
+                ShouldUpdateViewMatrix = true;
+            }
+            // right:
+            else if (m_InputManager.KeyboardState.IsKeyDown(Keys.Right))
+            {
+                m_Position += Vector3.Transform(Vector3.UnitX, RotationMatrix);
+                ShouldUpdateViewMatrix = true;
+            }         
+
+            // up:
+            if (m_InputManager.KeyboardState.IsKeyDown(Keys.PageUp))
+            {
+                m_Position += Vector3.Transform(Vector3.UnitY, RotationMatrix);
+                ShouldUpdateViewMatrix = true;
+            }
+            // down:
+            else if (m_InputManager.KeyboardState.IsKeyDown(Keys.PageDown))
+            {
+                m_Position -= Vector3.Transform(Vector3.UnitY, RotationMatrix);
+                ShouldUpdateViewMatrix = true;
+            }
+
+            // rotate left:
+            if (m_InputManager.KeyboardState.IsKeyDown(Keys.NumPad4))
+            {
+                Yaw += sr_OneRadian;
+                ShouldUpdateViewMatrix = true;
+            }
+            // rotate right:
+            else if (m_InputManager.KeyboardState.IsKeyDown(Keys.NumPad6))
+            {
+                Yaw -= sr_OneRadian;
+                ShouldUpdateViewMatrix = true;
+            }
+
+            // rotate Up:
+            if (m_InputManager.KeyboardState.IsKeyDown(Keys.NumPad8))
+            {
+                Pitch += sr_OneRadian;
+                ShouldUpdateViewMatrix = true;
+            }
+            // rotate Down:
+            else if (m_InputManager.KeyboardState.IsKeyDown(Keys.NumPad2))
+            {
+                Pitch -= sr_OneRadian;
+                ShouldUpdateViewMatrix = true;
+            }
+
+            if (m_InputManager.KeyboardState.IsKeyDown(Keys.R))
+            {
+                Position = r_DefaultPosition;
+                Rotations = Vector3.Zero;
+            }
+        }   */  
 
         // TODO: Remove
 
