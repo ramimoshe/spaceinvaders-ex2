@@ -27,7 +27,7 @@ namespace DreidelGame.ObjectModel
         protected const float k_ZFactorCoordinate = 3;
 
         private VertexPositionColor[] m_Vertices;
-        private int[] m_Indices;
+        private short[] m_Indices;
 
         /// <summary>
         /// Gets the number of triangles the letters have
@@ -104,11 +104,11 @@ namespace DreidelGame.ObjectModel
 
             iBuffer = new IndexBuffer(
                 this.GraphicsDevice,
-                typeof(int),
+                typeof(short),
                 this.BufferIndices.Length,
                 BufferUsage.WriteOnly);
 
-            iBuffer.SetData<int>(this.BufferIndices);
+            iBuffer.SetData<short>(this.BufferIndices);
 
             this.ComponentVertexBuffer = vBuffer;
             this.ComponentIndexBuffer = iBuffer;
@@ -132,7 +132,7 @@ namespace DreidelGame.ObjectModel
         {
             // TODO: Change to constant
 
-            m_Indices = new int[101];
+            m_Indices = new short[101];
 
             initNLetterIndices();
             initHLetterIndices();

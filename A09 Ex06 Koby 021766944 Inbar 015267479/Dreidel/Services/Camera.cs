@@ -16,7 +16,7 @@ namespace DreidelGame.Services
 
         private readonly Keys r_CameraMovementActivationKey = Keys.S;
         private readonly Vector3 r_DefaultPosition = new Vector3(0, 0, k_DefaultPointOfViewZFactor);
-        private const float k_ZMoveSpeed = 50f;
+        private const float k_ZMoveSpeed = 150f;
         private const float k_XYMoveSpeed = 3f;
 
         private MouseState m_PrevMouseState;

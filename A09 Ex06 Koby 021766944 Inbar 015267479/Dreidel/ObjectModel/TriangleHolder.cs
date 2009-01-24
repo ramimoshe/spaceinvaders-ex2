@@ -38,7 +38,8 @@ namespace DreidelGame.ObjectModel
             bool i_NeedTexture,
             VertexBuffer i_VBuffer,
             IndexBuffer i_IBuffer,
-            int[] i_Indices) : base(i_Game, i_VertexElements, i_NeedTexture)
+            short[] i_Indices)
+                : base(i_Game, i_VertexElements, i_NeedTexture)
         {
             this.BufferIndices = i_Indices;
             this.ComponentIndexBuffer = i_IBuffer;

@@ -23,7 +23,7 @@ namespace DreidelGame.ObjectModel
         private VertexBuffer m_VertexBuffer;
         private IndexBuffer m_IndexBuffer;
         private int m_VerticesNum;
-        private int[] m_BufferIndices;
+        private short[] m_BufferIndices;
         private Camera m_Camera;
 
         protected float m_RotationsPerSecond = 0;
@@ -170,7 +170,7 @@ namespace DreidelGame.ObjectModel
         /// <summary>
         /// Gets/sets the indecies used for the IndexBuffer
         /// </summary>
-        public int[]    BufferIndices
+        public short[]    BufferIndices
         {
             get { return m_BufferIndices; }
             set { m_BufferIndices = value; }
