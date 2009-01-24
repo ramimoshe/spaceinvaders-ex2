@@ -199,7 +199,7 @@ namespace DreidelGame.ObjectModel
         /// </summary>
         private void    createIndices()
         {
-            int[] indices = new int[36];
+            short[] indices = new short[36];
 
             // Front face
             indices[0] = 0;
@@ -269,11 +269,11 @@ namespace DreidelGame.ObjectModel
 
             iBuffer = new IndexBuffer(
                 this.GraphicsDevice,
-                typeof(int),
+                typeof(short),
                 this.BufferIndices.Length,
                 BufferUsage.WriteOnly);
 
-            iBuffer.SetData<int>(this.BufferIndices);
+            iBuffer.SetData<short>(this.BufferIndices);
 
             this.ComponentVertexBuffer = vBuffer;
             this.ComponentIndexBuffer = iBuffer;

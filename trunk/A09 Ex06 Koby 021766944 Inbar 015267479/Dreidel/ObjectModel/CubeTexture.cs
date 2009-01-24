@@ -42,8 +42,8 @@ namespace DreidelGame.ObjectModel
         /// </summary>
         protected override void     CreateSides()
         {
-            int[] textureIndices;
-            int[] colorIndices;
+            short[] textureIndices;
+            short[] colorIndices;
             VertexBuffer textureVBuffer, colorVBuffer;
             IndexBuffer textureIBuffer, colorIBuffer;
 
@@ -248,10 +248,10 @@ namespace DreidelGame.ObjectModel
         /// <summary>
         /// Creates the component indices that the index buffer uses
         /// </summary>
-        private void    createIndices(out int[] o_ColorIndices, out int[] o_TextureIndices)
+        private void createIndices(out short[] o_ColorIndices, out short[] o_TextureIndices)
         {
-            o_TextureIndices = new int[36];
-            o_ColorIndices = new int[12];
+            o_TextureIndices = new short[36];
+            o_ColorIndices = new short[12];
 
             // Front face
             o_TextureIndices[0] = 0;
@@ -317,8 +317,8 @@ namespace DreidelGame.ObjectModel
         /// Initialize the VertexBuffer and IndexBuffer components.
         /// </summary>
         public void     InitBuffers(
-            int[] i_ColorIndices, 
-            int[] i_TextureIndices,
+            short[] i_ColorIndices,
+            short[] i_TextureIndices,
             out VertexBuffer o_ColorVBuffer,
             out IndexBuffer o_ColorIBuffer,
             out VertexBuffer o_TextureVBuffer,
@@ -334,11 +334,11 @@ namespace DreidelGame.ObjectModel
 
             o_TextureIBuffer = new IndexBuffer(
                 this.GraphicsDevice,
-                typeof(int),
+                typeof(short),
                 i_TextureIndices.Length,
                 BufferUsage.WriteOnly);
 
-            o_TextureIBuffer.SetData<int>(i_TextureIndices);
+            o_TextureIBuffer.SetData<short>(i_TextureIndices);
 
             // Create the color buffers
             o_ColorVBuffer = new VertexBuffer(
@@ -350,11 +350,11 @@ namespace DreidelGame.ObjectModel
 
             o_ColorIBuffer = new IndexBuffer(
                 this.GraphicsDevice,
-                typeof(int),
+                typeof(short),
                 i_ColorIndices.Length,
                 BufferUsage.WriteOnly);
 
-            o_ColorIBuffer.SetData<int>(i_ColorIndices);
+            o_ColorIBuffer.SetData<short>(i_ColorIndices);
             
             // TODO: Remove
             /*this.ComponentVertexBuffer = vBuffer;
