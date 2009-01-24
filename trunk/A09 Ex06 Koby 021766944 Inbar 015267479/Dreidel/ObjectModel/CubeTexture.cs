@@ -17,17 +17,20 @@ namespace DreidelGame.ObjectModel
     /// </summary>
     public class CubeTexture : Cube
     {
-        private const int k_VerticesNum = 16;
-        protected const int k_TrianglesNum = 10;
+        private const int k_TextureVerticesNum = 16;
+        private const int k_ColorVerticesNum = 8;
+        protected const int k_TextureTrianglesNum = 10;
+        protected const int k_ColorTrianglesNum = 4;
 
-        private VertexPositionTexture[] m_Vertices;        
+        private VertexPositionTexture[] m_TextureVertices;
+        private VertexPositionColor[] m_ColorVertices;
 
         /// <summary>
         /// Gets the number of triangles the pyramid has
         /// </summary>
         public override int     TriangleNum
         {
-            get { return k_TrianglesNum; }
+            get { return k_TextureTrianglesNum + k_ColorTrianglesNum; }
         }
 
         public CubeTexture(Game i_Game) : base(i_Game)
@@ -39,9 +42,41 @@ namespace DreidelGame.ObjectModel
         /// </summary>
         protected override void     CreateSides()
         {
+            int[] textureIndices;
+            int[] colorIndices;
+            VertexBuffer textureVBuffer, colorVBuffer;
+            IndexBuffer textureIBuffer, colorIBuffer;
+
             createVertices();
-            createIndices();
-            InitBuffers();
+            createIndices(out colorIndices, out textureIndices);
+            InitBuffers(
+                colorIndices, 
+                textureIndices, 
+                out colorVBuffer, 
+                out colorIBuffer, 
+                out textureVBuffer, 
+                out textureIBuffer);
+
+            Add(new TriangleHolder<VertexPositionTexture>(
+                    this.Game,
+                    VertexPositionTexture.VertexElements,
+                    k_TextureTrianglesNum,
+                    k_TextureVerticesNum,
+                    true,
+                    textureVBuffer,
+                    textureIBuffer,
+                    textureIndices));
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                    this.Game,
+                    VertexPositionColor.VertexElements,
+                    k_ColorTrianglesNum,
+                    k_ColorVerticesNum,
+                    false,
+                    colorVBuffer,
+                    colorIBuffer,
+                    colorIndices));
+
             // TODO: Remove remark
 
             // Creating the front side
@@ -116,180 +151,214 @@ namespace DreidelGame.ObjectModel
         /// </summary>
         private void createVertices()
         {
-            m_Vertices = new VertexPositionTexture[k_VerticesNum];                                               
+            m_TextureVertices = new VertexPositionTexture[k_TextureVerticesNum];
+            m_ColorVertices = new VertexPositionColor[k_ColorVerticesNum];
 
             // Create front vertices
-            m_Vertices[0] = new VertexPositionTexture(
+            m_TextureVertices[0] = new VertexPositionTexture(
                 m_VerticesCoordinates[0],
                 new Vector2(0, .5f));
-            m_Vertices[1] = new VertexPositionTexture(
+            m_TextureVertices[1] = new VertexPositionTexture(
                 m_VerticesCoordinates[1],
                 new Vector2(0, 0));
-            m_Vertices[2] = new VertexPositionTexture(
+            m_TextureVertices[2] = new VertexPositionTexture(
                 m_VerticesCoordinates[2],
                 new Vector2(.5f, 0));
-            m_Vertices[3] = new VertexPositionTexture(
+            m_TextureVertices[3] = new VertexPositionTexture(
                 m_VerticesCoordinates[3],
                 new Vector2(.5f, .5f));
 
             // Creating the back side
-            m_Vertices[4] = new VertexPositionTexture(
+            m_TextureVertices[4] = new VertexPositionTexture(
                 m_VerticesCoordinates[4],
                 new Vector2(0, 1));
-            m_Vertices[5] = new VertexPositionTexture(
+            m_TextureVertices[5] = new VertexPositionTexture(
                 m_VerticesCoordinates[5],
                 new Vector2(0, .5f));
-            m_Vertices[6] = new VertexPositionTexture(
+            m_TextureVertices[6] = new VertexPositionTexture(
                 m_VerticesCoordinates[6],
                 new Vector2(.5f, .5f));
-            m_Vertices[7] = new VertexPositionTexture(
+            m_TextureVertices[7] = new VertexPositionTexture(
                 m_VerticesCoordinates[7],
                 new Vector2(.5f, 1));
 
             // Creating the right side
-            m_Vertices[8] = new VertexPositionTexture(
+            m_TextureVertices[8] = new VertexPositionTexture(
                 m_VerticesCoordinates[3],
                 new Vector2(.5f, 1));
-            m_Vertices[9] = new VertexPositionTexture(
+            m_TextureVertices[9] = new VertexPositionTexture(
                 m_VerticesCoordinates[2],
                 new Vector2(.5f, .5f));
-            m_Vertices[10] = new VertexPositionTexture(
+            m_TextureVertices[10] = new VertexPositionTexture(
                 m_VerticesCoordinates[5],
                 new Vector2(1, .5f));
-            m_Vertices[11] = new VertexPositionTexture(
+            m_TextureVertices[11] = new VertexPositionTexture(
                 m_VerticesCoordinates[4],
                 new Vector2(1, 1));
 
             // Creating the left side
-            m_Vertices[12] = new VertexPositionTexture(
+            m_TextureVertices[12] = new VertexPositionTexture(
                 m_VerticesCoordinates[7],
                 new Vector2(.5f, .5f));
-            m_Vertices[13] = new VertexPositionTexture(
+            m_TextureVertices[13] = new VertexPositionTexture(
                 m_VerticesCoordinates[6],
                 new Vector2(.5f, 0));
-            m_Vertices[14] = new VertexPositionTexture(
+            m_TextureVertices[14] = new VertexPositionTexture(
                 m_VerticesCoordinates[1],
                 new Vector2(1, 0));
-            m_Vertices[15] = new VertexPositionTexture(
+            m_TextureVertices[15] = new VertexPositionTexture(
                 m_VerticesCoordinates[0],
                 new Vector2(1, .5f));
 
             // TODO: Add top and bottom sides
 
             // Creating the top side
-        /*    m_Vertices[16] = new VertexPositionColor(
+            m_ColorVertices[0] = new VertexPositionColor(
                 m_VerticesCoordinates[1],
                 r_UpDownColor);
-            m_Vertices[17] = new VertexPositionColor(
+            m_ColorVertices[1] = new VertexPositionColor(
                 m_VerticesCoordinates[6],
                 r_UpDownColor);
-            m_Vertices[18] = new VertexPositionColor(
+            m_ColorVertices[2] = new VertexPositionColor(
                 m_VerticesCoordinates[5],
                 r_UpDownColor);
-            m_Vertices[19] = new VertexPositionColor(
+            m_ColorVertices[3] = new VertexPositionColor(
                 m_VerticesCoordinates[2],
                 r_UpDownColor);
 
             // Creating the bottom side
-            m_Vertices[20] = new VertexPositionColor(
+            m_ColorVertices[4] = new VertexPositionColor(
                 m_VerticesCoordinates[3],
                 r_UpDownColor);
-            m_Vertices[21] = new VertexPositionColor(
+            m_ColorVertices[5] = new VertexPositionColor(
                 m_VerticesCoordinates[4],
                 r_UpDownColor);
-            m_Vertices[22] = new VertexPositionColor(
+            m_ColorVertices[6] = new VertexPositionColor(
                 m_VerticesCoordinates[7],
                 r_UpDownColor);
-            m_Vertices[23] = new VertexPositionColor(
+            m_ColorVertices[7] = new VertexPositionColor(
                 m_VerticesCoordinates[0],
-                r_UpDownColor);*/
+                r_UpDownColor);            
 
-            this.VerticesNum = k_VerticesNum;
+            // TODO: Remove
+
+            //this.VerticesNum = k_TextureVerticesNum;
         }
 
         /// <summary>
         /// Creates the component indices that the index buffer uses
         /// </summary>
-        private void createIndices()
+        private void    createIndices(out int[] o_ColorIndices, out int[] o_TextureIndices)
         {
-            int[] indices = new int[36];
+            o_TextureIndices = new int[36];
+            o_ColorIndices = new int[12];
 
             // Front face
-            indices[0] = 0;
-            indices[1] = 1;
-            indices[2] = 2;
-            indices[3] = 0;
-            indices[4] = 2;
-            indices[5] = 3;
+            o_TextureIndices[0] = 0;
+            o_TextureIndices[1] = 1;
+            o_TextureIndices[2] = 2;
+            o_TextureIndices[3] = 0;
+            o_TextureIndices[4] = 2;
+            o_TextureIndices[5] = 3;
 
             // Back face
-            indices[6] = 4;
-            indices[7] = 5;
-            indices[8] = 6;
-            indices[9] = 4;
-            indices[10] = 6;
-            indices[11] = 7;
+            o_TextureIndices[6] = 4;
+            o_TextureIndices[7] = 5;
+            o_TextureIndices[8] = 6;
+            o_TextureIndices[9] = 4;
+            o_TextureIndices[10] = 6;
+            o_TextureIndices[11] = 7;
 
             // Right face
-            indices[12] = 8;
-            indices[13] = 9;
-            indices[14] = 10;
-            indices[15] = 8;
-            indices[16] = 10;
-            indices[17] = 11;
+            o_TextureIndices[12] = 8;
+            o_TextureIndices[13] = 9;
+            o_TextureIndices[14] = 10;
+            o_TextureIndices[15] = 8;
+            o_TextureIndices[16] = 10;
+            o_TextureIndices[17] = 11;
 
             // Left face
-            indices[18] = 12;
-            indices[19] = 13;
-            indices[20] = 14;
-            indices[21] = 12;
-            indices[22] = 14;
-            indices[23] = 15;
+            o_TextureIndices[18] = 12;
+            o_TextureIndices[19] = 13;
+            o_TextureIndices[20] = 14;
+            o_TextureIndices[21] = 12;
+            o_TextureIndices[22] = 14;
+            o_TextureIndices[23] = 15;
 
             // Top face
-    /*        indices[24] = 16;
-            indices[25] = 17;
-            indices[26] = 18;
-            indices[27] = 16;
-            indices[28] = 18;
-            indices[29] = 19;
+            o_ColorIndices[0] = 0;
+            o_ColorIndices[1] = 1;
+            o_ColorIndices[2] = 2;
+            o_ColorIndices[3] = 0;
+            o_ColorIndices[4] = 2;
+            o_ColorIndices[5] = 3;
 
             // Bottom face
-            indices[30] = 20;
-            indices[31] = 21;
-            indices[32] = 22;
-            indices[33] = 20;
-            indices[34] = 22;
-            indices[35] = 23;*/
+            o_ColorIndices[6] = 4;
+            o_ColorIndices[7] = 5;
+            o_ColorIndices[8] = 6;
+            o_ColorIndices[9] = 4;
+            o_ColorIndices[10] = 6;
+            o_ColorIndices[11] = 7;
 
-            BufferIndices = indices;
+            // TODO: Remove
+
+            //BufferIndices = indices;
+        }
+
+        // TODO: Check if it's ok
+
+        public override void    InitBuffers()
+        {
+            throw new Exception("The method or operation is not implemented.");
         }
 
         /// <summary>
         /// Initialize the VertexBuffer and IndexBuffer components.
         /// </summary>
-        public override void InitBuffers()
+        public void     InitBuffers(
+            int[] i_ColorIndices, 
+            int[] i_TextureIndices,
+            out VertexBuffer o_ColorVBuffer,
+            out IndexBuffer o_ColorIBuffer,
+            out VertexBuffer o_TextureVBuffer,
+            out IndexBuffer o_TextureIBuffer)
         {
-            VertexBuffer vBuffer;
-            IndexBuffer iBuffer;
-
-            vBuffer = new VertexBuffer(
+            // Create the texture buffers
+            o_TextureVBuffer = new VertexBuffer(
                 this.GraphicsDevice,
-                VertexPositionTexture.SizeInBytes * m_Vertices.Length,
+                VertexPositionTexture.SizeInBytes * m_TextureVertices.Length,
                 BufferUsage.WriteOnly);
 
-            vBuffer.SetData<VertexPositionTexture>(m_Vertices, 0, m_Vertices.Length);
+            o_TextureVBuffer.SetData<VertexPositionTexture>(m_TextureVertices, 0, m_TextureVertices.Length);
 
-            iBuffer = new IndexBuffer(
+            o_TextureIBuffer = new IndexBuffer(
                 this.GraphicsDevice,
                 typeof(int),
-                this.BufferIndices.Length,
+                i_TextureIndices.Length,
                 BufferUsage.WriteOnly);
 
-            iBuffer.SetData<int>(this.BufferIndices);
+            o_TextureIBuffer.SetData<int>(i_TextureIndices);
 
-            this.ComponentVertexBuffer = vBuffer;
-            this.ComponentIndexBuffer = iBuffer;
+            // Create the color buffers
+            o_ColorVBuffer = new VertexBuffer(
+                this.GraphicsDevice,
+                VertexPositionColor.SizeInBytes * m_ColorVertices.Length,
+                BufferUsage.WriteOnly);
+
+            o_ColorVBuffer.SetData<VertexPositionColor>(m_ColorVertices, 0, m_ColorVertices.Length);
+
+            o_ColorIBuffer = new IndexBuffer(
+                this.GraphicsDevice,
+                typeof(int),
+                i_ColorIndices.Length,
+                BufferUsage.WriteOnly);
+
+            o_ColorIBuffer.SetData<int>(i_ColorIndices);
+            
+            // TODO: Remove
+            /*this.ComponentVertexBuffer = vBuffer;
+            this.ComponentIndexBuffer = iBuffer;*/
         }
 
         /// <summary>

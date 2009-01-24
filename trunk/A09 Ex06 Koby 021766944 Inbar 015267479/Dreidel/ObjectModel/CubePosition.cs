@@ -47,6 +47,19 @@ namespace DreidelGame.ObjectModel
             createVertices();
             createIndices();
             InitBuffers();
+
+            // TODO: Change the init so that the vertices won't be taken from the component
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                this.Game,
+                VertexPositionColor.VertexElements,
+                k_TrianglesNum,
+                k_VerticesNum,
+                false,
+                this.ComponentVertexBuffer,
+                this.ComponentIndexBuffer,
+                this.BufferIndices));
+
             // TODO: Remove
       
             // Creating the front side

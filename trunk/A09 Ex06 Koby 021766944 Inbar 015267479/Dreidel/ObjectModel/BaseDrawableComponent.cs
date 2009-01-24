@@ -304,9 +304,11 @@ namespace DreidelGame.ObjectModel
                 effect.TextureEnabled = true;
                 effect.VertexColorEnabled = false;
 
-                this.GraphicsDevice.VertexDeclaration = new VertexDeclaration(
+                // TODO: Remove
+
+                /*this.GraphicsDevice.VertexDeclaration = new VertexDeclaration(
                     this.GraphicsDevice, 
-                    VertexPositionTexture.VertexElements);
+                    VertexPositionTexture.VertexElements);*/
 
                 this.GraphicsDevice.Vertices[0].SetSource(
                     m_VertexBuffer, 
@@ -318,9 +320,11 @@ namespace DreidelGame.ObjectModel
                 effect.TextureEnabled = false;
                 effect.VertexColorEnabled = true;
 
-                this.GraphicsDevice.VertexDeclaration = new VertexDeclaration(
+                // TODO: Remove
+
+                /*this.GraphicsDevice.VertexDeclaration = new VertexDeclaration(
                     this.GraphicsDevice,
-                    VertexPositionColor.VertexElements);
+                    VertexPositionColor.VertexElements);*/
 
                 this.GraphicsDevice.Vertices[0].SetSource(
                     m_VertexBuffer, 

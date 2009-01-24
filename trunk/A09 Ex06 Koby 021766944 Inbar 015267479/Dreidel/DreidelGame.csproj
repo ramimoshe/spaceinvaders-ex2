@@ -53,9 +53,18 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Camera.cs" />
+    <Compile Include="FormCameraProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCameraProperties.Designer.cs">
+      <DependentUpon>FormCameraProperties.cs</DependentUpon>
+    </Compile>
     <Compile Include="ObjectModel\Box.cs" />
     <Compile Include="ObjectModel\CompositeGameComponent.cs" />
     <Compile Include="ObjectModel\BaseDrawableComponent.cs" />
@@ -85,6 +94,12 @@
       <Project>735ff8a9-0814-4201-b7a1-8c3345c9aa44</Project>
       <Visible>False</Visible>
     </NestedContentProject>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FormCameraProperties.resx">
+      <DependentUpon>FormCameraProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v2.0\Microsoft.Xna.GameStudio.Common.targets" />

@@ -6,12 +6,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DreidelGame.ObjectModel
 {
-    // TODO: Remove remark
-
     /// <summary>
     /// A parent class for the different cube classes
     /// </summary>
-    public abstract class Cube : BaseDrawableComponent//CompositeGameComponent
+    public abstract class Cube : CompositeGameComponent
     {
         protected const float k_ZFactorWidth = 6;
         protected const float k_ZFactorCoordinate = 3f;
@@ -95,5 +93,12 @@ namespace DreidelGame.ObjectModel
         /// Creates the cube sides
         /// </summary>
         protected abstract void     CreateSides();        
+
+        // TODO: Remove
+
+        /// <summary>
+        /// Creates the TriangleHolder compoentns according to the box data
+        /// </summary>
+        //protected abstract void     CreateTriangleComponents();
     }
 }
