@@ -5,13 +5,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace DreidelGame.ObjectModel
-{
-    // TODO: Remove remark
-
+{    
     /// <summary>
     /// Represents the dreidel handle
     /// </summary>
-    public class Box : BaseDrawableComponent//CompositeGameComponent
+    public class Box : CompositeGameComponent
     {
         private const float k_MinX = -.5f;
         private const float k_MaxX = .5f;
@@ -136,6 +134,18 @@ namespace DreidelGame.ObjectModel
             createVertices();
             createIndices();
             InitBuffers();
+
+            // TODO: Change the init so that the vertices won't be taken from the component
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                this.Game,
+                VertexPositionColor.VertexElements,
+                k_TrianglesNum,
+                k_VerticesNum,
+                false,
+                this.ComponentVertexBuffer,
+                this.ComponentIndexBuffer,
+                this.BufferIndices));
         }
 
         /// <summary>

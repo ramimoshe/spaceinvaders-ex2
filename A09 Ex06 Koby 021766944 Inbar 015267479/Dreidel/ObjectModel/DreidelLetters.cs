@@ -6,7 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DreidelGame.ObjectModel
 {
-    public class DreidelLetters : BaseDrawableComponent
+    // TODO: Check if it should be a composite
+
+    public class DreidelLetters : CompositeGameComponent//BaseDrawableComponent
     {
         private const int k_TrianglesNum = 34;
         private const int k_VerticesNum = 52;
@@ -50,6 +52,17 @@ namespace DreidelGame.ObjectModel
             createVertices();
             createIndices();
             InitBuffers();
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                this.Game,
+                VertexPositionColor.VertexElements,
+                k_TrianglesNum,
+                k_VerticesNum,
+                false,
+                this.ComponentVertexBuffer,
+                this.ComponentIndexBuffer,
+                this.BufferIndices));
+
         }
 
         /// <summary>

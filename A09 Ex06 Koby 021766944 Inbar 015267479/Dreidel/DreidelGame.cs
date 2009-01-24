@@ -87,10 +87,13 @@ namespace DreidelGame
             {
                 Dreidel newDreidel;
 
+                // TODO: Change to ColorDreidel
+
                 // Every second dreidel will be Texture\Position dreidel
                 if ((i % 2) == 0)
                 {
                     newDreidel = new PositionDreidel(this);
+                    //newDreidel = new TextureDreidel(this);
                 }
 
                 // TODO: Change to TextureDreidel

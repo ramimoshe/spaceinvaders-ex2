@@ -6,12 +6,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DreidelGame.ObjectModel
 {
-    // TODO: Remove remark
-
     /// <summary>
     /// Represents the dreidel bottom component (a pyramid)
     /// </summary>
-    public class Pyramid : BaseDrawableComponent//CompositeGameComponent
+    public class Pyramid : CompositeGameComponent
     {
         const int k_VerticesNum = 5;
         private const float k_MinXCoordinate = -3;
@@ -111,6 +109,16 @@ namespace DreidelGame.ObjectModel
             createVertices();
             createIndices();
             InitBuffers();
+
+            Add(new TriangleHolder<VertexPositionColor>(
+                this.Game,
+                VertexPositionColor.VertexElements,
+                k_TrianglesNum,
+                k_VerticesNum,
+                false,
+                this.ComponentVertexBuffer,
+                this.ComponentIndexBuffer,
+                this.BufferIndices));
         }
 
         /// <summary>
