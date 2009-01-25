@@ -23,7 +23,6 @@ namespace DreidelGame.ObjectModel
         private Vector3 m_Rotations = Vector3.Zero;
         protected Vector3 m_Scales = Vector3.One;
         protected Matrix m_WorldMatrix = Matrix.Identity;
-        private static eDreidelLetters[] s_DreidelLetters;
         private TimeSpan m_SpinTime;
         private float m_StartRotationsPerSecond;
         private bool m_IsAlligning = false;
@@ -34,9 +33,14 @@ namespace DreidelGame.ObjectModel
 
         Model m_DreidelModel;
         ContentManager m_ContentManager;
-        Matrix[] m_ModelTransformations; 
+        Matrix[] m_ModelTransformations;
 
-        public ModelDreidel(Game i_Game)
+        /// <summary>
+        /// Initializes the dreidel components and random factors 
+        /// (scale, position, rotation)
+        /// </summary>
+        /// <param name="i_Game">The hosting game</param>
+        public  ModelDreidel(Game i_Game)
             : base(i_Game)
         {
             Game.Components.Add(this);
@@ -50,22 +54,9 @@ namespace DreidelGame.ObjectModel
         }
 
         /// <summary>
-        /// Static ctor that creates the dreidel sides array
-        /// </summary>
-        static ModelDreidel()
-        {
-            s_DreidelLetters = new eDreidelLetters[k_DreidelSidesNum];
-
-            s_DreidelLetters[0] = eDreidelLetters.NLetter;
-            s_DreidelLetters[1] = eDreidelLetters.GLetter;
-            s_DreidelLetters[2] = eDreidelLetters.HLetter;
-            s_DreidelLetters[3] = eDreidelLetters.PLetter;
-        }
-
-        /// <summary>
         /// Returns the score for the dreidel
         /// </summary>
-        public int DreidelScore
+        public int  DreidelScore
         {
             get 
             { 
@@ -73,7 +64,10 @@ namespace DreidelGame.ObjectModel
             }
         } 
 
-        protected override void LoadContent()
+        /// <summary>
+        /// Loads the dreidel's model
+        /// </summary>
+        protected override void     LoadContent()
         {
             base.LoadContent();
 
@@ -82,7 +76,7 @@ namespace DreidelGame.ObjectModel
             m_DreidelModel.CopyAbsoluteBoneTransformsTo(m_ModelTransformations);
         }
 
-        public event DreidelEventHandler FinishedSpinning;
+        public event DreidelEventHandler    FinishedSpinning;
 
         // Initializing a random position for the dreidel
         private Vector3 m_RandomPosition = new Vector3(
@@ -93,18 +87,18 @@ namespace DreidelGame.ObjectModel
         /// <summary>
         /// Gets the current letter that faces to the player position
         /// </summary>
-        public eDreidelLetters DreidelFrontLetter
+        public eDreidelLetters     DreidelFrontLetter
         {
             get
             {
-                return s_DreidelLetters[m_CurrSide];
+                return DreidelLettersContainer.Letters[m_CurrSide];
             }
         }
 
         /// <summary>
         /// Initialize the dreidel position transformation values
         /// </summary>
-        public override void Initialize()
+        public override void    Initialize()
         {
             base.Initialize();
 
@@ -114,7 +108,7 @@ namespace DreidelGame.ObjectModel
         /// <summary>
         /// Gets the change per second in rotation speed
         /// </summary>
-        private float rotationDiffPerSecond
+        private float   rotationDiffPerSecond
         {
             get
             {
@@ -125,7 +119,7 @@ namespace DreidelGame.ObjectModel
         /// <summary>
         /// Start spinning the dreidel
         /// </summary>
-        public void SpinDreidel()
+        public void     SpinDreidel()
         {
             reset();
             m_SpinComponent = true;
@@ -134,7 +128,7 @@ namespace DreidelGame.ObjectModel
         /// <summary>
         /// Resets the dreidel spin values
         /// </summary>
-        private void reset()
+        private void    reset()
         {
             m_SpinTime = TimeSpan.FromSeconds(3 + m_Rand.NextDouble() + m_Rand.Next(6));
             m_IsAlligning = false;
@@ -146,7 +140,7 @@ namespace DreidelGame.ObjectModel
         /// Updates the dreidel status
         /// </summary>
         /// <param name="gameTime">A snapshoit to the current game time</param>
-        public override void Update(GameTime gameTime)
+        public override void    Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
@@ -183,7 +177,7 @@ namespace DreidelGame.ObjectModel
         /// <summary>
         /// Raise an event that states the dreidel finished spinning
         /// </summary>
-        public void OnDreidelFinished()
+        public void     OnDreidelFinished()
         {
             m_IsAlligning = false;
             m_Rotations.Y = m_TargetRotation;
@@ -196,7 +190,11 @@ namespace DreidelGame.ObjectModel
             }
         }
 
-        public override void Draw(GameTime gameTime)
+        /// <summary>
+        /// Performs draw of all model meshes
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public override void    Draw(GameTime gameTime)
         {
             foreach (ModelMesh mesh in m_DreidelModel.Meshes)
             {
