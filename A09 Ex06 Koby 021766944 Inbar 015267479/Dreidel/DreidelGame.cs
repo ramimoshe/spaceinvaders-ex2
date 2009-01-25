@@ -37,9 +37,6 @@ namespace DreidelGame
         private BasicEffect m_BasicEffect;
         private Matrix m_ProjectionFieldOfView;
 
-        // TODO: Remove the remarked code
-        //private Matrix m_PointOfView;
-
         private int m_SpinningDreidels;
 
         private IDreidel[] m_Dreidels = new IDreidel[k_DreidelsNum];
@@ -84,15 +81,12 @@ namespace DreidelGame
 
             m_ScoreManager = new ScoreManager(this);
             this.Components.Add(m_ScoreManager);
-
           
             // Initialing dreidels
             IDreidel newDreidel;
 
             for (int i = 0; i < k_DreidelsNum; ++i)
             {
-                // TODO: Change to ColorDreidel
-
                 if (i < k_DreidelsNum - 3)
                 {
                     // Every second dreidel will be Texture\Position dreidel
@@ -114,10 +108,20 @@ namespace DreidelGame
 
             Camera camera = new Camera(this);
 
-            // TODO: Move inside camera
-
             this.Services.AddService(typeof(Camera), camera);
             this.Components.Add(camera);
+        }
+
+        /// <summary>
+        /// Initialize the mouse to be in the center of the screen
+        /// </summary>
+        protected override void     LoadContent()
+        {
+            base.LoadContent();
+
+            Mouse.SetPosition(
+                GraphicsDevice.Viewport.Width / 2,
+                GraphicsDevice.Viewport.Height / 2);
         }
 
         /// <summary>
@@ -126,7 +130,7 @@ namespace DreidelGame
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         /// </summary>
-        protected override void Initialize()
+        protected override void     Initialize()
         {
             GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
             base.Initialize();
@@ -142,26 +146,7 @@ namespace DreidelGame
                 k_NearPlaneDistance,
                 k_FarPlaneDistance);
 
-            // TODO: Remove the remarked code
-
-            // we want to shoot the center of the world:
-            /*Vector3 targetPosition = Vector3.Zero;
-
-            // we are standing 50 units in front of our target:
-            Vector3 pointOfViewPosition = new Vector3(0, 0, 500);
-
-            // we are not standing on our head:
-            Vector3 pointOfViewUpDirection = new Vector3(0, 1, 0);
-
-            // we are storing the point-of-view data in a matrix:
-            m_PointOfView = Matrix.CreateLookAt(
-                pointOfViewPosition, targetPosition, pointOfViewUpDirection);*/
-
             m_BasicEffect = new BasicEffect(GraphicsDevice, null);
-
-            // TODO: Remove the code
-
-            //m_BasicEffect.View = m_PointOfView;
 
             m_BasicEffect.Projection = m_ProjectionFieldOfView;
 

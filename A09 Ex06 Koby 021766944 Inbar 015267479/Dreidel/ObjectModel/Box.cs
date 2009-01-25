@@ -29,9 +29,7 @@ namespace DreidelGame.ObjectModel
         private Vector3 m_RightBottomFront = new Vector3(k_MaxX, k_MinY, k_MaxZ);
         private Vector3 m_RightTopBack = new Vector3(k_MaxX, k_MaxY, k_MinZ);
         private Vector3 m_RightTopFront = new Vector3(k_MaxX, k_MaxY, k_MaxZ);
-        private VertexPositionColor[] m_Vertices;
-
-        private Vector3[] m_VerticesCoordinates;
+        private VertexPositionColor[] m_Vertices;        
 
         /// <summary>
         /// Gets the number of triangles the box has
@@ -50,80 +48,6 @@ namespace DreidelGame.ObjectModel
         {
         }
 
-        // TODO: Remove the method
-
-        /// <summary>
-        /// Initialize the box coordinates and adds them to the components list
-        /// </summary>
-        public override void    Initialize()
-        {      
-            // TODO: Remove
-      
-            // Front face
-            /*Add(new TriangleHolder<VertexPositionColor>(
-                            Game,
-                            VertexPositionColor.VertexElements,
-                            2,
-                            new VertexPositionColor(m_LeftTopFront, r_SideColor),
-                            new VertexPositionColor(m_RightTopFront, r_SideColor),
-                            new VertexPositionColor(m_RightBottomFront, r_SideColor),
-                            new VertexPositionColor(m_LeftBottomFront, r_SideColor)));
-
-            // Back face
-            Add(new TriangleHolder<VertexPositionColor>(
-                            Game,
-                            VertexPositionColor.VertexElements,
-                            2,
-                            new VertexPositionColor(m_LeftTopBack, r_SideColor),
-                            new VertexPositionColor(m_LeftBottomBack, r_SideColor),
-                            new VertexPositionColor(m_RightBottomBack, r_SideColor),
-                            new VertexPositionColor(m_RightTopBack, r_SideColor)));
-
-            // Top Face
-            Add(new TriangleHolder<VertexPositionColor>(
-                            Game,
-                            VertexPositionColor.VertexElements,
-                            2,
-                            new VertexPositionColor(m_LeftTopFront, r_SideColor),
-                            new VertexPositionColor(m_LeftTopBack, r_SideColor),
-                            new VertexPositionColor(m_RightTopBack, r_SideColor),
-                            new VertexPositionColor(m_RightTopFront, r_SideColor)));
-
-            // Bottom Face
-            Add(new TriangleHolder<VertexPositionColor>(
-                            Game,
-                            VertexPositionColor.VertexElements,
-                            2,
-                            new VertexPositionColor(m_RightBottomFront, r_SideColor),
-                            new VertexPositionColor(m_RightBottomBack, r_SideColor),
-                            new VertexPositionColor(m_LeftBottomBack, r_SideColor),
-                            new VertexPositionColor(m_LeftBottomFront, r_SideColor)));
-
-            // Right Face
-            Add(new TriangleHolder<VertexPositionColor>(
-                            Game,
-                            VertexPositionColor.VertexElements,
-                            2,
-                            new VertexPositionColor(m_RightTopFront, r_SideColor),
-                            new VertexPositionColor(m_RightTopBack, r_SideColor),
-                            new VertexPositionColor(m_RightBottomBack, r_SideColor),
-                            new VertexPositionColor(m_RightBottomFront, r_SideColor)));
-
-            // Left Face
-            Add(new TriangleHolder<VertexPositionColor>(
-                            Game,
-                            VertexPositionColor.VertexElements,
-                            2,
-                            new VertexPositionColor(m_LeftBottomFront, r_SideColor),
-                            new VertexPositionColor(m_LeftBottomBack, r_SideColor),
-                            new VertexPositionColor(m_LeftTopBack, r_SideColor),
-                            new VertexPositionColor(m_LeftTopFront, r_SideColor)));*/
-
-            base.Initialize();
-        }
-
-        // TODO: Move the LoadContent to the parent class
-
         /// <summary>
         /// Initialize the component vertices and buffers
         /// </summary>
@@ -134,8 +58,6 @@ namespace DreidelGame.ObjectModel
             createVertices();
             createIndices();
             InitBuffers();
-
-            // TODO: Change the init so that the vertices won't be taken from the component
 
             Add(new TriangleHolder<VertexPositionColor>(
                 this.Game,
@@ -277,49 +199,6 @@ namespace DreidelGame.ObjectModel
 
             this.ComponentVertexBuffer = vBuffer;
             this.ComponentIndexBuffer = iBuffer;
-        }
-
-        // TOFO: Remove the method
-
-        /// <summary>
-        /// Initialize the box coordinates
-        /// </summary>
-        private void    initCoordinates()
-        {
-            m_VerticesCoordinates = new Vector3[8];
-
-            m_VerticesCoordinates[7] = new Vector3(
-                k_MinX,
-                k_MinY,
-                k_MaxZ);
-            m_VerticesCoordinates[6] = new Vector3(
-                k_MinX,
-                k_MaxY,
-                k_MaxZ);
-            m_VerticesCoordinates[5] = new Vector3(
-                k_MaxX,
-                k_MaxY,
-                k_MaxZ);
-            m_VerticesCoordinates[4] = new Vector3(
-                k_MaxX,
-                k_MinY,
-                k_MaxZ);
-            m_VerticesCoordinates[3] = new Vector3(
-                k_MaxX,
-                k_MinY,
-                k_MinZ);
-            m_VerticesCoordinates[2] = new Vector3(
-                k_MaxX,
-                k_MaxY,
-                k_MinZ);
-            m_VerticesCoordinates[1] = new Vector3(
-                k_MinX,
-                k_MaxY,
-                k_MinZ);
-            m_VerticesCoordinates[0] = new Vector3(
-                k_MinX,
-                k_MinY,
-                k_MinZ);
-        }       
+        }           
     }
 }

@@ -76,74 +76,6 @@ namespace DreidelGame.ObjectModel
                     colorVBuffer,
                     colorIBuffer,
                     colorIndices));
-
-            // TODO: Remove remark
-
-            // Creating the front side
-/*            Add(new TriangleHolder<VertexPositionTexture>(
-                            Game,
-                            VertexPositionTexture.VertexElements, 
-                            2,
-                            true,
-                            new VertexPositionTexture(m_VerticesCoordinates[0], new Vector2(0, .5f)),
-                            new VertexPositionTexture(m_VerticesCoordinates[1], new Vector2(0, 0)),
-                            new VertexPositionTexture(m_VerticesCoordinates[2], new Vector2(.5f, 0)),
-                            new VertexPositionTexture(m_VerticesCoordinates[3], new Vector2(.5f, .5f))));
-
-            // Creating the back side
-            Add(new TriangleHolder<VertexPositionTexture>(
-                            Game,
-                            VertexPositionTexture.VertexElements,
-                            2,
-                            true,
-                            new VertexPositionTexture(m_VerticesCoordinates[4], new Vector2(0, 1)),
-                            new VertexPositionTexture(m_VerticesCoordinates[5], new Vector2(0, .5f)),
-                            new VertexPositionTexture(m_VerticesCoordinates[6], new Vector2(.5f, .5f)),
-                            new VertexPositionTexture(m_VerticesCoordinates[7], new Vector2(.5f, 1))));
-
-            // Creating the right side
-            Add(new TriangleHolder<VertexPositionTexture>(
-                            Game,
-                            VertexPositionTexture.VertexElements,
-                            2,
-                            true,
-                            new VertexPositionTexture(m_VerticesCoordinates[3], new Vector2(.5f, 1)),
-                            new VertexPositionTexture(m_VerticesCoordinates[2], new Vector2(.5f, .5f)),
-                            new VertexPositionTexture(m_VerticesCoordinates[5], new Vector2(1, .5f)),
-                            new VertexPositionTexture(m_VerticesCoordinates[4], new Vector2(1, 1))));
-
-            // Creating the left side
-            Add(new TriangleHolder<VertexPositionTexture>(
-                            Game,
-                            VertexPositionTexture.VertexElements,
-                            2,
-                            true,
-                            new VertexPositionTexture(m_VerticesCoordinates[7], new Vector2(.5f, .5f)),
-                            new VertexPositionTexture(m_VerticesCoordinates[6], new Vector2(.5f, 0)),
-                            new VertexPositionTexture(m_VerticesCoordinates[1], new Vector2(1, 0)),
-                            new VertexPositionTexture(m_VerticesCoordinates[0], new Vector2(1, .5f))));
-
-            // Creating the top side
-            Add(new TriangleHolder<VertexPositionColor>(
-                            Game,
-                            VertexPositionColor.VertexElements,
-                            2,
-                            false,
-                            new VertexPositionColor(m_VerticesCoordinates[1], r_UpDownColor),
-                            new VertexPositionColor(m_VerticesCoordinates[6], r_UpDownColor),
-                            new VertexPositionColor(m_VerticesCoordinates[5], r_UpDownColor),
-                            new VertexPositionColor(m_VerticesCoordinates[2], r_UpDownColor)));
-
-            // Creating the bottom side
-            Add(new TriangleHolder<VertexPositionColor>(
-                            Game,
-                            VertexPositionColor.VertexElements,
-                            2,
-                            false,
-                            new VertexPositionColor(m_VerticesCoordinates[3], r_UpDownColor),
-                            new VertexPositionColor(m_VerticesCoordinates[4], r_UpDownColor),
-                            new VertexPositionColor(m_VerticesCoordinates[7], r_UpDownColor),
-                            new VertexPositionColor(m_VerticesCoordinates[0], r_UpDownColor)));*/
         }
 
         /// <summary>
@@ -154,6 +86,49 @@ namespace DreidelGame.ObjectModel
             m_TextureVertices = new VertexPositionTexture[k_TextureVerticesNum];
             m_ColorVertices = new VertexPositionColor[k_ColorVerticesNum];
 
+            createTextureVertices();
+            createColorVertices();                   
+        }
+
+        /// <summary>
+        /// Create the vertices of the color sides
+        /// </summary>
+        private void    createColorVertices()
+        {
+            // Creating the top side
+            m_ColorVertices[0] = new VertexPositionColor(
+                m_VerticesCoordinates[1],
+                r_UpDownColor);
+            m_ColorVertices[1] = new VertexPositionColor(
+                m_VerticesCoordinates[6],
+                r_UpDownColor);
+            m_ColorVertices[2] = new VertexPositionColor(
+                m_VerticesCoordinates[5],
+                r_UpDownColor);
+            m_ColorVertices[3] = new VertexPositionColor(
+                m_VerticesCoordinates[2],
+                r_UpDownColor);
+
+            // Creating the bottom side
+            m_ColorVertices[4] = new VertexPositionColor(
+                m_VerticesCoordinates[3],
+                r_UpDownColor);
+            m_ColorVertices[5] = new VertexPositionColor(
+                m_VerticesCoordinates[4],
+                r_UpDownColor);
+            m_ColorVertices[6] = new VertexPositionColor(
+                m_VerticesCoordinates[7],
+                r_UpDownColor);
+            m_ColorVertices[7] = new VertexPositionColor(
+                m_VerticesCoordinates[0],
+                r_UpDownColor);
+        }
+
+        /// <summary>
+        /// Create the vertices of the texture sides
+        /// </summary>
+        private void createTextureVertices()
+        {
             // Create front vertices
             m_TextureVertices[0] = new VertexPositionTexture(
                 m_VerticesCoordinates[0],
@@ -209,50 +184,49 @@ namespace DreidelGame.ObjectModel
             m_TextureVertices[15] = new VertexPositionTexture(
                 m_VerticesCoordinates[0],
                 new Vector2(1, .5f));
-
-            // TODO: Add top and bottom sides
-
-            // Creating the top side
-            m_ColorVertices[0] = new VertexPositionColor(
-                m_VerticesCoordinates[1],
-                r_UpDownColor);
-            m_ColorVertices[1] = new VertexPositionColor(
-                m_VerticesCoordinates[6],
-                r_UpDownColor);
-            m_ColorVertices[2] = new VertexPositionColor(
-                m_VerticesCoordinates[5],
-                r_UpDownColor);
-            m_ColorVertices[3] = new VertexPositionColor(
-                m_VerticesCoordinates[2],
-                r_UpDownColor);
-
-            // Creating the bottom side
-            m_ColorVertices[4] = new VertexPositionColor(
-                m_VerticesCoordinates[3],
-                r_UpDownColor);
-            m_ColorVertices[5] = new VertexPositionColor(
-                m_VerticesCoordinates[4],
-                r_UpDownColor);
-            m_ColorVertices[6] = new VertexPositionColor(
-                m_VerticesCoordinates[7],
-                r_UpDownColor);
-            m_ColorVertices[7] = new VertexPositionColor(
-                m_VerticesCoordinates[0],
-                r_UpDownColor);            
-
-            // TODO: Remove
-
-            //this.VerticesNum = k_TextureVerticesNum;
         }
 
         /// <summary>
         /// Creates the component indices that the index buffer uses
         /// </summary>
-        private void createIndices(out short[] o_ColorIndices, out short[] o_TextureIndices)
+        private void    createIndices(out short[] o_ColorIndices, out short[] o_TextureIndices)
         {
             o_TextureIndices = new short[36];
             o_ColorIndices = new short[12];
 
+            createTextureIndices(o_TextureIndices);
+            createColorIndices(o_ColorIndices);
+        }
+
+        /// <summary>
+        /// Create the color sides indices
+        /// </summary>
+        /// <param name="o_ColorIndices">The indices array we need to fill</param>
+        private void    createColorIndices(short[] o_ColorIndices)
+        {
+            // Top face
+            o_ColorIndices[0] = 0;
+            o_ColorIndices[1] = 1;
+            o_ColorIndices[2] = 2;
+            o_ColorIndices[3] = 0;
+            o_ColorIndices[4] = 2;
+            o_ColorIndices[5] = 3;
+
+            // Bottom face
+            o_ColorIndices[6] = 4;
+            o_ColorIndices[7] = 5;
+            o_ColorIndices[8] = 6;
+            o_ColorIndices[9] = 4;
+            o_ColorIndices[10] = 6;
+            o_ColorIndices[11] = 7;
+        }
+
+        /// <summary>
+        /// Create the texture sides indices
+        /// </summary>
+        /// <param name="o_ColorIndices">The indices array we need to fill</param>
+        private void    createTextureIndices(short[] o_TextureIndices)
+        {
             // Front face
             o_TextureIndices[0] = 0;
             o_TextureIndices[1] = 1;
@@ -284,30 +258,12 @@ namespace DreidelGame.ObjectModel
             o_TextureIndices[21] = 12;
             o_TextureIndices[22] = 14;
             o_TextureIndices[23] = 15;
+        }        
 
-            // Top face
-            o_ColorIndices[0] = 0;
-            o_ColorIndices[1] = 1;
-            o_ColorIndices[2] = 2;
-            o_ColorIndices[3] = 0;
-            o_ColorIndices[4] = 2;
-            o_ColorIndices[5] = 3;
-
-            // Bottom face
-            o_ColorIndices[6] = 4;
-            o_ColorIndices[7] = 5;
-            o_ColorIndices[8] = 6;
-            o_ColorIndices[9] = 4;
-            o_ColorIndices[10] = 6;
-            o_ColorIndices[11] = 7;
-
-            // TODO: Remove
-
-            //BufferIndices = indices;
-        }
-
-        // TODO: Check if it's ok
-
+        /// <summary>
+        /// Override the base class InitBuffers. notice that it's not implemented and we need to 
+        /// call the other procedure that creates two types of buffers
+        /// </summary>
         public override void    InitBuffers()
         {
             throw new Exception("The method or operation is not implemented.");
@@ -316,6 +272,12 @@ namespace DreidelGame.ObjectModel
         /// <summary>
         /// Initialize the VertexBuffer and IndexBuffer components.
         /// </summary>
+        /// <param name="i_ColorIndices">The color sides indices</param>
+        /// <param name="i_TextureIndices">The texture sides indices</param>
+        /// <param name="o_ColorVBuffer">The color sides vertex buffer</param>
+        /// <param name="o_ColorIBuffer">The color sides index buffer</param>
+        /// <param name="o_TextureVBuffer">The texture sides vertex buffer</param>
+        /// <param name="o_TextureIBuffer">The texture sides index buffer</param>
         public void     InitBuffers(
             short[] i_ColorIndices,
             short[] i_TextureIndices,
@@ -354,11 +316,7 @@ namespace DreidelGame.ObjectModel
                 i_ColorIndices.Length,
                 BufferUsage.WriteOnly);
 
-            o_ColorIBuffer.SetData<short>(i_ColorIndices);
-            
-            // TODO: Remove
-            /*this.ComponentVertexBuffer = vBuffer;
-            this.ComponentIndexBuffer = iBuffer;*/
+            o_ColorIBuffer.SetData<short>(i_ColorIndices);                      
         }
 
         /// <summary>

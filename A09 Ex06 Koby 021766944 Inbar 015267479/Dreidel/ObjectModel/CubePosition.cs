@@ -21,8 +21,6 @@ namespace DreidelGame.ObjectModel
 
         private VertexPositionColor[] m_Vertices;
 
-        // TODO: Move it to the parent
-
         /// <summary>
         /// Gets the number of triangles the pyramid has
         /// </summary>
@@ -36,8 +34,6 @@ namespace DreidelGame.ObjectModel
         {
         }     
 
-        // TODO: Move the create to the parent
-
         /// <summary>
         /// Create the cube sides as VertexPositionColor, and in addition creates all the letters
         /// that are presented in each cube side
@@ -48,8 +44,6 @@ namespace DreidelGame.ObjectModel
             createIndices();
             InitBuffers();
 
-            // TODO: Change the init so that the vertices won't be taken from the component
-
             Add(new TriangleHolder<VertexPositionColor>(
                 this.Game,
                 VertexPositionColor.VertexElements,
@@ -59,68 +53,6 @@ namespace DreidelGame.ObjectModel
                 this.ComponentVertexBuffer,
                 this.ComponentIndexBuffer,
                 this.BufferIndices));
-
-            // TODO: Remove
-      
-            // Creating the front side
-/*            Add(new TriangleHolder<VertexPositionColor>(
-                            Game,
-                            VertexPositionColor.VertexElements,
-                            2,
-                            new VertexPositionColor(m_VerticesCoordinates[0], r_FrontColor),
-                            new VertexPositionColor(m_VerticesCoordinates[1], r_FrontColor),
-                            new VertexPositionColor(m_VerticesCoordinates[2], r_FrontColor),
-                            new VertexPositionColor(m_VerticesCoordinates[3], r_FrontColor)));
-
-            // Creating the back side
-            Add(new TriangleHolder<VertexPositionColor>(
-                            Game,
-                            VertexPositionColor.VertexElements,
-                            2, 
-                            new VertexPositionColor(m_VerticesCoordinates[4], r_BackColor),
-                            new VertexPositionColor(m_VerticesCoordinates[5], r_BackColor),
-                            new VertexPositionColor(m_VerticesCoordinates[6], r_BackColor),
-                            new VertexPositionColor(m_VerticesCoordinates[7], r_BackColor)));
-
-            // Creating the right side
-            Add(new TriangleHolder<VertexPositionColor>(
-                            Game,
-                            VertexPositionColor.VertexElements,
-                            2, 
-                            new VertexPositionColor(m_VerticesCoordinates[3], r_RightColor),
-                            new VertexPositionColor(m_VerticesCoordinates[2], r_RightColor),
-                            new VertexPositionColor(m_VerticesCoordinates[5], r_RightColor),
-                            new VertexPositionColor(m_VerticesCoordinates[4], r_RightColor)));
-
-            // Creating the left side
-            Add(new TriangleHolder<VertexPositionColor>(
-                            Game,
-                            VertexPositionColor.VertexElements,
-                            2,
-                            new VertexPositionColor(m_VerticesCoordinates[7], r_LeftColor),
-                            new VertexPositionColor(m_VerticesCoordinates[6], r_LeftColor),
-                            new VertexPositionColor(m_VerticesCoordinates[1], r_LeftColor),
-                            new VertexPositionColor(m_VerticesCoordinates[0], r_LeftColor)));
-
-            // Creating the top side
-            Add(new TriangleHolder<VertexPositionColor>(
-                            Game,
-                            VertexPositionColor.VertexElements,
-                            2,
-                            new VertexPositionColor(m_VerticesCoordinates[1], r_UpDownColor),
-                            new VertexPositionColor(m_VerticesCoordinates[6], r_UpDownColor),
-                            new VertexPositionColor(m_VerticesCoordinates[5], r_UpDownColor),
-                            new VertexPositionColor(m_VerticesCoordinates[2], r_UpDownColor)));
-
-            // Creating the bottom side
-            Add(new TriangleHolder<VertexPositionColor>(
-                            Game,
-                            VertexPositionColor.VertexElements,
-                            2,
-                            new VertexPositionColor(m_VerticesCoordinates[3], r_UpDownColor),
-                            new VertexPositionColor(m_VerticesCoordinates[4], r_UpDownColor),
-                            new VertexPositionColor(m_VerticesCoordinates[7], r_UpDownColor),
-                            new VertexPositionColor(m_VerticesCoordinates[0], r_UpDownColor)));            */
         }
 
         /// <summary>
@@ -130,77 +62,21 @@ namespace DreidelGame.ObjectModel
         {
             m_Vertices = new VertexPositionColor[k_VerticesNum];
 
-            // Create front vertices
-            m_Vertices[0] = new VertexPositionColor(
-                m_VerticesCoordinates[0],
-                r_FrontColor);
-            m_Vertices[1] = new VertexPositionColor(
-                m_VerticesCoordinates[1],
-                r_FrontColor);
-            m_Vertices[2] = new VertexPositionColor(
-                m_VerticesCoordinates[2],
-                r_FrontColor);
-            m_Vertices[3] = new VertexPositionColor(
-                m_VerticesCoordinates[3],
-                r_FrontColor);
+            createFrontVertices();
+            createBackVertices();
+            createRightVertices();
+            createLeftVertices();
+            createTopVertices();
+            createBottomVertices();
 
-            // Creating the back side
-            m_Vertices[4] = new VertexPositionColor(
-                m_VerticesCoordinates[4],
-                r_BackColor);
-            m_Vertices[5] = new VertexPositionColor(
-                m_VerticesCoordinates[5],
-                r_BackColor);
-            m_Vertices[6] = new VertexPositionColor(
-                m_VerticesCoordinates[6],
-                r_BackColor);
-            m_Vertices[7] = new VertexPositionColor(
-                m_VerticesCoordinates[7],
-                r_BackColor);
+            this.VerticesNum = k_VerticesNum;
+        }
 
-            // Creating the right side
-            m_Vertices[8] = new VertexPositionColor(
-                m_VerticesCoordinates[3],
-                r_RightColor);
-            m_Vertices[9] = new VertexPositionColor(
-                m_VerticesCoordinates[2],
-                r_RightColor);
-            m_Vertices[10] = new VertexPositionColor(
-                m_VerticesCoordinates[5],
-                r_RightColor);
-            m_Vertices[11] = new VertexPositionColor(
-                m_VerticesCoordinates[4],
-                r_RightColor);
-
-            // Creating the left side
-            m_Vertices[12] = new VertexPositionColor(
-                m_VerticesCoordinates[7],
-                r_LeftColor);
-            m_Vertices[13] = new VertexPositionColor(
-                m_VerticesCoordinates[6],
-                r_LeftColor);
-            m_Vertices[14] = new VertexPositionColor(
-                m_VerticesCoordinates[1],
-                r_LeftColor);
-            m_Vertices[15] = new VertexPositionColor(
-                m_VerticesCoordinates[0],
-                r_LeftColor);
-
-            // Creating the top side
-            m_Vertices[16] = new VertexPositionColor(
-                m_VerticesCoordinates[1],
-                r_UpDownColor);
-            m_Vertices[17] = new VertexPositionColor(
-                m_VerticesCoordinates[6],
-                r_UpDownColor);
-            m_Vertices[18] = new VertexPositionColor(
-                m_VerticesCoordinates[5],
-                r_UpDownColor);
-            m_Vertices[19] = new VertexPositionColor(
-                m_VerticesCoordinates[2],
-                r_UpDownColor);
-
-            // Creating the bottom side
+        /// <summary>
+        /// Create the bottom side vertices
+        /// </summary>
+        private void createBottomVertices()
+        {
             m_Vertices[20] = new VertexPositionColor(
                 m_VerticesCoordinates[3],
                 r_UpDownColor);
@@ -213,8 +89,101 @@ namespace DreidelGame.ObjectModel
             m_Vertices[23] = new VertexPositionColor(
                 m_VerticesCoordinates[0],
                 r_UpDownColor);
+        }
 
-            this.VerticesNum = k_VerticesNum;
+        /// <summary>
+        /// Create the top side vertices
+        /// </summary>
+        private void createTopVertices()
+        {
+            m_Vertices[16] = new VertexPositionColor(
+                m_VerticesCoordinates[1],
+                r_UpDownColor);
+            m_Vertices[17] = new VertexPositionColor(
+                m_VerticesCoordinates[6],
+                r_UpDownColor);
+            m_Vertices[18] = new VertexPositionColor(
+                m_VerticesCoordinates[5],
+                r_UpDownColor);
+            m_Vertices[19] = new VertexPositionColor(
+                m_VerticesCoordinates[2],
+                r_UpDownColor);
+        }
+
+        /// <summary>
+        /// Create the left side vertices
+        /// </summary>
+        private void createLeftVertices()
+        {
+            m_Vertices[12] = new VertexPositionColor(
+                m_VerticesCoordinates[7],
+                r_LeftColor);
+            m_Vertices[13] = new VertexPositionColor(
+                m_VerticesCoordinates[6],
+                r_LeftColor);
+            m_Vertices[14] = new VertexPositionColor(
+                m_VerticesCoordinates[1],
+                r_LeftColor);
+            m_Vertices[15] = new VertexPositionColor(
+                m_VerticesCoordinates[0],
+                r_LeftColor);
+        }
+
+        /// <summary>
+        /// Create the right side vertices
+        /// </summary>
+        private void createRightVertices()
+        {
+            m_Vertices[8] = new VertexPositionColor(
+                m_VerticesCoordinates[3],
+                r_RightColor);
+            m_Vertices[9] = new VertexPositionColor(
+                m_VerticesCoordinates[2],
+                r_RightColor);
+            m_Vertices[10] = new VertexPositionColor(
+                m_VerticesCoordinates[5],
+                r_RightColor);
+            m_Vertices[11] = new VertexPositionColor(
+                m_VerticesCoordinates[4],
+                r_RightColor);
+        }
+
+        /// <summary>
+        /// Create the back side vertices
+        /// </summary>
+        private void createBackVertices()
+        {
+            m_Vertices[4] = new VertexPositionColor(
+                m_VerticesCoordinates[4],
+                r_BackColor);
+            m_Vertices[5] = new VertexPositionColor(
+                m_VerticesCoordinates[5],
+                r_BackColor);
+            m_Vertices[6] = new VertexPositionColor(
+                m_VerticesCoordinates[6],
+                r_BackColor);
+            m_Vertices[7] = new VertexPositionColor(
+                m_VerticesCoordinates[7],
+                r_BackColor);
+        }
+
+        /// <summary>
+        /// Create the front side vertices
+        /// </summary>
+        private void createFrontVertices()
+        {
+            m_Vertices[0] = new VertexPositionColor(
+                m_VerticesCoordinates[0],
+                r_FrontColor);
+            m_Vertices[1] = new VertexPositionColor(
+                m_VerticesCoordinates[1],
+                r_FrontColor);
+            m_Vertices[2] = new VertexPositionColor(
+                m_VerticesCoordinates[2],
+                r_FrontColor);
+            m_Vertices[3] = new VertexPositionColor(
+                m_VerticesCoordinates[3],
+                r_FrontColor);
         }
 
         /// <summary>
