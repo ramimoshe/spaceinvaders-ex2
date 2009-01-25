@@ -20,7 +20,7 @@ namespace DreidelGame
     public class DreidelGame : Microsoft.Xna.Framework.Game
     {
         private const float k_NearPlaneDistance = 0.5f;
-        private const float k_FarPlaneDistance = 5000.0f;
+        private const float k_FarPlaneDistance = 10000.0f;
         private const float k_ViewAngle = MathHelper.PiOver4;
 
         private const int k_DefaultSpinningDreidelsNum = 0;

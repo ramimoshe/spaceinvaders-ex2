@@ -31,7 +31,7 @@ namespace DreidelGame.ObjectModel
         private Vector3 m_RandomPosition = new Vector3(
                     ((-1) + (m_Rand.Next(2) * 2)) * (float)m_Rand.Next(1, 200),
                     ((-1) + (m_Rand.Next(2) * 2)) * (float)m_Rand.Next(1, 150),
-                    ((-1) + (m_Rand.Next(2) * 2)) * (float)m_Rand.Next(1, 20));
+                    ((-1) + (m_Rand.Next(2) * 2)) * (float)m_Rand.Next(1, 100));
 
         /// <summary>
         /// Gets the number of triangles the dreidel has
