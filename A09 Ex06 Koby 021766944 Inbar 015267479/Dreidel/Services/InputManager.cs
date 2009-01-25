@@ -1,7 +1,7 @@
 using System;
+using System.Text;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
-using System.Text;
 
 namespace DreidelGame.Services
 {
@@ -188,7 +188,6 @@ namespace DreidelGame.Services
                 m_PrevKeyboardState.IsKeyDown(i_Key);
         }
 
-
         #endregion
 
         // Gets changes in various input device states
@@ -246,6 +245,7 @@ namespace DreidelGame.Services
 
             base.Update(gameTime);
         }
+
         public string PressedKeys
         {
             get
@@ -272,39 +272,7 @@ namespace DreidelGame.Services
 
                 return keys;
             }
-        }
-
-        public override string ToString()
-        {
-            string status = string.Format(@"
-Keyboard.PressedKeys:       {10}
-
-Mouse.X:            {0}
-Mouse.Y:            {1}
-Mouse.DeltaXY:      {2}
-Mouse.Left:         {3}
-Mouse.Middle:       {4}
-Mouse.Right:        {5}
-Mouse.XButton1:     {6}
-Mouse.XButton2:     {7}
-ScrollWheelValue:   {8}
-ScrollWheelDelta:   {9}
-",
-
- MouseState.X,
- MouseState.Y,
- MousePositionDelta,
- MouseState.LeftButton,
- MouseState.MiddleButton,
- MouseState.RightButton,
- MouseState.XButton1,
- MouseState.XButton2,
- MouseState.ScrollWheelValue,
- ScrollWheelDelta,
- PressedKeys
- );
-            return status;
-        }
+        }        
     }
 
     /// <summary>
