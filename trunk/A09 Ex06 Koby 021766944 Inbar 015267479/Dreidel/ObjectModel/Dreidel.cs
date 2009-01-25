@@ -25,8 +25,6 @@ namespace DreidelGame.ObjectModel
         private float m_TargetRotation = -1;
         private int m_CurrSide;
 
-        //private List<BaseDrawableComponent> m_Components;
-
         public event DreidelEventHandler FinishedSpinning;
 
         // Initializing a random position for the dreidel

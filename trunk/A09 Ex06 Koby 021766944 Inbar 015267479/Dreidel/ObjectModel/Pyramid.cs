@@ -11,7 +11,7 @@ namespace DreidelGame.ObjectModel
     /// </summary>
     public class Pyramid : CompositeGameComponent
     {
-        const int k_VerticesNum = 5;
+        private const int k_VerticesNum = 5;
         private const float k_MinXCoordinate = -3;
         private const float k_MaxXCoordinate = 3;
         private const float k_YCoordinate = -3;
@@ -69,25 +69,33 @@ namespace DreidelGame.ObjectModel
         {           
             m_Vertices = new VertexPositionColor[k_VerticesNum];
 
-            m_Vertices[0] = new VertexPositionColor(new Vector3(
-                k_MinXCoordinate,
-                k_YCoordinate,
-                k_ZFactorCoordinate), r_SideColor);
+            m_Vertices[0] = new VertexPositionColor(
+                new Vector3(
+                    k_MinXCoordinate,
+                    k_YCoordinate,
+                    k_ZFactorCoordinate), 
+                r_SideColor);
             
-            m_Vertices[1] = new VertexPositionColor(new Vector3(
-                k_MaxXCoordinate,
-                k_YCoordinate,
-                k_ZFactorCoordinate), r_SideColor);
+            m_Vertices[1] = new VertexPositionColor(
+                new Vector3(
+                    k_MaxXCoordinate,
+                    k_YCoordinate,
+                    k_ZFactorCoordinate), 
+                 r_SideColor);
 
-            m_Vertices[2] = new VertexPositionColor(new Vector3(
-                k_MaxXCoordinate,
-                k_YCoordinate,
-                k_ZFactorCoordinate - k_ZFactorWidth), r_SideColor);
+            m_Vertices[2] = new VertexPositionColor(
+                new Vector3(
+                    k_MaxXCoordinate,
+                    k_YCoordinate,
+                    k_ZFactorCoordinate - k_ZFactorWidth), 
+                r_SideColor);
 
-            m_Vertices[3] = new VertexPositionColor(new Vector3(
-                k_MinXCoordinate,
-                k_YCoordinate,
-                k_ZFactorCoordinate - k_ZFactorWidth), r_SideColor);
+            m_Vertices[3] = new VertexPositionColor(
+                new Vector3(
+                    k_MinXCoordinate,
+                    k_YCoordinate,
+                    k_ZFactorCoordinate - k_ZFactorWidth), 
+                r_SideColor);
 
             m_Vertices[4] = new VertexPositionColor(r_PyramidHead, r_SideColor);
 

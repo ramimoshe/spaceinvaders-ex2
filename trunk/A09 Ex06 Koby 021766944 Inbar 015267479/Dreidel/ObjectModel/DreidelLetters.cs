@@ -63,7 +63,6 @@ namespace DreidelGame.ObjectModel
                 this.ComponentVertexBuffer,
                 this.ComponentIndexBuffer,
                 this.BufferIndices));
-
         }
 
         /// <summary>
@@ -85,7 +84,7 @@ namespace DreidelGame.ObjectModel
         {
             createLettersIndices();
 
-            BufferIndices = m_Indices ;
+            BufferIndices = m_Indices;
         }
 
         /// <summary>
@@ -458,6 +457,5 @@ namespace DreidelGame.ObjectModel
             m_Indices[k_PLetterIndicesStartInd + 28] = k_PLetterStartIndex + 16;
             m_Indices[k_PLetterIndicesStartInd + 29] = k_PLetterStartIndex + 15;      
         }
-
     }
 }
