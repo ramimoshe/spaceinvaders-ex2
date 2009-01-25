@@ -268,21 +268,10 @@ namespace DreidelGame.Services
                 }
                 else if (m_Input.ButtonHeld(eInputButtons.Middle))
                 {
-                    // Movement on the x axis or on the y axis should update the move value
-                    if (Math.Abs(xDifference) > Math.Abs(yDifference))
-                    {
-                        positionDelta = new Vector3(
-                        0,
-                        0,
-                        xDifference);
-                    }
-                    else
-                    {
-                        positionDelta = new Vector3(
-                            0,
-                            0,
-                            yDifference);
-                    }
+                    positionDelta = new Vector3(
+                    0,
+                    0,
+                    xDifference + yDifference);
                 }
                 else if (m_Input.ButtonHeld(eInputButtons.Right))
                 {
@@ -295,6 +284,10 @@ namespace DreidelGame.Services
                     m_Position += Vector3.Transform(positionDelta, RotationQuaternion);
                     ShouldUpdateViewMatrix = true;
                 }
+
+                Mouse.SetPosition(
+                    Game.GraphicsDevice.Viewport.Width / 2,
+                    Game.GraphicsDevice.Viewport.Height / 2);
             }            
 
             // TODO: Remove
@@ -384,10 +377,6 @@ namespace DreidelGame.Services
             base.Update(gameTime);
 
             updateByInput();
-
-            Mouse.SetPosition(
-                Game.GraphicsDevice.Viewport.Width / 2,
-                Game.GraphicsDevice.Viewport.Height / 2);
         }
     }
 }
