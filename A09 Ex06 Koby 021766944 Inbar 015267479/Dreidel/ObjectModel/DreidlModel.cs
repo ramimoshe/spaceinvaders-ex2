@@ -16,7 +16,7 @@ namespace DreidelGame.ObjectModel
     {
         private const int k_DreidelSidesNum = 4;
         private const int k_DefaultDreidelSide = 0;
-        private const int k_DreidelScore = 1;
+        private const int k_DreidelScore = 2;
 
         private static Random m_Rand = new Random();
         protected Vector3 m_Position = Vector3.Zero;
