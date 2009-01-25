@@ -1,7 +1,7 @@
 using System;
-using System.Text;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using System.Text;
 
 namespace DreidelGame.Services
 {
@@ -14,14 +14,14 @@ namespace DreidelGame.Services
         private KeyboardState m_PrevKeyboardState;
         private MouseState m_CurrMouseState;
         private MouseState m_PrevMouseState;
-        
+
         #endregion
 
         /// <summary>
         /// Sets a manager with default maximum update order
         /// </summary>
         /// <param name="i_Game">Game holding the service</param>
-        public  InputManager(Game i_Game)
+        public InputManager(Game i_Game)
             : this(i_Game, Int32.MinValue)
         {
         }
@@ -30,10 +30,10 @@ namespace DreidelGame.Services
         /// Sets a new manager
         /// </summary>
         /// <param name="i_Game">Game holding the service</param>
-        public  InputManager(Game i_Game, int i_UpdateOrder)
+        public InputManager(Game i_Game, int i_UpdateOrder)
             : base(i_Game)
         {
-            this.UpdateOrder = i_UpdateOrder;            
+            this.UpdateOrder = i_UpdateOrder;
         }
 
         #region  internalMethods
@@ -45,10 +45,10 @@ namespace DreidelGame.Services
         /// <param name="i_CurrentState">Indicates if button state is from current
         /// or previous state</param>
         /// <returns></returns>
-        private ButtonState     getMouseButtonState(eInputButtons i_Button, bool i_CurrentState)
+        private ButtonState getMouseButtonState(eInputButtons i_Button, bool i_CurrentState)
         {
             MouseState requestedMouseState;
-            
+
             // Checking if requested state is current or previous
             if (i_CurrentState)
             {
@@ -58,9 +58,9 @@ namespace DreidelGame.Services
             {
                 requestedMouseState = m_PrevMouseState;
             }
-            
+
             // Determining which button is specified
-            switch(i_Button)
+            switch (i_Button)
             {
                 case eInputButtons.Left:
                     return requestedMouseState.LeftButton;
@@ -85,7 +85,7 @@ namespace DreidelGame.Services
         /// <summary>
         /// Gets the current mouse state
         /// </summary>
-        public MouseState   MouseState
+        public MouseState MouseState
         {
             get
             {
@@ -96,7 +96,7 @@ namespace DreidelGame.Services
         /// <summary>
         /// Gets the current keyboard state
         /// </summary>
-        public KeyboardState    KeyboardState
+        public KeyboardState KeyboardState
         {
             get
             {
@@ -135,6 +135,18 @@ namespace DreidelGame.Services
                 getMouseButtonState(i_Button, false) == ButtonState.Pressed;
         }
 
+        /// <summary>
+        /// Inidicates if key is held since last update
+        /// </summary>
+        /// <param name="i_Key">the specified key</param>
+        /// <returns>true if key is held, else false</returns>
+        public bool ButtonHeld(eInputButtons i_Button)
+        {
+            return
+                getMouseButtonState(i_Button, true) == ButtonState.Pressed &&
+                getMouseButtonState(i_Button, false) == ButtonState.Pressed;
+        }
+
         #endregion
 
         // Gets the current state-changes in keyboard keys
@@ -147,8 +159,8 @@ namespace DreidelGame.Services
         /// <returns>true if key was pressed, else false</returns>
         public bool KeyPressed(Keys i_Key)
         {
-            return 
-                m_CurrKeyboardState.IsKeyDown(i_Key) && 
+            return
+                m_CurrKeyboardState.IsKeyDown(i_Key) &&
                 m_PrevKeyboardState.IsKeyUp(i_Key);
         }
 
@@ -169,12 +181,13 @@ namespace DreidelGame.Services
         /// </summary>
         /// <param name="i_Key">the specified key</param>
         /// <returns>true if key is held, else false</returns>
-        public bool     KeyHeld(Keys i_Key)
+        public bool KeyHeld(Keys i_Key)
         {
             return
                 m_CurrKeyboardState.IsKeyDown(i_Key) &&
                 m_PrevKeyboardState.IsKeyDown(i_Key);
         }
+
 
         #endregion
 
@@ -184,9 +197,9 @@ namespace DreidelGame.Services
         /// <summary>
         /// Gets the change in mouse position
         /// </summary>
-        public Vector2  MousePositionDelta
+        public Vector2 MousePositionDelta
         {
-            get 
+            get
             {
                 return new Vector2(
                     m_CurrMouseState.X - m_PrevMouseState.X,
@@ -210,7 +223,7 @@ namespace DreidelGame.Services
         /// <summary>
         /// Initializes the input device states
         /// </summary>
-        public override void    Initialize()
+        public override void Initialize()
         {
             base.Initialize();
 
@@ -224,16 +237,15 @@ namespace DreidelGame.Services
         /// Stores and updates input device states
         /// </summary>
         /// <param name="gameTime">Elapsed time since last call</param>
-        public override void    Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             m_PrevMouseState = m_CurrMouseState;
             m_CurrMouseState = Mouse.GetState();
-            m_PrevKeyboardState = m_CurrKeyboardState; 
+            m_PrevKeyboardState = m_CurrKeyboardState;
             m_CurrKeyboardState = Keyboard.GetState();
 
             base.Update(gameTime);
         }
-
         public string PressedKeys
         {
             get
@@ -260,7 +272,39 @@ namespace DreidelGame.Services
 
                 return keys;
             }
-        }       
+        }
+
+        public override string ToString()
+        {
+            string status = string.Format(@"
+Keyboard.PressedKeys:       {10}
+
+Mouse.X:            {0}
+Mouse.Y:            {1}
+Mouse.DeltaXY:      {2}
+Mouse.Left:         {3}
+Mouse.Middle:       {4}
+Mouse.Right:        {5}
+Mouse.XButton1:     {6}
+Mouse.XButton2:     {7}
+ScrollWheelValue:   {8}
+ScrollWheelDelta:   {9}
+",
+
+ MouseState.X,
+ MouseState.Y,
+ MousePositionDelta,
+ MouseState.LeftButton,
+ MouseState.MiddleButton,
+ MouseState.RightButton,
+ MouseState.XButton1,
+ MouseState.XButton2,
+ MouseState.ScrollWheelValue,
+ ScrollWheelDelta,
+ PressedKeys
+ );
+            return status;
+        }
     }
 
     /// <summary>
