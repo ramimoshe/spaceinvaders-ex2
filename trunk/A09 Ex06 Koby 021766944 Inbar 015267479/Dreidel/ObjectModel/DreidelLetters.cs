@@ -6,9 +6,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DreidelGame.ObjectModel
 {
-    // TODO: Check if it should be a composite
-
-    public class DreidelLetters : CompositeGameComponent//BaseDrawableComponent
+    /// <summary>
+    /// Holds all the Letters in the vertices drawn dreidel
+    /// </summary>
+    public class DreidelLetters : CompositeGameComponent
     {
         private const int k_TrianglesNum = 34;
         private const int k_VerticesNum = 52;
@@ -68,7 +69,7 @@ namespace DreidelGame.ObjectModel
         /// <summary>
         /// Creates the component vertices
         /// </summary>
-        private void createVertices()
+        private void    createVertices()
         {
             m_Vertices = new VertexPositionColor[k_VerticesNum];
 
@@ -80,7 +81,7 @@ namespace DreidelGame.ObjectModel
         /// <summary>
         /// Creates the component indices that the index buffer uses
         /// </summary>
-        private void createIndices()
+        private void    createIndices()
         {
             createLettersIndices();
 
@@ -90,7 +91,7 @@ namespace DreidelGame.ObjectModel
         /// <summary>
         /// Initialize the VertexBuffer and IndexBuffer components.
         /// </summary>
-        public override void InitBuffers()
+        public override void    InitBuffers()
         {
             VertexBuffer vBuffer;
             IndexBuffer iBuffer;
@@ -129,9 +130,7 @@ namespace DreidelGame.ObjectModel
         /// Create the letters indices
         /// </summary>
         private void    createLettersIndices()
-        {
-            // TODO: Change to constant
-
+        {            
             m_Indices = new short[101];
 
             initNLetterIndices();
@@ -175,44 +174,6 @@ namespace DreidelGame.ObjectModel
             m_Vertices[k_NLetterStartIndex + 9] = new VertexPositionColor(
                 new Vector3(0, 1.5f, k_ZFactorCoordinate + k_LetterSpace),
                 r_Color);
-
-            // TODO: Remove
-
-            /*Add(new TriangleHolder<VertexPositionColor>(
-                Game,
-                VertexPositionColor.VertexElements,
-                3,
-                new VertexPositionColor(m_NLetterCoordinates[0], Color.Black),
-                new VertexPositionColor(m_NLetterCoordinates[1], Color.Black),
-                new VertexPositionColor(m_NLetterCoordinates[2], Color.Black),
-                new VertexPositionColor(m_NLetterCoordinates[3], Color.Black),
-                new VertexPositionColor(m_NLetterCoordinates[4], Color.Black)));
-
-            Add(new TriangleHolder<VertexPositionColor>(
-                Game,
-                VertexPositionColor.VertexElements,
-                2,
-                new VertexPositionColor(m_NLetterCoordinates[2], Color.Black),
-                new VertexPositionColor(m_NLetterCoordinates[5], Color.Black),
-                new VertexPositionColor(m_NLetterCoordinates[7], Color.Black),
-                new VertexPositionColor(m_NLetterCoordinates[4], Color.Black)));
-
-            Add(new TriangleHolder<VertexPositionColor>(
-                Game,
-                VertexPositionColor.VertexElements,
-                1,
-                new VertexPositionColor(m_NLetterCoordinates[5], Color.Black),
-                new VertexPositionColor(m_NLetterCoordinates[6], Color.Black),
-                new VertexPositionColor(m_NLetterCoordinates[7], Color.Black)));
-
-            Add(new TriangleHolder<VertexPositionColor>(
-                Game,
-                VertexPositionColor.VertexElements,
-                2,
-                new VertexPositionColor(m_NLetterCoordinates[9], Color.Black),
-                new VertexPositionColor(m_NLetterCoordinates[8], Color.Black),
-                new VertexPositionColor(m_NLetterCoordinates[6], Color.Black),
-                new VertexPositionColor(m_NLetterCoordinates[5], Color.Black)));*/
         }
 
         /// <summary>
@@ -286,34 +247,7 @@ namespace DreidelGame.ObjectModel
                 r_Color);
             m_Vertices[k_HLetterStartIndex + 10] = new VertexPositionColor( 
                 new Vector3(2, -2.5f, -k_ZFactorCoordinate - k_LetterSpace), 
-                r_Color);
-
-            /*Add(new TriangleHolder<VertexPositionColor>(
-                Game,
-                VertexPositionColor.VertexElements,
-                2,
-                new VertexPositionColor(m_HLetterCoordinates[1], Color.Black),
-                new VertexPositionColor(m_HLetterCoordinates[4], Color.Black),
-                new VertexPositionColor(m_HLetterCoordinates[2], Color.Black),
-                new VertexPositionColor(m_HLetterCoordinates[0], Color.Black)));
-
-            Add(new TriangleHolder<VertexPositionColor>(
-                Game,
-                VertexPositionColor.VertexElements,
-                2,
-                new VertexPositionColor(m_HLetterCoordinates[6], Color.Black),
-                new VertexPositionColor(m_HLetterCoordinates[5], Color.Black),
-                new VertexPositionColor(m_HLetterCoordinates[4], Color.Black),
-                new VertexPositionColor(m_HLetterCoordinates[3], Color.Black)));
-
-            Add(new TriangleHolder<VertexPositionColor>(
-                Game,
-                VertexPositionColor.VertexElements,
-                2,
-                new VertexPositionColor(m_HLetterCoordinates[10], Color.Black),
-                new VertexPositionColor(m_HLetterCoordinates[8], Color.Black),
-                new VertexPositionColor(m_HLetterCoordinates[7], Color.Black),
-                new VertexPositionColor(m_HLetterCoordinates[9], Color.Black)));*/
+                r_Color);     
         }
 
         /// <summary>
@@ -389,43 +323,7 @@ namespace DreidelGame.ObjectModel
                 r_Color);
             m_Vertices[k_GLetterStartIndex + 13] = new VertexPositionColor( 
                 new Vector3(-3 - k_LetterSpace, -2.5f, 2), 
-                r_Color);
-
-            /*Add(new TriangleHolder<VertexPositionColor>(
-                Game,
-                VertexPositionColor.VertexElements,
-                2,
-                new VertexPositionColor(m_GLetterCoordinates[0], Color.Black),
-                new VertexPositionColor(m_GLetterCoordinates[1], Color.Black),
-                new VertexPositionColor(m_GLetterCoordinates[2], Color.Black),
-                new VertexPositionColor(m_GLetterCoordinates[4], Color.Black)));
-
-            Add(new TriangleHolder<VertexPositionColor>(
-                Game,
-                VertexPositionColor.VertexElements,
-                2,
-                new VertexPositionColor(m_GLetterCoordinates[3], Color.Black),
-                new VertexPositionColor(m_GLetterCoordinates[2], Color.Black),
-                new VertexPositionColor(m_GLetterCoordinates[7], Color.Black),
-                new VertexPositionColor(m_GLetterCoordinates[6], Color.Black)));
-
-            Add(new TriangleHolder<VertexPositionColor>(
-                Game,
-                VertexPositionColor.VertexElements,
-                2,
-                new VertexPositionColor(m_GLetterCoordinates[5], Color.Black),
-                new VertexPositionColor(m_GLetterCoordinates[11], Color.Black),
-                new VertexPositionColor(m_GLetterCoordinates[12], Color.Black),
-                new VertexPositionColor(m_GLetterCoordinates[13], Color.Black)));
-
-            Add(new TriangleHolder<VertexPositionColor>(
-                Game,
-                VertexPositionColor.VertexElements,
-                2,
-                new VertexPositionColor(m_GLetterCoordinates[9], Color.Black),
-                new VertexPositionColor(m_GLetterCoordinates[10], Color.Black),
-                new VertexPositionColor(m_GLetterCoordinates[11], Color.Black),
-                new VertexPositionColor(m_GLetterCoordinates[8], Color.Black)));*/
+                r_Color);   
         }
 
         /// <summary>
@@ -558,26 +456,7 @@ namespace DreidelGame.ObjectModel
             m_Indices[k_PLetterIndicesStartInd + 26] = k_PLetterStartIndex + 16;
             m_Indices[k_PLetterIndicesStartInd + 27] = k_PLetterStartIndex + 14;
             m_Indices[k_PLetterIndicesStartInd + 28] = k_PLetterStartIndex + 16;
-            m_Indices[k_PLetterIndicesStartInd + 29] = k_PLetterStartIndex + 15;
-            /*          
-
-          Add(new TriangleHolder<VertexPositionColor>(
-              Game,
-              VertexPositionColor.VertexElements,
-              2,
-              new VertexPositionColor(m_PLetterCoordinates[4], Color.Black),
-              new VertexPositionColor(m_PLetterCoordinates[16], Color.Black),
-              new VertexPositionColor(m_PLetterCoordinates[12], Color.Black),
-              new VertexPositionColor(m_PLetterCoordinates[5], Color.Black)));
-
-          Add(new TriangleHolder<VertexPositionColor>(
-              Game,
-              VertexPositionColor.VertexElements,
-              2,
-              new VertexPositionColor(m_PLetterCoordinates[14], Color.Black),
-              new VertexPositionColor(m_PLetterCoordinates[13], Color.Black),
-              new VertexPositionColor(m_PLetterCoordinates[16], Color.Black),
-              new VertexPositionColor(m_PLetterCoordinates[15], Color.Black)));*/
+            m_Indices[k_PLetterIndicesStartInd + 29] = k_PLetterStartIndex + 15;      
         }
 
     }

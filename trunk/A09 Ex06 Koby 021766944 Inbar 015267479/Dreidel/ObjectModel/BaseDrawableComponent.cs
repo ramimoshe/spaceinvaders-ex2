@@ -275,14 +275,6 @@ namespace DreidelGame.ObjectModel
         /// </summary>
         public abstract void    InitBuffers();
 
-        // TODO: Remove the method
-
-        /// <summary>
-        /// Drawing the component
-        /// </summary>
-        /// <param name="i_GameTime">A snapshot of the game time</param>
-        //public abstract void    DoDraw(GameTime i_GameTime);
-
         /// <summary>
         /// Draws the component. 
         /// first we'll search ffor a shared effect, creates if none exists, updates the effect
@@ -315,13 +307,7 @@ namespace DreidelGame.ObjectModel
             {
                 effect.Texture = Texture;
                 effect.TextureEnabled = true;
-                effect.VertexColorEnabled = false;
-
-                // TODO: Remove
-
-                /*this.GraphicsDevice.VertexDeclaration = new VertexDeclaration(
-                    this.GraphicsDevice, 
-                    VertexPositionTexture.VertexElements);*/
+                effect.VertexColorEnabled = false;                
 
                 this.GraphicsDevice.Vertices[0].SetSource(
                     m_VertexBuffer, 
@@ -331,13 +317,7 @@ namespace DreidelGame.ObjectModel
             else
             {
                 effect.TextureEnabled = false;
-                effect.VertexColorEnabled = true;
-
-                // TODO: Remove
-
-                /*this.GraphicsDevice.VertexDeclaration = new VertexDeclaration(
-                    this.GraphicsDevice,
-                    VertexPositionColor.VertexElements);*/
+                effect.VertexColorEnabled = true;            
 
                 this.GraphicsDevice.Vertices[0].SetSource(
                     m_VertexBuffer, 
@@ -349,19 +329,7 @@ namespace DreidelGame.ObjectModel
 
             foreach (EffectPass pass in effect.CurrentTechnique.Passes)
             {
-                pass.Begin();
-
-                // TODO: Remove the remark
-                //DoDraw(i_GameTime);
-
-                /*if (Texture != null)
-                {
-                    this.GraphicsDevice.Vertices[0].SetSource(m_VertexBuffer, 0, VertexPositionTexture.SizeInBytes);
-                }
-                else
-                {
-                    this.GraphicsDevice.Vertices[0].SetSource(m_VertexBuffer, 0, VertexPositionColor.SizeInBytes);
-                }*/
+                pass.Begin();      
 
                 this.GraphicsDevice.Indices = m_IndexBuffer;
                 this.GraphicsDevice.DrawIndexedPrimitives(

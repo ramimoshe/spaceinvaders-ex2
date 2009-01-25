@@ -189,12 +189,11 @@ namespace DreidelGame.ObjectModel
             }
         }
 
-        // tODO: Remove the proc
-
         /// <summary>
-        /// Initialize the VertexBuffer and IndexBuffer components.
+        /// Override the base method. 
+        /// Notice that the Dreidel doesn't have any buffers so we shouldn't call the method.
         /// </summary>
-        public override void InitBuffers()
+        public override void    InitBuffers()
         {
             throw new Exception("The method or operation is not implemented.");
         }

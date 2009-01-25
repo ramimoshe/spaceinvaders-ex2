@@ -93,12 +93,5 @@ namespace DreidelGame.ObjectModel
         /// Creates the cube sides
         /// </summary>
         protected abstract void     CreateSides();        
-
-        // TODO: Remove
-
-        /// <summary>
-        /// Creates the TriangleHolder compoentns according to the box data
-        /// </summary>
-        //protected abstract void     CreateTriangleComponents();
     }
 }

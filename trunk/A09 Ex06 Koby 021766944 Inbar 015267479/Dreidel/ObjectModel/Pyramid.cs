@@ -31,10 +31,6 @@ namespace DreidelGame.ObjectModel
             get { return k_TrianglesNum; }
         }
 
-        // TODO: Remove
-
-        //private Vector3[] m_VerticesCoordinates = new Vector3[5];
-
         /// <summary>
         /// CTOR. creates a new instance
         /// </summary>
@@ -43,61 +39,6 @@ namespace DreidelGame.ObjectModel
             : base(i_Game)
         {
         }
-
-        // TODO: Remove the proc
-
-        /// <summary>
-        /// Initialize the pyramid coordinates and adds them to the component list
-        /// </summary>
-       /* public override void    Initialize()
-        {
-            initCoordinates();            
-
-            // TODO: Remove the remark
-
-            Add(new TriangleHolder<VertexPositionColor>(
-                    Game,
-                    VertexPositionColor.VertexElements,
-                    2,
-                    new VertexPositionColor(m_VerticesCoordinates[0], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[1], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[2], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[3], r_SideColor)));
-
-            Add(new TriangleHolder<VertexPositionColor>(
-                    Game,
-                    VertexPositionColor.VertexElements,
-                    1,
-                    new VertexPositionColor(m_VerticesCoordinates[0], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[1], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[4], r_SideColor)));
-
-            Add(new TriangleHolder<VertexPositionColor>(
-                    Game,
-                    VertexPositionColor.VertexElements,
-                    1,
-                    new VertexPositionColor(m_VerticesCoordinates[1], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[2], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[4], r_SideColor)));
-
-            Add(new TriangleHolder<VertexPositionColor>(
-                    Game,
-                    VertexPositionColor.VertexElements,
-                    1,
-                    new VertexPositionColor(m_VerticesCoordinates[2], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[3], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[4], r_SideColor)));
-
-            Add(new TriangleHolder<VertexPositionColor>(
-                    Game,
-                    VertexPositionColor.VertexElements,
-                    1,
-                    new VertexPositionColor(m_VerticesCoordinates[3], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[0], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[4], r_SideColor)));
-
-            base.Initialize();
-        }*/
 
         /// <summary>
         /// Initialize the component vertices and buffers
@@ -179,50 +120,7 @@ namespace DreidelGame.ObjectModel
             indices[16] = 0;
             indices[17] = 4;
 
-            BufferIndices = indices;
-
-            // TODO: Remove
-
-            /*Add(new TriangleHolder<VertexPositionColor>(
-                    Game,
-                    VertexPositionColor.VertexElements,
-                    2,
-                    new VertexPositionColor(m_VerticesCoordinates[0], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[1], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[2], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[3], r_SideColor)));
-
-            Add(new TriangleHolder<VertexPositionColor>(
-                    Game,
-                    VertexPositionColor.VertexElements,
-                    1,
-                    new VertexPositionColor(m_VerticesCoordinates[0], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[1], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[4], r_SideColor)));
-
-            Add(new TriangleHolder<VertexPositionColor>(
-                    Game,
-                    VertexPositionColor.VertexElements,
-                    1,
-                    new VertexPositionColor(m_VerticesCoordinates[1], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[2], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[4], r_SideColor)));
-
-            Add(new TriangleHolder<VertexPositionColor>(
-                    Game,
-                    VertexPositionColor.VertexElements,
-                    1,
-                    new VertexPositionColor(m_VerticesCoordinates[2], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[3], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[4], r_SideColor)));
-
-            Add(new TriangleHolder<VertexPositionColor>(
-                    Game,
-                    VertexPositionColor.VertexElements,
-                    1,
-                    new VertexPositionColor(m_VerticesCoordinates[3], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[0], r_SideColor),
-                    new VertexPositionColor(m_VerticesCoordinates[4], r_SideColor)));*/
+            BufferIndices = indices;      
         }
 
         /// <summary>
@@ -250,34 +148,6 @@ namespace DreidelGame.ObjectModel
 
             this.ComponentVertexBuffer = vBuffer;
             this.ComponentIndexBuffer = iBuffer;
-        }
-
-        // TODO: Remove
-
-        /// <summary>
-        /// Initialize the pyramid coordinates
-        /// </summary>
-        /*private void    initCoordinates()
-        {
-            m_VerticesCoordinates = new Vector3[5];
-
-            m_VerticesCoordinates[0] = new Vector3(
-                k_MinXCoordinate, 
-                k_YCoordinate, 
-                k_ZFactorCoordinate);
-            m_VerticesCoordinates[1] = new Vector3(
-                k_MaxXCoordinate, 
-                k_YCoordinate, 
-                k_ZFactorCoordinate);
-            m_VerticesCoordinates[2] = new Vector3(
-                k_MaxXCoordinate, 
-                k_YCoordinate, 
-                k_ZFactorCoordinate - k_ZFactorWidth);
-            m_VerticesCoordinates[3] = new Vector3(
-                k_MinXCoordinate, 
-                k_YCoordinate, 
-                k_ZFactorCoordinate - k_ZFactorWidth);
-            m_VerticesCoordinates[4] = r_PyramidHead;
-        }*/
+        }      
     }
 }
