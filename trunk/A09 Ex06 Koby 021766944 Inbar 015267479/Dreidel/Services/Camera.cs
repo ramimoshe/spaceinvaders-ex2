@@ -275,37 +275,18 @@ namespace DreidelGame.Services
                 float xDifference = Mouse.GetState().X - m_PrevMouseState.X;
                 float yDifference = Mouse.GetState().Y - m_PrevMouseState.Y;
 
-                if (m_InputManager.MouseState.MiddleButton == ButtonState.Pressed)
+                if (m_InputManager.MouseState.MiddleButton == ButtonState.Pressed ||
+                    m_InputManager.MouseState.LeftButton == ButtonState.Pressed)
                 {
                     Vector3 moveVector = Vector3.Zero;
 
-                    if (xDifference < 0 ||
-                        yDifference < 0)
+                    if (m_InputManager.MouseState.MiddleButton == ButtonState.Pressed)
                     {
-                        /*m_Position -=                             
-                            Vector3.Transform(
-                                Vector3.UnitZ * k_MoveSpeed * deltaTime,                                 
-                                RotationMatrix);
-                        ShouldUpdateViewMatrix = true;*/
-
-                        moveVector.Z -= k_ZMoveSpeed * deltaTime;
-
+                        moveVector = processScrollButton(deltaTime, xDifference, yDifference, moveVector);
                     }
-                    else if (xDifference > 0 ||
-                             yDifference > 0)
+                    else
                     {
-                        /*m_Position += 
-                            k_MoveSpeed * 
-                            Vector3.Transform(Vector3.UnitZ, RotationMatrix);
-
-                        m_Position += 
-                            Vector3.Transform(
-                                Vector3.UnitZ * k_MoveSpeed * deltaTime,
-                                RotationMatrix);
-
-                        ShouldUpdateViewMatrix = true;*/
-
-                        moveVector.Z += k_ZMoveSpeed * deltaTime;
+                        moveVector = processLeftButton(xDifference, yDifference, moveVector);                   
                     }
 
                     if (moveVector != Vector3.Zero)
@@ -315,40 +296,7 @@ namespace DreidelGame.Services
                     }
                 }
                 else if (m_InputManager.MouseState.LeftButton == ButtonState.Pressed)
-                {
-                    if (m_InputManager.MousePositionDelta != Vector2.Zero)
-                    {
-                        if (xDifference < 0)
-                        {
-                            m_Position -=
-                                k_XYMoveSpeed *
-                                Vector3.Transform(Vector3.UnitX, RotationMatrix);
-
-                            ShouldUpdateViewMatrix = true;
-                        }
-                        else if (xDifference > 0)
-                        {
-                            m_Position +=
-                                k_XYMoveSpeed *
-                                Vector3.Transform(Vector3.UnitX, RotationMatrix);
-                            ShouldUpdateViewMatrix = true;
-                        }
-
-                        if (yDifference > 0)
-                        {
-                            m_Position -=
-                                k_XYMoveSpeed *
-                                Vector3.Transform(Vector3.UnitY, RotationMatrix);
-                            ShouldUpdateViewMatrix = true;
-                        }
-                        else if (yDifference < 0)
-                        {
-                            m_Position +=
-                                k_XYMoveSpeed *
-                                Vector3.Transform(Vector3.UnitY, RotationMatrix);
-                            ShouldUpdateViewMatrix = true;
-                        }
-                    }
+                {                                        
                 }
                 else if (m_InputManager.MouseState.RightButton == ButtonState.Pressed)
                 {
@@ -467,6 +415,67 @@ namespace DreidelGame.Services
                 Position = r_DefaultPosition;
                 Rotations = Vector3.Zero;
             }            
+        }
+
+        /// <summary>
+        /// Calculate the camera movment for the left mouse button press
+        /// </summary>
+        /// <param name="i_XDifference">Units the mouse move on the X axis</param>
+        /// <param name="i_YDifference">Units the mouse move on the Y axis</param>
+        /// <param name="i_MoveVector">A zero Vector3</param>
+        /// <returns>Vector3 representing the units that we need to change the cameras position</returns>
+        private Vector3 processLeftButton(
+            float i_XDifference, 
+            float i_YDifference, 
+            Vector3 i_MoveVector)
+        {
+            if (i_XDifference < 0)
+            {
+                i_MoveVector.X -= k_XYMoveSpeed;
+            }
+            else if (i_XDifference > 0)
+            {
+                i_MoveVector.X += k_XYMoveSpeed;
+            }
+
+            if (i_YDifference > 0)
+            {
+                i_MoveVector.Y -= k_XYMoveSpeed;
+            }
+            else if (i_YDifference < 0)
+            {
+                i_MoveVector.Y += k_XYMoveSpeed;
+            }
+            return i_MoveVector;
+        }
+
+        /// <summary>
+        /// Calculate the camera movment for the scroll mouse button press
+        /// </summary>
+        /// <param name="i_DeltaTime">Time passed from game start</param>
+        /// <param name="i_XDifference">Units the mouse move on the X axis</param>
+        /// <param name="i_YDifference">Units the mouse move on the Y axis</param>
+        /// <param name="i_MoveVector">A zero Vector3</param>
+        /// <returns>Vector3 representing the units that we need to change the cameras position</returns>
+        private Vector3 processScrollButton(
+            float i_DeltaTime, 
+            float i_XDifference, 
+            float i_YDifference, 
+            Vector3 i_MoveVector)
+        {
+            if (i_XDifference < 0 ||
+                i_YDifference < 0)
+            {        
+                i_MoveVector.Z -= k_ZMoveSpeed * i_DeltaTime;
+
+            }
+            else if (i_XDifference > 0 ||
+                     i_YDifference > 0)
+            {
+                i_MoveVector.Z += k_ZMoveSpeed * i_DeltaTime;
+            }
+
+            return i_MoveVector;
         }
     }
 }
