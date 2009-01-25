@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using DreidelGame.ObjectModel;
 using Microsoft.Xna.Framework.Graphics;
+using DreidelGame.Interfaces;
 
 namespace DreidelGame
 {
@@ -110,7 +111,7 @@ namespace DreidelGame
         /// in case the dreidel current side letter matches the letter that the player chose        
         /// </summary>
         /// <param name="i_Dreidel">The dreidel that raised the event</param>
-        public void     Dreidel_FinishedSpinning(Dreidel i_Dreidel)
+        public void     Dreidel_FinishedSpinning(IDreidel i_Dreidel)
         {
             if (i_Dreidel.DreidelFrontLetter.Equals(m_PlayerChosenLetter))
             {

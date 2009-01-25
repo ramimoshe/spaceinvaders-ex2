@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using DreidelGame.ObjectModel;
 using DreidelGame.Services;
+using DreidelGame.Interfaces;
 
 namespace DreidelGame
 {
@@ -19,7 +20,7 @@ namespace DreidelGame
     public class DreidelGame : Microsoft.Xna.Framework.Game
     {        
         private const int k_DefaultSpinningDreidelsNum = 0;
-        private const int k_DreidelsNum = 10;
+        private const int k_DreidelsNum = 13;
         private const float k_ZFactorWidth = 7;
         private const float k_ZFactorCoordinate = 3.5f;
         private readonly Keys r_StartGameKey = Keys.Space;
@@ -41,7 +42,7 @@ namespace DreidelGame
 
         private int m_SpinningDreidels;
 
-        private Dreidel[] m_Dreidels;
+        private IDreidel[] m_Dreidels = new IDreidel[k_DreidelsNum];
 
         /// <summary>
         /// Read only property that marks if we can get an input from the user
@@ -85,33 +86,32 @@ namespace DreidelGame
             m_ScoreManager = new ScoreManager(this);
             this.Components.Add(m_ScoreManager);
 
+          
             // Initialing dreidels
-            for (int i = 1; i <= k_DreidelsNum; ++i)
-            {
-                Dreidel newDreidel;
+            IDreidel newDreidel;
 
+            for (int i = 0; i < k_DreidelsNum; ++i)
+            {
                 // TODO: Change to ColorDreidel
 
-                // Every second dreidel will be Texture\Position dreidel
-                if ((i % 2) == 0)
+                if (i < k_DreidelsNum - 3)
                 {
-                    newDreidel = new PositionDreidel(this);
-                    //newDreidel = new TextureDreidel(this);
+                    // Every second dreidel will be Texture\Position dreidel
+                    newDreidel = (i % 2) == 0 ? 
+                        (IDreidel) new PositionDreidel(this) :
+                        (IDreidel) new TextureDreidel(this);
                 }
-
-                // TODO: Change to TextureDreidel
-
-                else
+                else 
                 {
-                    //newDreidel = new PositionDreidel(this);
-                    newDreidel = new TextureDreidel(this);
+                    newDreidel = (IDreidel) new ModelDreidel(this);
                 }
 
                 newDreidel.FinishedSpinning += new DreidelEventHandler(dreidel_FinishedSpinning);
                 newDreidel.FinishedSpinning += new DreidelEventHandler(m_ScoreManager.Dreidel_FinishedSpinning);
-                m_Dreidels[i - 1] = newDreidel;                
+                m_Dreidels[i] = newDreidel;                
             }
 
+ 
             m_SpinningDreidels = k_DefaultSpinningDreidelsNum;
 
             Camera camera = new Camera(this);
@@ -213,7 +213,7 @@ namespace DreidelGame
         /// </summary>
         private void    spinDreidels()
         {
-            foreach (Dreidel d in m_Dreidels)
+            foreach (IDreidel d in m_Dreidels)
             {
                 d.SpinDreidel();
                 m_SpinningDreidels++;
@@ -236,7 +236,7 @@ namespace DreidelGame
         /// spinning dreidels
         /// </summary>
         /// <param name="i_Dreidel">The dreidel the raised the event</param>
-        private void    dreidel_FinishedSpinning(Dreidel i_Dreidel)
+        private void    dreidel_FinishedSpinning(IDreidel i_Dreidel)
         {
             m_SpinningDreidels--;            
         }

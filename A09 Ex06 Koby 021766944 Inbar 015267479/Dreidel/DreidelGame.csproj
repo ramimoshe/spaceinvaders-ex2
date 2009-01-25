@@ -58,6 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IDreidel.cs" />
+    <Compile Include="ObjectModel\DreidlModel.cs" />
     <Compile Include="Services\Camera.cs" />
     <Compile Include="FormCameraProperties.cs">
       <SubType>Form</SubType>

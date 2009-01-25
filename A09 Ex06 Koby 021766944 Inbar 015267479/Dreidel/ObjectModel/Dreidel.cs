@@ -3,29 +3,17 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using DreidelGame.Interfaces;
 
 namespace DreidelGame.ObjectModel
 {
-    public delegate void DreidelEventHandler(Dreidel i_Dreidel);
-
-    /// <summary>
-    /// An enum containing the available dreidel letters
-    /// </summary>
-    public enum eDreidelLetters
-    {
-        NLetter,
-        HLetter,
-        PLetter,
-        GLetter,
-        None
-    }
 
     // TODO: Change to inherit from Base
 
     /// <summary>
     /// Represents a dreidel in the game
     /// </summary>
-    public abstract class Dreidel : CompositeGameComponent
+    public abstract class Dreidel : CompositeGameComponent, IDreidel
     {
         private const int k_DreidelSidesNum = 4;
         private const int k_DefaultDreidelSide = 0;
