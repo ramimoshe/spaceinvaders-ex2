@@ -28,5 +28,10 @@ namespace DreidelGame.Interfaces
         {
             get;
         }
+
+        int DreidelScore
+        {
+            get;
+        }
     }
 }

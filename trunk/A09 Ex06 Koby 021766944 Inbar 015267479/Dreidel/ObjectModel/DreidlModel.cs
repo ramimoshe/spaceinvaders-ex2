@@ -16,6 +16,7 @@ namespace DreidelGame.ObjectModel
     {
         private const int k_DreidelSidesNum = 4;
         private const int k_DefaultDreidelSide = 0;
+        private const int k_DreidelScore = 1;
 
         private static Random m_Rand = new Random();
         protected Vector3 m_Position = Vector3.Zero;
@@ -60,6 +61,17 @@ namespace DreidelGame.ObjectModel
             s_DreidelLetters[2] = eDreidelLetters.HLetter;
             s_DreidelLetters[3] = eDreidelLetters.PLetter;
         }
+
+        /// <summary>
+        /// Returns the score for the dreidel
+        /// </summary>
+        public int DreidelScore
+        {
+            get 
+            { 
+                return k_DreidelScore; 
+            }
+        } 
 
         protected override void LoadContent()
         {
