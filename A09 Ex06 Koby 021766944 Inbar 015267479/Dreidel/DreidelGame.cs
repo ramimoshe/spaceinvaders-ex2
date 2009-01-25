@@ -107,9 +107,8 @@ namespace DreidelGame
             m_SpinningDreidels = k_DefaultSpinningDreidelsNum;
 
             Camera camera = new Camera(this);
-
-            this.Services.AddService(typeof(Camera), camera);
             this.Components.Add(camera);
+            this.Services.AddService(typeof(Camera), camera);
         }
 
         /// <summary>
