@@ -21,6 +21,7 @@ namespace DreidelGame
     {        
         private const int k_DefaultSpinningDreidelsNum = 0;
         private const int k_DreidelsNum = 13;
+
         private const float k_ZFactorWidth = 7;
         private const float k_ZFactorCoordinate = 3.5f;
         private readonly Keys r_StartGameKey = Keys.Space;
@@ -36,6 +37,7 @@ namespace DreidelGame
         private ScoreManager m_ScoreManager;
         private BasicEffect m_BasicEffect;
         private Matrix m_ProjectionFieldOfView;
+        private Camera m_Camera;
 
         private int m_SpinningDreidels;
 
@@ -106,9 +108,9 @@ namespace DreidelGame
  
             m_SpinningDreidels = k_DefaultSpinningDreidelsNum;
 
-            Camera camera = new Camera(this);
-            this.Components.Add(camera);
-            this.Services.AddService(typeof(Camera), camera);
+            m_Camera = new Camera(this);
+            this.Components.Add(m_Camera);
+            this.Services.AddService(typeof(Camera), m_Camera);
         }
 
         /// <summary>
@@ -121,6 +123,8 @@ namespace DreidelGame
             Mouse.SetPosition(
                 GraphicsDevice.Viewport.Width / 2,
                 GraphicsDevice.Viewport.Height / 2);
+
+            m_Camera.DefaultMouseState = Mouse.GetState();
         }
 
         /// <summary>
