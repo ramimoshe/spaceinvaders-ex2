@@ -115,7 +115,7 @@ namespace DreidelGame
         {
             if (i_Dreidel.DreidelFrontLetter.Equals(m_PlayerChosenLetter))
             {
-                PlayerScore = PlayerScore + k_PlayerScoreIncrement;
+                PlayerScore = PlayerScore + i_Dreidel.DreidelScore;
             }
         }
     }

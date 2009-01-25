@@ -7,9 +7,6 @@ using DreidelGame.Interfaces;
 
 namespace DreidelGame.ObjectModel
 {
-
-    // TODO: Change to inherit from Base
-
     /// <summary>
     /// Represents a dreidel in the game
     /// </summary>
@@ -18,6 +15,7 @@ namespace DreidelGame.ObjectModel
         private const int k_DreidelSidesNum = 4;
         private const int k_DefaultDreidelSide = 0;
         private const int k_TrianglesNum = 0;
+        private const int k_DreidelScore = 1;
         
         private static Random m_Rand = new Random();
 
@@ -45,6 +43,14 @@ namespace DreidelGame.ObjectModel
         {
             get { return k_TrianglesNum; }
         }
+
+        /// <summary>
+        /// Returns the score for the dreidel
+        /// </summary>
+        public int DreidelScore
+        {
+            get { return k_DreidelScore; }
+        } 
 
         /// <summary>
         /// Gets the dreidels cube
