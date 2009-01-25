@@ -6,67 +6,64 @@ using Microsoft.Xna.Framework.Input;
 
 namespace DreidelGame.Services
 {
-    // TODO: Create a Service class that automatically register the service
-
     // TODO: Check if it should be a DrawableGameComponent
 
+    /// <summary>
+    /// The games camera
+    /// </summary>
     public class Camera : DrawableGameComponent
     {
         private const int k_DefaultPointOfViewZFactor = 250;
 
+        private static readonly float sr_OneRadian = MathHelper.ToRadians(1);
         private readonly Keys r_CameraMovementActivationKey = Keys.S;
         private readonly Vector3 r_DefaultPosition = new Vector3(0, 0, k_DefaultPointOfViewZFactor);
         private const float k_ZMoveSpeed = 150f;
         private const float k_XYMoveSpeed = 3f;
-
+        
         private MouseState m_PrevMouseState;
-
         private bool m_ShouldUpdateViewMatrix = true;
+        private InputManager m_InputManager;
 
-        // TODO: Remove all the form references
+        protected Matrix m_ViewMatrix;
+        protected Vector3 m_Position = new Vector3(0, 0, k_DefaultPointOfViewZFactor);
 
-        FormCameraProperties m_FormCameraProperties = new FormCameraProperties();
-        InputManager m_InputManager;
-
-        protected bool m_Field;
-
+        /// <summary>
+        /// Gets/sets an indication wether a change was made to camera rotation/position 
+        /// and we should update the cameras' view
+        /// </summary>
         public bool ShouldUpdateViewMatrix
         {
             get { return m_ShouldUpdateViewMatrix; }
             set
             {
-                m_ShouldUpdateViewMatrix = value;
-                m_FormCameraProperties.RefreshGrid();
+                m_ShouldUpdateViewMatrix = value;                
             }
-        }
+        }        
 
-        public Camera(Game i_Game) : base(i_Game)
-        {
-            m_FormCameraProperties.BoundObject = Mouse.GetState();
-            m_FormCameraProperties.Show();            
-
-            m_Position = r_DefaultPosition;
-        }
-
-        protected Matrix m_ViewMatrix;
-
+        /// <summary>
+        /// Gets/sets the cameras' current view matrix
+        /// </summary>
         public Matrix ViewMatrix
         {
             get
             {
                 if (ShouldUpdateViewMatrix)
-                {     
+                {
                     m_ViewMatrix = Matrix.CreateLookAt(Position, TargetPosition, Up);
                     ShouldUpdateViewMatrix = false;
                 }
 
-                return m_ViewMatrix; 
-           
+                return m_ViewMatrix;
+
             }
         }
 
         protected Vector3 m_TargetPosition = Vector3.Zero;
 
+        /// <summary>
+        /// Gets/sets the position of the target that the camera is looking at
+        /// </summary>
         public Vector3 TargetPosition
         {
             get
@@ -77,7 +74,7 @@ namespace DreidelGame.Services
                     m_TargetPosition = m_Position + m_TargetPosition;
                 }
 
-                return m_TargetPosition; 
+                return m_TargetPosition;
 
             }
             set
@@ -92,6 +89,9 @@ namespace DreidelGame.Services
 
         protected Vector3 m_Rotations = Vector3.Zero;
 
+        /// <summary>
+        /// Gets/sets the camera's rotation values
+        /// </summary>
         public Vector3 Rotations
         {
             get
@@ -109,6 +109,10 @@ namespace DreidelGame.Services
         }
 
         protected Matrix m_RotationMatrix;
+
+        /// <summary>
+        /// Gets/sets the cameras rotation matrix
+        /// </summary>
         public Matrix RotationMatrix
         {
             get
@@ -128,12 +132,11 @@ namespace DreidelGame.Services
                     ShouldUpdateViewMatrix = true;
                 }
             }
-        }
+        }        
 
-        // TODO: Change the parameters to constants
-
-        protected Vector3 m_Position = new Vector3(0, 0, k_DefaultPointOfViewZFactor);
-
+        /// <summary>
+        /// Gets/sets the current camera position
+        /// </summary>
         public Vector3 Position
         {
             get { return m_Position; }
@@ -147,6 +150,9 @@ namespace DreidelGame.Services
             }
         }
 
+        /// <summary>
+        /// Gets/sets the camera yaw value (rotation on the Y axis)
+        /// </summary>
         public float Yaw
         {
             get { return m_Rotations.Y; }
@@ -160,6 +166,9 @@ namespace DreidelGame.Services
             }
         }
 
+        /// <summary>
+        /// Gets/sets the camera pitch value (rotation on the X axis)
+        /// </summary>
         public float Pitch
         {
             get { return m_Rotations.X; }
@@ -173,6 +182,9 @@ namespace DreidelGame.Services
             }
         }
 
+        /// <summary>
+        /// Gets/sets the camera roll value (rotation on the Z axis)
+        /// </summary>
         public float Roll
         {
             get { return m_Rotations.Z; }
@@ -186,6 +198,9 @@ namespace DreidelGame.Services
             }
         }
 
+        /// <summary>
+        /// Gets the Camera forward vector according to the current rotation matrix
+        /// </summary>
         public Vector3 Forward
         {
             get
@@ -194,6 +209,9 @@ namespace DreidelGame.Services
             }
         }
 
+        /// <summary>
+        /// Gets the Camera right vector according to the current rotation matrix
+        /// </summary>
         public Vector3 Right
         {
             get
@@ -201,6 +219,10 @@ namespace DreidelGame.Services
                 return Vector3.Transform(Vector3.Right, m_RotationMatrix);
             }
         }
+
+        /// <summary>
+        /// Gets the Camera up vector according to the current rotation matrix
+        /// </summary>
         public Vector3 Up
         {
             get
@@ -209,15 +231,24 @@ namespace DreidelGame.Services
             }
         }
 
-        public override void  Initialize()
+        public Camera(Game i_Game) : base(i_Game)
+        {
+            m_Position = r_DefaultPosition;
+        }        
+
+        /// <summary>
+        /// Initialize the InputManager variable
+        /// </summary>
+        public override void    Initialize()
         {
             base.Initialize();
             
             m_InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
-        }
-        
-        static readonly float sr_OneRadian = MathHelper.ToRadians(1);
+        }                
 
+        /// <summary>
+        /// Initialize the Mouse position to be in the center of the screen
+        /// </summary>
         protected override void     LoadContent()
         {
             base.LoadContent();
@@ -229,209 +260,11 @@ namespace DreidelGame.Services
             m_PrevMouseState = Mouse.GetState();
         }
 
-        // TODO: Remove the method
-
         /// <summary>
         /// Updates the Camera according to the mouse position
         /// </summary>
         /// <param name="i_GameTime">a snapshot of the game time</param>
-        public void UpdateNoSet(GameTime i_GameTime)
-        {
-            base.Update(i_GameTime);           
-
-            if (m_InputManager.KeyboardState.IsKeyDown(r_CameraMovementActivationKey))
-            {
-                float deltaTime = (float)i_GameTime.ElapsedGameTime.TotalSeconds;
-
-                if (m_InputManager.MouseState.MiddleButton == ButtonState.Pressed)
-                {
-                    Vector3 moveVector = Vector3.Zero;
-
-                    if (m_InputManager.MousePositionDelta.X < 0 ||
-                        m_InputManager.MousePositionDelta.Y < 0)
-                    {
-                        /*m_Position -=                             
-                            Vector3.Transform(
-                                Vector3.UnitZ * k_MoveSpeed * deltaTime,                                 
-                                RotationMatrix);
-                        ShouldUpdateViewMatrix = true;*/
-
-                        moveVector.Z -= k_ZMoveSpeed * deltaTime;
-
-                    }
-                    else if (m_InputManager.MousePositionDelta.X > 0 ||
-                             m_InputManager.MousePositionDelta.Y > 0)
-                    {
-                        /*m_Position += 
-                            k_MoveSpeed * 
-                            Vector3.Transform(Vector3.UnitZ, RotationMatrix);
-
-                        m_Position += 
-                            Vector3.Transform(
-                                Vector3.UnitZ * k_MoveSpeed * deltaTime,
-                                RotationMatrix);
-
-                        ShouldUpdateViewMatrix = true;*/
-
-                        moveVector.Z += k_ZMoveSpeed * deltaTime;
-                    }
-
-                    if (moveVector != Vector3.Zero)
-                    {
-                        m_Position += Vector3.Transform(moveVector, RotationMatrix);
-                        ShouldUpdateViewMatrix = true;
-                    }
-                }
-                else if (m_InputManager.MouseState.LeftButton == ButtonState.Pressed)
-                {
-                    if (m_InputManager.MousePositionDelta != Vector2.Zero)
-                    {
-                        if (m_InputManager.MousePositionDelta.X < 0)
-                        {
-                            m_Position -= 
-                                k_XYMoveSpeed * 
-                                Vector3.Transform(Vector3.UnitX, RotationMatrix);
-
-                            ShouldUpdateViewMatrix = true;
-                        }
-                        else if (m_InputManager.MousePositionDelta.X > 0)
-                        {
-                            m_Position +=
-                                k_XYMoveSpeed * 
-                                Vector3.Transform(Vector3.UnitX, RotationMatrix);
-                            ShouldUpdateViewMatrix = true;
-                        }
-
-                        if (m_InputManager.MousePositionDelta.Y > 0)
-                        {
-                            m_Position -=
-                                k_XYMoveSpeed *                                 
-                                Vector3.Transform(Vector3.UnitY, RotationMatrix);
-                            ShouldUpdateViewMatrix = true;
-                        }
-                        else if (m_InputManager.MousePositionDelta.Y < 0)
-                        {
-                            m_Position +=
-                                k_XYMoveSpeed * 
-                                Vector3.Transform(Vector3.UnitY, RotationMatrix);
-                            ShouldUpdateViewMatrix = true;
-                        }
-                    }
-                }
-                else if (m_InputManager.MouseState.RightButton == ButtonState.Pressed)
-                {
-                    if (m_InputManager.MousePositionDelta != Vector2.Zero)
-                    {
-                        if (m_InputManager.MousePositionDelta.X < 0)
-                        {
-                            m_Position += 
-                                Vector3.Transform(
-                                    Vector3.UnitX * deltaTime * k_XYMoveSpeed, 
-                                    RotationMatrix);
-
-                            Yaw += sr_OneRadian;
-                            ShouldUpdateViewMatrix = true;
-                        }
-                        else if (m_InputManager.MousePositionDelta.X > 0)
-                        {
-                            //m_Position += Vector3.Transform(Vector3.UnitX, RotationMatrix);
-                            Yaw += sr_OneRadian;
-                            ShouldUpdateViewMatrix = true;
-                        }
-
-                        if (m_InputManager.MousePositionDelta.Y < 0)
-                        {
-                            m_Position += Vector3.Transform(Vector3.UnitY, RotationMatrix);
-                            Pitch += sr_OneRadian;
-                            ShouldUpdateViewMatrix = true;
-                        }
-                        else if (m_InputManager.MousePositionDelta.Y > 0)
-                        {
-                            m_Position -= Vector3.Transform(Vector3.UnitY, RotationMatrix);
-                            Pitch -= sr_OneRadian;
-                            ShouldUpdateViewMatrix = true;
-                        }
-                    }
-                }
-            }            
-
-            // forward:
-            if (m_InputManager.KeyboardState.IsKeyDown(Keys.Down))
-            {
-                m_Position += Vector3.Transform(Vector3.UnitZ, RotationMatrix);
-                ShouldUpdateViewMatrix = true;
-            }
-            // backwords:
-            else if (m_InputManager.KeyboardState.IsKeyDown(Keys.Up))
-            {
-                m_Position -= Vector3.Transform(Vector3.UnitZ, RotationMatrix);
-                ShouldUpdateViewMatrix = true;
-            }
-
-            // left:
-            if (m_InputManager.KeyboardState.IsKeyDown(Keys.Left))
-            {
-                m_Position -= Vector3.Transform(Vector3.UnitX, RotationMatrix);
-                ShouldUpdateViewMatrix = true;
-            }
-            // right:
-            else if (m_InputManager.KeyboardState.IsKeyDown(Keys.Right))
-            {
-                m_Position += Vector3.Transform(Vector3.UnitX, RotationMatrix);
-                ShouldUpdateViewMatrix = true;
-            }
-
-            // up:
-            if (m_InputManager.KeyboardState.IsKeyDown(Keys.PageUp))
-            {
-                m_Position += Vector3.Transform(Vector3.UnitY, RotationMatrix);
-                ShouldUpdateViewMatrix = true;
-            }
-            // down:
-            else if (m_InputManager.KeyboardState.IsKeyDown(Keys.PageDown))
-            {
-                m_Position -= Vector3.Transform(Vector3.UnitY, RotationMatrix);
-                ShouldUpdateViewMatrix = true;
-            }
-
-            // rotate left:
-            if (m_InputManager.KeyboardState.IsKeyDown(Keys.NumPad4))
-            {
-                Yaw += sr_OneRadian;
-                ShouldUpdateViewMatrix = true;
-            }
-            // rotate right:
-            else if (m_InputManager.KeyboardState.IsKeyDown(Keys.NumPad6))
-            {
-                Yaw -= sr_OneRadian;
-                ShouldUpdateViewMatrix = true;
-            }
-
-            // rotate Up:
-            if (m_InputManager.KeyboardState.IsKeyDown(Keys.NumPad8))
-            {
-                Pitch += sr_OneRadian;
-                ShouldUpdateViewMatrix = true;
-            }
-            // rotate Down:
-            else if (m_InputManager.KeyboardState.IsKeyDown(Keys.NumPad2))
-            {
-                Pitch -= sr_OneRadian;
-                ShouldUpdateViewMatrix = true;
-            }
-
-            if (m_InputManager.KeyboardState.IsKeyDown(Keys.R))
-            {
-                Position = r_DefaultPosition;
-                Rotations = Vector3.Zero;
-            }
-        }
-
-        /// <summary>
-        /// Updates the Camera according to the mouse position
-        /// </summary>
-        /// <param name="i_GameTime">a snapshot of the game time</param>
-        public override void Update(GameTime i_GameTime)
+        public override void    Update(GameTime i_GameTime)
         {
             base.Update(i_GameTime);
 
@@ -441,8 +274,6 @@ namespace DreidelGame.Services
 
                 float xDifference = Mouse.GetState().X - m_PrevMouseState.X;
                 float yDifference = Mouse.GetState().Y - m_PrevMouseState.Y;
-
-                Console.WriteLine(xDifference + " " + yDifference);
 
                 if (m_InputManager.MouseState.MiddleButton == ButtonState.Pressed)
                 {
@@ -525,15 +356,21 @@ namespace DreidelGame.Services
                     {
                         if (xDifference < 0)
                         {
-                            m_Position +=
+                            /*m_Position +=
                                 Vector3.Transform(
                                     Vector3.UnitX * deltaTime * k_XYMoveSpeed,
-                                    RotationMatrix);
+                                    RotationMatrix);*/
 
-                            Yaw += sr_OneRadian;
-                            ShouldUpdateViewMatrix = true;
+                            Yaw -= sr_OneRadian;                            
+
+                            m_Position += 
+                                Vector3.Transform(
+                                    Vector3.UnitY * deltaTime * Yaw,
+                                    Matrix.CreateTranslation(m_TargetPosition) * RotationMatrix);
+
+                            //ShouldUpdateViewMatrix = true;
                         }
-                        else if (xDifference > 0)
+                        /*else if (xDifference > 0)
                         {
                             //m_Position += Vector3.Transform(Vector3.UnitX, RotationMatrix);
                             Yaw += sr_OneRadian;
@@ -551,7 +388,7 @@ namespace DreidelGame.Services
                             m_Position -= Vector3.Transform(Vector3.UnitY, RotationMatrix);
                             Pitch -= sr_OneRadian;
                             ShouldUpdateViewMatrix = true;
-                        }
+                        }*/
                     }
                 }
 
@@ -631,252 +468,5 @@ namespace DreidelGame.Services
                 Rotations = Vector3.Zero;
             }            
         }
-
-       /* public override void    Update(GameTime i_GameTime)
-        {
-            base.Update(i_GameTime);
-
-            MouseState currState = Mouse.GetState();
-
-            if (currState.X != m_PrevMouseState.X || currState.Y != m_PrevMouseState.Y)
-            {
-                float xDifference = currState.X - m_PrevMouseState.X;
-                float yDifference = currState.Y - m_PrevMouseState.Y;
-
-                if (m_InputManager.KeyboardState.IsKeyDown(r_CameraMovementActivationKey) &&
-                    (m_InputManager.MouseState.MiddleButton == ButtonState.Pressed ||
-                     m_InputManager.MouseState.LeftButton == ButtonState.Pressed ||
-                     m_InputManager.MouseState.RightButton == ButtonState.Pressed))
-                {                    
-                    if (m_InputManager.MouseState.MiddleButton == ButtonState.Pressed)
-                    {
-                        if (xDifference < 0 ||
-                            yDifference < 0)
-                        {
-                            m_Position -= Vector3.Transform(Vector3.UnitZ, RotationMatrix);
-                            ShouldUpdateViewMatrix = true;
-                        }
-                        else if (xDifference > 0 ||
-                                 yDifference > 0)
-                        {
-                            m_Position += Vector3.Transform(Vector3.UnitZ, RotationMatrix);
-                            ShouldUpdateViewMatrix = true;
-                        }
-                    }
-                    else if (m_InputManager.MouseState.LeftButton == ButtonState.Pressed)
-                    {
-                        if (m_InputManager.MousePositionDelta != Vector2.Zero)
-                        {
-                            if (xDifference < 0)
-                            {
-                                m_Position -= Vector3.Transform(Vector3.UnitX, RotationMatrix);
-
-                                ShouldUpdateViewMatrix = true;
-                            }
-                            else if (xDifference > 0)
-                            {
-                                m_Position += Vector3.Transform(Vector3.UnitX, RotationMatrix);
-                                ShouldUpdateViewMatrix = true;
-                            }
-
-                            if (yDifference < 0)
-                            {
-                                m_Position -= Vector3.Transform(Vector3.UnitY, RotationMatrix);
-                                ShouldUpdateViewMatrix = true;
-                            }
-                            else if (yDifference > 0)
-                            {
-                                m_Position += Vector3.Transform(Vector3.UnitY, RotationMatrix);
-                                ShouldUpdateViewMatrix = true;
-                            }
-                        }
-                    }
-                    else if (m_InputManager.MouseState.RightButton == ButtonState.Pressed)
-                    {
-                        if (m_InputManager.MousePositionDelta != Vector2.Zero)
-                        {
-                            if (xDifference < 0)
-                            {
-                                //m_Position -= Vector3.Transform(Vector3.UnitX, RotationMatrix);
-                                Yaw -= sr_OneRadian;
-                                ShouldUpdateViewMatrix = true;
-                            }
-                            else if (xDifference > 0)
-                            {
-                                //m_Position += Vector3.Transform(Vector3.UnitX, RotationMatrix);
-                                Yaw += sr_OneRadian;
-                                ShouldUpdateViewMatrix = true;
-                            }
-
-                            if (yDifference < 0)
-                            {
-                                m_Position += Vector3.Transform(Vector3.UnitY, RotationMatrix);
-                                Pitch += sr_OneRadian;
-                                ShouldUpdateViewMatrix = true;
-                            }
-                            else if (yDifference > 0)
-                            {
-                                m_Position -= Vector3.Transform(Vector3.UnitY, RotationMatrix);
-                                Pitch -= sr_OneRadian;
-                                ShouldUpdateViewMatrix = true;
-                            }
-                        }                                              
-                    }
-                }
-
-                Mouse.SetPosition(
-                            this.GraphicsDevice.Viewport.X / 2,
-                            this.GraphicsDevice.Viewport.Y / 2);
-            }
-
-            // forward:
-            if (m_InputManager.KeyboardState.IsKeyDown(Keys.Down))
-            {
-                m_Position += Vector3.Transform(Vector3.UnitZ, RotationMatrix);
-                ShouldUpdateViewMatrix = true;
-            }
-            // backwords:
-            else if (m_InputManager.KeyboardState.IsKeyDown(Keys.Up))
-            {
-                m_Position -= Vector3.Transform(Vector3.UnitZ, RotationMatrix);
-                ShouldUpdateViewMatrix = true;
-            }
-
-            // left:
-            if (m_InputManager.KeyboardState.IsKeyDown(Keys.Left))
-            {
-                m_Position -= Vector3.Transform(Vector3.UnitX, RotationMatrix);
-                ShouldUpdateViewMatrix = true;
-            }
-            // right:
-            else if (m_InputManager.KeyboardState.IsKeyDown(Keys.Right))
-            {
-                m_Position += Vector3.Transform(Vector3.UnitX, RotationMatrix);
-                ShouldUpdateViewMatrix = true;
-            }         
-
-            // up:
-            if (m_InputManager.KeyboardState.IsKeyDown(Keys.PageUp))
-            {
-                m_Position += Vector3.Transform(Vector3.UnitY, RotationMatrix);
-                ShouldUpdateViewMatrix = true;
-            }
-            // down:
-            else if (m_InputManager.KeyboardState.IsKeyDown(Keys.PageDown))
-            {
-                m_Position -= Vector3.Transform(Vector3.UnitY, RotationMatrix);
-                ShouldUpdateViewMatrix = true;
-            }
-
-            // rotate left:
-            if (m_InputManager.KeyboardState.IsKeyDown(Keys.NumPad4))
-            {
-                Yaw += sr_OneRadian;
-                ShouldUpdateViewMatrix = true;
-            }
-            // rotate right:
-            else if (m_InputManager.KeyboardState.IsKeyDown(Keys.NumPad6))
-            {
-                Yaw -= sr_OneRadian;
-                ShouldUpdateViewMatrix = true;
-            }
-
-            // rotate Up:
-            if (m_InputManager.KeyboardState.IsKeyDown(Keys.NumPad8))
-            {
-                Pitch += sr_OneRadian;
-                ShouldUpdateViewMatrix = true;
-            }
-            // rotate Down:
-            else if (m_InputManager.KeyboardState.IsKeyDown(Keys.NumPad2))
-            {
-                Pitch -= sr_OneRadian;
-                ShouldUpdateViewMatrix = true;
-            }
-
-            if (m_InputManager.KeyboardState.IsKeyDown(Keys.R))
-            {
-                Position = r_DefaultPosition;
-                Rotations = Vector3.Zero;
-            }
-        }   */  
-
-        // TODO: Remove
-
-        /*public void UpdateByInput()
-        {
-            KeyboardState keyboardState = Keyboard.GetState();
-
-            // forward:
-            if (keyboardState.IsKeyDown(Keys.Down))
-            {
-                m_Position += Vector3.Transform(Vector3.UnitZ, RotationMatrix);
-                ShouldUpdateViewMatrix = true;
-            }
-            // backwords:
-            else if (keyboardState.IsKeyDown(Keys.Up))
-            {
-                m_Position -= Vector3.Transform(Vector3.UnitZ, RotationMatrix);
-                ShouldUpdateViewMatrix = true;
-            }
-            
-            // left:
-            if (keyboardState.IsKeyDown(Keys.Left))
-            {
-                m_Position -= Vector3.Transform(Vector3.UnitX, RotationMatrix);
-                ShouldUpdateViewMatrix = true;
-            }
-            // right:
-            else if (keyboardState.IsKeyDown(Keys.Right))
-            {
-                m_Position += Vector3.Transform(Vector3.UnitX, RotationMatrix);
-                ShouldUpdateViewMatrix = true;
-            }
-
-            // up:
-            if (keyboardState.IsKeyDown(Keys.PageUp))
-            {
-                m_Position += Vector3.Transform(Vector3.UnitY, RotationMatrix);
-                ShouldUpdateViewMatrix = true;
-            }
-            // down:
-            else if (keyboardState.IsKeyDown(Keys.PageDown))
-            {
-                m_Position -= Vector3.Transform(Vector3.UnitY, RotationMatrix);
-                ShouldUpdateViewMatrix = true;
-            }
-
-            // rotate left:
-            if (keyboardState.IsKeyDown(Keys.NumPad4))
-            {
-                Yaw += sr_OneRadian;
-                ShouldUpdateViewMatrix = true;
-            }
-            // rotate right:
-            else if (keyboardState.IsKeyDown(Keys.NumPad6))
-            {
-                Yaw -= sr_OneRadian;
-                ShouldUpdateViewMatrix = true;
-            }
-            
-            // rotate Up:
-            if (keyboardState.IsKeyDown(Keys.NumPad8))
-            {
-                Pitch += sr_OneRadian;
-                ShouldUpdateViewMatrix = true;
-            }
-            // rotate Down:
-            else if (keyboardState.IsKeyDown(Keys.NumPad2))
-            {
-                Pitch -= sr_OneRadian;
-                ShouldUpdateViewMatrix = true;
-            }
-
-            if (keyboardState.IsKeyDown(Keys.R))
-            {
-                Position = new Vector3(0, 0, 20);
-                Rotations = Vector3.Zero;
-            }
-        }        */
     }
 }
