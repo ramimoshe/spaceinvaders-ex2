@@ -109,7 +109,6 @@ namespace DreidelGame
                 newDreidel.FinishedSpinning += new DreidelEventHandler(m_ScoreManager.Dreidel_FinishedSpinning);
                 m_Dreidels[i] = newDreidel;                
             }
-
  
             m_SpinningDreidels = k_DefaultSpinningDreidelsNum;
 
