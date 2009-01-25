@@ -18,7 +18,11 @@ namespace DreidelGame
     /// This is the main type for your game
     /// </summary>
     public class DreidelGame : Microsoft.Xna.Framework.Game
-    {        
+    {
+        private const float k_NearPlaneDistance = 0.5f;
+        private const float k_FarPlaneDistance = 5000.0f;
+        private const float k_ViewAngle = MathHelper.PiOver4;
+
         private const int k_DefaultSpinningDreidelsNum = 0;
         private const int k_DreidelsNum = 13;
 
@@ -136,11 +140,7 @@ namespace DreidelGame
         protected override void     Initialize()
         {
             GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
-            base.Initialize();
-
-            float k_NearPlaneDistance = 0.5f;
-            float k_FarPlaneDistance = 1000.0f;
-            float k_ViewAngle = MathHelper.PiOver4;
+            base.Initialize();            
 
             // we are storing the field-of-view data in a matrix:
             m_ProjectionFieldOfView = Matrix.CreatePerspectiveFieldOfView(
