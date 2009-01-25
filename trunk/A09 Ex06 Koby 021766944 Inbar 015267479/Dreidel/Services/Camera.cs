@@ -6,8 +6,6 @@ using Microsoft.Xna.Framework.Input;
 
 namespace DreidelGame.Services
 {
-    // TODO: Check if it should be a DrawableGameComponent
-
     /// <summary>
     /// The games camera
     /// </summary>
