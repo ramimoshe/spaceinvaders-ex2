@@ -82,7 +82,6 @@ namespace DreidelGame
             this.Components.Add(m_InputManager);
             this.Services.AddService(typeof(InputManager), m_InputManager);
 
-            m_Dreidels = new Dreidel[k_DreidelsNum];
             m_ScoreManager = new ScoreManager(this);
             this.Components.Add(m_ScoreManager);
 
