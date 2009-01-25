@@ -30,7 +30,7 @@ namespace DreidelGame.ObjectModel
         }
 
         public CubePosition(Game i_Game)
-            : base (i_Game)
+            : base(i_Game)
         {
         }     
 

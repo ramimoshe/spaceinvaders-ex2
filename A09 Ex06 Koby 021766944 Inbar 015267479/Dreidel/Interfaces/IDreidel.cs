@@ -22,10 +22,12 @@ namespace DreidelGame.Interfaces
     public static class DreidelLettersContainer
     {
         private static readonly eDreidelLetters[] r_Letters = 
-            {eDreidelLetters.NLetter,
-            eDreidelLetters.GLetter,
-            eDreidelLetters.HLetter,
-            eDreidelLetters.PLetter};
+            {
+                eDreidelLetters.NLetter,
+                eDreidelLetters.GLetter,
+                eDreidelLetters.HLetter,
+                eDreidelLetters.PLetter
+            };
 
         public static eDreidelLetters[] Letters
         {

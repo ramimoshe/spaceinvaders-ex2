@@ -31,9 +31,9 @@ namespace DreidelGame.ObjectModel
         protected float m_RotationsPerSecond = 0;
         private bool m_SpinComponent;
 
-        Model m_DreidelModel;
-        ContentManager m_ContentManager;
-        Matrix[] m_ModelTransformations;
+        private Model m_DreidelModel;
+        private ContentManager m_ContentManager;
+        private Matrix[] m_ModelTransformations;
 
         /// <summary>
         /// Initializes the dreidel components and random factors 
@@ -50,7 +50,6 @@ namespace DreidelGame.ObjectModel
             m_SpinComponent = false;
             m_CurrSide = k_DefaultDreidelSide;
             reset();
-
         }
 
         /// <summary>
