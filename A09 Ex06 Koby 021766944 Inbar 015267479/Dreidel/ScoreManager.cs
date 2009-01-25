@@ -15,16 +15,10 @@ namespace DreidelGame
     {
         private const int k_PlayerScoreIncrement = 1;
         private const int k_DefaultPlayerScore = 0;
-        private const string k_FontName = @"Fonts/David";
         private const string k_DrawText = "Player Score: {0}";
-        private readonly Color r_DrawColor = Color.Black;
-        private const int k_DrawOrder = Int32.MaxValue;
 
         private int m_CurrPlayerScore;
         private eDreidelLetters m_PlayerChosenLetter;
-        private Vector2 m_ScorePosition;
-        private SpriteBatch m_SpriteBatch;
-        private SpriteFont m_Font;
         private string m_Text = String.Empty;
 
         /// <summary>
@@ -35,14 +29,6 @@ namespace DreidelGame
             get { return m_PlayerChosenLetter; }
 
             set { m_PlayerChosenLetter = value; }
-        }
-
-        /// <summary>
-        /// Gets the text we want to print on the screen
-        /// </summary>
-        public string   DrawString
-        {            
-            get { return m_Text; }            
         }
 
         /// <summary>
@@ -69,28 +55,6 @@ namespace DreidelGame
             m_PlayerChosenLetter = eDreidelLetters.None;
 
             PlayerScore = k_DefaultPlayerScore;
-            DrawOrder = k_DrawOrder;
-        }
-
-        /// <summary>
-        /// Initializes the position where the class will draw the players score
-        /// </summary>
-        public override void    Initialize()
-        {
-            base.Initialize();
-
-            m_ScorePosition = Vector2.Zero;
-        }
-
-        /// <summary>
-        /// Creates a SpriteBatch and loads the class font
-        /// </summary>
-        protected override void     LoadContent()
-        {
-            base.LoadContent();
-
-            m_SpriteBatch = new SpriteBatch(this.GraphicsDevice);
-            m_Font = Game.Content.Load<SpriteFont>(k_FontName);
         }
 
         /// <summary>
@@ -101,9 +65,7 @@ namespace DreidelGame
         {
             base.Draw(i_GameTime);
 
-            m_SpriteBatch.Begin();
-            m_SpriteBatch.DrawString(m_Font, this.DrawString, m_ScorePosition, r_DrawColor);
-            m_SpriteBatch.End();
+            Game.Window.Title = m_Text;
         }
 
         /// <summary>
