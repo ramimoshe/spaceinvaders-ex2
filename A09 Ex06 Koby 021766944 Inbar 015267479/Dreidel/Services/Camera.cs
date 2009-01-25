@@ -269,7 +269,7 @@ namespace DreidelGame.Services
                 else if (m_Input.ButtonHeld(eInputButtons.Middle))
                 {
                     // Movement on the x axis or on the y axis should update the move value
-                    if (xDifference != 0)
+                    if (Math.Abs(xDifference) > Math.Abs(yDifference))
                     {
                         positionDelta = new Vector3(
                         0,
