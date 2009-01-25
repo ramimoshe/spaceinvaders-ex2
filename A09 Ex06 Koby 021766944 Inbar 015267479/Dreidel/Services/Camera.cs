@@ -275,8 +275,6 @@ namespace DreidelGame.Services
                 }
                 else if (m_Input.ButtonHeld(eInputButtons.Right))
                 {
-                    m_Rotations.X += xDifference * MathHelper.ToRadians((float)Math.Sin(MathHelper.TwoPi));
-                    ShouldUpdateViewMatrix = true;
                 }
 
                 if (positionDelta != Vector3.Zero)
@@ -289,83 +287,6 @@ namespace DreidelGame.Services
                     Game.GraphicsDevice.Viewport.Width / 2,
                     Game.GraphicsDevice.Viewport.Height / 2);
             }            
-
-            // TODO: Remove
-
-            KeyboardState keyboardState = Keyboard.GetState();
-
-            // forward:
-            if (keyboardState.IsKeyDown(Keys.Down))
-            {
-                m_Position += Vector3.Transform(Vector3.UnitZ / 2, RotationQuaternion);
-                ShouldUpdateViewMatrix = true;
-            }
-            // backwords:
-            else if (keyboardState.IsKeyDown(Keys.Up))
-            {
-                m_Position -= Vector3.Transform(Vector3.UnitZ / 2, RotationQuaternion);
-                ShouldUpdateViewMatrix = true;
-            }
-
-            // left:
-            if (keyboardState.IsKeyDown(Keys.Left))
-            {
-                m_Position -= Vector3.Transform(Vector3.UnitX / 2, RotationQuaternion);
-                ShouldUpdateViewMatrix = true;
-            }
-            // right:
-            else if (keyboardState.IsKeyDown(Keys.Right))
-            {
-                m_Position += Vector3.Transform(Vector3.UnitX / 2, RotationQuaternion);
-                ShouldUpdateViewMatrix = true;
-            }
-
-            // up:
-            if (keyboardState.IsKeyDown(Keys.PageUp))
-            {
-                m_Position += Vector3.Transform(Vector3.UnitY / 2, RotationQuaternion);
-                ShouldUpdateViewMatrix = true;
-            }
-            // down:
-            else if (keyboardState.IsKeyDown(Keys.PageDown))
-            {
-                m_Position -= Vector3.Transform(Vector3.UnitY / 2, RotationQuaternion);
-                ShouldUpdateViewMatrix = true;
-            }
-
-            m_Rotations = Vector3.Zero;
-
-            // rotate left:
-            if (keyboardState.IsKeyDown(Keys.NumPad4))
-            {
-                m_Rotations.Y = r_RotationSpeed;
-                ShouldUpdateViewMatrix = true;
-            }
-            // rotate right:
-            else if (keyboardState.IsKeyDown(Keys.NumPad6))
-            {
-                m_Rotations.Y = -r_RotationSpeed;
-                ShouldUpdateViewMatrix = true;
-            }
-
-            // rotate Up:
-            if (keyboardState.IsKeyDown(Keys.NumPad8))
-            {
-                m_Rotations.X = r_RotationSpeed;
-                ShouldUpdateViewMatrix = true;
-            }
-            // rotate Down:
-            else if (keyboardState.IsKeyDown(Keys.NumPad2))
-            {
-                m_Rotations.X = -r_RotationSpeed;
-                ShouldUpdateViewMatrix = true;
-            }
-
-            if (keyboardState.IsKeyDown(Keys.R))
-            {
-                Position = new Vector3(0, 0, 20);
-                RotationQuaternion = Quaternion.Identity;
-            }
         }
 
         /// <summary>
