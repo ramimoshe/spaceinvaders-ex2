@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace DreidelGame.Services
 {
+    /// <summary>
+    /// The games camera component
+    /// </summary>
     public class Camera : GameComponent
     {
         private readonly float r_RotationSpeed = MathHelper.ToRadians(0.5f);
@@ -51,7 +54,6 @@ namespace DreidelGame.Services
                 }
 
                 return m_ViewMatrix;
-
             }
         }
 
@@ -71,8 +73,8 @@ namespace DreidelGame.Services
                 }
 
                 return m_TargetPosition;
-
             }
+
             set
             {
                 if (m_TargetPosition != value)
@@ -94,6 +96,7 @@ namespace DreidelGame.Services
             {
                 return m_Rotations;
             }
+
             set
             {
                 if (m_Rotations != value)
@@ -121,6 +124,7 @@ namespace DreidelGame.Services
 
                 return m_RotationQuaternion;
             }
+
             set
             {
                 if (m_RotationQuaternion != value)
