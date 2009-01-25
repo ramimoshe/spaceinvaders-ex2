@@ -6,45 +6,32 @@ using Microsoft.Xna.Framework.Input;
 
 namespace DreidelGame.Services
 {
-    /// <summary>
-    /// The games camera
-    /// </summary>
-    public class Camera : DrawableGameComponent
+    public class Camera : GameComponent
     {
-        private const int k_DefaultPointOfViewZFactor = 500;
-
-        private static readonly float sr_OneRadian = MathHelper.ToRadians(1);
-        private readonly Keys r_CameraMovementActivationKey = Keys.S;
-        private readonly Vector3 r_DefaultPosition = new Vector3(0, 0, k_DefaultPointOfViewZFactor);
-        private const float k_ZMoveSpeed = 150f;
-        private const float k_XYMoveSpeed = 3f;
-        
-        // TODO: Remove
-
-        private MouseState m_PrevMouseState;
-
         private bool m_ShouldUpdateViewMatrix = true;
-        private InputManager m_InputManager;
+        FormCameraProperties m_FormCameraProperties = new FormCameraProperties();
 
-        protected Matrix m_ViewMatrix;
-        protected Vector3 m_Position = new Vector3(0, 0, k_DefaultPointOfViewZFactor);
+        protected bool m_Field;
 
-        /// <summary>
-        /// Gets/sets an indication wether a change was made to camera rotation/position 
-        /// and we should update the cameras' view
-        /// </summary>
         public bool ShouldUpdateViewMatrix
         {
             get { return m_ShouldUpdateViewMatrix; }
             set
             {
-                m_ShouldUpdateViewMatrix = value;                
+                m_ShouldUpdateViewMatrix = value;
+                m_FormCameraProperties.RefreshGrid();
             }
-        }        
+        }
 
-        /// <summary>
-        /// Gets/sets the cameras' current view matrix
-        /// </summary>
+        public Camera(Game i_Game)
+            : base(i_Game)
+        {
+            m_FormCameraProperties.BoundObject = this;
+            m_FormCameraProperties.Show();
+        }
+
+        protected Matrix m_ViewMatrix;
+
         public Matrix ViewMatrix
         {
             get
@@ -62,16 +49,13 @@ namespace DreidelGame.Services
 
         protected Vector3 m_TargetPosition = Vector3.Zero;
 
-        /// <summary>
-        /// Gets/sets the position of the target that the camera is looking at
-        /// </summary>
         public Vector3 TargetPosition
         {
             get
             {
                 if (m_ShouldUpdateViewMatrix)
                 {
-                    m_TargetPosition = Vector3.Transform(Vector3.Forward, RotationMatrix);
+                    m_TargetPosition = Vector3.Transform(Vector3.Forward, RotationQuaternion);
                     m_TargetPosition = m_Position + m_TargetPosition;
                 }
 
@@ -90,9 +74,6 @@ namespace DreidelGame.Services
 
         protected Vector3 m_Rotations = Vector3.Zero;
 
-        /// <summary>
-        /// Gets/sets the camera's rotation values
-        /// </summary>
         public Vector3 Rotations
         {
             get
@@ -109,35 +90,31 @@ namespace DreidelGame.Services
             }
         }
 
-        protected Matrix m_RotationMatrix;
-
-        /// <summary>
-        /// Gets/sets the cameras rotation matrix
-        /// </summary>
-        public Matrix RotationMatrix
+        protected Quaternion m_RotationQuaternion = Quaternion.Identity;
+        public Quaternion RotationQuaternion
         {
             get
             {
                 if (m_ShouldUpdateViewMatrix)
                 {
-                    Matrix.CreateFromYawPitchRoll(m_Rotations.Y, m_Rotations.X, m_Rotations.Z, out m_RotationMatrix);
+                    m_RotationQuaternion *= Quaternion.CreateFromAxisAngle(Vector3.UnitX, m_Rotations.X);
+                    m_RotationQuaternion *= Quaternion.CreateFromAxisAngle(Vector3.UnitY, m_Rotations.Y);
                 }
 
-                return m_RotationMatrix;
+                return m_RotationQuaternion;
             }
             set
             {
-                if (m_RotationMatrix != value)
+                if (m_RotationQuaternion != value)
                 {
-                    m_RotationMatrix = value;
+                    m_RotationQuaternion = value;
                     ShouldUpdateViewMatrix = true;
                 }
             }
-        }        
+        }
 
-        /// <summary>
-        /// Gets/sets the current camera position
-        /// </summary>
+        protected Vector3 m_Position = new Vector3(0, 0, 500);
+
         public Vector3 Position
         {
             get { return m_Position; }
@@ -151,9 +128,6 @@ namespace DreidelGame.Services
             }
         }
 
-        /// <summary>
-        /// Gets/sets the camera yaw value (rotation on the Y axis)
-        /// </summary>
         public float Yaw
         {
             get { return m_Rotations.Y; }
@@ -167,9 +141,6 @@ namespace DreidelGame.Services
             }
         }
 
-        /// <summary>
-        /// Gets/sets the camera pitch value (rotation on the X axis)
-        /// </summary>
         public float Pitch
         {
             get { return m_Rotations.X; }
@@ -183,9 +154,6 @@ namespace DreidelGame.Services
             }
         }
 
-        /// <summary>
-        /// Gets/sets the camera roll value (rotation on the Z axis)
-        /// </summary>
         public float Roll
         {
             get { return m_Rotations.Z; }
@@ -199,170 +167,143 @@ namespace DreidelGame.Services
             }
         }
 
-        /// <summary>
-        /// Gets the Camera forward vector according to the current rotation matrix
-        /// </summary>
-        public Vector3 Forward
-        {
-            get
-            {
-                return Vector3.Transform(Vector3.Forward, m_RotationMatrix);
-            }
-        }
-
-        /// <summary>
-        /// Gets the Camera right vector according to the current rotation matrix
-        /// </summary>
-        public Vector3 Right
-        {
-            get
-            {
-                return Vector3.Transform(Vector3.Right, m_RotationMatrix);
-            }
-        }
-
-        /// <summary>
-        /// Gets the Camera up vector according to the current rotation matrix
-        /// </summary>
         public Vector3 Up
         {
             get
             {
-                return Vector3.Transform(Vector3.Up, m_RotationMatrix);
+                return Vector3.Transform(Vector3.UnitY, RotationQuaternion);
             }
         }
 
-        public Camera(Game i_Game) : base(i_Game)
+        public Vector3 Forward
         {
-            m_Position = r_DefaultPosition;
-        }        
-
-        /// <summary>
-        /// Initialize the InputManager variable
-        /// </summary>
-        public override void    Initialize()
-        {
-            base.Initialize();
-            
-            m_InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
-        }                
-
-        /// <summary>
-        /// Initialize the Mouse position to be in the center of the screen
-        /// </summary>
-        protected override void     LoadContent()
-        {
-            base.LoadContent();
-
-            Mouse.SetPosition(
-                GraphicsDevice.Viewport.Width / 2, 
-                GraphicsDevice.Viewport.Height / 2);
-
-            m_PrevMouseState = Mouse.GetState();
+            get
+            {
+                return Vector3.Transform(Vector3.Forward, m_RotationQuaternion);
+            }
         }
 
-        /// <summary>
-        /// Updates the Camera according to the mouse position
-        /// </summary>
-        /// <param name="i_GameTime">a snapshot of the game time</param>
-        public override void    Update(GameTime i_GameTime)
+        public Vector3 Right
         {
-            base.Update(i_GameTime);
-
-            if (m_InputManager.KeyboardState.IsKeyDown(r_CameraMovementActivationKey))
+            get
             {
-                float deltaTime = (float)i_GameTime.ElapsedGameTime.TotalSeconds;
+                return Vector3.Transform(Vector3.Right, m_RotationQuaternion);
+            }
+        }
 
-                // TODO: Remove remarks
+        static readonly float sr_RotationSpeed = MathHelper.ToRadians(0.5f);
 
-                float xDifference = Mouse.GetState().X - m_PrevMouseState.X;
-                float yDifference = Mouse.GetState().Y - m_PrevMouseState.Y;
+        public void UpdateByInput()
+        {
+            InputManager input = (InputManager) Game.Services.GetService(typeof(InputManager));
 
-                if (m_InputManager.MouseState.MiddleButton == ButtonState.Pressed ||
-                    m_InputManager.MouseState.LeftButton == ButtonState.Pressed)
+            if (input.KeyHeld(Keys.S))
+            {
+                if (input.ButtonHeld(eInputButtons.Left))
                 {
-                    Vector3 moveVector = Vector3.Zero;
-
-                    if (m_InputManager.MouseState.MiddleButton == ButtonState.Pressed)
-                    {
-                        moveVector = processScrollButton(deltaTime, xDifference, yDifference, moveVector);
-                    }
-                    else
-                    {
-                        moveVector = processLeftButton(xDifference, yDifference, moveVector);                   
-                    }
-
-                    if (moveVector != Vector3.Zero)
-                    {
-                        m_Position += Vector3.Transform(moveVector, RotationMatrix);
-                        ShouldUpdateViewMatrix = true;
-                    }
-                }                                
+                    Vector3 positionDelta = new Vector3(
+                        input.MousePositionDelta.X,
+                        -input.MousePositionDelta.Y,
+                        0);
+                    m_Position += Vector3.Transform(positionDelta, RotationQuaternion);
+                    ShouldUpdateViewMatrix = true;
+                }
+                else if (input.ButtonHeld(eInputButtons.Middle))
+                {
+                    Vector3 positionDelta = new Vector3(
+                        0,
+                        0,
+                        input.MousePositionDelta.Y);
+                    m_Position += Vector3.Transform(positionDelta, RotationQuaternion);
+                    ShouldUpdateViewMatrix = true;
+                }
+                else if (input.ButtonHeld(eInputButtons.Right))
+                {
+                    m_Rotations.X += input.MousePositionDelta.X * (float) Math.Sin(MathHelper.TwoPi);
+                    ShouldUpdateViewMatrix = true;
+                }
             }
 
-            Mouse.SetPosition(
-                    Game.GraphicsDevice.Viewport.Width / 2,
-                    Game.GraphicsDevice.Viewport.Height / 2);  
+            KeyboardState keyboardState = Keyboard.GetState();
+
+            // forward:
+            if (keyboardState.IsKeyDown(Keys.Down))
+            {
+                m_Position += Vector3.Transform(Vector3.UnitZ / 2, RotationQuaternion);
+                ShouldUpdateViewMatrix = true;
+            }
+            // backwords:
+            else if (keyboardState.IsKeyDown(Keys.Up))
+            {
+                m_Position -= Vector3.Transform(Vector3.UnitZ / 2, RotationQuaternion);
+                ShouldUpdateViewMatrix = true;
+            }
+
+            // left:
+            if (keyboardState.IsKeyDown(Keys.Left))
+            {
+                m_Position -= Vector3.Transform(Vector3.UnitX / 2, RotationQuaternion);
+                ShouldUpdateViewMatrix = true;
+            }
+            // right:
+            else if (keyboardState.IsKeyDown(Keys.Right))
+            {
+                m_Position += Vector3.Transform(Vector3.UnitX / 2, RotationQuaternion);
+                ShouldUpdateViewMatrix = true;
+            }
+
+            // up:
+            if (keyboardState.IsKeyDown(Keys.PageUp))
+            {
+                m_Position += Vector3.Transform(Vector3.UnitY / 2, RotationQuaternion);
+                ShouldUpdateViewMatrix = true;
+            }
+            // down:
+            else if (keyboardState.IsKeyDown(Keys.PageDown))
+            {
+                m_Position -= Vector3.Transform(Vector3.UnitY / 2, RotationQuaternion);
+                ShouldUpdateViewMatrix = true;
+            }
+
+            m_Rotations = Vector3.Zero;
+
+            // rotate left:
+            if (keyboardState.IsKeyDown(Keys.NumPad4))
+            {
+                m_Rotations.Y = sr_RotationSpeed;
+                ShouldUpdateViewMatrix = true;
+            }
+            // rotate right:
+            else if (keyboardState.IsKeyDown(Keys.NumPad6))
+            {
+                m_Rotations.Y = -sr_RotationSpeed;
+                ShouldUpdateViewMatrix = true;
+            }
+
+            // rotate Up:
+            if (keyboardState.IsKeyDown(Keys.NumPad8))
+            {
+                m_Rotations.X = sr_RotationSpeed;
+                ShouldUpdateViewMatrix = true;
+            }
+            // rotate Down:
+            else if (keyboardState.IsKeyDown(Keys.NumPad2))
+            {
+                m_Rotations.X = -sr_RotationSpeed;
+                ShouldUpdateViewMatrix = true;
+            }
+
+            if (keyboardState.IsKeyDown(Keys.R))
+            {
+                Position = new Vector3(0, 0, 20);
+                RotationQuaternion = Quaternion.Identity;
+            }
         }
 
-        /// <summary>
-        /// Calculate the camera movment for the left mouse button press
-        /// </summary>
-        /// <param name="i_XDifference">Units the mouse move on the X axis</param>
-        /// <param name="i_YDifference">Units the mouse move on the Y axis</param>
-        /// <param name="i_MoveVector">A zero Vector3</param>
-        /// <returns>Vector3 representing the units that we need to change the cameras position</returns>
-        private Vector3 processLeftButton(
-            float i_XDifference, 
-            float i_YDifference, 
-            Vector3 i_MoveVector)
+        public override void Update(GameTime gameTime)
         {
-            if (i_XDifference < 0)
-            {
-                i_MoveVector.X -= k_XYMoveSpeed;
-            }
-            else if (i_XDifference > 0)
-            {
-                i_MoveVector.X += k_XYMoveSpeed;
-            }
-
-            if (i_YDifference > 0)
-            {
-                i_MoveVector.Y -= k_XYMoveSpeed;
-            }
-            else if (i_YDifference < 0)
-            {
-                i_MoveVector.Y += k_XYMoveSpeed;
-            }
-            return i_MoveVector;
-        }
-
-        /// <summary>
-        /// Calculate the camera movment for the scroll mouse button press
-        /// </summary>
-        /// <param name="i_DeltaTime">Time passed from game start</param>
-        /// <param name="i_XDifference">Units the mouse move on the X axis</param>
-        /// <param name="i_YDifference">Units the mouse move on the Y axis</param>
-        /// <param name="i_MoveVector">A zero Vector3</param>
-        /// <returns>Vector3 representing the units that we need to change the cameras position</returns>
-        private Vector3 processScrollButton(
-            float i_DeltaTime, 
-            float i_XDifference, 
-            float i_YDifference, 
-            Vector3 i_MoveVector)
-        {
-            if (i_XDifference < 0 ||
-                i_YDifference < 0)
-            {
-                i_MoveVector.Z -= k_ZMoveSpeed * i_DeltaTime;                
-            }
-            else if (i_XDifference > 0 ||
-                     i_YDifference > 0)
-            {
-                i_MoveVector.Z += k_ZMoveSpeed * i_DeltaTime;                
-            }
-
-            return i_MoveVector;
+            base.Update(gameTime);
+            UpdateByInput();
         }
     }
 }
